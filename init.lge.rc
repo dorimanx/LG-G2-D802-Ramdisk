@@ -1,0 +1,87 @@
+#CAPP_CKERROR_REPORTER
+import init.ckerror.rc
+
+on post-fs-data
+    #CAPP_SECUREBOOT
+    exec /sbin/wallpaper -ap
+    wait /sbin/wallpaper
+
+    #CAPP_FONTS
+    mkdir /data/font 775 system system
+    chmod 775 /data/font
+    mkdir /data/font/config 775 system system
+    chmod 775 /data/font/config
+    mkdir /data/font/download 775 system system
+    chmod 775 /data/font/download
+
+    #create directory for lgdrm
+    mkdir /data/lgdrm 0770 lgdrm lgdrm_acc
+
+    #CAPP_BLUEERROR_HANDLER: temp version, it will be removed
+    chown root system /data/dontpanic
+    chmod 0775 /data/dontpanic
+
+# LGE_CHANGE_S, NFC: create data/nfc for nv storage
+    mkdir /data/nfc 770 nfc nfc
+    mkdir /data/nfc/param 770 nfc nfc
+# LGE_CHANGE_E, NFC
+
+#CAPP_UNINSTALL_PRELOADED
+on property:sys.boot_completed=1
+    start post_install
+
+#CAPP_RESERVED_USERDATA
+on property:ro.reserve.blockcount=*
+    exec /system/bin/tune2fs -r $ro.reserve.blockcount \
+              -u system -g system $ro.reserve.userdata
+
+#CAPP_UNINSTALL_PRELOADED
+service post_install /system/vendor/bin/post_install.sh
+    disabled
+    oneshot
+
+#CAPP_POWEROFF_ANI
+service shutdownanim /system/bin/shutdownanimation
+    user graphics
+    group graphics system
+    disabled
+    oneshot
+
+#CAPP_NFS
+service nfsserversetup /system/bin/nfsserversetup
+    class late_start
+    user root
+    oneshot
+
+#CAPP_MPROFILER
+service lgprofd /system/bin/lgprofd
+    socket lgprofd stream 666
+
+
+#Application Manager ENABLE_UNINSTALL
+service enable_uninstall  /system/vendor/bin/enable_uninstall.sh
+    disabled
+    oneshot
+
+#Application Manager ENABLE_UNINSTALL
+on property:vold.post_fs_data_done=1
+    start enable_uninstall
+
+
+#Application Manager NTCODE_INSTALL
+service ntcode_install  /system/vendor/bin/ntcode_install.sh
+    disabled
+    oneshot
+
+#Application Manager NTCODE_INSTALL
+on property:persist.sys.first-mcc=*
+    start ntcode_install
+
+#Application Manager BOOT_RESOURCE
+service boot_resource  /system/vendor/bin/boot_resource.sh
+    disabled
+    oneshot
+
+#Application Manager BOOT_RESOURCE
+on property:vold.post_fs_data_done=1
+    start boot_resource

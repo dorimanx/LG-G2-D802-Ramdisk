@@ -1,0 +1,325 @@
+# Copyright (c) 2011-2013, The Linux Foundation. All rights reserved.
+#
+# Redistribution and use in source and binary forms, with or without
+# modification, are permitted provided that the following conditions are
+# met:
+#     * Redistributions of source code must retain the above copyright
+#       notice, this list of conditions and the following disclaimer.
+#     * Redistributions in binary form must reproduce the above
+#       copyright notice, this list of conditions and the following
+#       disclaimer in the documentation and/or other materials provided
+#       with the distribution.
+#     * Neither the name of The Linux Foundation nor the names of its
+#       contributors may be used to endorse or promote products derived
+#       from this software without specific prior written permission.
+#
+# THIS SOFTWARE IS PROVIDED "AS IS" AND ANY EXPRESS OR IMPLIED
+# WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF
+# MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NON-INFRINGEMENT
+# ARE DISCLAIMED.  IN NO EVENT SHALL THE COPYRIGHT OWNER OR CONTRIBUTORS
+# BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
+# CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF
+# SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR
+# BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY,
+# WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE
+# OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN
+# IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+#
+#
+
+on early-init
+    mkdir /firmware 0771 system system
+    symlink /data/tombstones /tombstones
+
+on init
+    export BOOTCLASSPATH ${BOOTCLASSPATH}:/system/framework/qcmediaplayer.jar:/system/framework/oem-services.jar
+
+# import cne init file
+on post-fs
+    export LD_PRELOAD /vendor/lib/libNimsWrap.so
+
+on fs
+    mount_all fstab.galbi
+
+    # LGE_UPDATE_START
+    # Executing tune2fs to reserve some region in /data. (40MB)
+    # 2013-02-05 G2-FS@lge.com
+    exec /system/bin/tune2fs -u system -r 10240 /dev/block/platform/msm_sdcc.1/by-name/userdata
+    # LGE_UPDATE_END
+
+    # Keeping following partitions outside fstab file. As user may not have
+    # these partition flashed on the device. Failure to mount any partition in fstab file
+    # results in failure to launch late-start class.
+
+    wait /dev/block/platform/msm_sdcc.1/by-name/cache
+    mount ext4 /dev/block/platform/msm_sdcc.1/by-name/cache /cache nosuid nodev barrier=1 noauto_da_alloc errors=continue
+
+    wait /dev/block/platform/msm_sdcc.1/by-name/persist
+    mount ext4 /dev/block/platform/msm_sdcc.1/by-name/persist /persist nosuid nodev barrier=1 noauto_da_alloc errors=continue
+
+    wait /dev/block/platform/msm_sdcc.1/by-name/modem
+    mount vfat /dev/block/platform/msm_sdcc.1/by-name/modem /firmware ro shortname=lower,uid=1000,gid=1000,dmask=227,fmask=337
+
+    # LGE_UPDATE_START, 2013/02/05, G2-FS@lge.com
+    # create mount point for LG Specific functions
+    mkdir /sns 0755 system system
+    mkdir /persist-lg 0755 system system
+    mkdir /mpt 0755 system system
+
+    wait /dev/block/platform/msm_sdcc.1/by-name/sns
+    exec /system/bin/e2fsck -p /dev/block/platform/msm_sdcc.1/by-name/sns
+    mount ext4 /dev/block/platform/msm_sdcc.1/by-name/sns /sns nosuid nodev barrier=1 noauto_da_alloc errors=continue
+
+    wait /dev/block/platform/msm_sdcc.1/by-name/drm
+    exec /system/bin/e2fsck -p /dev/block/platform/msm_sdcc.1/by-name/drm
+    mount ext4 /dev/block/platform/msm_sdcc.1/by-name/drm /persist-lg nosuid nodev barrier=1 noauto_da_alloc errors=continue
+
+    wait /dev/block/platform/msm_sdcc.1/by-name/mpt
+    exec /system/bin/e2fsck -p /dev/block/platform/msm_sdcc.1/by-name/mpt
+    mount ext4 /dev/block/platform/msm_sdcc.1/by-name/mpt /mpt nodev nosuid barrier=1 noauto_da_alloc errors=continue
+# LGE_UPDATE_END
+
+#on boot
+#   write /sys/devices/i2c-3/3-0024/cyttsp_update_fw 1
+#   write /sys/devices/i2c-3/3-005b/update_fw 1
+#   start qcamerasvr
+
+on post-fs-data
+    mkdir /data/tombstones 0775 system system
+    mkdir /tombstones/modem 0771 system system
+    mkdir /tombstones/lpass 0771 system system
+    mkdir /tombstones/wcnss 0771 system system
+    mkdir /tombstones/dsps 0771 system system
+
+# LGE_CHANGE_START, 2013/04/18, G2-Task-Sensor@lge.com
+    mkdir /sns/cal/ 0644 system system
+# LGE_CHANGE_END
+
+# LGE_CHANGE_S For DRM
+    chown system system /persist-lg
+    chmod 0771 /persist-lg
+
+    #LGDRM
+    mkdir /persist-lg/lgdrm 0770 lgdrm lgdrm_acc
+    chown lgdrm lgdrm_acc /persist-lg/lgdrm
+    chmod 0770 /persist-lg/lgdrm
+
+    #Widevine
+    mkdir /persist-lg/widevine 0770 system system
+    chown system system /persist-lg/widevine
+    chmod 0770 /persist-lg/widevine
+
+    #Secureclock
+    mkdir /persist-lg/secclk 0700 system system
+    chown system system /persist-lg/secclk
+    chmod 0700 /persist-lg/secclk          
+
+    # create dirs if not exist
+    mkdir /data/lgdrm 0770 lgdrm lgdrm_acc   
+# LGE_CHANGE_E For DRM   
+
+# LGE_CHANGE_S, [G2_Player][haewook.kim@lge.com], 20130301, for DivxDrm
+    mkdir /persist-lg/multimedia 0770 media divxdrm
+    chown media divxdrm /persist-lg/multimedia
+    chmod 0770 /persist-lg/multimedia
+
+    mkdir /persist-lg/multimedia/nx 0770 media divxdrm
+    chown media divxdrm /persist-lg/multimedia/nx
+    chmod 0770 /persist-lg/multimedia/nx
+
+    mkdir /persist-lg/multimedia/uma 0770 media divxdrm
+    chown media divxdrm /persist-lg/multimedia/uma
+    chmod 0770 /persist-lg/multimedia/uma
+
+    mkdir /persist-lg/multimedia/scnt 0770 media divxdrm
+    chown media divxdrm /persist-lg/multimedia/scnt
+    chmod 0770 /persist-lg/multimedia/scnt
+
+    mkdir /persist-lg/multimedia/scnt/sdadf 0770 media divxdrm
+    chown media divxdrm /persist-lg/multimedia/scnt/sdadf
+    chmod 0770 /persist-lg/multimedia/scnt/sdadf
+# LGE_CHANGE_E, [G2_Player][haewook.kim@lge.com], 20130301, for DivxDrm
+
+# LGE_CHANGE_S for MLT
+    chown system system /mpt
+    chmod 0775 /mpt
+# LGE_CHANGE_E for MLT
+
+#on chargerlogo
+#    stop bootlogo
+#    exec /sbin/chargerlogo
+
+# Allow usb charging to be disabled peristently
+on property:persist.usb.chgdisabled=1
+    write /sys/class/power_supply/battery/charging_enabled 0
+
+on property:persist.usb.chgdisabled=0
+    write /sys/class/power_supply/battery/charging_enabled 1
+
+# add for USB BC 1.2 event by the VZW chargerlogo
+on chargerlogo
+   stop bootlogo
+   write /sys/class/android_usb/android0/enable 0   
+   write /sys/class/android_usb/android0/idVendor 1004   
+   write /sys/class/android_usb/android0/idProduct 6300   
+   write /sys/class/android_usb/android0/bDeviceClass 0   
+   write /sys/class/android_usb/android0/bDeviceSubClass 0   
+   write /sys/class/android_usb/android0/bDeviceProtocol 0   
+   write /sys/class/android_usb/android0/functions charge_only   
+   write /sys/class/android_usb/android0/enable 1  
+   exec /sbin/chargerlogo
+
+#start camera server as daemon
+service qcamerasvr /system/bin/mm-qcamera-daemon
+    class late_start
+    user camera
+    group camera system inet input graphics
+
+#start GNSS/Sensor interface daemon
+service gsiff_daemon /system/bin/gsiff_daemon
+    class late_start
+    user system
+    group gps net_raw
+
+service qrngd /system/bin/qrngd -f
+   class main
+   user root
+   group root
+
+service qseecomd /system/bin/qseecomd
+   class late_start
+   user root
+   group root
+
+service mpdecision /system/bin/mpdecision --no_sleep --avg_comp
+   user root
+   disabled
+
+service qosmgrd /system/bin/qosmgr /system/etc/qosmgr_rules.xml
+   user system
+   group system
+   disabled
+
+service thermal-engine /system/bin/thermal-engine --time=20
+   class main
+   user root
+   group root
+
+service security-check1 /sbin/security_boot_check system
+    class core
+    oneshot
+
+service security-check2 /sbin/security_boot_check recovery
+    class core
+    oneshot
+
+
+on property:sys.boot_completed=1
+   start thermal-engine
+# LGE_CHANGE_E, [G2_power][youngmin.kwon@lge.com], 20130319, thermal-engine start when boot is completed.
+
+service time_daemon /system/bin/time_daemon
+   class late_start
+   user root
+   group root
+
+service audiod /system/bin/audiod
+   class late_start
+   user system
+   group system
+
+service usf_tester /system/bin/usf_tester
+    user system
+    group system inet
+    disabled
+
+service usf_epos /system/bin/usf_epos
+    user system
+    group system inet
+    disabled
+
+service usf_gesture /system/bin/usf_gesture
+    user system
+    group system inet
+    disabled
+service atd /system/bin/atd /dev/ttyGS0 /dev/smd0
+   socket atd stream 0660 system inet
+   disabled
+
+on property:ro.baseband="msm"
+   start atd
+
+#CAPP_READAHEAD_BOOT_IMPROVE
+#service preload /system/bin/treadahead -f
+#   disabled
+#   oneshot
+#
+#on boot
+#   start preload
+    
+service usf_p2p /system/bin/usf_p2p
+    user system
+    group system inet
+    disabled
+
+service usf_hovering /system/bin/usf_hovering
+    user system
+    group system inet
+    disabled
+
+service usf_proximity /system/bin/usf_proximity
+    user system
+    group system inet
+    disabled
+
+service usf-post-boot /system/bin/sh /system/etc/usf_post_boot.sh
+    class late_start
+    user root
+    disabled
+    oneshot
+
+# yongmin.jung@lge.com 2013.01.28 write eventlog for boot animation end
+service write_event_log /system/bin/write_event_log 55000
+    user system
+    group system
+    disabled
+    oneshot
+
+on property:init.svc.bootanim=stopped
+    start usf-post-boot
+    start write_event_log
+
+service imsqmidaemon /system/bin/imsqmidaemon
+    class main
+    user system
+    group radio net_raw log qcom_diag
+    disabled
+
+on boot
+    start imsqmidaemon
+    insmod /system/lib/modules/adsprpc.ko
+
+# imsdatadaemon starts with root and UID will be downgraded to SYSTEM.
+service imsdatadaemon /system/bin/imsdatadaemon
+    class main
+    user root
+    group radio net_raw log qcom_diag net_admin
+    disabled
+
+service wcnss-service /system/bin/wcnss_service
+    class late_start
+    user system
+    group system wifi
+    oneshot
+
+on property:sys.ims.QMI_DAEMON_STATUS=1
+    start imsdatadaemon
+
+service ims_rtp_daemon /system/bin/ims_rtp_daemon
+    class main
+    user system
+    group radio net_raw diag qcom_diag log
+    disabled
+
+on property:sys.ims.DATA_DAEMON_STATUS=1
+    start ims_rtp_daemon

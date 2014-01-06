@@ -1,0 +1,18 @@
+
+on fota-init
+    wait /dev/block/mmcblk0
+    chown system lg_fota /dev/block/mmcblk0
+    chmod 0770 /dev/block/mmcblk0
+    symlink /storage/sdcard0 /pkg
+
+on fota-boot
+    mkdir /cache/fota 0770 lg_fota lg_fota
+    chown lg_fota lg_fota /cache/fota
+    chmod 0775 /cache/fota
+    
+    #mkdir /data/fota 0774  system lg_fota
+    #chown system lg_fota /data/fota
+    #chmod 0774 /data/fota
+    
+    chown system lg_fota /dev/block/mmcblk0
+    chown system lg_fota /dev/block/platform/msm_sdcc.1/by-name/fota
