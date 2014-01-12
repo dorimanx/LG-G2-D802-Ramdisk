@@ -14,6 +14,8 @@ chown system /sys/devices/system/cpu/cpufreq/ondemand/powersave_bias
 chown system /sys/devices/system/cpu/cpu0/cpufreq/scaling_max_freq
 chown system /sys/devices/system/cpu/cpu0/cpufreq/scaling_min_freq
 
+chmod -R 0700 /data/property
+
 case "$target" in
     "msm8974")
         echo 2 > /sys/module/lpm_resources/enable_low_power/l2
@@ -46,7 +48,7 @@ case "$target" in
         
         #Tweak the sampling rates and load thresholds
         echo 7000 > /sys/devices/system/cpu/cpufreq/ondemand/sampling_rate
-        echo 35 > /sys/devices/system/cpu/cpufreq/ondemand/up_threshold
+        echo 60 > /sys/devices/system/cpu/cpufreq/ondemand/up_threshold
         echo 50 > /sys/devices/system/cpu/cpufreq/ondemand/up_threshold_any_cpu_load
         echo 50 > /sys/devices/system/cpu/cpufreq/ondemand/up_threshold_multi_core
         echo 20 > /sys/devices/system/cpu/cpufreq/ondemand/down_differential
@@ -107,10 +109,10 @@ case "$emmc_boot"
 esac
 
 # Tweak some VM settings for system smoothness
-echo 400 > /proc/sys/vm/dirty_expire_centisecs
-echo 50 > /proc/sys/vm/dirty_background_ratio
-echo 60 > /proc/sys/vm/dirty_ratio
-echo 35 > /proc/sys/vm/vfs_cache_pressure
+echo 500 > /proc/sys/vm/dirty_expire_centisecs
+echo 20 > /proc/sys/vm/dirty_background_ratio
+echo 30 > /proc/sys/vm/dirty_ratio
+echo 50 > /proc/sys/vm/vfs_cache_pressure
 
 # set simple GPU governor as default
 echo simple > /sys/devices/fdb00000.qcom,kgsl-3d0/kgsl/kgsl-3d0/pwrscale/trustzone/governor
@@ -119,7 +121,7 @@ echo simple > /sys/devices/fdb00000.qcom,kgsl-3d0/kgsl/kgsl-3d0/pwrscale/trustzo
 start mpdecision
 
 #set default readahead
-echo 512 > /sys/block/mmcblk0/bdi/read_ahead_kb
+echo 1024 > /sys/block/mmcblk0/bdi/read_ahead_kb
 
 # make sure our max gpu clock is set via sysfs
 echo 450000000 > /sys/class/kgsl/kgsl-3d0/max_gpuclk
