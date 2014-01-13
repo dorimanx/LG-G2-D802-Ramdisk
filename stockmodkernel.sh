@@ -16,6 +16,10 @@ chown system /sys/devices/system/cpu/cpu0/cpufreq/scaling_min_freq
 
 chmod -R 0700 /data/property
 
+# wifi mac load fix
+chown system:wifi /dev/block/mmcblk0p13
+chmod 0660 /dev/block/mmcblk0p13
+
 case "$target" in
     "msm8974")
         echo 2 > /sys/module/lpm_resources/enable_low_power/l2
@@ -162,4 +166,7 @@ if [ "true" == $lgodl_prop ]; then
 fi
 
 # Start any init.d scripts that may be present in the rom or added by the user
-/system/etc/init.d/*
+if [ -d /system/etc/init.d ]; then
+	chmod 755 /system/etc/init.d/*;
+	run-parts /system/etc/init.d/;
+fi;

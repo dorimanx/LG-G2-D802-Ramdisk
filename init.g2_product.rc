@@ -75,6 +75,8 @@ on fs
     exec /system/bin/e2fsck -p /dev/block/platform/msm_sdcc.1/by-name/cust
     mount ext4 /dev/block/platform/msm_sdcc.1/by-name/cust /cust ro nosuid nodev barrier=1 noauto_da_alloc
 
+    write /sys/kernel/boot_adsp/boot 1
+
 on init
     exec /sbin/setup_fs_static \
         /dev/block/platform/msm_sdcc.1/by-name/cust \
