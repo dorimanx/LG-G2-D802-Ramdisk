@@ -157,4 +157,3 @@ case "$target" in
         echo ssusb > /sys/bus/platform/devices/usb_bam/enable
     ;;
 esac
-

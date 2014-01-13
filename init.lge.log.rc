@@ -144,5 +144,3 @@ on property:persist.service.packet.enable=1
 
 on property:persist.service.packet.enable=0
     stop log-packet
-
-

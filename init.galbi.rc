@@ -124,7 +124,7 @@ on early-boot
     # set RLIMIT_MEMLOCK to 64MB
     setrlimit 8 67108864 67108864
     # Allow subsystem (modem etc) debugging
-    # write /sys/module/subsystem_restart/parameters/enable_debug ${persist.sys.ssr.enable_debug}    
+    # write /sys/module/subsystem_restart/parameters/enable_debug ${persist.sys.ssr.enable_debug}
     exec /system/bin/sh /init.galbi.early_boot.sh ${ro.board.platform}
 #    exec /system/bin/sh /init.galbi.syspart_fixup.sh ${ro.board.platform} ${ro.serialno}
     exec /system/bin/sh /system/etc/init.galbi.audio.sh ${ro.board.platform}
@@ -347,13 +347,13 @@ on post-fs-data
 
     chmod 0660 /dev/ramdump_modem
     chown system system /dev/ramdump_modem
-    
+
     chmod 0660 /dev/ramdump_smem-modem
     chown system system /dev/ramdump_smem-modem
-    
+
     chmod 0660 /dev/ramdump_smem-smd
     chown system system /dev/ramdump_smem-smd
-    
+
     chmod 0660 /dev/ramdump_venus
     chown system system /dev/ramdump_venus
 # [END] jin.park@lge.com, SSR FEATURE
@@ -1015,7 +1015,7 @@ on property:persist.service.lge.odl_on=false
 #LGE_CHANGE_S 2012.04 for MOCA
 service moca_service /system/bin/moca -s
     class late_start
-    user root 
+    user root
     group system sdcard_r sdcard_rw radio
     disabled
     oneshot
@@ -1023,7 +1023,7 @@ service moca_service /system/bin/moca -s
 
 service moca_restart /system/bin/moca_restart
     class late_start
-    user root 
+    user root
     group system sdcard_r sdcard_rw radio
     disabled
     oneshot
@@ -1034,7 +1034,7 @@ service moca_ssr_ramdump /system/bin/subsystem_ramdump 1
     group system sdcard_r sdcard_rw radio
     disabled
     oneshot
-    
+
 
 on property:persist.service.moca.enable=1
    start moca_service

@@ -112,11 +112,11 @@ on post-fs-data
     #Secureclock
     mkdir /persist-lg/secclk 0700 system system
     chown system system /persist-lg/secclk
-    chmod 0700 /persist-lg/secclk          
+    chmod 0700 /persist-lg/secclk
 
     # create dirs if not exist
-    mkdir /data/lgdrm 0770 lgdrm lgdrm_acc   
-# LGE_CHANGE_E For DRM   
+    mkdir /data/lgdrm 0770 lgdrm lgdrm_acc
+# LGE_CHANGE_E For DRM
 
 # LGE_CHANGE_S, [G2_Player][haewook.kim@lge.com], 20130301, for DivxDrm
     mkdir /persist-lg/multimedia 0770 media divxdrm
@@ -159,14 +159,14 @@ on property:persist.usb.chgdisabled=0
 # add for USB BC 1.2 event by the VZW chargerlogo
 on chargerlogo
    stop bootlogo
-   write /sys/class/android_usb/android0/enable 0   
-   write /sys/class/android_usb/android0/idVendor 1004   
-   write /sys/class/android_usb/android0/idProduct 6300   
-   write /sys/class/android_usb/android0/bDeviceClass 0   
-   write /sys/class/android_usb/android0/bDeviceSubClass 0   
-   write /sys/class/android_usb/android0/bDeviceProtocol 0   
-   write /sys/class/android_usb/android0/functions charge_only   
-   write /sys/class/android_usb/android0/enable 1  
+   write /sys/class/android_usb/android0/enable 0
+   write /sys/class/android_usb/android0/idVendor 1004
+   write /sys/class/android_usb/android0/idProduct 6300
+   write /sys/class/android_usb/android0/bDeviceClass 0
+   write /sys/class/android_usb/android0/bDeviceSubClass 0
+   write /sys/class/android_usb/android0/bDeviceProtocol 0
+   write /sys/class/android_usb/android0/functions charge_only
+   write /sys/class/android_usb/android0/enable 1
    exec /sbin/chargerlogo
 
 #start camera server as daemon
@@ -256,7 +256,7 @@ on property:ro.baseband="msm"
 #
 #on boot
 #   start preload
-    
+
 service usf_p2p /system/bin/usf_p2p
     user system
     group system inet

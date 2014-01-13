@@ -39,4 +39,3 @@ case "$emmc_size" in
 esac
 
 echo [[[[[ Preload Copy ended ]]]]]]]
-
