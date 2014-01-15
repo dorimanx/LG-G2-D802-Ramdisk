@@ -192,6 +192,10 @@ on boot
 	setprop persist.service.bdroid.a2dp_con 0
 	setprop persist.service.bdroid.scms_t 0
 
+    # Fix audio decoder for sound driver in STOCK ROMS thanks to acer73@xda
+    setprop lpa.decode=false
+    setprop ro.lpa.decode=false
+
 
 # LGE_CHANGE_S, [BT][younghyun.kwon@lge.com], 2013-03-21, For BCM4335 AXI Patch
     chown bluetooth net_bt_stack /dev/btlock
