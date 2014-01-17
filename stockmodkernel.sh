@@ -5,6 +5,30 @@
 
 target=$(getprop ro.board.platform)
 
+# protect init from oom
+echo "-1000" > /proc/1/oom_score_adj;
+
+sysrw;
+mount -o remount,rw /;
+
+# oom and mem perm fix
+chmod 666 /sys/module/lowmemorykiller/parameters/cost;
+chmod 666 /sys/module/lowmemorykiller/parameters/adj;
+
+# clean old modules from /system and add new from ramdisk
+if [ ! -d /system/lib/modules ]; then
+	busybox mkdir /system/lib/modules;
+fi;
+cd /lib/modules/;
+for i in *.ko; do
+	busybox rm -f /system/lib/modules/"$i";
+done;
+cd /;
+
+busybox cp /lib/modules/*.ko /system/lib/modules/;
+chmod 755 /system/lib/modules/*.ko;
+chmod 755 /lib/modules/*.ko;
+
 # make sure we own the device nodes
 chown system /sys/devices/system/cpu/cpufreq/*
 chown system /sys/devices/system/cpu/cpufreq/ondemand/*
@@ -14,8 +38,25 @@ chmod 664 /sys/devices/system/cpu/cpu*/cpufreq/*
 
 chmod -R 0700 /data/property
 
+# some nice thing for dev
+if [ ! -e /cpufreq ]; then
+	busybox ln -s /sys/devices/system/cpu/cpu0/cpufreq /cpufreq;
+	busybox ln -s /sys/devices/system/cpu/cpufreq/ /cpugov;
+fi;
+
+# disable debugging on modules, adming can enable any time.
+echo "0" > /sys/module/kernel/parameters/initcall_debug;
+echo "0" > /sys/module/alarm/parameters/debug_mask;
+echo "0" > /sys/module/alarm_dev/parameters/debug_mask;
+echo "0" > /sys/module/binder/parameters/debug_mask;
+echo "0" > /sys/module/xt_qtaguid/parameters/debug_mask;
+
+#for no_debug in $(find /sys/ -name *debug*); do
+#	echo "0" > "$no_debug";
+#done;
+
 # wifi mac load fix
-chown system:wifi /dev/block/mmcblk0p13
+chown system.wifi /dev/block/mmcblk0p13
 chmod 0660 /dev/block/mmcblk0p13
 
 # CPU tuning
@@ -123,14 +164,14 @@ case "$targetProd" in
 	"g2_lgu_kr" | "vu3_lgu_kr" | "z_lgu_kr" | "z_kddi_jp" | "g2_kddi_jp")
 		targetPath=$(getprop lg.data.nsrm.policypath)
 		if [ ! -s "$targetPath" ]; then
-			mkdir /data/connectivity/
+			busybox mkdir /data/connectivity/
 			chown system.system /data/connectivity/
 			chmod 775 /data/connectivity/
-			mkdir /data/connectivity/nsrm/
+			busybox mkdir /data/connectivity/nsrm/
 			chown system.system /data/connectivity/nsrm/
 			chmod 775 /data/connectivity/nsrm/
-			cp /system/etc/cne/NsrmConfiguration.xml /data/connectivity/nsrm/
-			cp /system/etc/cne/libcnelog.so /data/connectivity/
+			busybox cp /system/etc/cne/NsrmConfiguration.xml /data/connectivity/nsrm/
+			busybox cp /system/etc/cne/libcnelog.so /data/connectivity/
 			chown system.system /data/connectivity/nsrm/NsrmConfiguration.xml
 			chmod 775 /data/connectivity/nsrm/NsrmConfiguration.xml
 		fi
