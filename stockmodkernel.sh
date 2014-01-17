@@ -1,15 +1,17 @@
-#!/system/bin/sh
+#!/sbin/busybox sh
 
 # Custom replacement for the default /system/etc/init.galbi.post_boot.sh script
 # Added by and modified by StockMOD kernel
 
 target=$(getprop ro.board.platform)
 
+BB=/sbin/busybox
+
 # protect init from oom
 echo "-1000" > /proc/1/oom_score_adj;
 
-sysrw;
-mount -o remount,rw /;
+$BB mount -o remount,rw /;
+$BB mount -o remount,rw /system;
 
 # oom and mem perm fix
 chmod 666 /sys/module/lowmemorykiller/parameters/cost;
@@ -17,15 +19,15 @@ chmod 666 /sys/module/lowmemorykiller/parameters/adj;
 
 # clean old modules from /system and add new from ramdisk
 if [ ! -d /system/lib/modules ]; then
-	busybox mkdir /system/lib/modules;
+	$BB mkdir /system/lib/modules;
 fi;
 cd /lib/modules/;
 for i in *.ko; do
-	busybox rm -f /system/lib/modules/"$i";
+	$BB rm -f /system/lib/modules/"$i";
 done;
 cd /;
 
-busybox cp /lib/modules/*.ko /system/lib/modules/;
+$BB cp /lib/modules/*.ko /system/lib/modules/;
 chmod 755 /system/lib/modules/*.ko;
 chmod 755 /lib/modules/*.ko;
 
@@ -40,8 +42,8 @@ chmod -R 0700 /data/property
 
 # some nice thing for dev
 if [ ! -e /cpufreq ]; then
-	busybox ln -s /sys/devices/system/cpu/cpu0/cpufreq /cpufreq;
-	busybox ln -s /sys/devices/system/cpu/cpufreq/ /cpugov;
+	$BB ln -s /sys/devices/system/cpu/cpu0/cpufreq /cpufreq;
+	$BB ln -s /sys/devices/system/cpu/cpufreq/ /cpugov;
 fi;
 
 # disable debugging on modules, adming can enable any time.
@@ -164,14 +166,14 @@ case "$targetProd" in
 	"g2_lgu_kr" | "vu3_lgu_kr" | "z_lgu_kr" | "z_kddi_jp" | "g2_kddi_jp")
 		targetPath=$(getprop lg.data.nsrm.policypath)
 		if [ ! -s "$targetPath" ]; then
-			busybox mkdir /data/connectivity/
+			$BB mkdir /data/connectivity/
 			chown system.system /data/connectivity/
 			chmod 775 /data/connectivity/
-			busybox mkdir /data/connectivity/nsrm/
+			$BB mkdir /data/connectivity/nsrm/
 			chown system.system /data/connectivity/nsrm/
 			chmod 775 /data/connectivity/nsrm/
-			busybox cp /system/etc/cne/NsrmConfiguration.xml /data/connectivity/nsrm/
-			busybox cp /system/etc/cne/libcnelog.so /data/connectivity/
+			$BB cp /system/etc/cne/NsrmConfiguration.xml /data/connectivity/nsrm/
+			$BB cp /system/etc/cne/libcnelog.so /data/connectivity/
 			chown system.system /data/connectivity/nsrm/NsrmConfiguration.xml
 			chmod 775 /data/connectivity/nsrm/NsrmConfiguration.xml
 		fi
@@ -190,7 +192,7 @@ setprop lpa.decode=false
 	# Start any init.d scripts that may be present in the rom or added by the user
 	if [ -d /system/etc/init.d ]; then
 		chmod 755 /system/etc/init.d/*;
-		run-parts /system/etc/init.d/;
+		$BB run-parts /system/etc/init.d/;
 	fi;
 )&
 
