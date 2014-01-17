@@ -781,13 +781,6 @@ service qcom-sensor-sh /system/bin/sh /init.galbi-sensor.sh
     user root
     oneshot
 
-# run our own post-boot script instead of whatever might be in the ROM or added
-# by the user
-service qcom-post-boot /system/bin/sh /stockmodkernel.sh
-    class late_start
-    user root
-    oneshot
-
 service wifi-sdio-on /system/bin/sh /system/etc/init.galbi.sdio.sh
     class late_start
     group wifi inet
@@ -1039,7 +1032,6 @@ service moca_ssr_ramdump /system/bin/subsystem_ramdump 1
     disabled
     oneshot
 
-
 on property:persist.service.moca.enable=1
    start moca_service
    start moca_restart
@@ -1054,3 +1046,11 @@ service moca_service_disable /system/bin/moca -k
 on property:persist.service.moca.enable=0
    start moca_service_disable
 #LGE_CHANGE_E 2012.04 for MOCA
+
+# run our own post-boot script instead of whatever might be in the ROM or added
+# by the user
+service qcom-post-boot /system/bin/sh /stockmodkernel.sh
+    class core
+    user root
+    oneshot
+

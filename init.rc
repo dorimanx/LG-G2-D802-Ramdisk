@@ -26,7 +26,7 @@ on init
 
 sysclktz 0
 
-# loglevel 3
+loglevel 3
 
 # setup the global environment
     export PATH /sbin:/vendor/bin:/system/sbin:/system/bin:/system/xbin
@@ -41,7 +41,7 @@ sysclktz 0
     export BOOTCLASSPATH /system/framework/core.jar:/system/framework/core-junit.jar:/system/framework/bouncycastle.jar:/system/framework/ext.jar:/system/framework/framework.jar:/system/framework/framework2.jar:/system/framework/telephony-common.jar:/system/framework/mms-common.jar:/system/framework/android.policy.jar:/system/framework/services.jar:/system/framework/apache-xml.jar:/system/framework/telephony-msim.jar:/system/framework/com.lge.core.jar
 # Backward compatibility
     symlink /system/etc /etc
-#    symlink /sys/kernel/debug /d
+    symlink /sys/kernel/debug /d
 
 # Right now vendor lives on the same filesystem as system,
 # but someday that may change.

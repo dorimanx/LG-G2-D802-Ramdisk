@@ -46,3 +46,4 @@ on fota-update
 	#chmod 0771 /data
 
 	mkdir /cache/fota
+
