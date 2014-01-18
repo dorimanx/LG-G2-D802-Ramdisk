@@ -21,6 +21,10 @@ chmod 666 /sys/module/lowmemorykiller/parameters/adj;
 echo "0" > /sys/kernel/power_suspend/power_suspend_mode;
 chmod 444 /sys/kernel/power_suspend/power_suspend_mode;
 
+# enable force fast charge on USB to charge faster
+echo "1" > /sys/kernel/fast_charge/force_fast_charge;
+chmod 444 /sys/kernel/fast_charge/force_fast_charge;
+
 # clean old modules from /system and add new from ramdisk
 if [ ! -d /system/lib/modules ]; then
 	$BB mkdir /system/lib/modules;
