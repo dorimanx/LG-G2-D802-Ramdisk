@@ -17,6 +17,10 @@ $BB mount -o remount,rw /system;
 chmod 666 /sys/module/lowmemorykiller/parameters/cost;
 chmod 666 /sys/module/lowmemorykiller/parameters/adj;
 
+# enable power_suspend mode control by kernel.
+echo "0" > /sys/kernel/power_suspend/power_suspend_mode;
+chmod 444 /sys/kernel/power_suspend/power_suspend_mode;
+
 # clean old modules from /system and add new from ramdisk
 if [ ! -d /system/lib/modules ]; then
 	$BB mkdir /system/lib/modules;
