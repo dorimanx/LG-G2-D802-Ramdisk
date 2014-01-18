@@ -32,11 +32,18 @@ chmod 755 /system/lib/modules/*.ko;
 chmod 755 /lib/modules/*.ko;
 
 # make sure we own the device nodes
-chown system /sys/devices/system/cpu/cpufreq/*
-chown system /sys/devices/system/cpu/cpufreq/ondemand/*
-chown system /sys/devices/system/cpu/cpu*/cpufreq/*
-chmod 664 /sys/devices/system/cpu/cpufreq/*
-chmod 664 /sys/devices/system/cpu/cpu*/cpufreq/*
+chown system /sys/devices/system/cpu/cpufreq/ondemand/sampling_rate
+chown system /sys/devices/system/cpu/cpufreq/ondemand/sampling_down_factor
+chown system /sys/devices/system/cpu/cpufreq/ondemand/io_is_busy
+chown system /sys/devices/system/cpu/cpufreq/ondemand/powersave_bias
+chown system /sys/devices/system/cpu/cpu0/cpufreq/scaling_max_freq
+chown system /sys/devices/system/cpu/cpu0/cpufreq/scaling_min_freq
+chown root.system /sys/devices/system/cpu/cpu1/online
+chown root.system /sys/devices/system/cpu/cpu2/online
+chown root.system /sys/devices/system/cpu/cpu3/online
+chmod 664 /sys/devices/system/cpu/cpu1/online
+chmod 664 /sys/devices/system/cpu/cpu2/online
+chmod 664 /sys/devices/system/cpu/cpu3/online
 
 chmod -R 0700 /data/property
 
