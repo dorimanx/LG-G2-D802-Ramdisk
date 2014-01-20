@@ -297,7 +297,9 @@ service imsqmidaemon /system/bin/imsqmidaemon
 
 on boot
     start imsqmidaemon
-    insmod /system/lib/modules/adsprpc.ko
+
+#   module moved to kernel
+#   insmod /system/lib/modules/adsprpc.ko
 
 # imsdatadaemon starts with root and UID will be downgraded to SYSTEM.
 service imsdatadaemon /system/bin/imsdatadaemon
