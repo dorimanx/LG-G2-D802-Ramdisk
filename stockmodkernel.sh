@@ -17,10 +17,6 @@ $BB mount -o remount,rw /system;
 chmod 666 /sys/module/lowmemorykiller/parameters/cost;
 chmod 666 /sys/module/lowmemorykiller/parameters/adj;
 
-# enable power_suspend mode control by kernel.
-echo "0" > /sys/kernel/power_suspend/power_suspend_mode;
-chmod 444 /sys/kernel/power_suspend/power_suspend_mode;
-
 # enable force fast charge on USB to charge faster
 echo "1" > /sys/kernel/fast_charge/force_fast_charge;
 chmod 444 /sys/kernel/fast_charge/force_fast_charge;
