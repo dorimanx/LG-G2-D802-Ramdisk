@@ -6,7 +6,7 @@
 
 import /init.lge.early.rc
 import /init.usb.rc
-import /init.${ro.hardware}.rc
+import /init.g2.rc
 import /init.trace.rc
 
 on early-init

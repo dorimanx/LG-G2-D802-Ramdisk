@@ -29,6 +29,8 @@ import /init.galbi.rc
 import /init.lge.rc
 import /init.g2_product.rc
 
+write /proc/sys/kernel/dmesg_restrict 0
+
 # 2013.02.15 [G2_Broadcast][heri.jang@lge.com] Broadcast Service[START]
 service broadcast /system/bin/libbroadcast_server
     class main

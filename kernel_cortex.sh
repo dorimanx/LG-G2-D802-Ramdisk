@@ -1,9 +1,6 @@
 #!/sbin/busybox sh
 
-# Custom replacement for the default /system/etc/init.galbi.post_boot.sh script
-# Added by and modified by StockMOD kernel
-
-target=$(getprop ro.board.platform)
+# Kernel Tuning by Dorimanx.
 
 BB=/sbin/busybox
 
@@ -12,6 +9,13 @@ echo "-1000" > /proc/1/oom_score_adj;
 
 $BB mount -o remount,rw /;
 $BB mount -o remount,rw /system;
+
+(
+	# run ROM scripts
+	$BB sh /system/etc/init.galbi.post_boot.sh
+)&
+
+sleep 10;
 
 # oom and mem perm fix
 chmod 666 /sys/module/lowmemorykiller/parameters/cost;
@@ -31,9 +35,8 @@ for i in *.ko; do
 done;
 cd /;
 
-$BB cp /lib/modules/*.ko /system/lib/modules/;
-chmod 755 /system/lib/modules/*.ko;
 chmod 755 /lib/modules/*.ko;
+$BB cp -a /lib/modules/*.ko /system/lib/modules/;
 
 # make sure we own the device nodes
 chown system /sys/devices/system/cpu/cpufreq/ondemand/sampling_rate
@@ -85,7 +88,6 @@ echo 1 > /sys/module/pm_8x60/modes/cpu0/power_collapse/idle_enabled
 
 soc_revision=$(cat /sys/devices/soc0/revision)
 if [ "$soc_revision" != "1.0" ]; then
-	log -p i -t POSTBOOT SOC="$soc_revision", Do not enable Retention
 	echo 0 > /sys/module/pm_8x60/modes/cpu0/retention/idle_enabled
 	echo 0 > /sys/module/pm_8x60/modes/cpu1/retention/idle_enabled
 	echo 0 > /sys/module/pm_8x60/modes/cpu2/retention/idle_enabled
@@ -133,18 +135,6 @@ echo 50 > /sys/devices/system/cpu/cpufreq/ondemand/high_grid_load
 echo 0 > /sys/module/msm_thermal/core_control/enabled
 echo 1 > /dev/cpuctl/apps/cpu.notify_on_migrate
 
-emmc_boot=$(getprop ro.boot.emmc)
-case "$emmc_boot"
-	in "true")
-		if [ -e  /sys/devices/platform/rs300000a7.65536 ]; then
-			chown system /sys/devices/platform/rs300000a7.65536/force_sync
-			chown system /sys/devices/platform/rs300000a7.65536/sync_sts
-			chown system /sys/devices/platform/rs300100a7.65536/force_sync
-			chown system /sys/devices/platform/rs300100a7.65536/sync_sts
-		fi;
-	;;
-esac
-
 # Tweak some VM settings for system smoothness
 echo 40 > /proc/sys/vm/dirty_background_ratio
 echo 60 > /proc/sys/vm/dirty_ratio
@@ -152,44 +142,11 @@ echo 60 > /proc/sys/vm/dirty_ratio
 # set ondemand GPU governor as default
 echo ondemand > /sys/devices/fdb00000.qcom,kgsl-3d0/kgsl/kgsl-3d0/pwrscale/trustzone/governor
 
-# Post-setup services
-start mpdecision
-
-#set default readahead
+# set default readahead
 echo 512 > /sys/block/mmcblk0/bdi/read_ahead_kb
 
 # make sure our max gpu clock is set via sysfs
 echo 450000000 > /sys/class/kgsl/kgsl-3d0/max_gpuclk
-
-targetProd=$(getprop ro.product.name)
-case "$targetProd" in
-	"g2_dcm_jp")
-		echo 300000 > /sys/devices/system/cpu/cpufreq/ondemand/lcdoff_optimal_max_freq
-		echo 11 > /sys/devices/system/cpu/cpufreq/ondemand/lcdoff_middle_grid_step
-		echo 12 > /sys/devices/system/cpu/cpufreq/ondemand/lcdoff_middle_grid_load
-		echo 14 > /sys/devices/system/cpu/cpufreq/ondemand/lcdoff_high_grid_step
-		echo 53 > /sys/devices/system/cpu/cpufreq/ondemand/lcdoff_high_grid_load
-esac
-
-# LGE_CHANGE_S, [LGE_DATA][CNE_NSRM], ct-radio@lge.com, 2012-04-05
-targetProd=$(getprop ro.product.name)
-case "$targetProd" in
-	"g2_lgu_kr" | "vu3_lgu_kr" | "z_lgu_kr" | "z_kddi_jp" | "g2_kddi_jp")
-		targetPath=$(getprop lg.data.nsrm.policypath)
-		if [ ! -s "$targetPath" ]; then
-			$BB mkdir /data/connectivity/
-			chown system.system /data/connectivity/
-			chmod 775 /data/connectivity/
-			$BB mkdir /data/connectivity/nsrm/
-			chown system.system /data/connectivity/nsrm/
-			chmod 775 /data/connectivity/nsrm/
-			$BB cp /system/etc/cne/NsrmConfiguration.xml /data/connectivity/nsrm/
-			$BB cp /system/etc/cne/libcnelog.so /data/connectivity/
-			chown system.system /data/connectivity/nsrm/NsrmConfiguration.xml
-			chmod 775 /data/connectivity/nsrm/NsrmConfiguration.xml
-		fi
-	;;
-esac
 
 lgodl_prop=$(getprop persist.service.lge.odl_on)
 if [ "$lgodl_prop" == "true" ]; then
@@ -197,13 +154,28 @@ if [ "$lgodl_prop" == "true" ]; then
 fi
 
 # correct decoder support
-setprop lpa.decode=false
+setprop lpa.decode false
+setprop af.resampler.quality 4
+setprop audio.offload.buffer.size.kb 32
+setprop audio.offload.gapless.enabled true
+setprop av.offload.enable true
+
+# Fix ROM dev wrong sets.
+setprop persist.adb.notify 0
+setprop persist.service.adb.enable 1
+setprop persist.sys.use_dithering 1
+setprop dalvik.vm.execution-mode int:jit
+setprop pm.sleep_mode 1
 
 (
 	# Start any init.d scripts that may be present in the rom or added by the user
 	if [ -d /system/etc/init.d ]; then
 		chmod 755 /system/etc/init.d/*;
-		$BB run-parts /system/etc/init.d/;
+		if [ ! -e /data/dori_init_run_test ]; then
+			$BB run-parts /system/etc/init.d/;
+		else
+			echo "init.d scripts executed by ROM already"
+		fi;
 	fi;
 )&
 

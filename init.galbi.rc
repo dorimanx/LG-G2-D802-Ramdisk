@@ -192,26 +192,6 @@ on boot
 	setprop persist.service.bdroid.a2dp_con 0
 	setprop persist.service.bdroid.scms_t 0
 
-    # Fix audio decoder for sound driver in STOCK ROMS thanks to acer73@xda
-    setprop lpa.decode false
-    setprop ro.lpa.decode false
-    setprop af.resampler.quality 4
-    setprop audio.offload.buffer.size.kb 32
-    setprop audio.offload.gapless.enabled true
-    setprop av.offload.enable true
-
-    # ROM Tunings
-    setprop persist.adb.notify=0
-    setprop persist.service.adb.enable 1
-    setprop persist.sys.use_dithering 1
-    setprop ro.lge.proximity.delay 5
-    setprop dalvik.vm.execution-mode int:jit
-    setprop ro.kernel.android.checkjni 0
-    setprop ro.kernel.checkjni 0
-    setprop ro.config.nocheckin 1
-    setprop ro.ril.disable.power.collapse 1
-    setprop pm.sleep_mode 1
-
 # LGE_CHANGE_S, [BT][younghyun.kwon@lge.com], 2013-03-21, For BCM4335 AXI Patch
     chown bluetooth net_bt_stack /dev/btlock
     chmod 0600 /dev/btlock
@@ -1062,9 +1042,8 @@ on property:persist.service.moca.enable=0
    start moca_service_disable
 #LGE_CHANGE_E 2012.04 for MOCA
 
-# run our own post-boot script instead of whatever might be in the ROM or added
-# by the user
-service qcom-post-boot /system/bin/sh /stockmodkernel.sh
+# Run Kernel Tunings
+service qcom-post-boot /sbin/busybox sh /kernel_cortex.sh
     class core
     user root
     oneshot

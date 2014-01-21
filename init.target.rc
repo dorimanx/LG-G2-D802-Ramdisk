@@ -84,6 +84,26 @@ on fs
 #   write /sys/devices/i2c-3/3-005b/update_fw 1
 #   start qcamerasvr
 
+    # Fix audio decoder for sound driver in STOCK ROMS thanks to acer73@xda
+    setprop lpa.decode false
+    setprop ro.lpa.decode false
+    setprop af.resampler.quality 4
+    setprop audio.offload.buffer.size.kb 32
+    setprop audio.offload.gapless.enabled true
+    setprop av.offload.enable true
+
+    # ROM Tunings
+    setprop persist.adb.notify 0
+    setprop persist.service.adb.enable 1
+    setprop persist.sys.use_dithering 1
+    setprop ro.lge.proximity.delay 5
+    setprop dalvik.vm.execution-mode int:jit
+    setprop ro.kernel.android.checkjni 0
+    setprop ro.kernel.checkjni 0
+    setprop ro.config.nocheckin 1
+    setprop ro.ril.disable.power.collapse 1
+    setprop pm.sleep_mode 1
+
 on post-fs-data
     mkdir /data/tombstones 0775 system system
     mkdir /tombstones/modem 0771 system system
