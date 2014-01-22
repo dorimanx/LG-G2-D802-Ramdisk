@@ -7,8 +7,12 @@ BB=/sbin/busybox
 # protect init from oom
 echo "-1000" > /proc/1/oom_score_adj;
 
-$BB mount -o remount,rw /;
-$BB mount -o remount,rw /system;
+OPEN_RW()
+{
+	$BB mount -o remount,rw /;
+	$BB mount -o remount,rw /system;
+}
+OPEN_RW;
 
 # clean old modules from /system and add new from ramdisk
 if [ ! -d /system/lib/modules ]; then
@@ -33,6 +37,7 @@ $BB cp -a /lib/modules/*.ko /system/lib/modules/;
 )&
 
 sleep 10;
+OPEN_RW;
 
 # oom and mem perm fix
 chmod 666 /sys/module/lowmemorykiller/parameters/cost;
