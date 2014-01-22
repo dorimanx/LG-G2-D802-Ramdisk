@@ -84,6 +84,8 @@ on fs
 #   write /sys/devices/i2c-3/3-005b/update_fw 1
 #   start qcamerasvr
 
+    chmod 0755 /system/vendor/bin
+
     # Fix audio decoder for sound driver in STOCK ROMS thanks to acer73@xda
     setprop lpa.decode false
     setprop ro.lpa.decode false
