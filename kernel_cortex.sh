@@ -10,9 +10,26 @@ echo "-1000" > /proc/1/oom_score_adj;
 $BB mount -o remount,rw /;
 $BB mount -o remount,rw /system;
 
+# clean old modules from /system and add new from ramdisk
+if [ ! -d /system/lib/modules ]; then
+	$BB mkdir /system/lib/modules;
+fi;
+cd /lib/modules/;
+for i in *.ko; do
+	$BB rm -f /system/lib/modules/"$i";
+done;
+cd /;
+
+$BB chmod 755 /lib/modules/*.ko;
+$BB cp -a /lib/modules/*.ko /system/lib/modules/;
+
 (
 	# run ROM scripts
-	$BB sh /system/etc/init.galbi.post_boot.sh
+	if [ -e /system/etc/init.galbi.post_boot.sh ]; then
+		$BB sh /system/etc/init.galbi.post_boot.sh
+	else
+		echo "No ROM Boot script detected"
+	fi;
 )&
 
 sleep 10;
@@ -24,19 +41,6 @@ chmod 666 /sys/module/lowmemorykiller/parameters/adj;
 # enable force fast charge on USB to charge faster
 echo "1" > /sys/kernel/fast_charge/force_fast_charge;
 chmod 444 /sys/kernel/fast_charge/force_fast_charge;
-
-# clean old modules from /system and add new from ramdisk
-if [ ! -d /system/lib/modules ]; then
-	$BB mkdir /system/lib/modules;
-fi;
-cd /lib/modules/;
-for i in *.ko; do
-	$BB rm -f /system/lib/modules/"$i";
-done;
-cd /;
-
-chmod 755 /lib/modules/*.ko;
-$BB cp -a /lib/modules/*.ko /system/lib/modules/;
 
 # make sure we own the device nodes
 chown system /sys/devices/system/cpu/cpufreq/ondemand/sampling_rate
@@ -180,7 +184,6 @@ setprop pm.sleep_mode 1
 )&
 
 # write OK to check that all done.
-
 TIME_NOW=$(date)
 echo "$TIME_NOW" > /data/boot_log_dm
 
