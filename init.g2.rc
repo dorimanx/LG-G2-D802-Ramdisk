@@ -29,7 +29,65 @@ import /init.galbi.rc
 import /init.lge.rc
 import /init.g2_product.rc
 
-write /proc/sys/kernel/dmesg_restrict 0
+# LGE_CHANGE_S [blue.park@lge.com] <For Blue Error Handler V1.4>
+service blue_log /system/bin/logcat -v threadtime -f /data/dontpanic/bluelog.txt -b main -b system -b events -n 1 -r 8192 -l
+        class main
+	user root
+	group system
+        disabled
+
+# Set Blue Error Handler Level for each model's Q Event.
+on property:ro.build.type=userdebug
+        setrlimit 4 -1 -1
+        write /proc/sys/kernel/core_uses_pid 1
+        write /proc/sys/kernel/core_pattern "|/system/bin/blue_error_report -o %e.%p"
+        write /proc/sys/fs/suid_dumpable 1
+        write /proc/sys/kernel/dmesg_restrict 0
+        start blue_log
+
+on property:ro.blue_handler.level=1
+        setrlimit 4 -1 -1
+        write /proc/sys/kernel/core_uses_pid 1
+        write /proc/sys/kernel/core_pattern "|/system/bin/blue_error_report -o %e.%p"
+        write /proc/sys/fs/suid_dumpable 1
+        write /proc/sys/kernel/dmesg_restrict 0
+        start blue_log
+
+on property:ro.blue_handler.level=2 # Kernel Log Enable & No Coredump
+        write /proc/sys/kernel/dmesg_restrict 0
+        start blue_log
+
+on property:ro.blue_handler.level=3 # Only Support basic functionality.(popup & debugging info)
+        write /proc/sys/kernel/dmesg_restrict 0
+# LGE_CHANGE_E [blue.park@lge.com] <For blue ErrorHander V1.4>
+
+
+# 2012.08.24 real-wifi@lge.com[wo0gi] TestMode Daemon for broadcom driver [START]
+service diagd /system/bin/diagd
+	class late_start
+	user root
+	group radio system
+	disabled
+	oneshot
+	socket lsock_diagd stream 666
+
+#LGE_CHANGE_S[START]2012.7.16 jaeho.cho@lge.com add usbdebug manager
+service usbdebug-manager /system/bin/usbdebug-manager
+    class late_start
+    user root
+    disabled
+    oneshot
+
+on usb_debug
+    start usbdebug-manager
+#LGE_CHANGE_E[END]2012.7.16 jaeho.cho@lge.com add usbdebug manager
+
+on property:wifi_ftm.diagd_start=1
+    start diagd
+
+on property:wifi_ftm.diagd_start=0
+    stop diagd
+# 2012.08.24 real-wifi@lge.com[wo0gi] TestMode Daemon for broadcom driver [END]
 
 # 2013.02.15 [G2_Broadcast][heri.jang@lge.com] Broadcast Service[START]
 service broadcast /system/bin/libbroadcast_server
@@ -62,6 +120,12 @@ on property:sys.lge.touchfirmware.update=1
     write /sys/devices/virtual/input/lge_touch/firmware 1
     setprop sys.lge.touchfirmware.update 2
 
+# bugreport is triggered by holding down volume down, volume up and power
+#service bugreport /system/bin/bugmailer.sh -v
+#    class main
+#    disabled
+#    oneshot
+
 # Begin Immersion changes(donguk.ki@lge.com)
 service immvibed /system/bin/immvibed
     class main
@@ -69,4 +133,3 @@ service immvibed /system/bin/immvibed
     group shell
     oneshot
 # End Immersion changes
-

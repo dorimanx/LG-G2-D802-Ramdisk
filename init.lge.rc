@@ -65,6 +65,19 @@ service enable_uninstall  /system/vendor/bin/enable_uninstall.sh
 on property:vold.post_fs_data_done=1
     start enable_uninstall
 
+#CAPP_DEBUG_TOOLS
+service digicl /system/bin/digicl.sh
+    class main
+    disabled
+    oneshot
+
+#CAPP_DEBUG_TOOLS
+service quickdump /system/bin/quickdump.sh
+    class main
+    disabled
+    oneshot
+    ioprio rt 0
+    keycodes 114 115 116
 
 #Application Manager NTCODE_INSTALL
 service ntcode_install  /system/vendor/bin/ntcode_install.sh

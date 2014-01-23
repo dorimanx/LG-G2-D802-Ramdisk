@@ -97,7 +97,6 @@ on fs
     # ROM Tunings
     setprop persist.adb.notify 0
     setprop persist.service.adb.enable 1
-    setprop persist.sys.use_dithering 1
     setprop ro.lge.proximity.delay 5
     setprop dalvik.vm.execution-mode int:jit
     setprop ro.kernel.android.checkjni 0

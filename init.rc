@@ -6,7 +6,7 @@
 
 import /init.lge.early.rc
 import /init.usb.rc
-import /init.g2.rc
+import /init.${ro.hardware}.rc
 import /init.trace.rc
 
 on early-init
@@ -219,9 +219,6 @@ on post-fs-data
     mkdir /data/ssh 0750 root shell
     mkdir /data/ssh/empty 0700 root root
 
-    chown root root /data/property
-    chmod 0700 /data/property
-
     # create dalvik-cache, so as to enforce our permissions
     mkdir /data/dalvik-cache 0771 system system
 
@@ -265,8 +262,8 @@ on boot
     chmod 0664 /sys/module/lowmemorykiller/parameters/minfree
 
     # Tweak background writeout
-#   write /proc/sys/vm/dirty_expire_centisecs 200
-#   write /proc/sys/vm/dirty_background_ratio  5
+    #write /proc/sys/vm/dirty_expire_centisecs 200
+    #write /proc/sys/vm/dirty_background_ratio  5
 
     # Permissions for System Server and daemons.
     chown radio system /sys/android_power/state
@@ -453,8 +450,8 @@ service netd /system/bin/netd
     socket dnsproxyd stream 0660 root inet
     socket mdns stream 0660 root system
 
-#service debuggerd /system/bin/debuggerd
-#    class main
+service debuggerd /system/bin/debuggerd
+    class main
 
 service ril-daemon /system/bin/rild
     class main
@@ -551,6 +548,11 @@ service keystore /system/bin/keystore /data/misc/keystore
     group keystore drmrpc
     socket keystore stream 666
 
+service dumpstate /system/bin/dumpstate -s
+    class main
+    socket dumpstate stream 0660 shell log
+    disabled
+    oneshot
 
 service sshd /system/bin/start-ssh
     class main

@@ -191,4 +191,3 @@ setprop pm.sleep_mode 1
 # write OK to check that all done.
 TIME_NOW=$(date)
 echo "$TIME_NOW" > /data/boot_log_dm
-

@@ -1,6 +1,50 @@
 on post-fs-data
     mkdir /data/logger 0775 system system
 
+#power log
+service log-power /system/bin/sh /system/bin/logger_power.sh
+    class main
+    disabled
+    oneshot
+
+# kernel log
+service log-kernel /system/bin/sh /system/bin/logger_kernel.sh
+    class main
+    disabled
+    oneshot
+
+on property:persist.service.kernel.enable=6
+	stop log-kernel
+	start log-kernel
+
+on property:persist.service.kernel.enable=5
+    stop log-kernel
+    start log-kernel
+
+on property:persist.service.kernel.enable=4
+    stop log-kernel
+    start log-kernel
+
+on property:persist.service.kernel.enable=3
+    stop log-kernel
+    start log-kernel
+
+on property:persist.service.kernel.enable=2
+    stop log-kernel
+    start log-kernel
+    stop log-power
+    start log-power
+
+on property:persist.service.kernel.enable=1
+    stop log-kernel
+    start log-kernel
+    stop log-power
+    start log-power
+
+on property:persist.service.kernel.enable=0
+    stop log-kernel
+    stop log-power
+
 # logcat main
 service logcat-main /system/bin/sh /system/bin/logger_main.sh
     class main
@@ -144,4 +188,3 @@ on property:persist.service.packet.enable=1
 
 on property:persist.service.packet.enable=0
     stop log-packet
-

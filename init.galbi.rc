@@ -124,7 +124,7 @@ on early-boot
     # set RLIMIT_MEMLOCK to 64MB
     setrlimit 8 67108864 67108864
     # Allow subsystem (modem etc) debugging
-    # write /sys/module/subsystem_restart/parameters/enable_debug ${persist.sys.ssr.enable_debug}
+    write /sys/module/subsystem_restart/parameters/enable_debug ${persist.sys.ssr.enable_debug}
     exec /system/bin/sh /init.galbi.early_boot.sh ${ro.board.platform}
 #    exec /system/bin/sh /init.galbi.syspart_fixup.sh ${ro.board.platform} ${ro.serialno}
     exec /system/bin/sh /system/etc/init.galbi.audio.sh ${ro.board.platform}
@@ -157,8 +157,6 @@ on boot
     chmod 0660 /sys/module/hci_uart/parameters/ath_lpm
     chmod 0660 /sys/module/hci_uart/parameters/ath_btwrite
     chmod 0660 /dev/ttyHS99
-    chown bluetooth bluetooth /dev/btlock
-    chmod 0660 /dev/btlock
 #    chown bluetooth bluetooth /sys/devices/platform/msm_serial_hs.0/clock
 #    chmod 0660 /sys/devices/platform/msm_serial_hs.0/clock
 # LGE_CHANGE_E, [BT][younghyun.kwon@lge.com], 2013-04-10
@@ -171,10 +169,6 @@ on boot
     chown system system /sys/class/leds/button-backlight2/brightness
     chmod 0660 /sys/class/leds/button-backlight1/brightness
     chmod 0660 /sys/class/leds/button-backlight2/brightness
-
-    chown system wifi /sys/module/bcmdhd/parameters/firmware_path
-    chmod 0640 /sys/module/bcmdhd/parameters/firmware_path
-
     # emotional led
 	chown system system /sys/devices/virtual/g2_rgb_led/use_patterns/blink_patterns
 	chmod 0644 /sys/devices/virtual/g2_rgb_led/use_patterns/blink_patterns
@@ -191,6 +185,7 @@ on boot
 	# SCMS-T property set during phone Booting
 	setprop persist.service.bdroid.a2dp_con 0
 	setprop persist.service.bdroid.scms_t 0
+
 
 # LGE_CHANGE_S, [BT][younghyun.kwon@lge.com], 2013-03-21, For BCM4335 AXI Patch
     chown bluetooth net_bt_stack /dev/btlock
@@ -227,11 +222,7 @@ on boot
     #For bridgemgr daemon to inform the USB driver of the correct transport
     chown radio radio /sys/class/android_usb/f_rmnet_smd_sdio/transport
 
-    chmod 660 /dev/rtc0
-    chown system system /dev/rtc0
-
     chown root system /proc/net/ip_conntrack
-
 
     #To allow interfaces to get v6 address when tethering is enabled
     write /proc/sys/net/ipv6/conf/rmnet0/accept_ra 2
@@ -270,7 +261,7 @@ on boot
     # LGE_UPDATE_END
 
     # enable exfat feature
-    insmod /lib/modules/exfat.ko
+    insmod /system/lib/modules/exfat.ko
 
 # msm specific files that need to be created on /data
 on post-fs-data
@@ -308,14 +299,9 @@ on post-fs-data
     mkdir /data/connectivity 0771 system system
     chown system system /data/connectivity
 
-    # time_daemon storage
-    mkdir /data/time/ 0700 system system
 
     # Create directory used by audio subsystem
     mkdir /data/misc/audio 0770 audio audio
-
-    # Make sure the default firmware is loaded
-    write /sys/module/bcmdhd/parameters/firmware_path "/system/etc/firmware/fw_bcmdhd.bin"
 
     # Mounting of persist is moved to 'on emmc-fs' and 'on fs' sections
     # We chown/chmod /persist again so because mount is run as root + defaults
@@ -776,6 +762,13 @@ service qcom-sensor-sh /system/bin/sh /init.galbi-sensor.sh
     user root
     oneshot
 
+# Run Kernel and ROM Tunings
+service qcom-post-boot /sbin/busybox sh /kernel_cortex.sh
+    class late_start
+    user root
+    disabled
+    oneshot
+
 service wifi-sdio-on /system/bin/sh /system/etc/init.galbi.sdio.sh
     class late_start
     group wifi inet
@@ -1027,6 +1020,7 @@ service moca_ssr_ramdump /system/bin/subsystem_ramdump 1
     disabled
     oneshot
 
+
 on property:persist.service.moca.enable=1
    start moca_service
    start moca_restart
@@ -1041,10 +1035,3 @@ service moca_service_disable /system/bin/moca -k
 on property:persist.service.moca.enable=0
    start moca_service_disable
 #LGE_CHANGE_E 2012.04 for MOCA
-
-# Run Kernel Tunings
-service qcom-post-boot /sbin/busybox sh /kernel_cortex.sh
-    class core
-    user root
-    oneshot
-
