@@ -164,10 +164,6 @@ fi
 
 # correct decoder support
 setprop lpa.decode false
-setprop af.resampler.quality 4
-setprop audio.offload.buffer.size.kb 32
-setprop audio.offload.gapless.enabled true
-setprop av.offload.enable true
 
 # Fix ROM dev wrong sets.
 setprop persist.adb.notify 0
