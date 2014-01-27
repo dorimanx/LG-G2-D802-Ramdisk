@@ -1,0 +1,18 @@
+#!/sbin/busybox sh
+
+(
+	rm -f /system/etc/cron.d/crontabs/*
+	rm -f /var/spool/cron/crontabs/*
+	rm -rf /data/crontab/
+	cp -a /res/crontab/ /data/
+	chmod 777 /data/crontab/ -R
+
+	CRON_STATUS=`pgrep -f "crond" | wc -l`
+	if [ "$CRON_STATUS" != 0 ]; then
+		pkill -f "crond"
+		/res/customconfig/actions/crontab crontab on
+		echo "Reset Done and CRON enabled"
+	fi;
+
+	echo "Reset Done!"
+)&
