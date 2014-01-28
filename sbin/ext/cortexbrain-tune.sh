@@ -667,13 +667,13 @@ cortexbrain_background_process=1;
 
 if [ "$cortexbrain_background_process" -eq "1" ] && [ "$(pgrep -f "/sbin/ext/cortexbrain-tune.sh" | wc -l)" -eq "2" ]; then
 	(while true; do
-		while [ "$(cat /proc/sys/vm/vfs_cache_pressure)" != "60" ]; do
+		while [ "$(cat /sys/power/autosleep)" != "off" ]; do
 			sleep "2";
 		done;
 		# AWAKE State. all system ON
 		AWAKE_MODE;
 
-		while [ "$(cat /proc/sys/vm/vfs_cache_pressure)" != "20" ]; do
+		while [ "$(cat /sys/power/autosleep)" != "mem" ]; do
 			sleep "2";
 		done;
 		# SLEEP state. All system to power save
