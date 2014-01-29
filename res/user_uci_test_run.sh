@@ -19,7 +19,7 @@ ACTION_SCRIPTS=/res/customconfig/actions;
 source /res/customconfig/customconfig-helper;
 
 # Disable ROM CPU Controller
-mv /system/bin/mpdecision /system/bin/mpdecision.disabled
+#mv /system/bin/mpdecision /system/bin/mpdecision.disabled
 pkill -f "/system/bin/mpdecision";
 
 echo "1" > /sys/devices/system/cpu/cpu1/online;
@@ -35,10 +35,10 @@ apply_config;
 write_config;
 
 # Enable ROM CPU Controller
-if [ "$(pgrep -f "mpdecision" | wc -l)" -eq "0" ]; then
-	mv /system/bin/mpdecision.disabled /system/bin/mpdecision
-	/system/bin/mpdecision --no_sleep --avg_comp &
-fi;
+#if [ "$(pgrep -f "mpdecision" | wc -l)" -eq "0" ]; then
+#	mv /system/bin/mpdecision.disabled /system/bin/mpdecision
+#	/system/bin/mpdecision --no_sleep --avg_comp &
+#fi;
 
 # restore all the PUSH Button Actions back to there location
 mv /res/no-push-on-boot/* /res/customconfig/actions/push-actions/;

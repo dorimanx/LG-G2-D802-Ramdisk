@@ -84,7 +84,7 @@ echo "1" > /sys/kernel/fast_charge/force_fast_charge;
 chmod 444 /sys/kernel/fast_charge/force_fast_charge;
 
 # Disable ROM CPU controller
-mv /system/bin/mpdecision /system/bin/mpdecision.disabled
+#mv /system/bin/mpdecision /system/bin/mpdecision.disabled
 pkill -f "/system/bin/mpdecision";
 
 echo "1" > /sys/devices/system/cpu/cpu1/online;
@@ -187,7 +187,8 @@ echo 40 > /proc/sys/vm/dirty_ratio
 echo ondemand > /sys/devices/fdb00000.qcom,kgsl-3d0/kgsl/kgsl-3d0/pwrscale/trustzone/governor
 
 # set default readahead
-echo 512 > /sys/block/mmcblk0/bdi/read_ahead_kb
+echo 1024 > /sys/block/mmcblk0/bdi/read_ahead_kb
+echo 1024 > /sys/block/mmcblk0/queue/read_ahead_kb
 
 # make sure our max gpu clock is set via sysfs
 echo 450000000 > /sys/class/kgsl/kgsl-3d0/max_gpuclk
@@ -232,7 +233,7 @@ fi;
 
 # reset profiles auto trigger to be used by kernel ADMIN, in case of need, if new value added in default profiles
 # just set numer $RESET_MAGIC + 1 and profiles will be reset one time on next boot with new kernel.
-RESET_MAGIC=1;
+RESET_MAGIC=2;
 if [ ! -e /data/.dori/reset_profiles ]; then
 	echo "0" > /data/.dori/reset_profiles;
 fi;
@@ -348,10 +349,10 @@ echo "$cpu_boot_boost_freq" > /sys/devices/system/cpu/cpu3/cpufreq/scaling_max_f
 	echo "$cpu_max_freq" > /sys/devices/system/cpu/cpu3/cpufreq/scaling_max_freq;
 
         # Enable ROM CPU Controller
-	if [ "$(pgrep -f "mpdecision" | wc -l)" -eq "0" ]; then
-		mv /system/bin/mpdecision.disabled /system/bin/mpdecision
-		/system/bin/mpdecision --no_sleep --avg_comp &
-	fi;
+#	if [ "$(pgrep -f "mpdecision" | wc -l)" -eq "0" ]; then
+#		mv /system/bin/mpdecision.disabled /system/bin/mpdecision
+#		/system/bin/mpdecision --no_sleep --avg_comp &
+#	fi;
 
 	# Cortex parent should be ROOT/INIT and not STweaks
 	nohup /sbin/ext/cortexbrain-tune.sh;

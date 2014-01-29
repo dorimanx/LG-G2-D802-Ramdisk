@@ -71,6 +71,7 @@ IO_TWEAKS()
 		# our storage is 16/32GB, best is 1024KB readahead
 		# see https://github.com/Keff/samsung-kernel-msm7x30/commit/a53f8445ff8d947bd11a214ab42340cc6d998600#L1R627
 		echo "$cortexbrain_read_ahead_kb" > /sys/block/mmcblk0/queue/read_ahead_kb;
+		echo "$cortexbrain_read_ahead_kb" > /sys/block/mmcblk0/bdi/read_ahead_kb;
 
 		echo "45" > /proc/sys/fs/lease-break-time;
 
@@ -353,7 +354,7 @@ ALL_CORES_ON()
 {
 	local state="$1";
 	if [ "$state" == "on" ]; then
-		mv /system/bin/mpdecision /system/bin/mpdecision.disabled;
+#		mv /system/bin/mpdecision /system/bin/mpdecision.disabled;
 		pkill -f "/system/bin/mpdecision";
 		echo "1" > /sys/devices/system/cpu/cpu1/online;
 		echo "1" > /sys/devices/system/cpu/cpu2/online;
@@ -363,10 +364,11 @@ ALL_CORES_ON()
 		echo "0" > /sys/devices/system/cpu/cpu2/online;
 		echo "0" > /sys/devices/system/cpu/cpu3/online;
 	elif [ "$state" == "auto" ]; then
-		if [ "$(pgrep -f "mpdecision" | wc -l)" -eq "0" ]; then
-			mv /system/bin/mpdecision.disabled /system/bin/mpdecision;
-			/system/bin/mpdecision --no_sleep --avg_comp &
-                fi;
+#		if [ "$(pgrep -f "mpdecision" | wc -l)" -eq "0" ]; then
+#			mv /system/bin/mpdecision.disabled /system/bin/mpdecision;
+#			/system/bin/mpdecision --no_sleep --avg_comp &
+#               fi;
+		echo "inteli is active";
 	fi;
 }
 

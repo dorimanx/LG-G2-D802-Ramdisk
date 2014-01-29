@@ -160,8 +160,7 @@
 
 	<settingsPane description="Here you can tune IO settings managed by Kernel" name="IO Tuning">
 
-		<spinner description="Maximum number of kilobytes to read-ahead for EXTERNAL SDCARD! file systems on this device. Best to leave it AUTO, then script will detect your external sdcard size and set the best value for it! the INTERNAL sdcard will get 1024kB as default and best for 16GB storage, Works only if IO-Tweaks tweak is enabled! (Default: 128 kB) !!! Depends on CortexBrain-Background-Process !!!" name="kilobytes to read-ahead" action="generic_cortex /tmp/cortexbrain_read_ahead_kb">
-			<spinnerItem name="AUTO" value="0"/> 
+		<spinner description="Maximum number of kilobytes to read-ahead for SDCARD! Best to leave it 1024KB, then script will detect your sdcard size and set the best value for it! default is 1024kB, works only if IO-Tweaks tweak is enabled! (Default: 128 kB) !!! Depends on CortexBrain-Background-Process !!!" name="kilobytes to read-ahead" action="generic_cortex /tmp/cortexbrain_read_ahead_kb">
 			<spinnerItem name="128 kB" value="128"/> 
 			<spinnerItem name="256 kB" value="256"/> 
 			<spinnerItem name="512 kB" value="512"/> 
