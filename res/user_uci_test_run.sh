@@ -20,7 +20,7 @@ source /res/customconfig/customconfig-helper;
 
 # Disable ROM CPU Controller
 #mv /system/bin/mpdecision /system/bin/mpdecision.disabled
-pkill -f "/system/bin/mpdecision";
+#pkill -f "/system/bin/mpdecision";
 
 echo "1" > /sys/devices/system/cpu/cpu1/online;
 echo "1" > /sys/devices/system/cpu/cpu2/online;
