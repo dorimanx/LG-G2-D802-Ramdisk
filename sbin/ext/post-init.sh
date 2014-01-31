@@ -148,34 +148,11 @@ if [ "$soc_revision" != "1.0" ]; then
 #        echo 0 > /sys/module/pm_8x60/modes/cpu3/retention/idle_enabled
 fi
 
-# Tweak the sampling rates and load thresholds
-echo 10000 > /sys/devices/system/cpu/cpufreq/ondemand/sampling_rate
-echo 70 > /sys/devices/system/cpu/cpufreq/ondemand/up_threshold
-echo 70 > /sys/devices/system/cpu/cpufreq/ondemand/up_threshold_any_cpu_load
-echo 70 > /sys/devices/system/cpu/cpufreq/ondemand/up_threshold_multi_core
-echo 20 > /sys/devices/system/cpu/cpufreq/ondemand/down_differential
-echo 5 > /sys/devices/system/cpu/cpufreq/ondemand/sampling_down_factor
-
-# tweak some other settings
-echo 0 > /sys/devices/system/cpu/cpufreq/ondemand/io_is_busy
-echo 0 > /sys/devices/system/cpu/cpufreq/ondemand/powersave_bias
-
-# set sync frequencies
-echo 729600 > /sys/devices/system/cpu/cpufreq/ondemand/optimal_freq
-echo 729600 > /sys/devices/system/cpu/cpufreq/ondemand/sync_freq
-echo 0 > /sys/devices/system/cpu/cpufreq/ondemand/optimal_max_freq
-
 # set minimum frequencies
 echo 300000 > /sys/devices/system/cpu/cpu0/cpufreq/scaling_min_freq
 #echo 300000 > /sys/devices/system/cpu/cpu1/cpufreq/scaling_min_freq
 #echo 300000 > /sys/devices/system/cpu/cpu2/cpufreq/scaling_min_freq
 #echo 300000 > /sys/devices/system/cpu/cpu3/cpufreq/scaling_min_freq
-
-# set grid steps
-echo 7 > /sys/devices/system/cpu/cpufreq/ondemand/middle_grid_step
-echo 40 > /sys/devices/system/cpu/cpufreq/ondemand/middle_grid_load
-echo 14 > /sys/devices/system/cpu/cpufreq/ondemand/high_grid_step
-echo 50 > /sys/devices/system/cpu/cpufreq/ondemand/high_grid_load
 
 echo 0 > /sys/module/msm_thermal/core_control/enabled
 echo 1 > /dev/cpuctl/apps/cpu.notify_on_migrate
