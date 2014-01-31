@@ -110,6 +110,7 @@ chown root.system /sys/devices/system/cpu/cpu3/online
 chmod 666 /sys/devices/system/cpu/cpu1/online
 chmod 666 /sys/devices/system/cpu/cpu2/online
 chmod 666 /sys/devices/system/cpu/cpu3/online
+chmod 666 /sys/module/intelli_plug/parameters/*
 
 chown -R root:root /data/property;
 chmod -R 0700 /data/property
