@@ -150,20 +150,20 @@ fi
 
 # Tweak the sampling rates and load thresholds
 echo 10000 > /sys/devices/system/cpu/cpufreq/ondemand/sampling_rate
-echo 50 > /sys/devices/system/cpu/cpufreq/ondemand/up_threshold
-echo 50 > /sys/devices/system/cpu/cpufreq/ondemand/up_threshold_any_cpu_load
-echo 50 > /sys/devices/system/cpu/cpufreq/ondemand/up_threshold_multi_core
-echo 10 > /sys/devices/system/cpu/cpufreq/ondemand/down_differential
-echo 4 > /sys/devices/system/cpu/cpufreq/ondemand/sampling_down_factor
+echo 70 > /sys/devices/system/cpu/cpufreq/ondemand/up_threshold
+echo 70 > /sys/devices/system/cpu/cpufreq/ondemand/up_threshold_any_cpu_load
+echo 70 > /sys/devices/system/cpu/cpufreq/ondemand/up_threshold_multi_core
+echo 20 > /sys/devices/system/cpu/cpufreq/ondemand/down_differential
+echo 5 > /sys/devices/system/cpu/cpufreq/ondemand/sampling_down_factor
 
 # tweak some other settings
 echo 0 > /sys/devices/system/cpu/cpufreq/ondemand/io_is_busy
 echo 0 > /sys/devices/system/cpu/cpufreq/ondemand/powersave_bias
 
 # set sync frequencies
-echo 960000 > /sys/devices/system/cpu/cpufreq/ondemand/optimal_freq
-echo 960000 > /sys/devices/system/cpu/cpufreq/ondemand/sync_freq
-echo 960000 > /sys/devices/system/cpu/cpufreq/ondemand/optimal_max_freq
+echo 729600 > /sys/devices/system/cpu/cpufreq/ondemand/optimal_freq
+echo 729600 > /sys/devices/system/cpu/cpufreq/ondemand/sync_freq
+echo 0 > /sys/devices/system/cpu/cpufreq/ondemand/optimal_max_freq
 
 # set minimum frequencies
 echo 300000 > /sys/devices/system/cpu/cpu0/cpufreq/scaling_min_freq
