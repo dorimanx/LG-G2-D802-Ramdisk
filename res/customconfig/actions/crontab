@@ -19,7 +19,6 @@ if [ "a$2" != "a" ]; then
 				# setting my jobs with corrected timezone for all world.
 				/res/crontab_service/dm_job.sh "3:00" "/sbin/busybox sh /data/crontab/cron-scripts/database_optimizing.sh"
 				/res/crontab_service/dm_job.sh "4:00" "/sbin/busybox sh /data/crontab/cron-scripts/clear-file-cache.sh"
-				/res/crontab_service/dm_job.sh "4:40" "/sbin/busybox sh /data/crontab/cron-scripts/fix-perm.sh"
 				/res/crontab_service/dm_job.sh "4:50" "/sbin/busybox sh /data/crontab/cron-scripts/zipalign.sh"
 			fi;
 		;;

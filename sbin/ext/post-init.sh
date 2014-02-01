@@ -14,11 +14,6 @@ OPEN_RW()
 }
 OPEN_RW;
 
-# fix perms
-chmod -R 755 /res/
-chmod -R 755 /sbin/
-chmod 6755 /sbin/busybox
-
 # clean old modules from /system and add new from ramdisk
 if [ ! -d /system/lib/modules ]; then
         $BB mkdir /system/lib/modules;
@@ -62,48 +57,43 @@ $BB rm -rf /data/tombstones/* 2> /dev/null;
 $BB rm -rf /data/anr/* 2> /dev/null;
 
 # critical Permissions fix
-$BB chown -R root:system /sys/devices/system/cpu/;
 $BB chown -R system:system /data/anr;
-$BB chown -R root:radio /data/property/;
+$BB chown -R root:root /tmp;
+$BB chown -R root:root /res;
+$BB chown -R root:root /sbin;
+$BB chown -R root:root /lib;
 $BB chmod -R 777 /tmp/;
 $BB chmod -R 6755 /sbin/ext/;
-$BB chmod -R 0777 /dev/cpuctl/;
-$BB chmod -R 0777 /data/system/inputmethod/;
-$BB chmod -R 0777 /sys/devices/system/cpu/;
 $BB chmod -R 0777 /data/anr/;
-$BB chmod 0744 /proc/cmdline;
-$BB chmod -R 0770 /data/property/;
 $BB chmod -R 0400 /data/tombstones;
+$BB chmod 6755 /sbin/busybox
 
 # oom and mem perm fix
 chmod 666 /sys/module/lowmemorykiller/parameters/cost;
 chmod 666 /sys/module/lowmemorykiller/parameters/adj;
+chmod 666 /sys/module/lowmemorykiller/parameters/minfree
 
 # enable force fast charge on USB to charge faster
 echo "1" > /sys/kernel/fast_charge/force_fast_charge;
-chmod 444 /sys/kernel/fast_charge/force_fast_charge;
+
+# set ondemand as default gov
+echo "ondemand" > /sys/devices/system/cpu/cpu0/cpufreq/scaling_governor;
+
+CPU_GOV_TUNE()
+{
+	# reset ondemand settings from kernel code.
+	echo "performance" > /sys/devices/system/cpu/cpu0/cpufreq/scaling_governor;
+	sleep 2;
+	echo "ondemand" > /sys/devices/system/cpu/cpu0/cpufreq/scaling_governor;
+}
 
 # Disable ROM CPU controller
 #mv /system/bin/mpdecision /system/bin/mpdecision.disabled
 #pkill -f "/system/bin/mpdecision";
 
-echo "1" > /sys/devices/system/cpu/cpu1/online;
-echo "1" > /sys/devices/system/cpu/cpu2/online;
-echo "1" > /sys/devices/system/cpu/cpu3/online;
-
 # make sure we own the device nodes
-chown system /sys/devices/system/cpu/cpufreq/ondemand/sampling_rate
-chown system /sys/devices/system/cpu/cpufreq/ondemand/sampling_down_factor
-chown system /sys/devices/system/cpu/cpufreq/ondemand/io_is_busy
-chown system /sys/devices/system/cpu/cpufreq/ondemand/powersave_bias
-chown system /sys/devices/system/cpu/cpu0/cpufreq/scaling_max_freq
-chown system /sys/devices/system/cpu/cpu0/cpufreq/scaling_min_freq
-#chown system /sys/devices/system/cpu/cpu1/cpufreq/scaling_max_freq
-#chown system /sys/devices/system/cpu/cpu1/cpufreq/scaling_min_freq
-#chown system /sys/devices/system/cpu/cpu2/cpufreq/scaling_max_freq
-#chown system /sys/devices/system/cpu/cpu2/cpufreq/scaling_min_freq
-#chown system /sys/devices/system/cpu/cpu3/cpufreq/scaling_max_freq
-#chown system /sys/devices/system/cpu/cpu3/cpufreq/scaling_min_freq
+chown system /sys/devices/system/cpu/cpufreq/ondemand/*
+chown system /sys/devices/system/cpu/cpu0/cpufreq/*
 chown root.system /sys/devices/system/cpu/cpu1/online
 chown root.system /sys/devices/system/cpu/cpu2/online
 chown root.system /sys/devices/system/cpu/cpu3/online
@@ -111,6 +101,10 @@ chmod 666 /sys/devices/system/cpu/cpu1/online
 chmod 666 /sys/devices/system/cpu/cpu2/online
 chmod 666 /sys/devices/system/cpu/cpu3/online
 chmod 666 /sys/module/intelli_plug/parameters/*
+
+echo "1" > /sys/devices/system/cpu/cpu1/online;
+echo "1" > /sys/devices/system/cpu/cpu2/online;
+echo "1" > /sys/devices/system/cpu/cpu3/online;
 
 chown -R root:root /data/property;
 chmod -R 0700 /data/property
@@ -127,7 +121,7 @@ fi;
 
 # wifi mac load fix
 chown system.wifi /dev/block/mmcblk0p13
-chmod 0660 /dev/block/mmcblk0p13
+chmod 0666 /dev/block/mmcblk0p13
 
 # CPU tuning
 echo 2 > /sys/module/lpm_resources/enable_low_power/l2
@@ -143,16 +137,13 @@ echo 1 > /sys/module/pm_8x60/modes/cpu0/power_collapse/idle_enabled
 soc_revision=$(cat /sys/devices/soc0/revision)
 if [ "$soc_revision" != "1.0" ]; then
         echo 0 > /sys/module/pm_8x60/modes/cpu0/retention/idle_enabled
-#        echo 0 > /sys/module/pm_8x60/modes/cpu1/retention/idle_enabled
-#        echo 0 > /sys/module/pm_8x60/modes/cpu2/retention/idle_enabled
-#        echo 0 > /sys/module/pm_8x60/modes/cpu3/retention/idle_enabled
+        echo 0 > /sys/module/pm_8x60/modes/cpu1/retention/idle_enabled
+        echo 0 > /sys/module/pm_8x60/modes/cpu2/retention/idle_enabled
+        echo 0 > /sys/module/pm_8x60/modes/cpu3/retention/idle_enabled
 fi
 
 # set minimum frequencies
 echo 300000 > /sys/devices/system/cpu/cpu0/cpufreq/scaling_min_freq
-#echo 300000 > /sys/devices/system/cpu/cpu1/cpufreq/scaling_min_freq
-#echo 300000 > /sys/devices/system/cpu/cpu2/cpufreq/scaling_min_freq
-#echo 300000 > /sys/devices/system/cpu/cpu3/cpufreq/scaling_min_freq
 
 echo 0 > /sys/module/msm_thermal/core_control/enabled
 echo 1 > /dev/cpuctl/apps/cpu.notify_on_migrate
@@ -184,12 +175,6 @@ setprop persist.adb.notify 0
 setprop persist.service.adb.enable 1
 setprop dalvik.vm.execution-mode int:jit
 setprop pm.sleep_mode 1
-
-# fix owners on critical folders
-$BB chown -R root:root /tmp;
-$BB chown -R root:root /res;
-$BB chown -R root:root /sbin;
-$BB chown -R root:root /lib;
 
 PIDOFINIT=$(pgrep -f "/sbin/ext/post-init.sh");
 for i in $PIDOFINIT; do
@@ -230,8 +215,17 @@ $BB chmod -R 0777 /data/.dori/;
 read_defaults;
 read_config;
 
-# Apps and ROOT Install
-$BB sh /sbin/ext/install.sh;
+(
+	# Apps and ROOT Install
+	$BB sh /sbin/ext/install.sh;
+
+	# ROOT activation if supersu used
+	if [ -e /system/app/SuperSU.apk ] && [ -e /system/xbin/daemonsu ]; then
+		if [ "$(pgrep -f "daemonsu" | wc -l)" -eq "0" ]; then
+			/system/xbin/daemonsu --auto-daemon &
+		fi;
+	fi;
+)&
 
 # busybox addons
 if [ -e /system/xbin/busybox ] && [ ! -e /sbin/ifconfig ]; then
@@ -274,10 +268,10 @@ OPEN_RW;
 
 (
 	COUNTER=0;
-	echo "0" > /tmp/uci_done;
-	$BB chmod 666 /tmp/uci_done;
+	echo "0" > /data/uci_done;
+	$BB chmod 666 /data/uci_done;
 
-	while [ "$(cat /tmp/uci_done)" != "1" ]; do
+	while [ "$(cat /data/uci_done)" != "1" ]; do
 		if [ "$COUNTER" -ge "40" ]; then
 			break;
 		fi;
@@ -288,7 +282,7 @@ OPEN_RW;
 		# max 2min
 	done;
 
-        # Enable ROM CPU Controller
+	# Enable ROM CPU Controller
 #	if [ "$(pgrep -f "mpdecision" | wc -l)" -eq "0" ]; then
 #		mv /system/bin/mpdecision.disabled /system/bin/mpdecision
 #		/system/bin/mpdecision --no_sleep --avg_comp &
@@ -299,6 +293,15 @@ OPEN_RW;
 	CORTEX=$(pgrep -f "/sbin/ext/cortexbrain-tune.sh");
 	echo "-900" > /proc/"$CORTEX"/oom_score_adj;
 
+	# Start any init.d scripts that may be present in the rom or added by the user
+	if [ "$init_d" == "on" ]; then
+		chmod 755 /system/etc/init.d/*;
+		$BB run-parts /system/etc/init.d/;
+	fi;
+
+	# No need to mess my kernel cpu gov tuning, so reset to kernel value at least on boot
+	CPU_GOV_TUNE;
+
 	# script finish here, so let me know when
 	TIME_NOW=$(date)
 	echo "$TIME_NOW" > /data/boot_log_dm
@@ -306,7 +309,7 @@ OPEN_RW;
 
 (
 	# stop uci.sh from running all the PUSH Buttons in stweaks on boot
-	$BB mount -o remount,rw /;
+	OPEN_RW;
 	$BB chown -R root:system /res/customconfig/actions/;
 	$BB chmod -R 6755 /res/customconfig/actions/;
 	$BB mv /res/customconfig/actions/push-actions/* /res/no-push-on-boot/;
@@ -319,8 +322,8 @@ OPEN_RW;
 	nohup $BB sh /res/uci.sh restore;
 	UCI_PID=$(pgrep -f "/res/uci.sh");
 	echo "-800" > /proc/"$UCI_PID"/oom_score_adj;
-	OPEN_RW;
-	echo "1" > /tmp/uci_done;
+
+	echo "1" > /data/uci_done;
 
 	# restore all the PUSH Button Actions back to there location
 	$BB mv /res/no-push-on-boot/* /res/customconfig/actions/push-actions/;
@@ -334,19 +337,3 @@ OPEN_RW;
 	$BB sh /res/uci.sh oom_config_screen_off "$oom_config_screen_off";
 )&
 
-(
-	# ROOT activation if supersu used
-	if [ -e /system/app/SuperSU.apk ] && [ -e /system/xbin/daemonsu ]; then
-		if [ "$(pgrep -f "daemonsu" | wc -l)" -eq "0" ]; then
-			/system/xbin/daemonsu --auto-daemon &
-		fi;
-	fi;
-)&
-
-(
-	# Start any init.d scripts that may be present in the rom or added by the user
-	if [ "$init_d" == "on" ]; then
-		chmod 755 /system/etc/init.d/*;
-		$BB run-parts /system/etc/init.d/;
-	fi;
-)&

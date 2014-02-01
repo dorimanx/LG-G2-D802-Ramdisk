@@ -11,7 +11,6 @@ cron_drop_cache=off
 ad_block_update=off
 cron_db_optimizing=off
 cron_clear_app_cache=off
-cron_fix_permissions=off
 cron_zipalign=off
 gpsregion=No_GPS_Zone_changes
 init_d=off

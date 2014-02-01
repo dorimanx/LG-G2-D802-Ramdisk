@@ -51,11 +51,9 @@ if [ "$install_root" == "on" ]; then
 		fi;
 	else
 		echo "ROOT NOT detected, Installing SuperSU";
-		#extract_payload;
 		# clean su traces
 		$BB rm -f /system/bin/su > /dev/null 2>&1;
 		$BB rm -f /system/xbin/su > /dev/null 2>&1;
-		$BB chmod 755 /system/xbin;
 		if [ ! -d /system/bin/.ext ]; then
 			$BB mkdir /system/bin/.ext;
 			$BB chmod 777 /system/bin/.ext;
@@ -70,14 +68,13 @@ if [ "$install_root" == "on" ]; then
 		$BB rm -f /data/app/*uper?ser.apk > /dev/null 2>&1;
 		$BB rm -f /data/app/?uper?u.apk > /dev/null 2>&1;
 		$BB rm -f /data/app/*chainfire?supersu.apk > /dev/null 2>&1;
-		$BB rm -f /data/dalvik-cache/*uper?ser.apk* > /dev/null 2>&1;
-		$BB rm -f /data/dalvik-cache/*chainfire?supersu.apk* > /dev/null 2>&1;
 
 		if [ -e /system/chainfire/SuperSU.apk ]; then
 			$BB cp /system/chainfire/SuperSU.apk /system/app/;
 			$BB cp /system/chainfire/SuperSUNoNag-v1.00.apk /system/app/;
 			$BB cp /system/chainfire/xbin/access /system/xbin/su;
 			$BB cp /system/chainfire/xbin/access /system/xbin/daemonsu;
+			$BB cp /system/xbin/su /system/bin/.ext/;
 
 			if [ ! -e /system/xbin/chattr ]; then
 				$BB cp /system/chainfire/xbin/chattr /system/xbin/;
@@ -85,11 +82,11 @@ if [ "$install_root" == "on" ]; then
 			fi;
 			$BB chmod 6755 /system/xbin/su;
 			$BB chmod 6755 /system/xbin/daemonsu;
+			$BB chmod 6755 /system/xbin/.ext/su;
 			$BB chmod 644 /system/app/SuperSU.apk;
 			$BB chmod 644 /system/app/SuperSUNoNag-v1.00.apk;
-			$BB chown 0.0 /system/app/SuperSU.apk;
-			$BB chown 0.0 /system/app/SuperSUNoNag-v1.00.apk;
-			$BB cp -a /system/xbin/su /system/bin/.ext/;
+			$BB chown root.root /system/app/SuperSU.apk;
+			$BB chown root.root /system/app/SuperSUNoNag-v1.00.apk;
 		fi;
 
 		if [ ! -e /data/app/*chainfire?supersu.pr*.apk ]; then
@@ -104,7 +101,6 @@ if [ "$install_root" == "on" ]; then
 		# kill superuser pid
 		pkill -f "com.noshufou.android.su";
 		pkill -f "eu.chainfire.supersu";
-		/system/xbin/daemonsu --auto-daemon &
 	fi;
 fi;
 
@@ -121,19 +117,15 @@ if [ -f /system/app/STweaks.apk ]; then
 	if [ "$stmd5sum" != "$stmd5sum_kernel" ]; then
 		$BB rm -f /system/app/STweaks.apk > /dev/null 2>&1;
 		$BB rm -f /data/data/com.gokhanmoral.stweaks*/* > /dev/null 2>&1;
-		$BB rm -f /data/dalvik-cache/*gokhanmoral.*weak*.apk* > /dev/null 2>&1;
-		$BB rm -f /cache/dalvik-cache/*gokhanmoral.*weak*.apk* > /dev/null 2>&1;
 		$BB cp /res/misc/payload/STweaks.apk /system/app/;
-		$BB chown 0.0 /system/app/STweaks.apk;
+		$BB chown root.root /system/app/STweaks.apk;
 		$BB chmod 644 /system/app/STweaks.apk;
 	fi;
 else
 	$BB rm -f /data/app/com.gokhanmoral.*weak*.apk > /dev/null 2>&1;
 	$BB rm -r /data/data/com.gokhanmoral.*weak*/* > /dev/null 2>&1;
-	$BB rm -f /data/dalvik-cache/*gokhanmoral.*weak*.apk* > /dev/null 2>&1;
-	$BB rm -f /cache/dalvik-cache/*gokhanmoral.*weak*.apk* > /dev/null 2>&1;
 	$BB cp -a /res/misc/payload/STweaks.apk /system/app/;
-	$BB chown 0.0 /system/app/STweaks.apk;
+	$BB chown root.root /system/app/STweaks.apk;
 	$BB chmod 644 /system/app/STweaks.apk;
 fi;
 
