@@ -56,17 +56,22 @@ $BB rm -rf /data/lost+found/* 2> /dev/null;
 $BB rm -rf /data/tombstones/* 2> /dev/null;
 $BB rm -rf /data/anr/* 2> /dev/null;
 
-# critical Permissions fix
-$BB chown -R system:system /data/anr;
-$BB chown -R root:root /tmp;
-$BB chown -R root:root /res;
-$BB chown -R root:root /sbin;
-$BB chown -R root:root /lib;
-$BB chmod -R 777 /tmp/;
-$BB chmod -R 6755 /sbin/ext/;
-$BB chmod -R 0777 /data/anr/;
-$BB chmod -R 0400 /data/tombstones;
-$BB chmod 6755 /sbin/busybox
+CRITICAL_PERM_FIX()
+{
+	# critical Permissions fix
+	$BB chown -R system:system /data/anr;
+	$BB chown -R root:root /tmp;
+	$BB chown -R root:root /res;
+	$BB chown -R root:root /sbin;
+	$BB chown -R root:root /lib;
+	$BB chmod -R 777 /tmp/;
+	$BB chmod -R 775 /res/;
+	$BB chmod -R 6755 /sbin/ext/;
+	$BB chmod -R 0777 /data/anr/;
+	$BB chmod -R 0400 /data/tombstones;
+	$BB chmod 6755 /sbin/busybox
+}
+CRITICAL_PERM_FIX;
 
 # oom and mem perm fix
 chmod 666 /sys/module/lowmemorykiller/parameters/cost;
@@ -301,6 +306,9 @@ OPEN_RW;
 
 	# No need to mess my kernel cpu gov tuning, so reset to kernel value at least on boot
 	CPU_GOV_TUNE;
+
+	# Fix critical perms again after init.d mess
+	CRITICAL_PERM_FIX;
 
 	# script finish here, so let me know when
 	TIME_NOW=$(date)
