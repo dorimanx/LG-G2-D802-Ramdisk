@@ -74,7 +74,6 @@
 /dev/jpeg0                0660   system     camera
 /dev/jpeg1                0660   system     camera
 /dev/jpeg2                0660   system     camera
-/dev/msm_camera/*         0660   system     camera
 /dev/gemini/              0660   system     camera
 /dev/mercury0             0660   system     camera
 /dev/msm_vidc_reg         0660   system     audio
@@ -132,11 +131,8 @@
 /dev/broadcast0           0660  media        media
 
 # LGE_BROADCAST_ONESEG {
-/dev/broadcast*           0660  system      system
 /dev/broadcast_chkdev0    0660  system      system
-/dev/isdbt*               0660  system      system
 /dev/dvb/adapter0/demux0  0660  system      system
-/dev/dvb/adapter0/*       0660  system      system
 /dev/i2c-86               0660  system      system
 # LGE_BROADCAST_ONESEG }
 
@@ -175,3 +171,13 @@
 /dev/tspdrv               0666   root       root
 # End Immersion changes
 /dev/lge_ddm_tty0         0660   system     system
+
+/dev/ttyHS99              0600   bluetooth  bluetooth
+/dev/block/mmcblk0p13     0660   system     system
+/dev/btlock               0660   bluetooth  bluetooth
+/dev/rfkill               0660   wifi       wifi
+
+/dev/msm_camera/*         0660   system     camera
+/dev/broadcast*           0660  system      system
+/dev/isdbt*               0660  system      system
+/dev/dvb/adapter0/*       0660  system      system

@@ -124,10 +124,6 @@ fi;
 #       echo "0" > "$no_debug";
 #done;
 
-# wifi mac load fix
-chown system.wifi /dev/block/mmcblk0p13
-chmod 0666 /dev/block/mmcblk0p13
-
 # CPU tuning
 echo 2 > /sys/module/lpm_resources/enable_low_power/l2
 echo 1 > /sys/module/lpm_resources/enable_low_power/pxo
