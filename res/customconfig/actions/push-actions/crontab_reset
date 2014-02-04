@@ -1,7 +1,6 @@
 #!/sbin/busybox sh
 
 (
-	rm -f /system/etc/cron.d/crontabs/*
 	rm -f /var/spool/cron/crontabs/*
 	rm -rf /data/crontab/
 	cp -a /res/crontab/ /data/

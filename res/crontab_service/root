@@ -1,4 +1,4 @@
-# This file is at /system/etc/cron.d/crontabs/root
+# This file is at /var/spool/cron/crontabs/root
 #field          allowed values
 #-----          --------------
 #minute         0-59
