@@ -1,5 +1,17 @@
 <settingsRoot>
 
+<settingsTab name="CPU">
+
+	<settingsPane description="Here you can tune CPU functions in kernel" name="CPU Tuning">
+
+		<checkbox description="CPU Thermal control, can be ON or OFF, if ON its will limit CPU frequency when CPU reach the max limit heat, till cooled and restore full power, this can help with too hot phone playing games!" name="CPU Temp Control" action="generic01 /sys/module/msm_thermal/parameters/enable" label="Inteli Thermal Control"/>
+
+		<seekBar description="Here you can change CPU max HEAT before throttled down to cool and keep normal phone heat" name="CPU Max Heat" action="generic /sys/module/msm_thermal/parameters/limit_temp_degC" unit="C" min="50" reversed="false" step="5" max="85"/>
+
+	</settingsPane>
+
+</settingsTab>
+
 <settingsTab name="IO">
 
 	<settingsPane description="Here you can tune IO settings managed by Kernel" name="IO Tuning">

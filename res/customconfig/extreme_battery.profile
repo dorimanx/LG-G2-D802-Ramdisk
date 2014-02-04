@@ -1,3 +1,5 @@
+enable=on
+limit_temp_degC=70
 cortexbrain_read_ahead_kb=512
 scheduler=row
 sleep_scheduler=row

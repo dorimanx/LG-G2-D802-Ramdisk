@@ -146,7 +146,9 @@ fi
 # set minimum frequencies
 echo 300000 > /sys/devices/system/cpu/cpu0/cpufreq/scaling_min_freq
 
+# Cpu Temp limit core
 echo 0 > /sys/module/msm_thermal/core_control/enabled
+echo 1 > /sys/module/msm_thermal/parameters/enabled
 echo 1 > /dev/cpuctl/apps/cpu.notify_on_migrate
 
 # Tweak some VM settings for system smoothness
@@ -193,7 +195,7 @@ fi;
 
 # reset profiles auto trigger to be used by kernel ADMIN, in case of need, if new value added in default profiles
 # just set numer $RESET_MAGIC + 1 and profiles will be reset one time on next boot with new kernel.
-RESET_MAGIC=3;
+RESET_MAGIC=4;
 if [ ! -e /data/.dori/reset_profiles ]; then
 	echo "0" > /data/.dori/reset_profiles;
 fi;
