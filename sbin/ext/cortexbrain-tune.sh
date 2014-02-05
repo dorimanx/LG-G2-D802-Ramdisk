@@ -25,9 +25,6 @@ FILE_NAME=$0;
 PIDOFCORTEX=$$;
 # (since we don't have the recovery source code I can't change the ".dori" dir, so just leave it there for history)
 DATA_DIR=/data/.dori;
-WAS_IN_SLEEP_MODE=1;
-NOW_CALL_STATE=0;
-TELE_DATA=init;
 
 # ==============================================================
 # INITIATE
@@ -36,13 +33,6 @@ TELE_DATA=init;
 # get values from profile
 PROFILE=$(cat $DATA_DIR/.active.profile);
 . "$DATA_DIR"/"$PROFILE".profile;
-
-# check if dumpsys exist in ROM
-if [ -e /system/bin/dumpsys ]; then
-	DUMPSYS_STATE=1;
-else
-	DUMPSYS_STATE=0;
-fi;
 
 # ==============================================================
 # I/O-TWEAKS
@@ -337,15 +327,12 @@ IO_SCHEDULER()
 # ==============================================================
 AWAKE_MODE()
 {
-	# not on call, check if was powerd by USB on sleep, or didnt sleep at all
-	if [ "$WAS_IN_SLEEP_MODE" -eq "1" ]; then
-		NET "awake";
-		IO_SCHEDULER "awake";
-		(
-			sleep 2;
-			IPV6;
-		)&
-	fi;
+	NET "awake";
+	IO_SCHEDULER "awake";
+	(
+		sleep 2;
+		IPV6;
+	)&
 	log -p i -t "$FILE_NAME" "*** AWAKE_MODE - WAKEUP ***: done";
 }
 
@@ -354,40 +341,16 @@ AWAKE_MODE()
 # ==============================================================
 SLEEP_MODE()
 {
-	WAS_IN_SLEEP_MODE=0;
-
 	# we only read the config when the screen turns off ...
 	PROFILE=$(cat "$DATA_DIR"/.active.profile);
 	. "$DATA_DIR"/"$PROFILE".profile;
 
-	# we only read tele-data when the screen turns off ...
-	if [ "$DUMPSYS_STATE" -eq "1" ]; then
-		TELE_DATA=$(dumpsys telephony.registry);
-	fi;
+	CROND_SAFETY;
+	IO_SCHEDULER "sleep";
+	NET "sleep";
+	IPV6;
 
-	# Check call state
-	CALL_STATE;
-
-	# check if we on call
-	if [ "$NOW_CALL_STATE" -eq "0" ]; then
-		WAS_IN_SLEEP_MODE=1;
-		CROND_SAFETY;
-		IO_SCHEDULER "sleep";
-		NET "sleep";
-		IPV6;
-
-		log -p i -t "$FILE_NAME" "*** SLEEP mode ***";
-	else
-		# Check if on call
-		if [ "$NOW_CALL_STATE" -eq "1" ]; then
-			NOW_CALL_STATE=1;
-
-			log -p i -t "$FILE_NAME" "*** on call: SLEEP aborted! ***";
-		else
-			# Early Wakeup detected
-			log -p i -t "$FILE_NAME" "*** early wake up: SLEEP aborted! ***";
-		fi;
-	fi;
+	log -p i -t "$FILE_NAME" "*** SLEEP mode ***";
 }
 
 # ==============================================================
