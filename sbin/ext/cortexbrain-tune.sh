@@ -341,6 +341,10 @@ AWAKE_MODE()
 	if [ "$WAS_IN_SLEEP_MODE" -eq "1" ]; then
 		NET "awake";
 		IO_SCHEDULER "awake";
+		(
+			sleep 2;
+			IPV6;
+		)&
 	fi;
 	log -p i -t "$FILE_NAME" "*** AWAKE_MODE - WAKEUP ***: done";
 }
