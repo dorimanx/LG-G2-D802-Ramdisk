@@ -1,4 +1,4 @@
-enable=1
+enable=on
 limit_temp_degC=80
 cortexbrain_read_ahead_kb=2048
 scheduler=row
