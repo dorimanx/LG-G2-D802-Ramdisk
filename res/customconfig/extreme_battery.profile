@@ -1,5 +1,11 @@
-enable=on
-limit_temp_degC=70
+intellihotplug=on
+eco_mode_active=on
+enabled=on
+core_limit_temp_degC=85
+limit_temp_degC=75
+default_cpu_gov=ondemand
+cpu_max_freq=1728000
+cpu_min_freq=300000
 cortexbrain_read_ahead_kb=512
 scheduler=row
 sleep_scheduler=row

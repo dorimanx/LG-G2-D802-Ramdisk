@@ -1,0 +1,25 @@
+#!/system/xbin/bash
+
+# $1 - "intellihotplug"
+# $2 - value=
+# Created By Dorimanx
+
+if [ "a$2" != "a" ]; then
+	intellihotplug=$2;
+
+	case "${intellihotplug}" in
+		on)
+			stop mpdecision
+			echo "1" > /sys/module/intelli_plug/parameters/intelli_plug_active;
+		;;
+		off)
+			echo "0" > /sys/module/intelli_plug/parameters/intelli_plug_active;
+			start mpdecision
+		;;
+		*)
+			intellihotplug=off;
+		;;
+	esac;
+fi;
+
+echo ${intellihotplug};

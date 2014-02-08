@@ -26,7 +26,7 @@ if [ -e /system/app/SuperSU.apk ] && [ -e /system/xbin/daemonsu ]; then
 		sumd5sum=1;
 	fi;
 	if [ -e /system/chainfire/SuperSU.apk.md5 ]; then
-		sumd5sum_kernel=$(cat /system/chainfire/SuperSU.apk.md5);
+		sumd5sum_kernel=$($BB cat /system/chainfire/SuperSU.apk.md5);
 	else
 		sumd5sum_kernel=1;
 	fi;
@@ -99,8 +99,8 @@ if [ "$install_root" == "on" ]; then
 		fi;
 
 		# kill superuser pid
-		pkill -f "com.noshufou.android.su";
-		pkill -f "eu.chainfire.supersu";
+		$BB pkill -f "com.noshufou.android.su";
+		$BB pkill -f "eu.chainfire.supersu";
 	fi;
 fi;
 
@@ -113,7 +113,7 @@ fi;
 
 if [ -f /system/app/STweaks.apk ]; then
 	stmd5sum=$($BB md5sum /system/app/STweaks.apk | $BB awk '{print $1}');
-	stmd5sum_kernel=$(cat /res/stweaks_md5);
+	stmd5sum_kernel=$($BB cat /res/stweaks_md5);
 	if [ "$stmd5sum" != "$stmd5sum_kernel" ]; then
 		$BB rm -f /system/app/STweaks.apk > /dev/null 2>&1;
 		$BB rm -f /data/data/com.gokhanmoral.stweaks*/* > /dev/null 2>&1;

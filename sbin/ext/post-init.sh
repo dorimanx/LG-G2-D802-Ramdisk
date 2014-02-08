@@ -35,16 +35,16 @@ fi;
 
 (
 	if [ ! -d /data/init.d_bkp ]; then
-		mkdir /data/init.d_bkp;
+		$BB mkdir /data/init.d_bkp;
 	fi;
-	mv /system/etc/init.d/* /data/init.d_bkp/;
+	$BB mv /system/etc/init.d/* /data/init.d_bkp/;
         # run ROM scripts
         if [ -e /system/etc/init.galbi.post_boot.sh ]; then
                 $BB sh /system/etc/init.galbi.post_boot.sh
         else
-                echo "No ROM Boot script detected"
+                $BB echo "No ROM Boot script detected"
         fi;
-	mv /data/init.d_bkp/* /system/etc/init.d/
+	$BB mv /data/init.d_bkp/* /system/etc/init.d/
 )&
 
 sleep 5;
@@ -74,9 +74,9 @@ CRITICAL_PERM_FIX()
 CRITICAL_PERM_FIX;
 
 # oom and mem perm fix
-chmod 666 /sys/module/lowmemorykiller/parameters/cost;
-chmod 666 /sys/module/lowmemorykiller/parameters/adj;
-chmod 666 /sys/module/lowmemorykiller/parameters/minfree
+$BB chmod 666 /sys/module/lowmemorykiller/parameters/cost;
+$BB chmod 666 /sys/module/lowmemorykiller/parameters/adj;
+$BB chmod 666 /sys/module/lowmemorykiller/parameters/minfree
 
 # enable force fast charge on USB to charge faster
 echo "1" > /sys/kernel/fast_charge/force_fast_charge;
@@ -92,27 +92,23 @@ CPU_GOV_TUNE()
 	echo "ondemand" > /sys/devices/system/cpu/cpu0/cpufreq/scaling_governor;
 }
 
-# Disable ROM CPU controller
-#mv /system/bin/mpdecision /system/bin/mpdecision.disabled
-#pkill -f "/system/bin/mpdecision";
-
 # make sure we own the device nodes
-chown system /sys/devices/system/cpu/cpufreq/ondemand/*
-chown system /sys/devices/system/cpu/cpu0/cpufreq/*
-chown root.system /sys/devices/system/cpu/cpu1/online
-chown root.system /sys/devices/system/cpu/cpu2/online
-chown root.system /sys/devices/system/cpu/cpu3/online
-chmod 666 /sys/devices/system/cpu/cpu1/online
-chmod 666 /sys/devices/system/cpu/cpu2/online
-chmod 666 /sys/devices/system/cpu/cpu3/online
-chmod 666 /sys/module/intelli_plug/parameters/*
+$BB chown system /sys/devices/system/cpu/cpufreq/ondemand/*
+$BB chown system /sys/devices/system/cpu/cpu0/cpufreq/*
+$BB chown root.system /sys/devices/system/cpu/cpu1/online
+$BB chown root.system /sys/devices/system/cpu/cpu2/online
+$BB chown root.system /sys/devices/system/cpu/cpu3/online
+$BB chmod 666 /sys/devices/system/cpu/cpu1/online
+$BB chmod 666 /sys/devices/system/cpu/cpu2/online
+$BB chmod 666 /sys/devices/system/cpu/cpu3/online
+$BB chmod 666 /sys/module/intelli_plug/parameters/*
 
 echo "1" > /sys/devices/system/cpu/cpu1/online;
 echo "1" > /sys/devices/system/cpu/cpu2/online;
 echo "1" > /sys/devices/system/cpu/cpu3/online;
 
-chown -R root:root /data/property;
-chmod -R 0700 /data/property
+$BB chown -R root:root /data/property;
+$BB chmod -R 0700 /data/property
 
 # some nice thing for dev
 if [ ! -e /cpufreq ]; then
@@ -148,7 +144,7 @@ echo 300000 > /sys/devices/system/cpu/cpu0/cpufreq/scaling_min_freq
 
 # Cpu Temp limit core
 echo 0 > /sys/module/msm_thermal/core_control/enabled
-echo 1 > /sys/module/msm_thermal/parameters/enabled
+echo 0 > /sys/module/msm_thermal/parameters/enabled
 echo 1 > /dev/cpuctl/apps/cpu.notify_on_migrate
 
 # Tweak some VM settings for system smoothness
@@ -190,19 +186,19 @@ fi;
 
 # reset config-backup-restore
 if [ -f /data/.dori/restore_running ]; then
-	rm -f /data/.dori/restore_running;
+	$BB rm -f /data/.dori/restore_running;
 fi;
 
 # reset profiles auto trigger to be used by kernel ADMIN, in case of need, if new value added in default profiles
 # just set numer $RESET_MAGIC + 1 and profiles will be reset one time on next boot with new kernel.
-RESET_MAGIC=4;
+RESET_MAGIC=5;
 if [ ! -e /data/.dori/reset_profiles ]; then
 	echo "0" > /data/.dori/reset_profiles;
 fi;
 if [ "$(cat /data/.dori/reset_profiles)" -eq "$RESET_MAGIC" ]; then
 	echo "no need to reset profiles";
 else
-	rm -f /data/.dori/*.profile;
+	$BB rm -f /data/.dori/*.profile;
 	echo "$RESET_MAGIC" > /data/.dori/reset_profiles;
 fi;
 
@@ -263,11 +259,11 @@ if [ "$logger" == "off" ]; then
 	echo "0" > /sys/module/xt_qtaguid/parameters/debug_mask;
 fi;
 
-# for ntfs automounting
-mkdir /mnt/ntfs
-mount -t tmpfs -o mode=0777,gid=1000 tmpfs /mnt/ntfs
-
 OPEN_RW;
+
+# for ntfs automounting
+$BB mkdir /mnt/ntfs
+$BB mount -t tmpfs -o mode=0777,gid=1000 tmpfs /mnt/ntfs
 
 (
 	COUNTER=0;
@@ -278,27 +274,16 @@ OPEN_RW;
 		if [ "$COUNTER" -ge "40" ]; then
 			break;
 		fi;
-		pkill -f "com.gokhanmoral.stweaks.app";
+		$BB pkill -f "com.gokhanmoral.stweaks.app";
 		echo "Waiting For UCI to finish";
 		sleep 3;
 		COUNTER=$((COUNTER+1));
 		# max 2min
 	done;
 
-	# Enable ROM CPU Controller
-#	if [ "$(pgrep -f "mpdecision" | wc -l)" -eq "0" ]; then
-#		mv /system/bin/mpdecision.disabled /system/bin/mpdecision
-#		/system/bin/mpdecision --no_sleep --avg_comp &
-#	fi;
-
-	# Cortex parent should be ROOT/INIT and not STweaks
-	nohup /sbin/ext/cortexbrain-tune.sh;
-	CORTEX=$(pgrep -f "/sbin/ext/cortexbrain-tune.sh");
-	echo "-900" > /proc/"$CORTEX"/oom_score_adj;
-
 	# Start any init.d scripts that may be present in the rom or added by the user
 	if [ "$init_d" == "on" ]; then
-		chmod 755 /system/etc/init.d/*;
+		$BB chmod 755 /system/etc/init.d/*;
 		$BB run-parts /system/etc/init.d/;
 	fi;
 
@@ -323,9 +308,9 @@ OPEN_RW;
 
 	# apply STweaks settings
 	echo "booting" > /data/.dori/booting;
-	chmod 777 /data/.dori/booting;
-	pkill -f "com.gokhanmoral.stweaks.app";
-	nohup $BB sh /res/uci.sh restore;
+	$BB chmod 777 /data/.dori/booting;
+	$BB pkill -f "com.gokhanmoral.stweaks.app";
+	$BB nohup $BB sh /res/uci.sh restore;
 	UCI_PID=$(pgrep -f "/res/uci.sh");
 	echo "-800" > /proc/"$UCI_PID"/oom_score_adj;
 
@@ -333,7 +318,7 @@ OPEN_RW;
 
 	# restore all the PUSH Button Actions back to there location
 	$BB mv /res/no-push-on-boot/* /res/customconfig/actions/push-actions/;
-	pkill -f "com.gokhanmoral.stweaks.app";
+	$BB pkill -f "com.gokhanmoral.stweaks.app";
 
 	# update cpu tunig after profiles load
 	$BB rm -f /data/.dori/booting;

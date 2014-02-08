@@ -20,14 +20,6 @@ renice -n -15 -p $UCI_PID;
 /sbin/busybox mount -o remount,rw /
 /sbin/busybox mount -o remount,rw /system
 
-# Disable ROM CPU Controller
-#mv /system/bin/mpdecision /system/bin/mpdecision.disabled
-#pkill -f "/system/bin/mpdecision";
-
-echo "1" > /sys/devices/system/cpu/cpu1/online;
-echo "1" > /sys/devices/system/cpu/cpu2/online;
-echo "1" > /sys/devices/system/cpu/cpu3/online;
-
 case "${1}" in
 	rename)
     	rename_profile "${2}" "${3}";
@@ -57,8 +49,3 @@ case "${1}" in
 	;;
 esac;
 
-# Enable ROM CPU Controller
-#if [ "$(pgrep -f "mpdecision" | wc -l)" -eq "0" ]; then
-#	mv /system/bin/mpdecision.disabled /system/bin/mpdecision
-#	/system/bin/mpdecision --no_sleep --avg_comp &
-#fi;

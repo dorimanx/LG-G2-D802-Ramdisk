@@ -5,6 +5,6 @@
 #TODO: Add 'check' as fs_mgr_flags with data partition.
 # Currently we dont have e2fsck compiled. So fs check would failed.
 
-#<src>                                                <mnt_point>  <type>  <mnt_flags and options>                     <fs_mgr_flags>
-/dev/block/platform/msm_sdcc.1/by-name/system         /system      ext4    rw,barrier=0                                wait,check
+#<src>                                                <mnt_point>  <type>  <mnt_flags and options>                                     <fs_mgr_flags>
+/dev/block/platform/msm_sdcc.1/by-name/system         /system      ext4    barrier=0,noauto_da_alloc                                   wait,check
 /dev/block/platform/msm_sdcc.1/by-name/userdata       /data        ext4    nosuid,nodev,barrier=1,noauto_da_alloc,errors=continue      wait,check,encryptable=/dev/block/platform/msm_sdcc.1/by-name/encrypt

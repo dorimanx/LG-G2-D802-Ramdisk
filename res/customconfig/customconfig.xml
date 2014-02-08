@@ -4,9 +4,63 @@
 
 	<settingsPane description="Here you can tune CPU functions in kernel" name="CPU Tuning">
 
-		<checkbox description="CPU Thermal control, can be ON or OFF, if ON its will limit CPU frequency when CPU reach the max limit heat, till cooled and restore full power, this can help with too hot phone playing games!" name="CPU Temp Control" action="generic01 /sys/module/msm_thermal/parameters/enable" label="Inteli Thermal Control"/>
+		<checkbox description="CPU HotPlug Control, you can switch from LG Default HotPlug driver to IntelliHotPlug driver" name="IntelliHotPlug" action="intellihotplug" label="IntelliHotPlug"/>
 
-		<seekBar description="Here you can change CPU max HEAT before throttled down to cool and keep normal phone heat" name="CPU Max Heat" action="generic /sys/module/msm_thermal/parameters/limit_temp_degC" unit="C" min="50" reversed="false" step="5" max="85"/>
+		<checkbox description="CPU Echo Mode, if ON then only 2 cores can be ON, this will reduce performance but will save battery, depend on IntelliHotplug ON!!!" name="Intelli ECO Mode" action="generic01 /sys/module/intelli_plug/parameters/eco_mode_active" label="Intelli ECO Mode"/>
+
+		<checkbox description="CPU Thermal control, can be ON or OFF, if ON its will limit CPU frequency when CPU reach the max limit heat, till cooled and restore full power, this can help with too hot phone playing games!" name="CPU Temp Control" action="generic01 /sys/module/msm_thermal/parameters/enabled" label="Inteli Thermal Control"/>
+
+		<seekBar description="Here you can change CORE max HEAT before throttled down to cool and keep normal phone heat, core it's the board and gpu chip! depend on CPU Thermal control ON!" name="CORE Max Heat" action="generic /sys/module/msm_thermal/parameters/core_limit_temp_degC" unit="C" min="50" reversed="false" step="5" max="90"/>
+
+		<seekBar description="Here you can change CPU max HEAT before throttled down to cool and keep normal phone heat, depend on CPU Thermal control ON!" name="CPU Max Heat" action="generic /sys/module/msm_thermal/parameters/limit_temp_degC" unit="C" min="50" reversed="false" step="5" max="90"/>
+
+		<spinner description="This will set the CPU governor. Default CPU governor will only be set during early stages of booting (before init.d execution), and can be overridden by any other scripts or applications." name="Default CPU Governor" action="default_cpu_gov">
+			<spinnerItem name="conservative" value="conservative"/> 
+			<spinnerItem name="intellidemand" value="intellidemand"/> 
+			<spinnerItem name="ondemand" value="ondemand"/> 
+			<spinnerItem name="ondemandplus" value="ondemandplus"/> 
+			<spinnerItem name="interactive" value="interactive"/> 
+			<spinnerItem name="powersave" value="powersave"/> 
+		</spinner>
+
+		<spinner description="Maximum CPU-Speed. You can tune the MAX CPU frequency (Default: 2265600 kHz)" name="Max CPU Frequency" action="cpu_max_freq">
+
+			<spinnerItem name="2496000" value="2496000"/> 
+			<spinnerItem name="2419200" value="2419200"/> 
+			<spinnerItem name="2265600" value="2265600"/> 
+			<spinnerItem name="1958400" value="1958400"/> 
+			<spinnerItem name="1728000" value="1728000"/> 
+			<spinnerItem name="1574400" value="1574400"/> 
+			<spinnerItem name="1497600" value="1497600"/> 
+			<spinnerItem name="1267200" value="1267200"/> 
+			<spinnerItem name="1190400" value="1190400"/> 
+			<spinnerItem name="1036800" value="1036800"/> 
+			<spinnerItem name="960000" value="960000"/> 
+			<spinnerItem name="883200" value="883200"/> 
+			<spinnerItem name="729600" value="729600"/> 
+			<spinnerItem name="652800" value="652800"/> 
+			<spinnerItem name="422400" value="422400"/> 
+			<spinnerItem name="300000" value="300000"/> 
+		</spinner>
+
+		<spinner description="Minimum CPU-Speed. You can tune the MIN CPU frequency, MIN frequency cant be higher than MAX frequency! (Default: 300000 kHz)" name="Min CPU Frequency" action="cpu_min_freq">
+			<spinnerItem name="2496000" value="2496000"/> 
+			<spinnerItem name="2419200" value="2419200"/> 
+			<spinnerItem name="2265600" value="2265600"/> 
+			<spinnerItem name="1958400" value="1958400"/> 
+			<spinnerItem name="1728000" value="1728000"/> 
+			<spinnerItem name="1574400" value="1574400"/> 
+			<spinnerItem name="1497600" value="1497600"/> 
+			<spinnerItem name="1267200" value="1267200"/> 
+			<spinnerItem name="1190400" value="1190400"/> 
+			<spinnerItem name="1036800" value="1036800"/> 
+			<spinnerItem name="960000" value="960000"/> 
+			<spinnerItem name="883200" value="883200"/> 
+			<spinnerItem name="729600" value="729600"/> 
+			<spinnerItem name="652800" value="652800"/> 
+			<spinnerItem name="422400" value="422400"/> 
+			<spinnerItem name="300000" value="300000"/> 
+		</spinner>
 
 	</settingsPane>
 
