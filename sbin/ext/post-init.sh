@@ -14,6 +14,8 @@ OPEN_RW()
 }
 OPEN_RW;
 
+start adbd;
+
 # clean old modules from /system and add new from ramdisk
 if [ ! -d /system/lib/modules ]; then
         $BB mkdir /system/lib/modules;

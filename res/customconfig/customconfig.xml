@@ -26,6 +26,8 @@
 			<spinnerItem name="powersave" value="powersave"/> 
 		</spinner>
 
+		<checkbox description="Enable or Disable CPU-Tweaks below! if on then kernel will obey only STweaks set on every screen on and off" name="CPU-Tweaks" action="generic_cortex /tmp/cortexbrain_cpu" label="CPU-Tweaks"/>
+
 		<spinner description="Maximum CPU-Speed. You can tune the MAX CPU frequency (Default: 2265600 kHz)" name="Max CPU Frequency" action="cpu_max_freq">
 
 			<spinnerItem name="2496000" value="2496000"/> 
@@ -136,7 +138,7 @@
 
 </settingsTab>
 
-<settingsTab name="Other">
+<settingsTab name="Cron Tab">
 
 	<settingsPane description="Here you can activate some scripts, which will automatically run in the background, at a specified time." name="cron">
 
@@ -162,6 +164,10 @@
 		<button description="Use this button to check if Cron Task Jobs are done as requested. This will show the log for all finished jobs." name="Test Cron Task jobs" action="push-actions/crontab_log" label="Test Cron Task Jobs"/>
 
 	</settingsPane>
+
+</settingsTab>
+
+<settingsTab name="Other">
 
 	<settingsPane description="Here you can find some settings and options for your apps." name="Apps">
 
@@ -216,6 +222,10 @@
 
 	</settingsPane>
 
+</settingsTab>
+
+<settingsTab name="ROOT">
+
 	<settingsPane description="Remove OR Reinstall ROOT! You can have a ROOTED or not ROOTED phone." name="Root">
 
 		<button description="Root Install. Click to install ROOT (SuperUser) + ROM Busybox if existed. In case you have used the remove button, to Reinstall ROOT first REMOVE it! !!! Depends on CortexBrain-Background-Process !!!" name="ROOT INSTALL" action="push-actions/root_install" label="INSTALL ROOT"/>
@@ -249,8 +259,6 @@
 
 		<checkbox description="Enable or Disable IPv6 Network. !!! Depends on CortexBrain-Background-Process !!!" name="IPv6 Tweaks" action="generic_cortex /tmp/cortexbrain_ipv6" label="IPv6"/>
 
-		<checkbox description="Enable or Disable CPU-Tweaks (reboot needed)." name="CPU-Tweaks" action="generic_cortex /tmp/cortexbrain_cpu" label="CPU-Tweaks"/>
-
 		<checkbox description="Enable or Disable Memory-Tweaks (reboot needed)." name="Memory-Tweaks" action="generic_cortex /tmp/cortexbrain_memory" label="Memory-Tweaks"/>
 
 		<checkbox description="Enable or Disable System-Tweak (reboot needed)." name="System-Tweaks" action="generic_cortex /tmp/cortexbrain_system" label="System-Tweaks"/>
@@ -258,16 +266,6 @@
 		<checkbox description="Enable or Disable Kernel-Tweaks (reboot needed)." name="Kernel-Tweaks" action="generic_cortex /tmp/cortexbrain_kernel_tweaks" label="Kernel-Tweaks"/>
 
 		<checkbox description="Enable or Disable IO-Tweaks (reboot needed)." name="IO-Tweaks" action="generic_cortex /tmp/cortexbrain_io" label="IO-Tweaks"/>
-
-	</settingsPane>
-
-</settingsTab>
-
-<settingsTab name="MODULES">
-
-	<settingsPane description="Here you can load on boot kernel modules that will allow some extra functions." name="Kernel Modules">
-
-		<checkbox description="Enable or Disable CIFS Module. This will allow to use apps that can mount internal storage and publish over network. User can access data and system over network. No support, effect only after reboot!" name="CIFS Module" action="generic_cortex /tmp/cifs_module" label="CIFS Module"/>
 
 	</settingsPane>
 
@@ -295,10 +293,6 @@
 
 	</settingsPane>
 
-</settingsTab>
-
-<settingsTab name="BACKUP or RESTORE">
-
 	<settingsPane description="Here you can backup or restore your profile after installing new kernel. When you restore your configuration, please wait till this app restarts with the new settings. Some settings will work only after reboot! Restore will take up to 30 sec, just wait here!" name="STweaks Settings Backup or Restore">
 
 		<button description="Backup STweaks User Settings!" name="Settings Backup" action="push-actions/config_backup_restore 1" label="BACKUP NOW"/>
@@ -309,7 +303,7 @@
 
 </settingsTab>
 
-<settingsTab name="BUG-REPORT">
+<settingsTab name="KERNEL STUFF">
 
 	<settingsPane description="Debug to SD-Card sdcard" name="Bug-Report">
 
@@ -319,9 +313,11 @@
 
 	</settingsPane>
 
-</settingsTab>
+	<settingsPane description="Here you can load on boot kernel modules that will allow some extra functions." name="Kernel Modules">
 
-<settingsTab name="KERNEL-UPDATE">
+		<checkbox description="Enable or Disable CIFS Module. This will allow to use apps that can mount internal storage and publish over network. User can access data and system over network. No support, effect only after reboot!" name="CIFS Module" action="generic_cortex /tmp/cifs_module" label="CIFS Module"/>
+
+	</settingsPane>
 
 	<settingsPane description="Check if there is a new kernel-update available." name="Kernel-Update">
 

@@ -4,62 +4,68 @@
 # $2 - value=
 # Created By Dorimanx
 
-if [ "a$2" != "a" ]; then
-	cpu_max_freq=$2;
+# get values from profile
+PROFILE=$(cat /data/.dori/.active.profile);
+. /data/.dori/"$PROFILE".profile;
 
-	case "${cpu_max_freq}" in
-		2496000)
-			echo "2496000" > /sys/devices/system/cpu/cpu0/cpufreq/scaling_max_freq;
-		;;
-		2419200)
-			echo "2419200" > /sys/devices/system/cpu/cpu0/cpufreq/scaling_max_freq;
-		;;
-		2265600)
-			echo "2265600" > /sys/devices/system/cpu/cpu0/cpufreq/scaling_max_freq;
-		;;
-		1958400)
-			echo "1958400" > /sys/devices/system/cpu/cpu0/cpufreq/scaling_max_freq;
-		;;
-		1728000)
-			echo "1728000" > /sys/devices/system/cpu/cpu0/cpufreq/scaling_max_freq;
-		;;
-		1574400)
-			echo "1574400" > /sys/devices/system/cpu/cpu0/cpufreq/scaling_max_freq;
-		;;
-		1497600)
-			echo "1497600" > /sys/devices/system/cpu/cpu0/cpufreq/scaling_max_freq;
-		;;
-		1267200)
-			echo "1267200" > /sys/devices/system/cpu/cpu0/cpufreq/scaling_max_freq;
-		;;
-		1190400)
-			echo "1190400" > /sys/devices/system/cpu/cpu0/cpufreq/scaling_max_freq;
-		;;
-		1036800)
-			echo "1036800" > /sys/devices/system/cpu/cpu0/cpufreq/scaling_max_freq;
-		;;
-		960000)
-			echo "960000" > /sys/devices/system/cpu/cpu0/cpufreq/scaling_max_freq;
-		;;
-		883200)
-			echo "883200" > /sys/devices/system/cpu/cpu0/cpufreq/scaling_max_freq;
-		;;
-		729600)
-			echo "729600" > /sys/devices/system/cpu/cpu0/cpufreq/scaling_max_freq;
-		;;
-		652800)
-			echo "652800" > /sys/devices/system/cpu/cpu0/cpufreq/scaling_max_freq;
-		;;
-		422400)
-			echo "422400" > /sys/devices/system/cpu/cpu0/cpufreq/scaling_max_freq;
-		;;
-		300000)
-			echo "300000" > /sys/devices/system/cpu/cpu0/cpufreq/scaling_max_freq;
-		;;
-		*)
-			cpu_max_freq=2265600;
-		;;
-	esac;
+if [ "$cortexbrain_cpu" == "on" ]; then
+	if [ "a$2" != "a" ]; then
+		cpu_max_freq=$2;
+
+		case "${cpu_max_freq}" in
+			2496000)
+				echo "2496000" > /sys/devices/system/cpu/cpu0/cpufreq/scaling_max_freq;
+			;;
+			2419200)
+				echo "2419200" > /sys/devices/system/cpu/cpu0/cpufreq/scaling_max_freq;
+			;;
+			2265600)
+				echo "2265600" > /sys/devices/system/cpu/cpu0/cpufreq/scaling_max_freq;
+			;;
+			1958400)
+				echo "1958400" > /sys/devices/system/cpu/cpu0/cpufreq/scaling_max_freq;
+			;;
+			1728000)
+				echo "1728000" > /sys/devices/system/cpu/cpu0/cpufreq/scaling_max_freq;
+			;;
+			1574400)
+				echo "1574400" > /sys/devices/system/cpu/cpu0/cpufreq/scaling_max_freq;
+			;;
+			1497600)
+				echo "1497600" > /sys/devices/system/cpu/cpu0/cpufreq/scaling_max_freq;
+			;;
+			1267200)
+				echo "1267200" > /sys/devices/system/cpu/cpu0/cpufreq/scaling_max_freq;
+			;;
+			1190400)
+				echo "1190400" > /sys/devices/system/cpu/cpu0/cpufreq/scaling_max_freq;
+			;;
+			1036800)
+				echo "1036800" > /sys/devices/system/cpu/cpu0/cpufreq/scaling_max_freq;
+			;;
+			960000)
+				echo "960000" > /sys/devices/system/cpu/cpu0/cpufreq/scaling_max_freq;
+			;;
+			883200)
+				echo "883200" > /sys/devices/system/cpu/cpu0/cpufreq/scaling_max_freq;
+			;;
+			729600)
+				echo "729600" > /sys/devices/system/cpu/cpu0/cpufreq/scaling_max_freq;
+			;;
+			652800)
+				echo "652800" > /sys/devices/system/cpu/cpu0/cpufreq/scaling_max_freq;
+			;;
+			422400)
+				echo "422400" > /sys/devices/system/cpu/cpu0/cpufreq/scaling_max_freq;
+			;;
+			300000)
+				echo "300000" > /sys/devices/system/cpu/cpu0/cpufreq/scaling_max_freq;
+			;;
+			*)
+				cpu_max_freq=2265600;
+			;;
+		esac;
+	fi;
 fi;
 
 echo ${cpu_max_freq};
