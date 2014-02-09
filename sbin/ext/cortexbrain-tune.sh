@@ -60,8 +60,8 @@ IO_TWEAKS()
 
 		# our storage is 16/32GB, best is 1024KB readahead
 		# see https://github.com/Keff/samsung-kernel-msm7x30/commit/a53f8445ff8d947bd11a214ab42340cc6d998600#L1R627
-		echo "$cortexbrain_read_ahead_kb" > /sys/block/mmcblk0/queue/read_ahead_kb;
-		echo "$cortexbrain_read_ahead_kb" > /sys/block/mmcblk0/bdi/read_ahead_kb;
+		echo "$read_ahead_kb" > /sys/block/mmcblk0/queue/read_ahead_kb;
+		echo "$read_ahead_kb" > /sys/block/mmcblk0/bdi/read_ahead_kb;
 
 		echo "45" > /proc/sys/fs/lease-break-time;
 

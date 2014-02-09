@@ -75,7 +75,7 @@
 
 	<settingsPane description="Here you can tune IO settings managed by Kernel" name="IO Tuning">
 
-		<spinner description="Maximum number of kilobytes to read-ahead for SDCARD! Best to leave it 1024KB, default is 1024kB, works only if IO-Tweaks tweak is enabled! Depends on CortexBrain-Background-Process !!!" name="kilobytes to read-ahead" action="generic_cortex /tmp/cortexbrain_read_ahead_kb">
+		<spinner description="Maximum number of kilobytes to read-ahead for SDCARD! Best to leave it 1024KB, default is 1024kB" name="kilobytes to read-ahead" action="generic /sys/block/mmcblk0/bdi/read_ahead_kb">
 			<spinnerItem name="128 kB" value="128"/> 
 			<spinnerItem name="256 kB" value="256"/> 
 			<spinnerItem name="512 kB" value="512"/> 
