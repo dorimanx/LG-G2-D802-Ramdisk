@@ -16,6 +16,9 @@
 
 		<spinner description="This will set the CPU governor. Default CPU governor will only be set during early stages of booting (before init.d execution), and can be overridden by any other scripts or applications." name="Default CPU Governor" action="default_cpu_gov">
 			<spinnerItem name="conservative" value="conservative"/> 
+			<spinnerItem name="HYPER" value="HYPER"/> 
+			<spinnerItem name="pegasusq" value="pegasusq"/> 
+			<spinnerItem name="nightmare" value="nightmare"/> 
 			<spinnerItem name="intellidemand" value="intellidemand"/> 
 			<spinnerItem name="ondemand" value="ondemand"/> 
 			<spinnerItem name="ondemandplus" value="ondemandplus"/> 
