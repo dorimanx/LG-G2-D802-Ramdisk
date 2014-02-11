@@ -29,5 +29,5 @@ write_config;
 # restore all the PUSH Button Actions back to there location
 mv /res/no-push-on-boot/* /res/customconfig/actions/push-actions/;
 pkill -f "com.gokhanmoral.stweaks.app";
-am start -a android.intent.action.MAIN -n com.gokhanmoral.stweaks.app/.MainActivity;
+/system/bin/am start -a android.intent.action.MAIN -n com.gokhanmoral.stweaks.app/.MainActivity;
 

@@ -1,0 +1,35 @@
+#!/sbin/busybox sh
+
+# $1 - "msm_thermal"
+# $2 - value=
+# Created By Dorimanx
+
+# get values from profile
+PROFILE=$(cat /data/.dori/.active.profile);
+. /data/.dori/"$PROFILE".profile;
+
+if [ "a$2" != "a" ]; then
+	msm_thermal=$2;
+
+	case "${msm_thermal}" in
+		msn_temp)
+			if [ "$(ps | grep "/system/bin/thermal-engine" | wc -l)" -le "1" ]; then
+				/system/bin/start thermal-engine;
+			fi;
+			echo "0" >  /sys/module/msm_thermal/parameters/enabled;
+		;;
+		intelli_temp)
+			if [ "$(ps | grep "/system/bin/thermal-engine" | wc -l)" -ge "1" ]; then
+				/system/bin/stop thermal-engine;
+			fi;
+			echo "1" >  /sys/module/msm_thermal/parameters/enabled;
+			echo "$limit_temp_degC" > /sys/module/msm_thermal/parameters/limit_temp_degC;
+			echo "$core_limit_temp_degC" > /sys/module/msm_thermal/parameters/core_limit_temp_degC;
+		;;
+		*)
+			msm_thermal=msn_temp;
+		;;
+	esac;
+fi;
+
+echo ${msm_thermal};

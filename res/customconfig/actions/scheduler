@@ -15,50 +15,32 @@ BLOCK_GOV=row;
 SCHED_SET()
 {
 	echo "$BLOCK_GOV" > /sys/block/mmcblk0/queue/scheduler;
-
-	if [ -e /sys/block/mmcblk1/queue/scheduler ]; then
-		echo "$BLOCK_GOV" > /sys/block/mmcblk1/queue/scheduler;
-	fi;
 }
 
 case "${scheduler}" in
 	cfq)
 		BLOCK_GOV=cfq;
-		SCHED_SET;
 	;;
 	bfq)
 		BLOCK_GOV=bfq;
-		SCHED_SET;
 	;;
 	deadline)
 		BLOCK_GOV=deadline;
-		SCHED_SET;
 	;;
 	noop)
 		BLOCK_GOV=noop;
-		SCHED_SET;
 	;;
 	row)
 		BLOCK_GOV=row;
-		SCHED_SET;
 	;;
 	sio)
 		BLOCK_GOV=sio;
-		SCHED_SET;
 	;;
-	vr)
-		BLOCK_GOV=vr;
-		SCHED_SET;
-	;;
-	zen)
-		BLOCK_GOV=zen;
-		SCHED_SET;
-	;;
-	fifo)
-		BLOCK_GOV=fifo;
-		SCHED_SET;
-	;;
+	fiops)
+		BLOCK_GOV=fiops;
 	*)
 		scheduler=row;
+		BLOCK_GOV=row;
 	;;
+		SCHED_SET;
 esac;

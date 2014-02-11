@@ -9,12 +9,12 @@ if [ "a$2" != "a" ]; then
 
 	case "${intellihotplug}" in
 		on)
-			stop mpdecision
+			/system/bin/stop mpdecision
 			echo "1" > /sys/module/intelli_plug/parameters/intelli_plug_active;
 		;;
 		off)
 			echo "0" > /sys/module/intelli_plug/parameters/intelli_plug_active;
-			start mpdecision
+			/system/bin/start mpdecision
 		;;
 		*)
 			intellihotplug=off;

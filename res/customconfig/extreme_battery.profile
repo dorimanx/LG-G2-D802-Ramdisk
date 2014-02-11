@@ -1,6 +1,6 @@
 intellihotplug=on
 eco_mode_active=on
-enabled=on
+msm_thermal=msn_temp
 core_limit_temp_degC=85
 limit_temp_degC=75
 default_cpu_gov=ondemand

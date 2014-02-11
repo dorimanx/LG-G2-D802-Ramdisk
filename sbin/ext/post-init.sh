@@ -14,8 +14,6 @@ OPEN_RW()
 }
 OPEN_RW;
 
-start adbd;
-
 # clean old modules from /system and add new from ramdisk
 if [ ! -d /system/lib/modules ]; then
         $BB mkdir /system/lib/modules;
@@ -165,7 +163,7 @@ echo 450000000 > /sys/class/kgsl/kgsl-3d0/max_gpuclk
 
 lgodl_prop=$(getprop persist.service.lge.odl_on)
 if [ "$lgodl_prop" == "true" ]; then
-        start lg_dm_dev_router
+        /system/bin/start lg_dm_dev_router
 fi
 
 # correct decoder support
@@ -193,7 +191,7 @@ fi;
 
 # reset profiles auto trigger to be used by kernel ADMIN, in case of need, if new value added in default profiles
 # just set numer $RESET_MAGIC + 1 and profiles will be reset one time on next boot with new kernel.
-RESET_MAGIC=6;
+RESET_MAGIC=7;
 if [ ! -e /data/.dori/reset_profiles ]; then
 	echo "0" > /data/.dori/reset_profiles;
 fi;
