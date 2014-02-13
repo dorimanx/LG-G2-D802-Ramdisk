@@ -342,6 +342,25 @@ CPU_CENTRAL_CONTROL()
 	fi;
 }
 
+HOTPLUG_CONTROL()
+{
+	if [ "$hotplug" == "default" ]; then
+		echo "0" > /sys/module/intelli_plug/parameters/intelli_plug_active;
+		echo "0" > /sys/kernel/alucard_hotplug/hotplug_enable;
+		if [ "$(ps | grep "mpdecision" | wc -l)" -le "1" ]; then
+			/system/bin/start mpdecision
+		fi;
+	elif [ "$hotplug" == "intelli" ]; then
+		/system/bin/stop mpdecision
+		echo "0" > /sys/kernel/alucard_hotplug/hotplug_enable;
+		echo "1" > /sys/module/intelli_plug/parameters/intelli_plug_active;
+	elif [ "$hotplug" == "alucard" ]; then
+		/system/bin/stop mpdecision
+		echo "0" > /sys/module/intelli_plug/parameters/intelli_plug_active;
+		echo "1" > /sys/kernel/alucard_hotplug/hotplug_enable;
+	fi;
+}
+
 # ==============================================================
 # TWEAKS: if Screen-ON
 # ==============================================================
@@ -371,6 +390,7 @@ SLEEP_MODE()
 	CPU_CENTRAL_CONTROL "sleep";
 	NET "sleep";
 	IPV6;
+	HOTPLUG_CONTROL;
 
 	log -p i -t "$FILE_NAME" "*** SLEEP mode ***";
 }

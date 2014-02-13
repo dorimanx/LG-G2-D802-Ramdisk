@@ -1,8 +1,8 @@
-intellihotplug=off
+hotplug=default
 eco_mode_active=off
-msm_thermal=msn_temp
-core_limit_temp_degC=85
-limit_temp_degC=75
+msm_thermal=msm_temp
+core_limit_temp_degC=83
+limit_temp_degC=85
 default_cpu_gov=ondemand
 cortexbrain_cpu=on
 cpu_max_freq=2496000

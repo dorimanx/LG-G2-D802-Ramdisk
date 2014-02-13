@@ -102,6 +102,8 @@ $BB chmod 666 /sys/devices/system/cpu/cpu1/online
 $BB chmod 666 /sys/devices/system/cpu/cpu2/online
 $BB chmod 666 /sys/devices/system/cpu/cpu3/online
 $BB chmod 666 /sys/module/intelli_plug/parameters/*
+$BB chmod 666 /sys/module/msm_thermal/parameters/*
+$BB chmod 666 /sys/module/msm_thermal/core_control/enabled
 
 echo "1" > /sys/devices/system/cpu/cpu1/online;
 echo "1" > /sys/devices/system/cpu/cpu2/online;
@@ -142,9 +144,6 @@ fi
 # set minimum frequencies
 echo 300000 > /sys/devices/system/cpu/cpu0/cpufreq/scaling_min_freq
 
-# Cpu Temp limit core
-echo 0 > /sys/module/msm_thermal/core_control/enabled
-echo 0 > /sys/module/msm_thermal/parameters/enabled
 echo 1 > /dev/cpuctl/apps/cpu.notify_on_migrate
 
 # Tweak some VM settings for system smoothness

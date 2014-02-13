@@ -1,0 +1,34 @@
+#!/system/xbin/bash
+
+# $1 - "hotplug"
+# $2 - value=
+# Created By Dorimanx
+
+if [ "a$2" != "a" ]; then
+	hotplug=$2;
+
+	case "${hotplug}" in
+		intelli)
+			/system/bin/stop mpdecision
+			echo "0" > /sys/kernel/alucard_hotplug/hotplug_enable;
+			echo "1" > /sys/module/intelli_plug/parameters/intelli_plug_active;
+		;;
+		default)
+			echo "0" > /sys/module/intelli_plug/parameters/intelli_plug_active;
+			echo "0" > /sys/kernel/alucard_hotplug/hotplug_enable;
+			if [ "$(ps | grep "mpdecision" | wc -l)" -le "1" ]; then
+				/system/bin/start mpdecision
+			fi;
+		;;
+		alucard)
+			/system/bin/stop mpdecision
+			echo "0" > /sys/module/intelli_plug/parameters/intelli_plug_active;
+			echo "1" > /sys/kernel/alucard_hotplug/hotplug_enable;
+		;;
+		*)
+			hotplug=default;
+		;;
+	esac;
+fi;
+
+echo ${hotplug};
