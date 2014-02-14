@@ -95,27 +95,31 @@ CPU_GOV_TUNE()
 # make sure we own the device nodes
 $BB chown system /sys/devices/system/cpu/cpufreq/ondemand/*
 $BB chown system /sys/devices/system/cpu/cpu0/cpufreq/*
-$BB chown root.system /sys/devices/system/cpu/cpu1/online
-$BB chown root.system /sys/devices/system/cpu/cpu2/online
-$BB chown root.system /sys/devices/system/cpu/cpu3/online
+$BB chown system /sys/devices/system/cpu/cpu1/online
+$BB chown system /sys/devices/system/cpu/cpu2/online
+$BB chown system /sys/devices/system/cpu/cpu3/online
+$BB chmod 666 /sys/devices/system/cpu/cpu0/cpufreq/scalling_governor
+$BB chmod 666 /sys/devices/system/cpu/cpu0/cpufreq/scalling_max_freq
+$BB chmod 666 /sys/devices/system/cpu/cpu0/cpufreq/scalling_min_freq
+$BB chmod 444 /sys/devices/system/cpu/cpu0/cpufreq/cpuinfo_cur_freq
+$BB chmod 444 /sys/devices/system/cpu/cpu0/cpufreq/stats/*
 $BB chmod 666 /sys/devices/system/cpu/cpu1/online
 $BB chmod 666 /sys/devices/system/cpu/cpu2/online
 $BB chmod 666 /sys/devices/system/cpu/cpu3/online
 $BB chmod 666 /sys/module/intelli_plug/parameters/*
 $BB chmod 666 /sys/module/msm_thermal/parameters/*
 $BB chmod 666 /sys/module/msm_thermal/core_control/enabled
-
-echo "1" > /sys/devices/system/cpu/cpu1/online;
-echo "1" > /sys/devices/system/cpu/cpu2/online;
-echo "1" > /sys/devices/system/cpu/cpu3/online;
+$BB chmod 666 /sys/class/kgsl/kgsl-3d0/max_gpuclk
+$BB chmod 666 /sys/devices/fdb00000.qcom,kgsl-3d0/kgsl/kgsl-3d0/pwrscale/trustzone/governor
 
 $BB chown -R root:root /data/property;
 $BB chmod -R 0700 /data/property
 
 # some nice thing for dev
 if [ ! -e /cpufreq ]; then
-        $BB ln -s /sys/devices/system/cpu/cpu0/cpufreq /cpufreq;
-        $BB ln -s /sys/devices/system/cpu/cpufreq/ /cpugov;
+	$BB ln -s /sys/devices/system/cpu/cpu0/cpufreq /cpufreq;
+	$BB ln -s /sys/devices/system/cpu/cpufreq/ /cpugov;
+	$BB ln -s /sys/module/msm_thermal/parameters/ /cputemp;
 fi;
 
 #for no_debug in $(find /sys/ -name *debug*); do
@@ -143,7 +147,6 @@ fi
 
 # set minimum frequencies
 echo 300000 > /sys/devices/system/cpu/cpu0/cpufreq/scaling_min_freq
-
 echo 1 > /dev/cpuctl/apps/cpu.notify_on_migrate
 
 # Tweak some VM settings for system smoothness

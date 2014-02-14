@@ -27,6 +27,7 @@
 			<spinnerItem name="pegasusq" value="pegasusq"/> 
 			<spinnerItem name="nightmare" value="nightmare"/> 
 			<spinnerItem name="intellidemand" value="intellidemand"/> 
+			<spinnerItem name="intelliactive" value="intelliactive"/> 
 			<spinnerItem name="ondemand" value="ondemand"/> 
 			<spinnerItem name="ondemandplus" value="ondemandplus"/> 
 			<spinnerItem name="interactive" value="interactive"/> 
