@@ -1,0 +1,45 @@
+#!/sbin/busybox sh
+
+BB=/sbin/busybox
+
+$BB mount -o remount,rw /;
+
+(
+	if [ "$(pgrep -f "/res/customconfig/actions/push-actions/reload_settings" | wc -l)" -le "3" ]; then
+
+		. /res/customconfig/customconfig-helper;
+		read_defaults;
+		read_config;
+
+		$BB chown -R root:system /res/customconfig/actions/;
+		$BB chmod -R 6755 /res/customconfig/actions/;
+
+		# stop uci.sh from running all the PUSH Buttons in stweaks on boot
+		$BB mv /res/customconfig/actions/push-actions/* /res/no-push-on-boot/;
+		$BB chmod 6755 /res/no-push-on-boot/*;
+
+		# apply STweaks settings
+		echo "booting" > /data/.dori/booting;
+		$BB chmod 777 /data/.dori/booting;
+		$BB nohup "$BB" sh /res/uci.sh restore > /dev/null;
+		UCI_PID=$(pgrep -f "/res/uci.sh");
+		echo "-800" > /proc/"$UCI_PID"/oom_score_adj;
+
+		# restore all the PUSH Button Actions back to there location
+		$BB mv /res/no-push-on-boot/* /res/customconfig/actions/push-actions/;
+
+		# update cpu tunig after profiles load
+		$BB rm -f /data/.dori/booting;
+
+		# Load Custom Modules
+		if [ "$cifs_module" == "on" ]; then
+			if [ -e /system/lib/modules/cifs.ko ]; then
+				$BB insmod /system/lib/modules/cifs.ko;
+        		fi;
+		fi;
+
+		echo "Config Loaded!";
+	else
+		echo "Still running!!"
+	fi;
+)&

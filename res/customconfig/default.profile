@@ -1,3 +1,4 @@
+stweaks_boot_control=yes
 hotplug=default
 eco_mode_active=off
 msm_thermal=msm_temp
@@ -24,7 +25,7 @@ cron_zipalign=off
 gpsregion=No_GPS_Zone_changes
 init_d=off
 logger=off
-install_root=on
+install_root=off
 cortexbrain_background_process=1
 cortexbrain_firewall=on
 cortexbrain_tcp=on

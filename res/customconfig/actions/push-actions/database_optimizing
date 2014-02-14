@@ -2,7 +2,7 @@
 export PATH="/res/customconfig/actions/push-actions:${PATH}";
 
 (
-	if [ `pgrep -f "database_optimizing" |  wc -l` \< 5 ]; then
+	if [ "$(pgrep -f "database_optimizing" |  wc -l)" -le "5" ]; then
 		echo "";
 		echo "*********************************************";
 		echo "Optimizing and defragging your database files (*.db)";

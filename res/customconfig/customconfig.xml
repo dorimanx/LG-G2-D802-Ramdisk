@@ -1,6 +1,17 @@
 <settingsRoot>
 
-<settingsTab name="CPU">
+<settingsTab name="Master CORE">
+
+	<settingsPane description="Here you can swith Stweaks settings to be applyed on BOOT or not." name="Global BOOT Settings">
+
+		<spinner description="Master Switch, Load All settings from all TABS on boot or not! default is LOAD." name="Enable On Boot" action="generic_cortex /tmp/stweaks_boot_control">
+			<spinnerItem name="Load all Settings on boot" value="yes"/> 
+			<spinnerItem name="Dont load all Settings on boot" value="no"/> 
+		</spinner>
+
+		<button description="Push to load all tuned settings IF master swith is OFF or was OFF, if was ON when phone booted then no need to push!! wait till you see that settings are loaded" name="LOAD ALL" action="push-actions/reload_settings" label="LOAD ALL"/>
+
+	</settingsPane>
 
 	<settingsPane description="Here you can tune CPU functions in kernel" name="CPU Tuning">
 
@@ -99,6 +110,7 @@
 			<spinnerItem name="NOOP" value="noop"/> 
 			<spinnerItem name="ROW" value="row"/> 
 			<spinnerItem name="SIO" value="sio"/> 
+			<spinnerItem name="FIOPS" value="fiops"/> 
 		</spinner>
 
 		<spinner description="This will set the DEEPSLEEP IO scheduler for internal storage. (Default: ROW) Depends on CortexBrain-Background-Process !!!" name="DEEPSLEEP IO Scheduler" action="generic_cortex /tmp/sleep_scheduler">
@@ -108,6 +120,7 @@
 			<spinnerItem name="NOOP" value="noop"/> 
 			<spinnerItem name="ROW" value="row"/> 
 			<spinnerItem name="SIO" value="sio"/> 
+			<spinnerItem name="FIOPS" value="fiops"/> 
 		</spinner>
 
 	</settingsPane>

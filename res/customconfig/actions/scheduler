@@ -38,9 +38,10 @@ case "${scheduler}" in
 	;;
 	fiops)
 		BLOCK_GOV=fiops;
+	;;
 	*)
 		scheduler=row;
 		BLOCK_GOV=row;
 	;;
-		SCHED_SET;
 esac;
+SCHED_SET;

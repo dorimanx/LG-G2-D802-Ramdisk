@@ -4,7 +4,7 @@
 export PATH="/res/customconfig/actions/push-actions:${PATH}";
 
 (
-	if [ `pgrep -f "zipalign" | wc -l` \< 5 ]; then
+	if [ "$(pgrep -f "zipalign" | wc -l)" -le "3" ]; then
 		echo "Starting zipalign, it's will take 2min to finish, please wait.";
 		sleep 3;
 

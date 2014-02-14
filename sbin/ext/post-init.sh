@@ -14,6 +14,9 @@ OPEN_RW()
 }
 OPEN_RW;
 
+# Boot with ROW I/O Gov
+$BB echo "row" > /sys/block/mmcblk0/queue/scheduler;
+
 # clean old modules from /system and add new from ramdisk
 if [ ! -d /system/lib/modules ]; then
         $BB mkdir /system/lib/modules;
@@ -81,9 +84,6 @@ $BB chmod 666 /sys/module/lowmemorykiller/parameters/minfree
 # enable force fast charge on USB to charge faster
 echo "1" > /sys/kernel/fast_charge/force_fast_charge;
 
-# set ondemand as default gov
-echo "ondemand" > /sys/devices/system/cpu/cpu0/cpufreq/scaling_governor;
-
 CPU_GOV_TUNE()
 {
 	# reset ondemand settings from kernel code.
@@ -145,8 +145,7 @@ if [ "$soc_revision" != "1.0" ]; then
         echo 0 > /sys/module/pm_8x60/modes/cpu3/retention/idle_enabled
 fi
 
-# set minimum frequencies
-echo 300000 > /sys/devices/system/cpu/cpu0/cpufreq/scaling_min_freq
+# enable cpu notify on migrate
 echo 1 > /dev/cpuctl/apps/cpu.notify_on_migrate
 
 # Tweak some VM settings for system smoothness
@@ -193,7 +192,7 @@ fi;
 
 # reset profiles auto trigger to be used by kernel ADMIN, in case of need, if new value added in default profiles
 # just set numer $RESET_MAGIC + 1 and profiles will be reset one time on next boot with new kernel.
-RESET_MAGIC=7;
+RESET_MAGIC=8;
 if [ ! -e /data/.dori/reset_profiles ]; then
 	echo "0" > /data/.dori/reset_profiles;
 fi;
@@ -219,13 +218,6 @@ read_config;
 (
 	# Apps and ROOT Install
 	$BB sh /sbin/ext/install.sh;
-
-	# ROOT activation if supersu used
-	if [ -e /system/app/SuperSU.apk ] && [ -e /system/xbin/daemonsu ]; then
-		if [ "$(pgrep -f "daemonsu" | wc -l)" -eq "0" ]; then
-			/system/xbin/daemonsu --auto-daemon &
-		fi;
-	fi;
 )&
 
 # busybox addons
@@ -236,8 +228,8 @@ fi;
 ######################################
 # Loading Modules
 ######################################
-(
-	sleep 20;
+MODULES_LOAD()
+{
 	# order of modules load is important
 
 	if [ "$cifs_module" == "on" ]; then
@@ -246,8 +238,10 @@ fi;
 		else
 			$BB insmod /lib/modules/cifs.ko;
 		fi;
+	else
+		echo "no user modules loaded";
 	fi;
-)&
+}
 
 # enable kmem interface for everyone by GM
 echo "0" > /proc/sys/kernel/kptr_restrict;
@@ -268,25 +262,52 @@ $BB mkdir /mnt/ntfs
 $BB mount -t tmpfs -o mode=0777,gid=1000 tmpfs /mnt/ntfs
 
 (
-	COUNTER=0;
-	echo "0" > /data/uci_done;
-	$BB chmod 666 /data/uci_done;
+	# set ondemand as default gov
+	echo "ondemand" > /sys/devices/system/cpu/cpu0/cpufreq/scaling_governor;
 
-	while [ "$(cat /data/uci_done)" != "1" ]; do
-		if [ "$COUNTER" -ge "40" ]; then
-			break;
-		fi;
+	if [ "$stweaks_boot_control" == "yes" ]; then
+		# stop uci.sh from running all the PUSH Buttons in stweaks on boot
+		OPEN_RW;
+		$BB chown -R root:system /res/customconfig/actions/;
+		$BB chmod -R 6755 /res/customconfig/actions/;
+		$BB mv /res/customconfig/actions/push-actions/* /res/no-push-on-boot/;
+		$BB chmod 6755 /res/no-push-on-boot/*;
+
+		# apply STweaks settings
+		echo "booting" > /data/.dori/booting;
+		$BB chmod 777 /data/.dori/booting;
 		$BB pkill -f "com.gokhanmoral.stweaks.app";
-		echo "Waiting For UCI to finish";
-		sleep 3;
-		COUNTER=$((COUNTER+1));
-		# max 2min
-	done;
+		$BB nohup $BB sh /res/uci.sh restore;
+		UCI_PID=$(pgrep -f "/res/uci.sh");
+		echo "-800" > /proc/"$UCI_PID"/oom_score_adj;
+
+		OPEN_RW;
+		# restore all the PUSH Button Actions back to there location
+		$BB mv /res/no-push-on-boot/* /res/customconfig/actions/push-actions/;
+		$BB pkill -f "com.gokhanmoral.stweaks.app";
+
+		# update cpu tunig after profiles load
+		$BB rm -f /data/.dori/booting;
+
+		# correct oom tuning, if changed by apps/rom
+		$BB sh /res/uci.sh oom_config_screen_on "$oom_config_screen_on";
+		$BB sh /res/uci.sh oom_config_screen_off "$oom_config_screen_off";
+
+		# Load Custom Modules
+		MODULES_LOAD;
+	fi;
 
 	# Start any init.d scripts that may be present in the rom or added by the user
 	if [ "$init_d" == "on" ]; then
 		$BB chmod 755 /system/etc/init.d/*;
 		$BB run-parts /system/etc/init.d/;
+	fi;
+
+	# ROOT activation if supersu used
+	if [ -e /system/app/SuperSU.apk ] && [ -e /system/xbin/daemonsu ]; then
+		if [ "$(pgrep -f "/system/xbin/daemonsu" | wc -l)" -eq "0" ]; then
+			/system/xbin/daemonsu --auto-daemon &
+		fi;
 	fi;
 
 	# No need to mess my kernel cpu gov tuning, so reset to kernel value at least on boot
@@ -298,35 +319,5 @@ $BB mount -t tmpfs -o mode=0777,gid=1000 tmpfs /mnt/ntfs
 	# script finish here, so let me know when
 	TIME_NOW=$(date)
 	echo "$TIME_NOW" > /data/boot_log_dm
-)&
-
-(
-	# stop uci.sh from running all the PUSH Buttons in stweaks on boot
-	OPEN_RW;
-	$BB chown -R root:system /res/customconfig/actions/;
-	$BB chmod -R 6755 /res/customconfig/actions/;
-	$BB mv /res/customconfig/actions/push-actions/* /res/no-push-on-boot/;
-	$BB chmod 6755 /res/no-push-on-boot/*;
-
-	# apply STweaks settings
-	echo "booting" > /data/.dori/booting;
-	$BB chmod 777 /data/.dori/booting;
-	$BB pkill -f "com.gokhanmoral.stweaks.app";
-	$BB nohup $BB sh /res/uci.sh restore;
-	UCI_PID=$(pgrep -f "/res/uci.sh");
-	echo "-800" > /proc/"$UCI_PID"/oom_score_adj;
-
-	echo "1" > /data/uci_done;
-
-	# restore all the PUSH Button Actions back to there location
-	$BB mv /res/no-push-on-boot/* /res/customconfig/actions/push-actions/;
-	$BB pkill -f "com.gokhanmoral.stweaks.app";
-
-	# update cpu tunig after profiles load
-	$BB rm -f /data/.dori/booting;
-
-	# correct oom tuning, if changed by apps/rom
-	$BB sh /res/uci.sh oom_config_screen_on "$oom_config_screen_on";
-	$BB sh /res/uci.sh oom_config_screen_off "$oom_config_screen_off";
 )&
 

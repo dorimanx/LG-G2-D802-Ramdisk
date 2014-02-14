@@ -3,6 +3,8 @@
 
 DEFAULT_PROFILE="/res/customconfig/default.profile";
 BATTERY_PROFILE="/res/customconfig/battery.profile";
+EXTREME_PERFORMANCE_PROFILE="/res/customconfig/extreme_performance.profile";
+EXTREME_BATTERY_PROFILE="/res/customconfig/extreme_battery.profile";
 PERFORMANCE_PROFILE="/res/customconfig/performance.profile";
 CONFIG_XML="/res/customconfig/customconfig.xml";
 PROFILE_PATH="/data/.dori";
@@ -45,6 +47,8 @@ select_profile()
 			cp -a $DEFAULT_PROFILE ${PROFILE_PATH}/${1}.profile;
 			[ "$_ACTIVE_PROFILE" == "battery" ] && cp -a $BATTERY_PROFILE ${PROFILE_PATH}/${1}.profile;
 			[ "$_ACTIVE_PROFILE" == "performance" ] && cp -a $PERFORMANCE_PROFILE ${PROFILE_PATH}/${1}.profile;
+			[ "$_ACTIVE_PROFILE" == "extreme_performance" ] && cp -a $EXTREME_PERFORMANCE_PROFILE ${PROFILE_PATH}/${1}.profile;
+			[ "$_ACTIVE_PROFILE" == "extreme_battery" ] && cp -a $EXTREME_BATTERY_PROFILE ${PROFILE_PATH}/${1}.profile;
 		fi;
 		if [ ! -f ${PROFILE_PATH}/${1}.profile ]; then
 			cp -a ${PROFILE_PATH}/${_ACTIVE_PROFILE}.profile ${PROFILE_PATH}/${1}.profile;
@@ -118,6 +122,8 @@ read_defaults()
 	_ACTIVE_PROFILE=`cat $ACTIVE_PROFILE`;
 	[ "$_ACTIVE_PROFILE" == "battery" ] && read_config $BATTERY_PROFILE;
 	[ "$_ACTIVE_PROFILE" == "performance" ] && read_config $PERFORMANCE_PROFILE;
+	[ "$_ACTIVE_PROFILE" == "extreme_performance" ] && read_config $EXTREME_PERFORMANCE_PROFILE;
+	[ "$_ACTIVE_PROFILE" == "extreme_battery" ] && read_config $EXTREME_BATTERY_PROFILE;
 }
 
 # some initialization code
@@ -129,14 +135,19 @@ fi;
 
 if [ ! -f $PROFILE_PATH/default.profile ]; then
 	cp -a $DEFAULT_PROFILE $PROFILE_PATH/default.profile;
-	chmod 777 $PROFILE_PATH/default.profile;
 fi;
 if [ ! -f $PROFILE_PATH/battery.profile ]; then
 	cp -a $BATTERY_PROFILE $PROFILE_PATH/battery.profile;
-	chmod 777 $PROFILE_PATH/battery.profile;
 fi;
 if [ ! -f $PROFILE_PATH/performance.profile ]; then
 	cp -a $PERFORMANCE_PROFILE $PROFILE_PATH/performance.profile;
-	chmod 777 $PROFILE_PATH/performance.profile;
 fi;
+if [ ! -f $PROFILE_PATH/extreme_performance.profile ]; then
+	cp -a $EXTREME_PERFORMANCE_PROFILE $PROFILE_PATH/extreme_performance.profile
+fi;
+if [ ! -f $PROFILE_PATH/extreme_battery.profile ]; then
+	cp -a $EXTREME_BATTERY_PROFILE $PROFILE_PATH/extreme_battery.profile
+fi;
+
+chmod 777 $PROFILE_PATH/*.profile;
 

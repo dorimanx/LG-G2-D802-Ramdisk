@@ -15,7 +15,7 @@ fi;
 case "${config_backup_restore}" in
 	3)
 		(
-			if [ `pgrep -f "push-actions/config_backup_restore" |  wc -l` -lt "5" ]; then
+			if [ "$(pgrep -f "push-actions/config_backup_restore" | wc -l)" -lt "5" ]; then
 				cp -a /res/customconfig/battery.profile /data/.dori/;
 				echo "battery" > /data/.dori/.active.profile;
 				echo "Updating configuration, please wait ~50sec"
@@ -26,7 +26,7 @@ case "${config_backup_restore}" in
 	;;
 	4)
 		(
-			if [ `pgrep -f "push-actions/config_backup_restore" |  wc -l` -lt "5" ]; then
+			if [ "$(pgrep -f "push-actions/config_backup_restore" | wc -l)" -lt "5" ]; then
 				cp -a /res/customconfig/default.profile /data/.dori/;
 				echo "default" > /data/.dori/.active.profile;
 				echo "Updating configuration, please wait ~50sec"
@@ -37,7 +37,7 @@ case "${config_backup_restore}" in
 	;;
 	5)
 		(
-			if [ `pgrep -f "push-actions/config_backup_restore" |  wc -l` -lt "5" ]; then
+			if [ "$(pgrep -f "push-actions/config_backup_restore" | wc -l)" -lt "5" ]; then
 				cp -a /res/customconfig/performance.profile /data/.dori/;
 				echo "performance" > /data/.dori/.active.profile;
 				echo "Updating configuration, please wait ~50sec"
@@ -48,7 +48,7 @@ case "${config_backup_restore}" in
 	;;
 	6)
 		(
-			if [ `pgrep -f "push-actions/config_backup_restore" |  wc -l` -lt "5" ]; then
+			if [ "$(pgrep -f "push-actions/config_backup_restore" | wc -l)" -lt "5" ]; then
 				cp -a /res/customconfig/extreme_battery.profile /data/.dori/;
 				echo "extreme_battery" > /data/.dori/.active.profile;
 				echo "Updating configuration, please wait ~50sec"
@@ -59,7 +59,7 @@ case "${config_backup_restore}" in
 	;;
 	7)
 		(
-			if [ `pgrep -f "push-actions/config_backup_restore" |  wc -l` -lt "5" ]; then
+			if [ "$(pgrep -f "push-actions/config_backup_restore" | wc -l)" -lt "5" ]; then
 				cp -a /res/customconfig/extreme_performance.profile /data/.dori/;
 				echo "extreme_performance" > /data/.dori/.active.profile;
 				echo "Updating configuration, please wait ~50sec"
@@ -90,13 +90,14 @@ case "${config_backup_restore}" in
 	;;
 	2)
 		file1="/data/.dori/${PROFILE}.profile";
+		file3="/data/.dori/tempfile";
 
 		if [ ! -f $file1 ] || [ ! -f $file2 ]; then
 			echo "File not found!";
 			exit;
 		fi;
 
-		if [ `pgrep -f "push-actions/config_backup_restore" |  wc -l` \< 3 ]; then
+		if [ "$(pgrep -f "push-actions/config_backup_restore" | wc -l)" -le "5" ]; then
 			echo "Restoring config file, please wait ~30sec till full restore is done"
 			echo "then the app will restart with new settings.";
 			(
@@ -122,7 +123,7 @@ case "${config_backup_restore}" in
 						# if backup-file has different values, then restore it
 						if [ "a${line1_2}" != "a${line2_2}" ]; then
 							if [ "${line2_2}" != "" ]; then
-								/sbin/busybox sed -i "s/${line1_1}=${line1_2}/${line2_1}=${line2_2}/" $file1;
+								/sbin/busybox sed -i "s/${line1_1}=${line1_2}/${line2_1}=${line2_2}/" "$file3" && mv "$file3" "$file1";
 								echo "edit: ${line1_1}=${line1_2} -> ${line2_1}=${line2_2}";
 							fi;
 						else
@@ -131,7 +132,7 @@ case "${config_backup_restore}" in
 							continue;
 						fi;
 					fi;
-				done<$file1
+				done<"$file3" && mv "$file3" "$file1"
 
 				# hiding all push action scripts from uci.sh
 				$BB mount -o remount,rw /;
@@ -157,7 +158,7 @@ case "${config_backup_restore}" in
 				mv /res/no-push-on-boot/* /res/customconfig/actions/push-actions/;
 				rm -f $LOCK_FILE;
 
-				STWEAKSAPP_RUNNING=`pgrep -f "com.gokhanmoral.stweaks.app" | wc -l`
+				STWEAKSAPP_RUNNING=$(pgrep -f "com.gokhanmoral.stweaks.app" | wc -l)
 
 				if [ "$STWEAKSAPP_RUNNING" != "0" ]; then
 					# Killing stweaks, if was open it's will restart!
