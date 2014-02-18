@@ -81,9 +81,6 @@ $BB chmod 666 /sys/module/lowmemorykiller/parameters/cost;
 $BB chmod 666 /sys/module/lowmemorykiller/parameters/adj;
 $BB chmod 666 /sys/module/lowmemorykiller/parameters/minfree
 
-# enable force fast charge on USB to charge faster
-echo "1" > /sys/kernel/fast_charge/force_fast_charge;
-
 # make sure we own the device nodes
 $BB chown system /sys/devices/system/cpu/cpufreq/ondemand/*
 $BB chown system /sys/devices/system/cpu/cpu0/cpufreq/*
@@ -184,7 +181,7 @@ fi;
 
 # reset profiles auto trigger to be used by kernel ADMIN, in case of need, if new value added in default profiles
 # just set numer $RESET_MAGIC + 1 and profiles will be reset one time on next boot with new kernel.
-RESET_MAGIC=8;
+RESET_MAGIC=9;
 if [ ! -e /data/.dori/reset_profiles ]; then
 	echo "0" > /data/.dori/reset_profiles;
 fi;
@@ -211,6 +208,9 @@ read_config;
 	# Apps and ROOT Install
 	$BB sh /sbin/ext/install.sh;
 )&
+
+# enable force fast charge on USB to charge faster
+echo "$force_fast_charge" > /sys/kernel/fast_charge/force_fast_charge;
 
 # busybox addons
 if [ -e /system/xbin/busybox ] && [ ! -e /sbin/ifconfig ]; then

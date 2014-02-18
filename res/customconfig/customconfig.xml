@@ -263,6 +263,24 @@
 
 <settingsTab name="Tweaks">
 
+	<settingsPane description="Fast charge control menu, here you can set the force FAST charge option when MTP is used as USB connection!" name="Fast Charge Control">
+
+		<spinner description="Fast Charge ON or OFF, also you can force charge voltage limit! for this select manual and set below the requested limit, if set here ON then default limit is 1200mA, if your charger cant give you that, dont expect to see 1200mA charge, no magic here." name="Force Fast Charge Switch" action="generic /sys/kernel/fast_charge/force_fast_charge">
+			<spinnerItem name="Fast Charge OFF" value="0"/> 
+			<spinnerItem name="Fast Charge ON" value="1"/> 
+			<spinnerItem name="Fast Charge Manual" value="2"/> 
+		</spinner>
+
+		<spinner description="Fast Charge Manual voltage limit! here you can set the max allowed voltage when using charger. take effect ONLY if Fast Charge Manual is set above!" name="Fast Charge Voltage Limits" action="generic /sys/kernel/fast_charge/fast_charge_level">
+			<spinnerItem name="MAX 500mA" value="500"/> 
+			<spinnerItem name="MAX 900mA" value="900"/> 
+			<spinnerItem name="MAX 1200mA" value="1200"/> 
+			<spinnerItem name="MAX 1500mA" value="1500"/> 
+			<spinnerItem name="MAX 2000mA" value="2000"/> 
+		</spinner>
+
+	</settingsPane>
+
 	<settingsPane description="This script will manipulate many kernel settings, based on chosen STweaks profile + settings and on screen state (ON or OFF) and we call it CortexBrain. To reset the kernel-settings, after you disable a tweak, you must reboot!" name="CortexBrain Tweaks">
 
 		<spinner description="Enable or Disable the background-process from CortexBrain. If you disable it, you will lose the function that set different settings for screen state (ON or OFF)." name="Cortexbrain-Background-Process" action="cortexbrain_background_process">
