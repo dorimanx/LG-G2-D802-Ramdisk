@@ -296,13 +296,13 @@ IO_SCHEDULER()
 		local state="$1";
 		local sys_mmc0_scheduler_tmp="/sys/block/mmcblk0/queue/scheduler";
 		local new_scheduler="";
-		local tmp_scheduler=$(cat "$sys_mmc0_scheduler_tmp");
+		local tmp_scheduler=$(cat "$sys_mmc0_scheduler_tmp" | sed -n 's/^.*\[\([a-z|A-Z]*\)\].*/\1/p');
 
 		if [ ! -e "$sys_mmc1_scheduler_tmp" ]; then
 			sys_mmc1_scheduler_tmp="/dev/null";
 		fi;
 
-		local ext_tmp_scheduler=$(cat "$sys_mmc1_scheduler_tmp");
+		local ext_tmp_scheduler=$(cat "$sys_mmc1_scheduler_tmp" | sed -n 's/^.*\[\([a-z|A-Z]*\)\].*/\1/p');
 
 		if [ "$state" == "awake" ]; then
 			new_scheduler="$scheduler";

@@ -45,7 +45,7 @@
 			<spinnerItem name="powersave" value="powersave"/> 
 		</spinner>
 
-		<checkbox description="Enable or Disable CPU-Tweaks below! if on then kernel will obey only STweaks set on every screen on and off" name="CPU-Tweaks" action="generic_cortex /tmp/cortexbrain_cpu" label="CPU-Tweaks"/>
+		<checkbox description="Enable or Disable CPU-Tweaks below! if ON then kernel will obey only STweaks and set the below freqs on screen OFF and ON" name="CPU-Tweaks" action="generic_cortex /tmp/cortexbrain_cpu" label="CPU-Tweaks"/>
 
 		<spinner description="Maximum CPU-Speed. You can tune the MAX CPU frequency (Default: 2265600 kHz)" name="Max CPU Frequency" action="cpu_max_freq">
 

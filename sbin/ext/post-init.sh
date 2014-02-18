@@ -84,14 +84,6 @@ $BB chmod 666 /sys/module/lowmemorykiller/parameters/minfree
 # enable force fast charge on USB to charge faster
 echo "1" > /sys/kernel/fast_charge/force_fast_charge;
 
-CPU_GOV_TUNE()
-{
-	# reset ondemand settings from kernel code.
-	echo "performance" > /sys/devices/system/cpu/cpu0/cpufreq/scaling_governor;
-	sleep 2;
-	echo "ondemand" > /sys/devices/system/cpu/cpu0/cpufreq/scaling_governor;
-}
-
 # make sure we own the device nodes
 $BB chown system /sys/devices/system/cpu/cpufreq/ondemand/*
 $BB chown system /sys/devices/system/cpu/cpu0/cpufreq/*
@@ -153,7 +145,7 @@ echo 20 > /proc/sys/vm/dirty_background_ratio
 echo 40 > /proc/sys/vm/dirty_ratio
 
 # set ondemand GPU governor as default
-echo ondemand > /sys/devices/fdb00000.qcom,kgsl-3d0/kgsl/kgsl-3d0/pwrscale/trustzone/governor
+echo simple > /sys/devices/fdb00000.qcom,kgsl-3d0/kgsl/kgsl-3d0/pwrscale/trustzone/governor
 
 # set default readahead
 echo 1024 > /sys/block/mmcblk0/bdi/read_ahead_kb
@@ -309,9 +301,6 @@ $BB mount -t tmpfs -o mode=0777,gid=1000 tmpfs /mnt/ntfs
 			/system/xbin/daemonsu --auto-daemon &
 		fi;
 	fi;
-
-	# No need to mess my kernel cpu gov tuning, so reset to kernel value at least on boot
-	CPU_GOV_TUNE;
 
 	# Fix critical perms again after init.d mess
 	CRITICAL_PERM_FIX;
