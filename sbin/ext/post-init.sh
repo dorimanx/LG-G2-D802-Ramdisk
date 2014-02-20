@@ -53,6 +53,13 @@ fi;
 sleep 5;
 OPEN_RW;
 
+# some nice thing for dev
+if [ ! -e /cpufreq ]; then
+	$BB ln -s /sys/devices/system/cpu/cpu0/cpufreq /cpufreq;
+	$BB ln -s /sys/devices/system/cpu/cpufreq/ /cpugov;
+	$BB ln -s /sys/module/msm_thermal/parameters/ /cputemp;
+fi;
+
 # cleaning
 $BB rm -rf /cache/lost+found/* 2> /dev/null;
 $BB rm -rf /data/lost+found/* 2> /dev/null;
@@ -76,6 +83,26 @@ CRITICAL_PERM_FIX()
 }
 CRITICAL_PERM_FIX;
 
+ONDEMAND_TUNING()
+{
+	echo "20" > /cpugov/ondemand/down_differential;
+	echo "3" > /cpugov/ondemand/down_differential_multi_core;
+	echo "1" > /cpugov/ondemand/enable_turbo_mode;
+	echo "80" > /cpugov/ondemand/high_grid_load;
+	echo "20" > /cpugov/ondemand/high_grid_step;
+	echo "95" > /cpugov/ondemand/micro_freq_up_threshold;
+	echo "80" > /cpugov/ondemand/middle_grid_load;
+	echo "10" > /cpugov/ondemand/middle_grid_step;
+	echo "300000" > /cpugov/ondemand/optimal_freq;
+	echo "1574400" > /cpugov/ondemand/optimal_max_freq;
+	echo "3" > /cpugov/ondemand/sampling_down_factor;
+	echo "80000" > /cpugov/ondemand/sampling_rate;
+	echo "300000" > /cpugov/ondemand/sync_freq;
+	echo "70" > /cpugov/ondemand/up_threshold;
+	echo "80" > /cpugov/ondemand/up_threshold_any_cpu_load;
+	echo "95" > /cpugov/ondemand/up_threshold_multi_core;
+}
+
 # oom and mem perm fix
 $BB chmod 666 /sys/module/lowmemorykiller/parameters/cost;
 $BB chmod 666 /sys/module/lowmemorykiller/parameters/adj;
@@ -87,9 +114,9 @@ $BB chown system /sys/devices/system/cpu/cpu0/cpufreq/*
 $BB chown system /sys/devices/system/cpu/cpu1/online
 $BB chown system /sys/devices/system/cpu/cpu2/online
 $BB chown system /sys/devices/system/cpu/cpu3/online
-$BB chmod 666 /sys/devices/system/cpu/cpu0/cpufreq/scalling_governor
-$BB chmod 666 /sys/devices/system/cpu/cpu0/cpufreq/scalling_max_freq
-$BB chmod 666 /sys/devices/system/cpu/cpu0/cpufreq/scalling_min_freq
+$BB chmod 666 /sys/devices/system/cpu/cpu0/cpufreq/scaling_governor
+$BB chmod 666 /sys/devices/system/cpu/cpu0/cpufreq/scaling_max_freq
+$BB chmod 666 /sys/devices/system/cpu/cpu0/cpufreq/scaling_min_freq
 $BB chmod 444 /sys/devices/system/cpu/cpu0/cpufreq/cpuinfo_cur_freq
 $BB chmod 444 /sys/devices/system/cpu/cpu0/cpufreq/stats/*
 $BB chmod 666 /sys/devices/system/cpu/cpu1/online
@@ -103,13 +130,6 @@ $BB chmod 666 /sys/devices/fdb00000.qcom,kgsl-3d0/kgsl/kgsl-3d0/pwrscale/trustzo
 
 $BB chown -R root:root /data/property;
 $BB chmod -R 0700 /data/property
-
-# some nice thing for dev
-if [ ! -e /cpufreq ]; then
-	$BB ln -s /sys/devices/system/cpu/cpu0/cpufreq /cpufreq;
-	$BB ln -s /sys/devices/system/cpu/cpufreq/ /cpugov;
-	$BB ln -s /sys/module/msm_thermal/parameters/ /cputemp;
-fi;
 
 #for no_debug in $(find /sys/ -name *debug*); do
 #       echo "0" > "$no_debug";
@@ -256,6 +276,7 @@ $BB mount -t tmpfs -o mode=0777,gid=1000 tmpfs /mnt/ntfs
 (
 	# set ondemand as default gov
 	echo "ondemand" > /sys/devices/system/cpu/cpu0/cpufreq/scaling_governor;
+	ONDEMAND_TUNING;
 
 	if [ "$stweaks_boot_control" == "yes" ]; then
 		# stop uci.sh from running all the PUSH Buttons in stweaks on boot
@@ -270,8 +291,6 @@ $BB mount -t tmpfs -o mode=0777,gid=1000 tmpfs /mnt/ntfs
 		$BB chmod 777 /data/.dori/booting;
 		$BB pkill -f "com.gokhanmoral.stweaks.app";
 		$BB nohup $BB sh /res/uci.sh restore;
-		UCI_PID=$(pgrep -f "/res/uci.sh");
-		echo "-800" > /proc/"$UCI_PID"/oom_score_adj;
 
 		OPEN_RW;
 		# restore all the PUSH Button Actions back to there location
@@ -287,6 +306,9 @@ $BB mount -t tmpfs -o mode=0777,gid=1000 tmpfs /mnt/ntfs
 
 		# Load Custom Modules
 		MODULES_LOAD;
+		if [ -e /cpugov/ondemand ]; then
+			ONDEMAND_TUNING;
+		fi;
 	fi;
 
 	# Start any init.d scripts that may be present in the rom or added by the user
