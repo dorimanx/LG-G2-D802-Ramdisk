@@ -276,6 +276,7 @@
 			<spinnerItem name="MAX 900mA" value="900"/> 
 			<spinnerItem name="MAX 1200mA" value="1200"/> 
 			<spinnerItem name="MAX 1500mA" value="1500"/> 
+			<spinnerItem name="MAX 1800mA" value="1800"/> 
 			<spinnerItem name="MAX 2000mA" value="2000"/> 
 		</spinner>
 
