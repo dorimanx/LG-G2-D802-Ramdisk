@@ -13,8 +13,14 @@ if [ "$cortexbrain_cpu" == "on" ]; then
 		cpu_min_freq=$2;
 
 		case "${cpu_min_freq}" in
-			2496000)
-				echo "2496000" > /sys/devices/system/cpu/cpu0/cpufreq/scaling_min_freq;
+			2803200)
+				echo "2803200" > /sys/devices/system/cpu/cpu0/cpufreq/scaling_min_freq;
+			;;
+			2726400)
+				echo "2726400" > /sys/devices/system/cpu/cpu0/cpufreq/scaling_min_freq;
+			;;
+			2572800)
+				echo "2572800" > /sys/devices/system/cpu/cpu0/cpufreq/scaling_min_freq;
 			;;
 			2419200)
 				echo "2419200" > /sys/devices/system/cpu/cpu0/cpufreq/scaling_min_freq;
@@ -60,6 +66,15 @@ if [ "$cortexbrain_cpu" == "on" ]; then
 			;;
 			300000)
 				echo "300000" > /sys/devices/system/cpu/cpu0/cpufreq/scaling_min_freq;
+			;;
+			249600)
+				echo "249600" > /sys/devices/system/cpu/cpu0/cpufreq/scaling_min_freq;
+			;;
+			192000)
+				echo "192000" > /sys/devices/system/cpu/cpu0/cpufreq/scaling_min_freq;
+			;;
+			96000)
+				echo "96000" > /sys/devices/system/cpu/cpu0/cpufreq/scaling_min_freq;
 			;;
 			*)
 				cpu_min_freq=300000;

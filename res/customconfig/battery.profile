@@ -1,6 +1,6 @@
 stweaks_boot_control=yes
 hotplug=default
-eco_mode_active=on
+eco_mode=eco
 msm_thermal=msm_temp
 core_limit_temp_degC=83
 limit_temp_degC=78

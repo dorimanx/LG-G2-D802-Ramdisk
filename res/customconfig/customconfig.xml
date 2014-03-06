@@ -21,7 +21,11 @@
 			<spinnerItem name="Intelli HotPlug" value="intelli"/> 
 		</spinner>
 
-		<checkbox description="CPU Echo Mode, if ON then only 2 cores can be ON, this will reduce performance but will save battery, depend on IntelliHotplug ON!!!" name="Intelli ECO Mode" action="generic01 /sys/module/intelli_plug/parameters/eco_mode_active" label="Intelli ECO Mode"/>
+		<spinner description="CPU ECO Mode, if ECO set, then only 2 cores can be ON, if STRICT set, then only 1 core can be ON, this will reduce performance but will save battery, depend on IntelliHotplug ON!!!" name="Intelli ECO Mode" action="eco_mode">
+			<spinnerItem name="All Cores Used" value="all"/> 
+			<spinnerItem name="ECO Mode(2 cores max)" value="eco"/> 
+			<spinnerItem name="Strict Mode(1 core max)" value="strict"/> 
+		</spinner>
 
 		<spinner description="CPU Thermal control, Can be Default driver without controls, or Intelli thermal driver with controls below, its will limit CPU frequency when CPU reach the max limit heat, till cooled and restore full power, this can help with too hot phone playing games! intelli driver is more aggressive and drop freq to 1.4 then to 1.2 then to 1.1ghz that will reduce performance in all bench apps! defaut will lock on 1.9Ghz most of the time, and burn the fingers but give you more SCORE to show off." name="CPU Temp Control" action="msm_thermal">
 			<spinnerItem name="Default Temp Control" value="msm_temp"/> 
@@ -49,7 +53,9 @@
 
 		<spinner description="Maximum CPU-Speed. You can tune the MAX CPU frequency (Default: 2265600 kHz)" name="Max CPU Frequency" action="cpu_max_freq">
 
-			<spinnerItem name="2496000" value="2496000"/> 
+			<spinnerItem name="2803200" value="2803200"/> 
+			<spinnerItem name="2726400" value="2726400"/> 
+			<spinnerItem name="2572800" value="2572800"/> 
 			<spinnerItem name="2419200" value="2419200"/> 
 			<spinnerItem name="2265600" value="2265600"/> 
 			<spinnerItem name="1958400" value="1958400"/> 
@@ -84,6 +90,9 @@
 			<spinnerItem name="652800" value="652800"/> 
 			<spinnerItem name="422400" value="422400"/> 
 			<spinnerItem name="300000" value="300000"/> 
+			<spinnerItem name="249600" value="249600"/> 
+			<spinnerItem name="192000" value="192000"/> 
+			<spinnerItem name="96000" value="96000"/> 
 		</spinner>
 
 	</settingsPane>

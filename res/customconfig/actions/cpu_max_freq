@@ -13,8 +13,14 @@ if [ "$cortexbrain_cpu" == "on" ]; then
 		cpu_max_freq=$2;
 
 		case "${cpu_max_freq}" in
-			2496000)
-				echo "2496000" > /sys/devices/system/cpu/cpu0/cpufreq/scaling_max_freq;
+			2803200)
+				echo "2803200" > /sys/devices/system/cpu/cpu0/cpufreq/scaling_max_freq;
+			;;
+			2726400)
+				echo "2726400" > /sys/devices/system/cpu/cpu0/cpufreq/scaling_max_freq;
+			;;
+			2572800)
+				echo "2572800" > /sys/devices/system/cpu/cpu0/cpufreq/scaling_max_freq;
 			;;
 			2419200)
 				echo "2419200" > /sys/devices/system/cpu/cpu0/cpufreq/scaling_max_freq;

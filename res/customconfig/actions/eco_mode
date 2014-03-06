@@ -1,0 +1,29 @@
+#!/sbin/busybox sh
+
+# $1 - "eco_mode"
+# $2 - value=
+# Created By Dorimanx
+
+if [ "a$2" != "a" ]; then
+	eco_mode=$2;
+
+	case "${eco_mode}" in
+		all)
+			echo "0" > /sys/module/intelli_plug/parameters/strict_mode_active;
+			echo "0" > /sys/module/intelli_plug/parameters/eco_mode_active;
+		;;
+		eco)
+			echo "0" > /sys/module/intelli_plug/parameters/strict_mode_active;
+			echo "1" > /sys/module/intelli_plug/parameters/eco_mode_active;
+		;;
+		strict)
+			echo "0" > /sys/module/intelli_plug/parameters/eco_mode_active;
+			echo "1" > /sys/module/intelli_plug/parameters/strict_mode_active;
+		;;
+		*)
+			eco_mode=all;
+		;;
+	esac;
+fi;
+echo ${eco_mode};
+
