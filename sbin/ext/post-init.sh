@@ -17,6 +17,17 @@ OPEN_RW;
 # Boot with ROW I/O Gov
 $BB echo "row" > /sys/block/mmcblk0/queue/scheduler;
 
+VDD_HIGH_FREQ()
+{
+	# Prevent user messing with HIGH Freq Voltages!
+	$BB chmod 666 /sys/devices/system/cpu/cpufreq/vdd_levels;
+	$BB echo "2419200 1030000" > /sys/devices/system/cpu/cpufreq/vdd_table/vdd_levels;
+	$BB echo "2572800 1060000" > /sys/devices/system/cpu/cpufreq/vdd_table/vdd_levels;
+	$BB echo "2726400 1090000" > /sys/devices/system/cpu/cpufreq/vdd_table/vdd_levels;
+	$BB echo "2803200 1120000" > /sys/devices/system/cpu/cpufreq/vdd_table/vdd_levels;
+}
+VDD_HIGH_FREQ;
+
 # clean old modules from /system and add new from ramdisk
 if [ ! -d /system/lib/modules ]; then
         $BB mkdir /system/lib/modules;
@@ -321,6 +332,9 @@ $BB mount -t tmpfs -o mode=0777,gid=1000 tmpfs /mnt/ntfs
 
 	# Fix critical perms again after init.d mess
 	CRITICAL_PERM_FIX;
+
+	# Fix High freq voltages!
+	VDD_HIGH_FREQ;
 
 	# script finish here, so let me know when
 	TIME_NOW=$(date)
