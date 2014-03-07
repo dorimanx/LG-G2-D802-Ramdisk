@@ -24,7 +24,11 @@ if [ "a$2" != "a" ]; then
 			if [ "$(ps | grep "/system/bin/thermal-engine" | wc -l)" -ge "1" ]; then
 				/system/bin/stop thermal-engine;
 			fi;
-			echo "$enabled" > /sys/module/msm_thermal/core_control/enabled;
+			if [ "$enabled" == "off" ]; then
+				echo "0" > /sys/module/msm_thermal/core_control/enabled;
+			else
+				echo "1" > /sys/module/msm_thermal/core_control/enabled;
+			fi;
 			if [ "$(cat /sys/module/msm_thermal/parameters/enabled)" == "N" ]; then
 				echo "Y" > /sys/module/msm_thermal/parameters/enabled;
 				echo "$limit_temp_degC" > /sys/module/msm_thermal/parameters/limit_temp_degC;
