@@ -1,4 +1,5 @@
 stweaks_boot_control=yes
+oc_controller=stock
 hotplug=default
 eco_mode=strict
 msm_thermal=msm_temp

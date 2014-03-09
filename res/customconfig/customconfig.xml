@@ -15,6 +15,13 @@
 
 	<settingsPane description="Here you can tune CPU functions in kernel" name="CPU Tuning">
 
+		<spinner description="Control Over MAX allowed CPU frequency! here you can have normal 2.3Ghz max or HIGH OC up to 2.5Ghz or Ultra Power 2.8Ghz! or you can limit to only 2.0Ghz for battery save, when you set the value here all other apps or services cant set freq higher! so if you want more come here and set" name="OC Max Freq Control" action="oc_controller">
+			<spinnerItem name="Low freq 2.0Ghz" value="battery"/> 
+			<spinnerItem name="Default 2.3Ghz" value="stock"/> 
+			<spinnerItem name="High OC 2.5Ghz" value="high"/> 
+			<spinnerItem name="Ultra OC 2.8Ghz" value="ultra"/> 
+		</spinner>
+
 		<spinner description="CPU HotPlug Control, you can switch from LG Default HotPlug driver to IntelliHotPlug or Alucard driver, not that using Intelli CPU Thermal control with Default LG HotPlug is not recommended! low performance" name="HotPlug Driver" action="hotplug">
 			<spinnerItem name="Default LG" value="default"/> 
 			<spinnerItem name="Alucard HotPlug" value="alucard"/> 
@@ -53,7 +60,7 @@
 
 		<checkbox description="Enable or Disable CPU-Tweaks below! if ON then kernel will obey only STweaks and set the below freqs on screen OFF and ON" name="CPU-Tweaks" action="generic_cortex /tmp/cortexbrain_cpu" label="CPU-Tweaks"/>
 
-		<spinner description="Maximum CPU-Speed. You can tune the MAX CPU frequency (Default: 2265600 kHz)" name="Max CPU Frequency" action="cpu_max_freq">
+		<spinner description="Maximum CPU-Speed. You can tune the MAX CPU frequency, DEPEND ON CPU-Tweaks ON ABOVE! (Default: 2265600 kHz)" name="Max CPU Frequency" action="cpu_max_freq">
 
 			<spinnerItem name="2803200" value="2803200"/> 
 			<spinnerItem name="2726400" value="2726400"/> 
@@ -75,7 +82,7 @@
 			<spinnerItem name="300000" value="300000"/> 
 		</spinner>
 
-		<spinner description="Minimum CPU-Speed. You can tune the MIN CPU frequency, MIN frequency cant be higher than MAX frequency! (Default: 300000 kHz)" name="Min CPU Frequency" action="cpu_min_freq">
+		<spinner description="Minimum CPU-Speed. You can tune the MIN CPU frequency, MIN frequency cant be higher than MAX frequency!, DEPEND ON CPU-Tweaks ON ABOVE! (Default: 300000 kHz)" name="Min CPU Frequency" action="cpu_min_freq">
 			<spinnerItem name="2496000" value="2496000"/> 
 			<spinnerItem name="2419200" value="2419200"/> 
 			<spinnerItem name="2265600" value="2265600"/> 
