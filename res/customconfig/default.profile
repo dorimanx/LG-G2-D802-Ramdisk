@@ -30,6 +30,7 @@ logger=off
 install_root=off
 force_fast_charge=2
 fast_charge_level=1800
+fake_charge_ac=on
 cortexbrain_background_process=1
 cortexbrain_firewall=on
 cortexbrain_tcp=on
