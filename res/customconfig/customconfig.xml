@@ -302,6 +302,12 @@
 
 	</settingsPane>
 
+	<settingsPane description="Sweep2Sleep function control." name="Sweep2Sleep">
+
+		<checkbox description="Enable Sweep2Sleep function that allow to turn screen off sweeping from right to left or backwards on bottom of the screen! if you have removed the soft buttons bar, then you have to turn this function OFF!" name="Sweep2Sleep Control" action="generic01 /sys/sweep2sleep/sweep2sleep" label="Sweep2Sleep"/>
+
+	</settingsPane>
+
 	<settingsPane description="This script will manipulate many kernel settings, based on chosen STweaks profile + settings and on screen state (ON or OFF) and we call it CortexBrain. To reset the kernel-settings, after you disable a tweak, you must reboot!" name="CortexBrain Tweaks">
 
 		<spinner description="Enable or Disable the background-process from CortexBrain. If you disable it, you will lose the function that set different settings for screen state (ON or OFF)." name="Cortexbrain-Background-Process" action="cortexbrain_background_process">
