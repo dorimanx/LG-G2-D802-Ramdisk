@@ -15,16 +15,16 @@ PROFILE=$(cat /data/.dori/.active.profile);
 
 		case "${oc_controller}" in
 			ultra)
-				echo "2803200" > /sys/power/cpufreq_max_limit;
+				echo "2803200" > /sys/kernel/msm_cpufreq_limit/cpufreq_limit;
 			;;
 			high)
-				echo "2572800" > /sys/power/cpufreq_max_limit;
+				echo "2572800" > /sys/kernel/msm_cpufreq_limit/cpufreq_limit;
 			;;
 			stock)
-				echo "2265600" > /sys/power/cpufreq_max_limit;
+				echo "2265600" > /sys/kernel/msm_cpufreq_limit/cpufreq_limit;
 			;;
 			battery)
-				echo "1958400" > /sys/power/cpufreq_max_limit;
+				echo "1958400" > /sys/kernel/msm_cpufreq_limit/cpufreq_limit;
 			;;
 			*)
 				oc_controller=stock;
