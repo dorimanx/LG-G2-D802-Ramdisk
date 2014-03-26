@@ -7,6 +7,9 @@ BB=/sbin/busybox
 # protect init from oom
 echo "-1000" > /proc/1/oom_score_adj;
 
+# set high priority to temp controller
+$BB renice -n -17 -p $(pgrep -f "/system/bin/thermal-engine");
+
 OPEN_RW()
 {
         $BB mount -o remount,rw /;

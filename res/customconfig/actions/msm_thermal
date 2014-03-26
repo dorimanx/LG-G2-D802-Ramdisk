@@ -19,6 +19,7 @@ if [ "a$2" != "a" ]; then
 			if [ "$(ps | grep "/system/bin/thermal-engine" | wc -l)" -le "1" ]; then
 				/system/bin/start thermal-engine;
 			fi;
+			renice -n -17 -p $(pgrep -f "/system/bin/thermal-engine");
 		;;
 		intelli_temp)
 			if [ "$(ps | grep "/system/bin/thermal-engine" | wc -l)" -ge "1" ]; then

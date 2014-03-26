@@ -12,6 +12,9 @@ if [ "a$2" != "a" ]; then
 			/system/bin/stop mpdecision
 			echo "0" > /sys/kernel/alucard_hotplug/hotplug_enable;
 			echo "1" > /sys/module/intelli_plug/parameters/intelli_plug_active;
+			if [ "$(ps | grep /system/bin/thermal-engine | wc -l)" -ge "1" ]; then
+				renice -n -17 -p $(pgrep -f "/system/bin/thermal-engine");
+			fi;
 		;;
 		default)
 			echo "0" > /sys/module/intelli_plug/parameters/intelli_plug_active;
