@@ -345,21 +345,22 @@ CPU_CENTRAL_CONTROL()
 HOTPLUG_CONTROL()
 {
 	if [ "$hotplug" == "default" ]; then
-		echo "0" > /sys/module/intelli_plug/parameters/intelli_plug_active;
+		echo "0" > /sys/kernel/intelli_plug/intelli_plug_active;
 		echo "0" > /sys/kernel/alucard_hotplug/hotplug_enable;
 		if [ "$(ps | grep "mpdecision" | wc -l)" -le "1" ]; then
 			/system/bin/start mpdecision
+			renice -n -17 -p $(pgrep -f "/system/bin/start mpdecision");
 		fi;
 	elif [ "$hotplug" == "intelli" ]; then
 		/system/bin/stop mpdecision
 		echo "0" > /sys/kernel/alucard_hotplug/hotplug_enable;
-		echo "1" > /sys/module/intelli_plug/parameters/intelli_plug_active;
+		echo "1" > /sys/kernel/intelli_plug/intelli_plug_active;
 		if [ "$(ps | grep /system/bin/thermal-engine | wc -l)" -ge "1" ]; then
 			renice -n -17 -p $(pgrep -f "/system/bin/thermal-engine");
 		fi;
 	elif [ "$hotplug" == "alucard" ]; then
 		/system/bin/stop mpdecision
-		echo "0" > /sys/module/intelli_plug/parameters/intelli_plug_active;
+		echo "0" > /sys/kernel/intelli_plug/intelli_plug_active;
 		echo "1" > /sys/kernel/alucard_hotplug/hotplug_enable;
 	fi;
 }
