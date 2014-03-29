@@ -99,9 +99,6 @@
 			<spinnerItem name="652800" value="652800"/> 
 			<spinnerItem name="422400" value="422400"/> 
 			<spinnerItem name="300000" value="300000"/> 
-			<spinnerItem name="249600" value="249600"/> 
-			<spinnerItem name="192000" value="192000"/> 
-			<spinnerItem name="96000" value="96000"/> 
 		</spinner>
 
 	</settingsPane>

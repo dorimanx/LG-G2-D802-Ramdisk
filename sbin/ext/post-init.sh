@@ -91,7 +91,7 @@ ONDEMAND_TUNING()
 	echo "20" > /cpugov/ondemand/down_differential;
 	echo "3" > /cpugov/ondemand/down_differential_multi_core;
 	echo "1" > /cpugov/ondemand/enable_turbo_mode;
-	echo "95" > /cpugov/ondemand/micro_freq_up_threshold;
+	echo "90" > /cpugov/ondemand/micro_freq_up_threshold;
 	echo "1" > /cpugov/ondemand/sampling_down_factor;
 	echo "60000" > /cpugov/ondemand/sampling_rate;
 	echo "80" > /cpugov/ondemand/up_threshold;
@@ -167,6 +167,10 @@ echo 1024 > /sys/block/mmcblk0/queue/read_ahead_kb
 
 # make sure our max gpu clock is set via sysfs
 echo 450000000 > /sys/class/kgsl/kgsl-3d0/max_gpuclk
+
+# set min max boot freq to default.
+echo "2265600" > /sys/devices/system/cpu/cpu0/cpufreq/scaling_max_freq;
+echo "300000" > /sys/devices/system/cpu/cpu0/cpufreq/scaling_min_freq;
 
 lgodl_prop=$(getprop persist.service.lge.odl_on)
 if [ "$lgodl_prop" == "true" ]; then

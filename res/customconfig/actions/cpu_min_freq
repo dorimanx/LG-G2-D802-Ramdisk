@@ -67,15 +67,6 @@ if [ "$cortexbrain_cpu" == "on" ]; then
 			300000)
 				echo "300000" > /sys/devices/system/cpu/cpu0/cpufreq/scaling_min_freq;
 			;;
-			249600)
-				echo "249600" > /sys/devices/system/cpu/cpu0/cpufreq/scaling_min_freq;
-			;;
-			192000)
-				echo "192000" > /sys/devices/system/cpu/cpu0/cpufreq/scaling_min_freq;
-			;;
-			96000)
-				echo "96000" > /sys/devices/system/cpu/cpu0/cpufreq/scaling_min_freq;
-			;;
 			*)
 				cpu_min_freq=300000;
 			;;
