@@ -61,6 +61,8 @@ if [ ! -e /cpufreq ]; then
 	$BB ln -s /sys/devices/system/cpu/cpu0/cpufreq /cpufreq;
 	$BB ln -s /sys/devices/system/cpu/cpufreq/ /cpugov;
 	$BB ln -s /sys/module/msm_thermal/parameters/ /cputemp;
+	$BB ln -s /sys/kernel/alucard_hotplug/ /alucard_plug;
+	$BB ln -s /sys/kernel/intelli_plug/ intelli_plug;
 fi;
 
 # cleaning
