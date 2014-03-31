@@ -120,7 +120,6 @@ $BB chmod 444 /sys/devices/system/cpu/cpu0/cpufreq/stats/*
 $BB chmod 666 /sys/devices/system/cpu/cpu1/online
 $BB chmod 666 /sys/devices/system/cpu/cpu2/online
 $BB chmod 666 /sys/devices/system/cpu/cpu3/online
-$BB chmod 666 /sys/module/intelli_plug/parameters/*
 $BB chmod 666 /sys/module/msm_thermal/parameters/*
 $BB chmod 666 /sys/module/msm_thermal/core_control/enabled
 $BB chmod 666 /sys/kernel/intelli_plug/*

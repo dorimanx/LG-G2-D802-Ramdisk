@@ -9,16 +9,16 @@ if [ "a$2" != "a" ]; then
 
 	case "${eco_mode}" in
 		all)
-			echo "0" > /sys/module/intelli_plug/parameters/strict_mode_active;
-			echo "0" > /sys/module/intelli_plug/parameters/eco_mode_active;
+			echo "0" > /sys/kernel/intelli_plug/strict_mode_active;
+			echo "0" > /sys/kernel/intelli_plug/eco_mode_active;
 		;;
 		eco)
-			echo "0" > /sys/module/intelli_plug/parameters/strict_mode_active;
-			echo "1" > /sys/module/intelli_plug/parameters/eco_mode_active;
+			echo "0" > /sys/kernel/intelli_plug/strict_mode_active;
+			echo "1" > /sys/kernel/intelli_plug/eco_mode_active;
 		;;
 		strict)
-			echo "0" > /sys/module/intelli_plug/parameters/eco_mode_active;
-			echo "1" > /sys/module/intelli_plug/parameters/strict_mode_active;
+			echo "0" > /sys/kernel/intelli_plug/eco_mode_active;
+			echo "1" > /sys/kernel/intelli_plug/strict_mode_active;
 		;;
 		*)
 			eco_mode=all;
