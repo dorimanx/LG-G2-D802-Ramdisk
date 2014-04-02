@@ -26,6 +26,7 @@ if [ "$WGET_CHECK1" -eq "1" ] || [ "$WGET_CHECK2" -eq "1" ]; then
 		wget http://winhelp2002.mvps.org/hosts.zip -O $TMPFILE > /dev/null 2>&1;
 		unzip -p $TMPFILE HOSTS > $HOST_FILE;
 		chmod 644 $HOST_FILE;
+		dos2unix -u /system/etc/hosts;
 		echo "AD Blocker: installed to /system/etc/hosts, reboot to use.";
 	fi;
 		rm -f $TMPFILE;
