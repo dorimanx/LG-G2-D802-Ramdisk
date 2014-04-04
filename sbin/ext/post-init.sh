@@ -17,6 +17,11 @@ OPEN_RW()
 }
 OPEN_RW;
 
+# updating thermal engine config
+$BB cp -a /sbin/thermal/* /system/etc/;
+stop thermal-engine
+start thermal-engine
+
 # Boot with ROW I/O Gov
 $BB echo "row" > /sys/block/mmcblk0/queue/scheduler;
 
