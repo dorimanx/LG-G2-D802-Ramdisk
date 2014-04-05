@@ -9,7 +9,7 @@
 			<spinnerItem name="Dont load all Settings on boot" value="no"/> 
 		</spinner>
 
-		<button description="Push to load all tuned settings IF master swith is OFF or was OFF, if was ON when phone booted then no need to push!! wait till you see that settings are loaded" name="LOAD ALL" action="push-actions/reload_settings" label="LOAD ALL"/>
+		<button description="Push to load all tuned settings IF master switch is OFF or was OFF, if was ON when phone booted then no need to push!! wait till you see that settings are loaded" name="LOAD ALL" action="push-actions/reload_settings" label="LOAD ALL"/>
 
 	</settingsPane>
 
@@ -22,7 +22,7 @@
 			<spinnerItem name="Ultra OC 2.8Ghz" value="ultra"/> 
 		</spinner>
 
-		<spinner description="CPU HotPlug Control, you can switch from LG Default HotPlug driver to IntelliHotPlug or Alucard driver, not that using Intelli CPU Thermal control with Default LG HotPlug is not recommended! low performance" name="HotPlug Driver" action="hotplug">
+		<spinner description="CPU HotPlug Control, you can switch from LG Default HotPlug driver to IntelliHotPlug or Alucard driver, note that using Intelli CPU Thermal control with Default LG HotPlug is not recommended! low performance" name="HotPlug Driver" action="hotplug">
 			<spinnerItem name="Default LG" value="default"/> 
 			<spinnerItem name="Alucard HotPlug" value="alucard"/> 
 			<spinnerItem name="Intelli HotPlug" value="intelli"/> 
