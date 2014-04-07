@@ -96,13 +96,13 @@ CRITICAL_PERM_FIX;
 ONDEMAND_TUNING()
 {
 	echo "10" > /cpugov/ondemand/down_differential;
-	echo "10" > /cpugov/ondemand/down_differential_multi_core;
-	echo "80" > /cpugov/ondemand/micro_freq_up_threshold;
-	echo "5" > /cpugov/ondemand/sampling_down_factor;
+	echo "3" > /cpugov/ondemand/down_differential_multi_core;
+	echo "85" > /cpugov/ondemand/micro_freq_up_threshold;
+	echo "2" > /cpugov/ondemand/sampling_down_factor;
 	echo "60000" > /cpugov/ondemand/sampling_rate;
-	echo "70" > /cpugov/ondemand/up_threshold;
-	echo "70" > /cpugov/ondemand/up_threshold_any_cpu_load;
-	echo "70" > /cpugov/ondemand/up_threshold_multi_core;
+	echo "75" > /cpugov/ondemand/up_threshold;
+	echo "75" > /cpugov/ondemand/up_threshold_any_cpu_load;
+	echo "80" > /cpugov/ondemand/up_threshold_multi_core;
 }
 
 # oom and mem perm fix
