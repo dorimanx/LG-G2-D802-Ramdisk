@@ -18,7 +18,9 @@
 		<spinner description="Control Over MAX allowed CPU frequency! here you can have normal 2.3Ghz max or HIGH OC up to 2.5Ghz or Ultra Power 2.8Ghz! or you can limit to only 2.0Ghz for battery save, when you set the value here all other apps or services cant set freq higher! so if you want more come here and set" name="OC Max Freq Control" action="oc_controller">
 			<spinnerItem name="Low freq 2.0Ghz" value="battery"/> 
 			<spinnerItem name="Default 2.3Ghz" value="stock"/> 
+			<spinnerItem name="Boost OC 2.4Ghz" value="boost"/> 
 			<spinnerItem name="High OC 2.5Ghz" value="high"/> 
+			<spinnerItem name="Mega OC 2.7Ghz" value="mega"/> 
 			<spinnerItem name="Ultra OC 2.8Ghz" value="ultra"/> 
 		</spinner>
 
