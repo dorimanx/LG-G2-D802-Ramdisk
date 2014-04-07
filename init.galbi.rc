@@ -40,7 +40,7 @@ on init
     mkdir /mnt/shell/emulated 0700 shell shell
     # LGE_UPDATE_START, 2013/03/27, G2-FS@lge.com , For External SD access
     #mkdir /storage 0050 system sdcard_r
-    mkdir /storage 0550 system sdcard_r
+    mkdir /storage 0751 system sdcard_r
     # LGE_UPDATE_END
     # LGE_UPDATE_START, 2013/01/28, G2-FS@lge.com
     #mkdir /storage/emulated 0000 root root #original
@@ -64,19 +64,26 @@ on init
     # LGE_UPDATE_END
 
     # LGE_UPDATE_START, 2013/02/19, G2-FS@lge.com, For USB-OTG
-    export EXTERNAL_ADD_USB_STORAGE  /storage/USBstorage
+    mkdir /mnt/media_rw/USBstorage1 0700 media_rw media_rw
+    mkdir /mnt/media_rw/USBstorage2 0700 media_rw media_rw
+    mkdir /mnt/media_rw/USBstorage3 0700 media_rw media_rw
+    mkdir /mnt/media_rw/USBstorage4 0700 media_rw media_rw
+    mkdir /mnt/media_rw/USBstorage5 0700 media_rw media_rw
+    mkdir /mnt/media_rw/USBstorage6 0700 media_rw media_rw
+    
+    export EXTERNAL_ADD_USB_STORAGE1 /storage/USBstorage1
     export EXTERNAL_ADD_USB_STORAGE2 /storage/USBstorage2
     export EXTERNAL_ADD_USB_STORAGE3 /storage/USBstorage3
     export EXTERNAL_ADD_USB_STORAGE4 /storage/USBstorage4
     export EXTERNAL_ADD_USB_STORAGE5 /storage/USBstorage5
     export EXTERNAL_ADD_USB_STORAGE6 /storage/USBstorage6
 
-    mkdir /storage/USBstorage 0000 system system
-    mkdir /storage/USBstorage2 0000 system system
-    mkdir /storage/USBstorage3 0000 system system
-    mkdir /storage/USBstorage4 0000 system system
-    mkdir /storage/USBstorage5 0000 system system
-    mkdir /storage/USBstorage6 0000 system system
+    mkdir /storage/USBstorage1 0700 root root
+    mkdir /storage/USBstorage2 0700 root root
+    mkdir /storage/USBstorage3 0700 root root
+    mkdir /storage/USBstorage4 0700 root root
+    mkdir /storage/USBstorage5 0700 root root
+    mkdir /storage/USBstorage6 0700 root root
     # LGE_UPDATE_END
 
     # Support legacy paths
@@ -118,7 +125,16 @@ on post-fs
    chown system system /sys/devices/virtual/input/lge_touch/incoming_call
    chmod 664 /sys/devices/virtual/input/lge_touch/touch_gesture
    chown system system /sys/devices/virtual/input/lge_touch/touch_gesture
+   chown system system /sys/devices/virtual/input/lge_touch/ime_status
+   chown system system /sys/devices/virtual/input/lge_touch/mfts
+   chmod 640 /sys/devices/virtual/input/lge_touch/mfts
+   chown system system /sys/devices/virtual/input/lge_touch/mfts_fw
+   chmod 640 /sys/devices/virtual/input/lge_touch/mfts_fw
+   chown system system /sys/devices/virtual/input/lge_touch/mfts_fw_ver
+   chmod 640 /sys/devices/virtual/input/lge_touch/mfts_fw_ver
+
 # End keyguard file for ghost finger
+   mkdir /data/misc/audit 02750 system system	
 
 on early-boot
     # set RLIMIT_MEMLOCK to 64MB
@@ -170,15 +186,26 @@ on boot
     chmod 0660 /sys/class/leds/button-backlight1/brightness
     chmod 0660 /sys/class/leds/button-backlight2/brightness
     # emotional led
-	chown system system /sys/devices/virtual/g2_rgb_led/use_patterns/blink_patterns
-	chmod 0644 /sys/devices/virtual/g2_rgb_led/use_patterns/blink_patterns
-	chown system system /sys/devices/virtual/g2_rgb_led/use_patterns/input_patterns
-	chmod 0644 /sys/devices/virtual/g2_rgb_led/use_patterns/input_patterns
-	chown system system /sys/devices/virtual/g2_rgb_led/use_patterns/onoff_patterns
-	chmod 0644 /sys/devices/virtual/g2_rgb_led/use_patterns/onoff_patterns
-	chown system system /sys/devices/virtual/g2_rgb_led/use_patterns/setting
-	chmod 0644 /sys/devices/virtual/g2_rgb_led/use_patterns/setting
-	write /sys/devices/virtual/g2_rgb_led/use_patterns/setting 1
+    chown system system /sys/devices/virtual/lg_rgb_led/use_patterns/blink_patterns
+    chmod 0644 /sys/devices/virtual/lg_rgb_led/use_patterns/blink_patterns
+    chown system system /sys/devices/virtual/lg_rgb_led/use_patterns/input_patterns
+    chmod 0644 /sys/devices/virtual/lg_rgb_led/use_patterns/input_patterns
+    chown system system /sys/devices/virtual/lg_rgb_led/use_patterns/onoff_patterns
+    chmod 0644 /sys/devices/virtual/lg_rgb_led/use_patterns/onoff_patterns
+    chown system system /sys/devices/virtual/lg_rgb_led/use_patterns/setting
+    chmod 0644 /sys/devices/virtual/lg_rgb_led/use_patterns/setting
+    write /sys/devices/virtual/lg_rgb_led/use_patterns/setting 1
+
+    #lp5521
+    chown system system /sys/devices/f9967000.i2c/i2c-0/0-0032/led_current_index
+    chown system system /sys/devices/f9967000.i2c/i2c-0/0-0032/led_pattern
+    chown system system /sys/devices/f9967000.i2c/i2c-0/0-0032/led_blink
+    chown system system /sys/devices/f9967000.i2c/i2c-0/0-0032/leds/R/brightness
+    chown system system /sys/devices/f9967000.i2c/i2c-0/0-0032/leds/G/brightness
+    chown system system /sys/devices/f9967000.i2c/i2c-0/0-0032/leds/B/brightness
+    chown system system /sys/devices/f9967000.i2c/i2c-0/0-0032/leds/R/led_current
+    chown system system /sys/devices/f9967000.i2c/i2c-0/0-0032/leds/G/led_current
+    chown system system /sys/devices/f9967000.i2c/i2c-0/0-0032/leds/B/led_current
 
     # Feature chip vendor : brcm, qct
     setprop bluetooth.chip.vendor brcm
@@ -222,7 +249,23 @@ on boot
     #For bridgemgr daemon to inform the USB driver of the correct transport
     chown radio radio /sys/class/android_usb/f_rmnet_smd_sdio/transport
 
-    chown root system /proc/net/ip_conntrack
+#   Define TCP buffer sizes for various networks
+#   ReadMin, ReadInitial, ReadMax, WriteMin, WriteInitial, WriteMax,
+    setprop net.tcp.buffersize.default 4096,87380,110208,4096,16384,110208
+    setprop net.tcp.buffersize.lte     524288,1048576,2097152,262144,524288,1048576
+    setprop net.tcp.buffersize.umts    4094,87380,110208,4096,16384,110208
+    setprop net.tcp.buffersize.hspa    4094,87380,1220608,4096,16384,1220608
+    setprop net.tcp.buffersize.hsupa   4094,87380,1220608,4096,16384,1220608
+    setprop net.tcp.buffersize.hsdpa   4094,87380,1220608,4096,16384,1220608
+    setprop net.tcp.buffersize.hspap   4094,87380,1220608,4096,16384,1220608
+    setprop net.tcp.buffersize.edge    4093,26280,35040,4096,16384,35040
+    setprop net.tcp.buffersize.gprs    4092,8760,11680,4096,8760,11680
+    setprop net.tcp.buffersize.evdo    4094,87380,262144,4096,16384,262144
+
+#   Assign TCP buffer thresholds to be ceiling value of technology maximums
+#   Increased technology maximums should be reflected here.
+    write /proc/sys/net/core/rmem_max  2097152
+    write /proc/sys/net/core/wmem_max  2097152
 
     #To allow interfaces to get v6 address when tethering is enabled
     write /proc/sys/net/ipv6/conf/rmnet0/accept_ra 2
@@ -255,9 +298,9 @@ on boot
     write /proc/sys/net/netfilter/nf_conntrack_tcp_be_liberal 1
 
 
-    # setup permissions for IrRC UART
+    # setup permissions for IrRC  UART
     chown system system /dev/ttyHSL1
-    chmod 666 /dev/ttyHSL1
+    chmod 660 /dev/ttyHSL1
     # LGE_UPDATE_END
 
     # enable exfat feature
@@ -283,9 +326,7 @@ on post-fs-data
     mkdir /data/misc/bluetooth 0770 bluetooth bluetooth
 
     # Create the directories used by the Wireless subsystem
-# neo_wifi, 2013/03/18, Change directory group permission for OTA test
-#    mkdir /data/misc/wifi 0770 wifi wifi
-    mkdir /data/misc/wifi 0770 wifi system
+    mkdir /data/misc/wifi 0771 wifi system
 
     mkdir /data/misc/wifi/sockets 0770 wifi wifi
     mkdir /data/misc/wifi/wpa_supplicant 0770 wifi wifi
@@ -397,6 +438,11 @@ on post-fs-data
     #Create a folder for SRS to be able to create a usercfg file
     mkdir /data/data/media 0770 media media
 
+    mkdir /data/misc/audit 02750 system system
+
+service auditd /system/bin/auditd -k
+	class main
+
 # Export GPIO56 for fusion targets to enable/disable hub
 service usbhub_init /system/bin/usbhub_init
    class late_start
@@ -420,6 +466,19 @@ on property:bluetooth.isEnabled=true
 
 on property:ro.bluetooth.ftm_enabled=true
     start ftmd
+
+# BT_S: [PSIX-5040] cpu performance tuning for a2dp
+on property:bluetooth.a2dp_streaming=1
+    start bt-a2dp-tuning
+on property:bluetooth.a2dp_streaming=0
+    start bt-a2dp-tuning
+
+service bt-a2dp-tuning /system/bin/sh /system/etc/bluetooth/bt.a2dp.tuning.sh
+    user system
+    group system
+    disabled
+    oneshot
+# BT_S: [PSIX-5040] cpu performance tuning for aptX
 
 # yongmin.jung@lge.com 2014.04.24 last_kmsg backup function service
 service last_kmsg_backup /system/bin/sh /system/etc/last_kmsg_backup.sh
@@ -464,6 +523,19 @@ service rmt_storage /system/bin/rmt_storage
 
 on property:ro.boot.emmc=true
     start rmt_storage
+
+on property:bluetooth.start_hci=true
+    start start_hci_filter
+
+on property:bluetooth.start_hci=false
+    stop start_hci_filter
+
+service start_hci_filter /system/bin/wcnss_filter
+    class late_start
+    user bluetooth
+    group bluetooth
+    disabled
+
 
 service dbus /system/bin/dbus-daemon --system --nofork
     class main
@@ -600,9 +672,13 @@ service amp_unload /system/bin/amploader -u
 
 # LGE_CHANGE_S, [WiFi][hayun.kim@lge.com], 2013-01-22, Wifi Bring Up
 service p2p_supplicant /system/bin/logwrapper /system/bin/wpa_supplicant \
-    -iwlan0 -Dnl80211 -c/data/misc/wifi/wpa_supplicant.conf -N \
-    -ip2p0 -Dnl80211 -c/data/misc/wifi/p2p_supplicant.conf -dd \
-    -e/data/misc/wifi/entropy.bin -puse_p2p_group_interface=1use_multi_chan_concurrent=1
+    -iwlan0 -Dnl80211 -c/data/misc/wifi/wpa_supplicant.conf \
+    -I/system/etc/wifi/wpa_supplicant_overlay.conf \
+    -O/data/misc/wifi/sockets -N \
+    -ip2p0 -Dnl80211 -c/data/misc/wifi/p2p_supplicant.conf \
+    -I/system/etc/wifi/p2p_supplicant.conf -dd \
+    -puse_p2p_group_interface=1use_multi_chan_concurrent=1 -e/data/misc/wifi/entropy.bin \
+    -g@android:wpa_wlan0
     #   we will start as root and wpa_supplicant will switch to user wifi
     #   after setting up the capabilities required for WEXT
     #   user wifi
@@ -613,8 +689,10 @@ service p2p_supplicant /system/bin/logwrapper /system/bin/wpa_supplicant \
     oneshot
 
 service wpa_supplicant /system/bin/logwrapper /system/bin/wpa_supplicant \
-    -iwlan0 -Dnl80211 -c/data/misc/wifi/wpa_supplicant.conf -dd \
-    -e/data/misc/wifi/entropy.bin
+    -iwlan0 -Dnl80211 -c/data/misc/wifi/wpa_supplicant.conf \
+    -I/system/etc/wifi/wpa_supplicant_overlay.conf \
+    -O/data/misc/wifi/sockets \
+    -e/data/misc/wifi/entropy.bin -g@android:wpa_wlan0
     #   we will start as root and wpa_supplicant will switch to user wifi
     #   after setting up the capabilities required for WEXT
     #   user wifi
@@ -623,22 +701,25 @@ service wpa_supplicant /system/bin/logwrapper /system/bin/wpa_supplicant \
     socket wpa_wlan0 dgram 660 wifi wifi
     disabled
     oneshot
-# LGE_CHANGE_E, [WiFi][hayun.kim@lge.com], 2013-01-22, Wifi Bring Up
 
-# LGE_CHANGE_E, [WiFi][soonhyuk.choi@lge.com], 2013-04-10, Delete G option from dhcpcd options
-# if G option added, the gateway do not update in the specific status. from jaeshick.shin@lge.com on 4/9/2013
-service dhcpcd_wlan0 /system/bin/dhcpcd -ABKL
+service dhcpcd_wlan0 /system/bin/dhcpcd -ABDKL
     class late_start
     disabled
     oneshot
-# Original As below.
-#service dhcpcd_wlan0 /system/bin/dhcpcd -ABKLG
-#    class late_start
-#    disabled
-#    oneshot
-# LGE_CHANGE_E, [WiFi][hayun.kim@lge.com], 2013-04-10, Wifi Bring Up
+# LGE_CHANGE_E, [WiFi][hayun.kim@lge.com], 2013-01-22, Wifi Bring Up
 
 service dhcpcd_p2p /system/bin/dhcpcd -ABKLG
+    class late_start
+    disabled
+    oneshot
+
+# bt tethtering dhcp client deamon bh3.lee@lge.com
+service dhcpcd_bt-pan /system/bin/dhcpcd -ABKL
+    class late_start
+    disabled
+    oneshot
+
+service iprenew_bt-pan /system/bin/dhcpcd -n
     class late_start
     disabled
     oneshot
@@ -787,7 +868,8 @@ service rctd /system/bin/rctd
    user root
    group root
 
-on property:sys.boot_completed=1
+# yongmin.jung@lge.com 2013.11.20 move qcom-post-boot starting point to boot animation end
+on property:init.svc.bootanim=stopped
     start qcom-post-boot
 
 service atfwd /system/bin/ATFWD-daemon
@@ -854,9 +936,8 @@ service profiler_daemon /system/bin/profiler_daemon
     group root
     disabled
 
-service sdcard /system/bin/sdcard /data/media /mnt/shell/emulated 1023 1023
+service sdcard /system/bin/sdcard -u 1023 -g 1023 -l /data/media /mnt/shell/emulated
     class late_start
-    disabled
 
 on property:ro.fuse_sdcard=true
     start sdcard
@@ -974,12 +1055,10 @@ service service-crash /system/bin/sh /init.galbi.crash.sh
 
 # yongmin.jung@lge.com 2013.02.07 enable & disable crash handler, rtb & trace event through property
 on property:persist.service.crash.enable=1
-    stop service-crash
-    start service-crash
+    restart service-crash
 
 on property:persist.service.crash.enable=0
-    stop service-crash
-    start service-crash
+    restart service-crash
 
 #2013-03-06 seongmook.yim(seongmook.yim@lge.com) [P6/MDMBSP] ADD LGODL [START]
 service lg_dm_dev_router /system/bin/lg_dm_dev_router
@@ -1020,7 +1099,6 @@ service moca_ssr_ramdump /system/bin/subsystem_ramdump 1
     disabled
     oneshot
 
-
 on property:persist.service.moca.enable=1
    start moca_service
    start moca_restart
@@ -1035,3 +1113,41 @@ service moca_service_disable /system/bin/moca -k
 on property:persist.service.moca.enable=0
    start moca_service_disable
 #LGE_CHANGE_E 2012.04 for MOCA
+
+# Zero Wait
+on property:ro.lge.zwait=true
+    chown system system /sys/class/zwait/state
+
+#BT_S : [PSIX-5377]BDADDR_LOADER
+service bdaddr_loader /system/bin/bdaddr_loader
+    user root
+    group bluetooth net_bt_admin misc net_bt_stack
+    disabled
+    oneshot
+#BT_E : [PSIX-5377]BDADDR_LOADER
+# LGE_CHANGE_S, G2-FS@lge.com, 2013-11-17, fuse for USBStorage
+service fuse_USBstorage1 /system/bin/sdcard -u 1023 -g 1023 -d /mnt/media_rw/USBstorage1 /storage/USBstorage1
+    class late_start
+    disabled
+
+service fuse_USBstorage2 /system/bin/sdcard -u 1023 -g 1023 -d /mnt/media_rw/USBstorage2 /storage/USBstorage2
+    class late_start
+    disabled
+
+service fuse_USBstorage3 /system/bin/sdcard -u 1023 -g 1023 -d /mnt/media_rw/USBstorage3 /storage/USBstorage3
+    class late_start
+    disabled
+
+service fuse_USBstorage4 /system/bin/sdcard -u 1023 -g 1023 -d /mnt/media_rw/USBstorage4 /storage/USBstorage4
+    class late_start
+    disabled
+
+service fuse_USBstorage5 /system/bin/sdcard -u 1023 -g 1023 -d /mnt/media_rw/USBstorage5 /storage/USBstorage5
+    class late_start
+    disabled
+
+service fuse_USBstorage6 /system/bin/sdcard -u 1023 -g 1023 -d /mnt/media_rw/USBstorage6 /storage/USBstorage6
+    class late_start
+    disabled
+# LGE_CHANGE_E, G2-FS@lge.com, 2013-11-17, fuse for USBStorage
+

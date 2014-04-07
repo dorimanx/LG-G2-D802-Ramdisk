@@ -36,29 +36,17 @@
 #
 serialno=`getprop persist.usb.serialno`
 case "$serialno" in
-    "")
-    serialnum=`getprop ro.serialno`
-    case "$serialnum" in
-        "")
-        serialnum=`cat /sys/class/android_usb/android0/iSerial_redi`
-        ;;
-        * ) ;;
-    esac
-    case "$serialnum" in
-        "") ;;
-        * )
-        model=`getprop ro.model.name`
-        case "$model" in
-            "")
-                echo "$serialnum" > /sys/class/android_usb/android0/iSerial
-                ;;
-            * )
-                echo "$model-$serialnum" > /sys/class/android_usb/android0/iSerial
-        esac
-    esac
-    ;;
-    * )
-    echo "$serialno" > /sys/class/android_usb/android0/iSerial
+	"")
+	serialnum=`getprop ro.serialno`
+	case "$serialnum" in
+		"");; #Do nothing, use default serial number
+		* )
+		echo "$serialnum" > /sys/class/android_usb/android0/iSerial
+		;;
+	esac
+	;;
+	* )
+	echo "$serialno" > /sys/class/android_usb/android0/iSerial
 esac
 
 #chown root.system /sys/devices/platform/msm_hsusb/gadget/wakeup
@@ -86,17 +74,3 @@ esac
 
 echo 1  > /sys/class/android_usb/f_mass_storage/lun/nofua
 echo 1  > /sys/class/android_usb/f_cdrom_storage/lun/nofua
-
-#
-# Allow USB enumeration with default PID/VID
-#
-usb_config=`getprop persist.sys.usb.config`
-case "$usb_config" in
-	"") #USB persist config not set, select default configuration
-	setprop persist.sys.usb.config boot
-	;;
-	"adb")
-	setprop persist.sys.usb.config boot,adb
-	;;
-	* ) ;; #USB persist config exists, do nothing
-esac

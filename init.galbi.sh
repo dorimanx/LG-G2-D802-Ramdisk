@@ -43,6 +43,17 @@ start_sensors()
         mkdir -p /data/misc/sensors
         chmod 775 /data/misc/sensors
 
+# LGE_S G2-Task-Sensor@lge.com 2013-10-01
+# Mirroring sensor registry config file temporarily.
+        if [ -f /sns/cal/sns.reg ]; then
+            if [ ! -f /data/misc/sensors/sns.reg ]; then
+                cp /sns/cal/sns.reg /data/misc/sensors
+            fi
+        else
+            echo " Could not found the sensor registry config file in sns partion."
+        fi
+# LGE_E G2-Task-Sensor@lge.com 2013-10-01
+
         if [ ! -s /data/system/sensors/settings ]; then
             # If the settings file is empty, enable sensors HAL
             # Otherwise leave the file with it's current contents
@@ -89,7 +100,7 @@ case "$baseband" in
 #        start bridgemgrd
         ;;
         "sglte" | "sglte2")
-        start gpsone_daemon
+#        start gpsone_daemon
         ;;
 
 esac

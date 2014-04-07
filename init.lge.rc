@@ -1,3 +1,10 @@
+#CAPP_CKERROR_REPORTER
+import init.ckerror.rc
+
+on post-fs
+    #persist-lg
+    chown system system /persist-lg
+    chmod 0771 /persist-lg
 
 on post-fs-data
     #CAPP_SECUREBOOT
@@ -12,31 +19,41 @@ on post-fs-data
     mkdir /data/font/download 775 system system
     chmod 775 /data/font/download
 
-    #create directory for lgdrm
+    #persist-lg
+    chown system system /persist-lg
+    chmod 0771 /persist-lg
+
+    #LGDRM
     mkdir /data/lgdrm 0770 lgdrm lgdrm_acc
+    mkdir /persist-lg/lgdrm 0770 lgdrm lgdrm_acc
+
+    #Widevine
+    mkdir /persist-lg/widevine 0770 system system
+
+    #Widevine firmware
+    mkdir /persist-lg/firmware 0771 system system
+    exec /system/bin/cpfirmware widevine /persist-lg/firmware
+
+    #Secure clock
+    mkdir /persist-lg/secclk 0700 system system
+
+    #DivX DRM
+    mkdir /persist-lg/multimedia 0770 media divxdrm
+    mkdir /persist-lg/multimedia/nx 0770 media divxdrm
+    mkdir /persist-lg/multimedia/uma 0770 media divxdrm
+    mkdir /persist-lg/multimedia/scnt 0770 media divxdrm
+    mkdir /persist-lg/multimedia/scnt/sdadf 0770 media divxdrm
 
     #CAPP_BLUEERROR_HANDLER: temp version, it will be removed
     chown root system /data/dontpanic
     chmod 0775 /data/dontpanic
 
-# LGE_CHANGE_S, NFC: create data/nfc for nv storage
-    mkdir /data/nfc 770 nfc nfc
-    mkdir /data/nfc/param 770 nfc nfc
-# LGE_CHANGE_E, NFC
-
-#CAPP_UNINSTALL_PRELOADED
-on property:sys.boot_completed=1
-    start post_install
-
+    #LGMDM [a1-mdm-dev@lge.com][ID-MDM-77][ID-MDM-289]
+    mkdir /data/system/lgmdm 0700 system system
 #CAPP_RESERVED_USERDATA
 on property:ro.reserve.blockcount=*
     exec /system/bin/tune2fs -r $ro.reserve.blockcount \
               -u system -g system $ro.reserve.userdata
-
-#CAPP_UNINSTALL_PRELOADED
-service post_install /system/vendor/bin/post_install.sh
-    disabled
-    oneshot
 
 #CAPP_POWEROFF_ANI
 service shutdownanim /system/bin/shutdownanimation
@@ -65,13 +82,13 @@ service enable_uninstall  /system/vendor/bin/enable_uninstall.sh
 on property:vold.post_fs_data_done=1
     start enable_uninstall
 
-#CAPP_DEBUG_TOOLS
+#CAPP_LOGCATCHER
 service digicl /system/bin/digicl.sh
     class main
     disabled
     oneshot
 
-#CAPP_DEBUG_TOOLS
+#CAPP_LOGCATCHER
 service quickdump /system/bin/quickdump.sh
     class main
     disabled
@@ -79,20 +96,19 @@ service quickdump /system/bin/quickdump.sh
     ioprio rt 0
     keycodes 114 115 116
 
-#Application Manager NTCODE_INSTALL
-service ntcode_install  /system/vendor/bin/ntcode_install.sh
+#CAPP_NFS
+service nfskill /system/bin/nfskillprocess
     disabled
     oneshot
+    user root
 
-#Application Manager NTCODE_INSTALL
-on property:persist.sys.first-mcc=*
-    start ntcode_install
+on property:vold.decrypt=trigger_shutdown_framework
+    start nfskill
 
-#Application Manager BOOT_RESOURCE
-service boot_resource  /system/vendor/bin/boot_resource.sh
+#Application Manager NTCODE work
+service ntcode_listing /system/vendor/bin/ntcode_listing.sh
     disabled
-    oneshot
 
-#Application Manager BOOT_RESOURCE
-on property:vold.post_fs_data_done=1
-    start boot_resource
+#Application Manager NTCODE work
+on property:persist.sys.mcc-list-=*
+    start ntcode_listing

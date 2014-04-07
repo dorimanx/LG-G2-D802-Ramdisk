@@ -23,12 +23,6 @@ on boot
     setprop persist.service.bt.support.sap true
     setprop service.bt.support.busytone true
 
-#2013-07-12 hwayoung.lim@lge.com LGP_DATA_TCPIP_NSRM [START]
-    mkdir /data/connectivity 0775 system system
-    mkdir /data/connectivity/nsrm 0775 system system
-#2013-07-12 hwayoung.lim@lge.com LGP_DATA_TCPIP_NSRM [END]
-
-
 # Assign TCP buffer thresholds to be ceiling value of technology maximums
 # Increased technology maximums should be reflected here.
     write /proc/sys/net/core/rmem_max  3461120
@@ -55,6 +49,9 @@ service preloadcopy /system/bin/sh /preload_sl.sh
     disabled
     oneshot
 
+on property:ro.build.type=userdebug
+    setprop sys.coredump 1
+
 on post-fs
 #// LGE_UPDATE_S DMS_SYSTEM_GOTA dms-fota@lge.com 2012/11/09
     start flash_recovery
@@ -74,8 +71,6 @@ on fs
     wait /dev/block/platform/msm_sdcc.1/by-name/cust
     exec /system/bin/e2fsck -p /dev/block/platform/msm_sdcc.1/by-name/cust
     mount ext4 /dev/block/platform/msm_sdcc.1/by-name/cust /cust ro nosuid nodev barrier=1 noauto_da_alloc
-
-    write /sys/kernel/boot_adsp/boot 1
 
 on init
     exec /sbin/setup_fs_static \

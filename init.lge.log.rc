@@ -14,32 +14,28 @@ service log-kernel /system/bin/sh /system/bin/logger_kernel.sh
     oneshot
 
 on property:persist.service.kernel.enable=6
-	stop log-kernel
-	start log-kernel
+    restart log-kernel
+    restart log-power
 
 on property:persist.service.kernel.enable=5
-    stop log-kernel
-    start log-kernel
+    restart log-kernel
+    restart log-power
 
 on property:persist.service.kernel.enable=4
-    stop log-kernel
-    start log-kernel
+    restart log-kernel
+    restart log-power
 
 on property:persist.service.kernel.enable=3
-    stop log-kernel
-    start log-kernel
+    restart log-kernel
+    restart log-power
 
 on property:persist.service.kernel.enable=2
-    stop log-kernel
-    start log-kernel
-    stop log-power
-    start log-power
+    restart log-kernel
+    restart log-power
 
 on property:persist.service.kernel.enable=1
-    stop log-kernel
-    start log-kernel
-    stop log-power
-    start log-power
+    restart log-kernel
+    restart log-power
 
 on property:persist.service.kernel.enable=0
     stop log-kernel
@@ -52,28 +48,22 @@ service logcat-main /system/bin/sh /system/bin/logger_main.sh
     oneshot
 
 on property:persist.service.main.enable=6
-	stop logcat-main
-	start logcat-main
+    restart logcat-main
 
 on property:persist.service.main.enable=5
-    stop logcat-main
-    start logcat-main
+    restart logcat-main
 
 on property:persist.service.main.enable=4
-    stop logcat-main
-    start logcat-main
+    restart logcat-main
 
 on property:persist.service.main.enable=3
-    stop logcat-main
-    start logcat-main
+    restart logcat-main
 
 on property:persist.service.main.enable=2
-    stop logcat-main
-    start logcat-main
+    restart logcat-main
 
 on property:persist.service.main.enable=1
-    stop logcat-main
-    start logcat-main
+    restart logcat-main
 
 on property:persist.service.main.enable=0
     stop logcat-main
@@ -85,28 +75,22 @@ service logcat-system /system/bin/sh /system/bin/logger_system.sh
     oneshot
 
 on property:persist.service.system.enable=6
-	stop logcat-system
-	start logcat-system
+    restart logcat-system
 
 on property:persist.service.system.enable=5
-    stop logcat-system
-    start logcat-system
+    restart logcat-system
 
 on property:persist.service.system.enable=4
-    stop logcat-system
-    start logcat-system
+    restart logcat-system
 
 on property:persist.service.system.enable=3
-    stop logcat-system
-    start logcat-system
+    restart logcat-system
 
 on property:persist.service.system.enable=2
-    stop logcat-system
-    start logcat-system
+    restart logcat-system
 
 on property:persist.service.system.enable=1
-    stop logcat-system
-    start logcat-system
+    restart logcat-system
 
 on property:persist.service.system.enable=0
     stop logcat-system
@@ -118,28 +102,22 @@ service logcat-radio /system/bin/sh /system/bin/logger_radio.sh
     oneshot
 
 on property:persist.service.radio.enable=6
-	stop logcat-radio
-	start logcat-radio
+    restart logcat-radio
 
 on property:persist.service.radio.enable=5
-    stop logcat-radio
-    start logcat-radio
+    restart logcat-radio
 
 on property:persist.service.radio.enable=4
-    stop logcat-radio
-    start logcat-radio
+    restart logcat-radio
 
 on property:persist.service.radio.enable=3
-    stop logcat-radio
-    start logcat-radio
+    restart logcat-radio
 
 on property:persist.service.radio.enable=2
-    stop logcat-radio
-    start logcat-radio
+    restart logcat-radio
 
 on property:persist.service.radio.enable=1
-    stop logcat-radio
-    start logcat-radio
+    restart logcat-radio
 
 on property:persist.service.radio.enable=0
     stop logcat-radio
@@ -151,28 +129,22 @@ service logcat-events /system/bin/sh /system/bin/logger_events.sh
     oneshot
 
 on property:persist.service.events.enable=6
-	stop logcat-events
-	start logcat-events
+    restart logcat-events
 
 on property:persist.service.events.enable=5
-    stop logcat-events
-    start logcat-events
+    restart logcat-events
 
 on property:persist.service.events.enable=4
-    stop logcat-events
-    start logcat-events
+    restart logcat-events
 
 on property:persist.service.events.enable=3
-    stop logcat-events
-    start logcat-events
+    restart logcat-events
 
 on property:persist.service.events.enable=2
-    stop logcat-events
-    start logcat-events
+    restart logcat-events
 
 on property:persist.service.events.enable=1
-    stop logcat-events
-    start logcat-events
+    restart logcat-events
 
 on property:persist.service.events.enable=0
     stop logcat-events

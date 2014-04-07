@@ -74,6 +74,7 @@
 /dev/jpeg0                0660   system     camera
 /dev/jpeg1                0660   system     camera
 /dev/jpeg2                0660   system     camera
+/dev/msm_camera/*         0660   system     camera
 /dev/gemini/              0660   system     camera
 /dev/mercury0             0660   system     camera
 /dev/msm_vidc_reg         0660   system     audio
@@ -131,8 +132,11 @@
 /dev/broadcast0           0660  media        media
 
 # LGE_BROADCAST_ONESEG {
+/dev/broadcast*           0660  system      system
 /dev/broadcast_chkdev0    0660  system      system
+/dev/isdbt*               0660  system      system
 /dev/dvb/adapter0/demux0  0660  system      system
+/dev/dvb/adapter0/*       0660  system      system
 /dev/i2c-86               0660  system      system
 # LGE_BROADCAST_ONESEG }
 
@@ -150,34 +154,34 @@
 /dev/snfc_cen		0664	nfclock	nfclock
 /dev/snfc_available_poll	0440	nfc	nfc
 /dev/ttyHSL2              0666  root       root
-/dev/i2c-0                0666  root      root
 # LGE_CHANGE_E, [NFC][sungwook.ahn@lge.com], 2013-03-9, NFC Bring up
 # LGE_CHANGE_S, 20130307, LGE-FeliCa@lge.com
-/dev/felica               0660  mfc       system
-/dev/felica_cen           0464  mfc       felicalock
-/dev/felica_pon           0660  mfc       system
-/dev/felica_rfs           0440  mfc       mfc
-/dev/felica_rws           0440  mfc       mfc
-/dev/ttyHSL2              0666  mfc       system
-/dev/i2c-0                0666  mfc       system
-/dev/felica_cal           0666  mfc       mfc
-/dev/felica_test          0666  root      root
+#/dev/felica               0660  mfc       system
+#/dev/felica_cen           0464  mfc       felicalock
+#/dev/felica_pon           0660  mfc       system
+#/dev/felica_rfs           0440  mfc       mfc
+#/dev/felica_rws           0440  mfc       mfc
+#/dev/ttyHSL2              0666  mfc       system
+#/dev/felica_cal           0666  mfc       mfc
+#/dev/felica_test          0666  root      root
 # LGE_CHANGE_S, 20130307, LGE-FeliCa@lge.com
 # LGE_CHANGE_S, [modemBSP][jin.park@lge.com], 2013-03-19, LGE MOCA driver
-/dev/lge_moca_drv0        0666   system     system
+/dev/lge_moca_drv0        0660   system     system
 # LGE_CHANGE_E, [modemBSP][jin.park@lge.com], 2013-03-19, LGE MOCA driver
 
 # Begin Immersion changes(donguk.ki@lge.com)
-/dev/tspdrv               0666   root       root
+/dev/tspdrv               0660   system       system
 # End Immersion changes
 /dev/lge_ddm_tty0         0660   system     system
 
-/dev/ttyHS99              0600   bluetooth  bluetooth
-/dev/block/mmcblk0p13     0660   system     system
-/dev/btlock               0660   bluetooth  bluetooth
-/dev/rfkill               0660   wifi       wifi
-
-/dev/msm_camera/*         0660   system     camera
-/dev/broadcast*           0660  system      system
-/dev/isdbt*               0660  system      system
-/dev/dvb/adapter0/*       0660  system      system
+#[ePDG][START][changhwan.lee] reverse Rmnet Permission for ePDG
+/dev/smdcnt_rev0          0640   radio      radio
+/dev/smdcnt_rev1          0640   radio      radio
+/dev/smdcnt_rev2          0640   radio      radio
+/dev/smdcnt_rev3          0640   radio      radio
+/dev/smdcnt_rev4          0640   radio      radio
+/dev/smdcnt_rev5          0640   radio      radio
+/dev/smdcnt_rev6          0640   radio      radio
+/dev/smdcnt_rev7          0640   radio      radio
+/dev/smdcnt_rev8          0640   radio      radio
+#[ePDG][START][changhwan.lee] reverse Rmnet Permission for ePDG
