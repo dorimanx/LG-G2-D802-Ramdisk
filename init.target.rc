@@ -166,7 +166,7 @@ on post-fs-data
 #    stop bootlogo
 #    exec /sbin/chargerlogo
 
-# Allow usb charging to be disabled peristently
+# Allow usb charging to be disabled persistently
 on property:persist.usb.chgdisabled=1
     write /sys/class/power_supply/battery/charging_enabled 0
 
