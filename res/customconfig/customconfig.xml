@@ -2,11 +2,11 @@
 
 <settingsTab name="Master CORE">
 
-	<settingsPane description="Here you can swith Stweaks settings to be applyed on BOOT or not." name="Global BOOT Settings">
+	<settingsPane description="Here you can switch STweaks settings to be applyed on BOOT or not." name="Global BOOT Settings">
 
 		<spinner description="Master Switch, Load All settings from all TABS on boot or not! default is LOAD." name="Enable On Boot" action="generic_cortex /tmp/stweaks_boot_control">
 			<spinnerItem name="Load all Settings on boot" value="yes"/> 
-			<spinnerItem name="Dont load all Settings on boot" value="no"/> 
+			<spinnerItem name="Don't load all Settings on boot" value="no"/> 
 		</spinner>
 
 		<button description="Push to load all tuned settings IF master switch is OFF or was OFF, if was ON when phone booted then no need to push!! wait till you see that settings are loaded" name="LOAD ALL" action="push-actions/reload_settings" label="LOAD ALL"/>
@@ -15,13 +15,13 @@
 
 	<settingsPane description="Here you can tune CPU functions in kernel" name="CPU Tuning">
 
-		<spinner description="Control Over MAX allowed CPU frequency! here you can have normal 2.3Ghz max or HIGH OC up to 2.5Ghz or Ultra Power 2.8Ghz! or you can limit to only 2.0Ghz for battery save, when you set the value here all other apps or services cant set freq higher! so if you want more come here and set" name="OC Max Freq Control" action="oc_controller">
-			<spinnerItem name="Low freq 2.0Ghz" value="battery"/> 
-			<spinnerItem name="Default 2.3Ghz" value="stock"/> 
+		<spinner description="Control Over MAX allowed CPU frequency! here you can have normal 2.3GHz max or higher OC up to 2.8GHz! or you can limit to only 2.0GHz for battery save, when you set the value here all other apps or services can't set freq higher! so if you want more come here and change" name="OC Max Freq Control" action="oc_controller">
+			<spinnerItem name="Low freq 2.0GHz" value="battery"/> 
+			<spinnerItem name="Default 2.3GHz" value="stock"/> 
 			<spinnerItem name="Boost OC 2.4Ghz" value="boost"/> 
-			<spinnerItem name="High OC 2.5Ghz" value="high"/> 
+			<spinnerItem name="High OC 2.5GHz" value="high"/> 
 			<spinnerItem name="Mega OC 2.7Ghz" value="mega"/> 
-			<spinnerItem name="Ultra OC 2.8Ghz" value="ultra"/> 
+			<spinnerItem name="Ultra OC 2.8GHz" value="ultra"/> 
 		</spinner>
 
 		<spinner description="CPU HotPlug Control, you can switch from LG Default HotPlug driver to IntelliHotPlug or Alucard driver, note that using Intelli CPU Thermal control with Default LG HotPlug is not recommended! low performance" name="HotPlug Driver" action="hotplug">
@@ -36,7 +36,7 @@
 			<spinnerItem name="Strict Mode(1 core max)" value="strict"/> 
 		</spinner>
 
-		<spinner description="CPU Thermal control, Can be Default driver without controls, or Intelli thermal driver with controls below, its will limit CPU frequency when CPU reach the max limit heat, till cooled and restore full power, this can help with too hot phone playing games! intelli driver is more aggressive and drop freq to 1.4 then to 1.2 then to 1.1ghz that will reduce performance in all bench apps! Default will lock on 1.9Ghz most of the time, and burn the fingers but give you more SCORE to show off." name="CPU Temp Control" action="msm_thermal">
+		<spinner description="CPU Thermal control, Can be Default driver without controls, or Intelli thermal driver with controls below, its will limit CPU frequency when CPU reach the max limit heat, till cooled and restore full power, this can help with too hot phone playing games! intelli driver is more aggressive and drop freq to 1.4 then to 1.2 then to 1.1GHz that will reduce performance in all bench apps! Default will lock on 1.9GHz most of the time, and burn the fingers but give you more SCORE to show off." name="CPU Temp Control" action="msm_thermal">
 			<spinnerItem name="Default Temp Control" value="msm_temp"/> 
 			<spinnerItem name="Intelli Temp Control" value="intelli_temp"/> 
 		</spinner>
@@ -84,7 +84,7 @@
 			<spinnerItem name="300000" value="300000"/> 
 		</spinner>
 
-		<spinner description="Minimum CPU-Speed. You can tune the MIN CPU frequency, MIN frequency cant be higher than MAX frequency!, DEPEND ON CPU-Tweaks ON ABOVE! (Default: 300000 kHz)" name="Min CPU Frequency" action="cpu_min_freq">
+		<spinner description="Minimum CPU-Speed. You can tune the MIN CPU frequency, MIN frequency can't be higher than MAX frequency!, DEPEND ON CPU-Tweaks ON ABOVE! (Default: 300000 kHz)" name="Min CPU Frequency" action="cpu_min_freq">
 			<spinnerItem name="2496000" value="2496000"/> 
 			<spinnerItem name="2419200" value="2419200"/> 
 			<spinnerItem name="2265600" value="2265600"/> 
@@ -250,7 +250,7 @@
 
 	<settingsPane description="INIT.D" name="INIT.D">
 
-		<checkbox description="Enable or Disable INIT.D scripts RUN on boot. Many new ROMS are running the init.d scripts automatically. You can also force running the scripts, but if you run them and ROM runs them too, we have a problem: all scripts are running X2 times! To avoid conflicts, Stweaks RUN-control is disabled by default. If you know that your ROM is NOT supporting init.d script running, then turn it ON here and reboot." name="INIT.D Scripts RUN control" action="generic_cortex /tmp/init_d" label="Enable INIT.D scripts RUN-control"/>
+		<checkbox description="Enable or Disable INIT.D scripts RUN on boot. Many new ROMS are running the init.d scripts automatically. You can also force running the scripts, but if you run them and ROM runs them too, we have a problem: all scripts are running X2 times! To avoid conflicts, STweaks RUN-control is disabled by default. If you know that your ROM is NOT supporting init.d script running, then turn it ON here and reboot." name="INIT.D Scripts RUN control" action="generic_cortex /tmp/init_d" label="Enable INIT.D scripts RUN-control"/>
 
 	</settingsPane>
 
@@ -282,13 +282,13 @@
 
 	<settingsPane description="Fast charge control menu, here you can set the force FAST charge option when MTP is used as USB connection!" name="Fast Charge Control">
 
-		<spinner description="Fast Charge ON or OFF, also you can force charge voltage limit! for this select manual and set below the requested limit, if set here ON then default limit is 1200mA, if your charger cant give you that, dont expect to see 1200mA charge, no magic here." name="Force Fast Charge Switch" action="generic /sys/kernel/fast_charge/force_fast_charge">
+		<spinner description="Fast Charge ON or OFF, also you can force charge voltage limit! for this select manual and set below the requested limit, if set here ON then default limit is 1200mA, if your charger can't give you that, don't expect to see 1200mA charge, no magic here." name="Force Fast Charge Switch" action="generic /sys/kernel/fast_charge/force_fast_charge">
 			<spinnerItem name="Fast Charge OFF" value="0"/> 
 			<spinnerItem name="Fast Charge ON" value="1"/> 
 			<spinnerItem name="Fast Charge Manual" value="2"/> 
 		</spinner>
 
-		<spinner description="Fast Charge Manual voltage limit! here you can set the max allowed voltage when using charger. take effect ONLY if Fast Charge Manual is set above!" name="Fast Charge Voltage Limits" action="generic /sys/kernel/fast_charge/fast_charge_level">
+		<spinner description="Fast Charge Manual voltage limit! here you can set the max allowed voltage when using charger. Take effect ONLY if Fast Charge Manual is set above!" name="Fast Charge Voltage Limits" action="generic /sys/kernel/fast_charge/fast_charge_level">
 			<spinnerItem name="MAX 500mA" value="500"/> 
 			<spinnerItem name="MAX 900mA" value="900"/> 
 			<spinnerItem name="MAX 1200mA" value="1200"/> 
@@ -303,7 +303,7 @@
 
 	<settingsPane description="Sweep2Sleep function control." name="Sweep2Sleep">
 
-		<checkbox description="Enable Sweep2Sleep function that allow to turn screen off sweeping from right to left or backwards on bottom of the screen! if you have removed the soft buttons bar, then you have to turn this function OFF!" name="Sweep2Sleep Control" action="generic01 /sys/sweep2sleep/sweep2sleep" label="Sweep2Sleep"/>
+		<checkbox description="Enable Sweep2Sleep function that allow to turn screen off sweeping from right to left or backwards on bottom of the screen! If you have removed the soft buttons bar, then you have to turn this function OFF!" name="Sweep2Sleep Control" action="generic01 /sys/sweep2sleep/sweep2sleep" label="Sweep2Sleep"/>
 
 	</settingsPane>
 
