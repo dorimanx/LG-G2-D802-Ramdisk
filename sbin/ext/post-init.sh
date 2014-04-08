@@ -22,6 +22,9 @@ $BB cp -a /sbin/thermal/* /system/etc/;
 stop thermal-engine
 start thermal-engine
 
+# fix storage folder owner
+$BB chown system.sdcard_rw /storage;
+
 # Boot with ROW I/O Gov
 $BB echo "row" > /sys/block/mmcblk0/queue/scheduler;
 
