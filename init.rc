@@ -523,7 +523,7 @@ service installd /system/bin/installd
 #// LGE_UPDATE_S DMS_SYSTEM_GOTA dms-fota@lge.com 2012/11/09
 # flash_recovery is only called after GOTA update to update recovery.img
 service flash_recovery /sbin/write_recovery
-#service flash_recovery /system/etc/install-recovery.sh
+service flash_recovery /system/etc/install-recovery.sh
 #// LGE_UPDATE_S DMS_SYSTEM_GOTA dms-fota@lge.com 2012/11/09
     class main
     oneshot
