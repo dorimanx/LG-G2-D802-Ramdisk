@@ -42,12 +42,9 @@ fi;
 if [ "$install_root" == "on" ]; then
 	if [ "$NEW_SU" -eq "0" ]; then
 		echo "SuperSU already exists";
-		$BB chmod 6755 /system/xbin/su;
+		$BB chmod 06755 /system/xbin/su;
 		if [ -e /system/xbin/daemonsu ]; then
-			$BB chmod 6755 /system/xbin/daemonsu;
-			if [ -e /system/etc/install-recovery.sh ]; then
-				$BB rm /system/etc/install-recovery.sh;
-			fi;
+			$BB chmod 06755 /system/xbin/daemonsu;
 		fi;
 	else
 		echo "ROOT NOT detected, Installing SuperSU";
@@ -78,13 +75,15 @@ if [ "$install_root" == "on" ]; then
 
 			if [ ! -e /system/xbin/chattr ]; then
 				$BB cp /system/chainfire/xbin/chattr /system/xbin/;
-				$BB chmod 6755 /system/xbin/chattr;
+				$BB chmod 06755 /system/xbin/chattr;
 			fi;
-			$BB chmod 6755 /system/xbin/su;
-			$BB chmod 6755 /system/xbin/daemonsu;
-			$BB chmod 6755 /system/xbin/.ext/su;
+			$BB chmod 06755 /system/xbin/su;
+			$BB chmod 06755 /system/xbin/daemonsu;
+			$BB chmod 06755 /system/xbin/.ext/su;
 			$BB chmod 644 /system/app/SuperSU.apk;
 			$BB chmod 644 /system/app/SuperSUNoNag-v1.00.apk;
+			$BB chown root.root /system/xbin/su;
+			$BB chown root.root /system/xbin/daemonsu;
 			$BB chown root.root /system/app/SuperSU.apk;
 			$BB chown root.root /system/app/SuperSUNoNag-v1.00.apk;
 		fi;

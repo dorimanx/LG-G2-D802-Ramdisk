@@ -2,8 +2,6 @@
 export PATH="/res/customconfig/actions/push-actions:${PATH}";
 
 (
-	SU_APP_NEEDED=1;
-
 	if [ ! -e /system/xbin/su ] || [ ! -e /system/app/SuperSU.apk ]; then
 		BB=/sbin/busybox
 
@@ -49,10 +47,12 @@ export PATH="/res/customconfig/actions/push-actions:${PATH}";
 			$BB cp /system/chainfire/xbin/access /system/xbin/daemonsu;
 			if [ ! -e /system/xbin/chattr ]; then
 				cp /system/chainfire/xbin/chattr /system/xbin/;
-				$BB chmod 6755 /system/xbin/chattr;
+				$BB chmod 06755 /system/xbin/chattr;
 			fi;
-			$BB chmod 6755 /system/xbin/su;
-			$BB chmod 6755 /system/xbin/daemonsu;
+			$BB chmod 06755 /system/xbin/su;
+			$BB chown 0.0 /system/xbin/su;
+			$BB chmod 06755 /system/xbin/daemonsu;
+			$BB chown 0.0 /system/xbin/daemonsu;
 			$BB chmod 644 /system/app/SuperSU.apk;
 			$BB chmod 644 /system/app/SuperSUNoNag-v1.00.apk;
 			$BB chown 0.0 /system/app/SuperSU.apk;
