@@ -17,16 +17,19 @@ if [ "$ad_block_update" == "on" ]; then
 		mount -o remount,rw /system;
 
 		echo "nameserver 8.8.8.8" > /system/etc/resolv.conf;
+		echo "nameserver 4.4.8.8" >> /system/etc/resolv.conf;
 
 		TESTCONNECTION=`wget http://www.google.com -O $TMPFILE > /dev/null 2>&1`;
 		if [ $? != 0 ]; then
 			svc data enable;
 			svc wifi enable;
 			sleep 5;
-			DNS1=`getprop net.rmnet0.dns1`;
-			DNS2=`getprop net.rmnet0.dns2`;
+			DNS1=`getprop net.dns1`;
+			DNS2=`getprop net.rmnet0.dns1`;
+			DNS3=`getprop net.rmnet0.dns2`;
 			echo "nameserver $DNS1" >> /system/etc/resolv.conf;
 			echo "nameserver $DNS2" >> /system/etc/resolv.conf;
+			echo "nameserver $DNS3" >> /system/etc/resolv.conf;
 			TESTCONNECTION=`wget http://www.google.com -O $TMPFILE > /dev/null 2>&1`;
 			if [ $? != 0 ]; then
 				date +%H:%M-%D-%Z > /data/crontab/cron-ad_block_update;
