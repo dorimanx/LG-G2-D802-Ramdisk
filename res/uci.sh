@@ -5,6 +5,8 @@
 # You probably won't need to modify this file
 # You'll need to modify the files in /res/customconfig directory
 
+BB=/sbin/busybox
+
 ACTION_SCRIPTS=/res/customconfig/actions;
 source /res/customconfig/customconfig-helper;
 
@@ -15,7 +17,7 @@ read_defaults;
 read_config;
 
 UCI_PID=`pgrep "uci.sh"`;
-renice -n -15 -p $UCI_PID;
+$BB renice -n -15 -p $UCI_PID;
 
 /sbin/busybox mount -o remount,rw /
 /sbin/busybox mount -o remount,rw /system
