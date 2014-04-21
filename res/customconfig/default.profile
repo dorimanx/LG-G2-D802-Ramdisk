@@ -27,7 +27,6 @@ cron_zipalign=off
 gpsregion=No_GPS_Zone_changes
 init_d=off
 logger=off
-install_root=off
 force_fast_charge=2
 fast_charge_level=1800
 fake_charge_ac=off
