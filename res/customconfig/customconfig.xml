@@ -262,22 +262,6 @@
 
 </settingsTab>
 
-<settingsTab name="ROOT">
-
-	<settingsPane description="Remove OR Reinstall ROOT! You can have a ROOTED or not ROOTED phone." name="Root">
-
-		<button description="Root Install. Click to install ROOT (SuperUser) + ROM Busybox if existed. In case you have used the remove button, to Reinstall ROOT first REMOVE it! !!! Depends on CortexBrain-Background-Process !!!" name="ROOT INSTALL" action="push-actions/root_install" label="INSTALL ROOT"/>
-
-		<button description="Root Uninstall. Click to remove Any ROOT installed + Busybox (kernel Busybox remains, but is hidden from system) To install ROOT check the Auto-Install Root and REBOOT." name="ROOT REMOVE" action="push-actions/root_remove" label="REMOVE ROOT"/>
-
-		<button description="Root check. Click to see if you have ROOT or not" name="ROOT Check" action="push-actions/root_check" label="ROOT CHECK"/>
-
-		<checkbox description="If box is checked, root will be installed on the next restart." name="Auto-Install Root" action="generic_cortex /tmp/install_root" label="Auto-Install Root"/>
-
-	</settingsPane>
-
-</settingsTab>
-
 <settingsTab name="Tweaks">
 
 	<settingsPane description="Fast charge control menu, here you can set the force FAST charge option when MTP is used as USB connection!" name="Fast Charge Control">

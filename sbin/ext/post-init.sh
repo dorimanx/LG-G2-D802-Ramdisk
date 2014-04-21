@@ -7,6 +7,11 @@ BB=/sbin/busybox
 # protect init from oom
 echo "-1000" > /proc/1/oom_score_adj;
 
+PIDOFINIT=$(pgrep -f "/sbin/ext/post-init.sh");
+for i in $PIDOFINIT; do
+	echo "-600" > /proc/"$i"/oom_score_adj;
+done;
+
 # set high priority to temp controller
 $BB renice -n -17 -p $(pgrep -f "/system/bin/thermal-engine");
 
@@ -89,10 +94,10 @@ CRITICAL_PERM_FIX()
 	$BB chown -R root:root /lib;
 	$BB chmod -R 777 /tmp/;
 	$BB chmod -R 775 /res/;
-	$BB chmod -R 6755 /sbin/ext/;
+	$BB chmod -R 06755 /sbin/ext/;
 	$BB chmod -R 0777 /data/anr/;
 	$BB chmod -R 0400 /data/tombstones;
-	$BB chmod 6755 /sbin/busybox
+	$BB chmod 06755 /sbin/busybox
 }
 CRITICAL_PERM_FIX;
 
@@ -180,24 +185,11 @@ echo 450000000 > /sys/class/kgsl/kgsl-3d0/max_gpuclk
 echo "2265600" > /sys/devices/system/cpu/cpu0/cpufreq/scaling_max_freq;
 echo "300000" > /sys/devices/system/cpu/cpu0/cpufreq/scaling_min_freq;
 
-lgodl_prop=$(getprop persist.service.lge.odl_on)
-if [ "$lgodl_prop" == "true" ]; then
-        /system/bin/start lg_dm_dev_router
-fi
-
-# correct decoder support
-setprop lpa.decode false
-
 # Fix ROM dev wrong sets.
 setprop persist.adb.notify 0
 setprop persist.service.adb.enable 1
 setprop dalvik.vm.execution-mode int:jit
 setprop pm.sleep_mode 1
-
-PIDOFINIT=$(pgrep -f "/sbin/ext/post-init.sh");
-for i in $PIDOFINIT; do
-	echo "-600" > /proc/"$i"/oom_score_adj;
-done;
 
 if [ ! -d /data/.dori ]; then
 	$BB mkdir -p /data/.dori;
@@ -210,7 +202,7 @@ fi;
 
 # reset profiles auto trigger to be used by kernel ADMIN, in case of need, if new value added in default profiles
 # just set numer $RESET_MAGIC + 1 and profiles will be reset one time on next boot with new kernel.
-RESET_MAGIC=12;
+RESET_MAGIC=1;
 if [ ! -e /data/.dori/reset_profiles ]; then
 	echo "0" > /data/.dori/reset_profiles;
 fi;
@@ -234,17 +226,12 @@ read_defaults;
 read_config;
 
 (
-	# Apps and ROOT Install
+	# Apps Install
 	$BB sh /sbin/ext/install.sh;
 )&
 
 # enable force fast charge on USB to charge faster
 echo "$force_fast_charge" > /sys/kernel/fast_charge/force_fast_charge;
-
-# busybox addons
-if [ -e /system/xbin/busybox ] && [ ! -e /sbin/ifconfig ]; then
-	$BB ln -s /system/xbin/busybox /sbin/ifconfig;
-fi;
 
 ######################################
 # Loading Modules
@@ -299,13 +286,11 @@ $BB mount -t tmpfs -o mode=0777,gid=1000 tmpfs /mnt/ntfs
 		# stop uci.sh from running all the PUSH Buttons in stweaks on boot
 		OPEN_RW;
 		$BB chown -R root:system /res/customconfig/actions/;
-		$BB chmod -R 6755 /res/customconfig/actions/;
+		$BB chmod -R 06755 /res/customconfig/actions/;
 		$BB mv /res/customconfig/actions/push-actions/* /res/no-push-on-boot/;
-		$BB chmod 6755 /res/no-push-on-boot/*;
+		$BB chmod 06755 /res/no-push-on-boot/*;
 
 		# apply STweaks settings
-		echo "booting" > /data/.dori/booting;
-		$BB chmod 777 /data/.dori/booting;
 		$BB pkill -f "com.gokhanmoral.stweaks.app";
 		$BB nohup $BB sh /res/uci.sh restore;
 
@@ -313,9 +298,6 @@ $BB mount -t tmpfs -o mode=0777,gid=1000 tmpfs /mnt/ntfs
 		# restore all the PUSH Button Actions back to there location
 		$BB mv /res/no-push-on-boot/* /res/customconfig/actions/push-actions/;
 		$BB pkill -f "com.gokhanmoral.stweaks.app";
-
-		# update cpu tunig after profiles load
-		$BB rm -f /data/.dori/booting;
 
 		# correct oom tuning, if changed by apps/rom
 		$BB sh /res/uci.sh oom_config_screen_on "$oom_config_screen_on";
@@ -332,13 +314,6 @@ $BB mount -t tmpfs -o mode=0777,gid=1000 tmpfs /mnt/ntfs
 	if [ "$init_d" == "on" ]; then
 		$BB chmod 755 /system/etc/init.d/*;
 		$BB run-parts /system/etc/init.d/;
-	fi;
-
-	# ROOT activation if supersu used
-	if [ -e /system/app/SuperSU.apk ] && [ -e /system/xbin/daemonsu ]; then
-		if [ "$(pgrep -f "/system/xbin/daemonsu" | wc -l)" -eq "0" ]; then
-			/system/xbin/daemonsu --auto-daemon &
-		fi;
 	fi;
 
 	# Fix critical perms again after init.d mess
