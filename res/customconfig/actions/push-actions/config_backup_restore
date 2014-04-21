@@ -138,7 +138,7 @@ case "${config_backup_restore}" in
 				$BB mount -o remount,rw /;
 				mv /res/customconfig/actions/push-actions/* /res/no-push-on-boot/;
 				cp /res/misc_scripts/config_backup_restore /res/customconfig/actions/push-actions/;
-				chmod 6755 /res/customconfig/actions/push-actions/config_backup_restore;
+				chmod 06755 /res/customconfig/actions/push-actions/config_backup_restore;
 
 				# apply New STweaks settings
 				/res/uci.sh restore;
