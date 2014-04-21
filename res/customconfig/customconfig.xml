@@ -300,14 +300,6 @@
 
 		<button description="Click to see if the CortexBrain-Background-Process is running or not." name="Check Background-Process" action="push-actions/cortexbrain_background_process_check" label="CHECK SERVICE"/>
 
-		<checkbox description="Enable or Disable ICMP only Firewall-Tweaks (reboot needed)." name="Firewall-Tweaks" action="generic_cortex /tmp/cortexbrain_firewall" label="Firewall-Tweaks"/>
-
-		<checkbox description="Enable or Disable TCP-Tweaks (reboot needed)." name="TCP-Tweaks" action="generic_cortex /tmp/cortexbrain_tcp" label="TCP-Tweaks"/>
-
-		<checkbox description="Enable or Disable TCP-RAM-Tweaks (reboot needed)." name="TCP-RAM-Tweaks" action="generic_cortex /tmp/cortexbrain_tcp_ram" label="TCP-RAM-Tweaks"/>
-
-		<checkbox description="Enable or Disable IPv6 Network. !!! Depends on CortexBrain-Background-Process !!!" name="IPv6 Tweaks" action="generic_cortex /tmp/cortexbrain_ipv6" label="IPv6"/>
-
 		<checkbox description="Enable or Disable Memory-Tweaks (reboot needed)." name="Memory-Tweaks" action="generic_cortex /tmp/cortexbrain_memory" label="Memory-Tweaks"/>
 
 		<checkbox description="Enable or Disable System-Tweak (reboot needed)." name="System-Tweaks" action="generic_cortex /tmp/cortexbrain_system" label="System-Tweaks"/>
