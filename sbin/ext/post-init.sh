@@ -132,32 +132,17 @@ $BB chmod 666 /sys/module/msm_thermal/parameters/*
 $BB chmod 666 /sys/module/msm_thermal/core_control/enabled
 $BB chmod 666 /sys/kernel/intelli_plug/*
 $BB chmod 666 /sys/class/kgsl/kgsl-3d0/max_gpuclk
-$BB chmod 666 /sys/devices/fdb00000.qcom,kgsl-3d0/devfreq/fdb00000.qcom,kgsl-3d0/governor
+$BB chmod 666 /sys/devices/fdb00000.qcom,kgsl-3d0/kgsl/kgsl-3d0/pwrscale/trustzone/governor
 
 $BB chown -R root:root /data/property;
 $BB chmod -R 0700 /data/property
 
-# CPU tuning
-echo 2 > /sys/module/lpm_levels/enable_low_power/l2
-echo 1 > /sys/module/msm_pm/modes/cpu0/power_collapse/suspend_enabled
-echo 1 > /sys/module/msm_pm/modes/cpu1/power_collapse/suspend_enabled
-echo 1 > /sys/module/msm_pm/modes/cpu2/power_collapse/suspend_enabled
-echo 1 > /sys/module/msm_pm/modes/cpu3/power_collapse/suspend_enabled
-echo 1 > /sys/module/msm_pm/modes/cpu0/power_collapse/idle_enabled
-echo 0 > /sys/module/msm_pm/modes/cpu0/retention/idle_enabled
-echo 0 > /sys/module/msm_pm/modes/cpu1/retention/idle_enabled
-echo 0 > /sys/module/msm_pm/modes/cpu2/retention/idle_enabled
-echo 0 > /sys/module/msm_pm/modes/cpu3/retention/idle_enabled
-echo 1 > /sys/devices/system/cpu/cpu1/online
-echo 1 > /sys/devices/system/cpu/cpu2/online
-echo 1 > /sys/devices/system/cpu/cpu3/online
-
-# enable cpu notify on migrate
-echo 1 > /dev/cpuctl/apps/cpu.notify_on_migrate
-
 # Tweak some VM settings for system smoothness
 echo 20 > /proc/sys/vm/dirty_background_ratio
 echo 40 > /proc/sys/vm/dirty_ratio
+
+# set ondemand GPU governor as default
+echo "ondemand" > /sys/devices/fdb00000.qcom,kgsl-3d0/kgsl/kgsl-3d0/pwrscale/trustzone/governor
 
 # set default readahead
 echo 1024 > /sys/block/mmcblk0/bdi/read_ahead_kb
@@ -241,19 +226,19 @@ echo "0" > /proc/sys/kernel/kptr_restrict;
 
 # disable debugging on some modules
 if [ "$logger" == "off" ]; then
-	echo "0" > /sys/module/kernel/parameters/initcall_debug;
-	echo "0" > /sys/module/alarm/parameters/debug_mask;
-	echo "0" > /sys/module/alarm_dev/parameters/debug_mask;
-	echo "0" > /sys/module/binder/parameters/debug_mask;
+	echo "N" > /sys/module/kernel/parameters/initcall_debug;
+#	echo "0" > /sys/module/alarm/parameters/debug_mask;
+#	echo "0" > /sys/module/alarm_dev/parameters/debug_mask;
+#	echo "0" > /sys/module/binder/parameters/debug_mask;
 	echo "0" > /sys/module/xt_qtaguid/parameters/debug_mask;
-	echo "0" > /sys/kernel/debug/clk/debug_suspend;
-	echo "0" > /sys/kernel/debug/msm_vidc/debug_level;
-	echo "0" > /sys/module/ipc_router/parameters/debug_mask;
-	echo "0" > /sys/module/msm_serial_hs/parameters/debug_mask;
-	echo "0" > /sys/module/msm_show_resume_irq/parameters/debug_mask;
-	echo "0" > /sys/module/mpm_of/parameters/debug_mask;
-	echo "0" > /sys/module/msm_pm/parameters/debug_mask;
-	echo "0" > /sys/module/smp2p/parameters/debug_mask;
+#	echo "0" > /sys/kernel/debug/clk/debug_suspend;
+#	echo "0" > /sys/kernel/debug/msm_vidc/debug_level;
+#	echo "0" > /sys/module/ipc_router/parameters/debug_mask;
+#	echo "0" > /sys/module/msm_serial_hs/parameters/debug_mask;
+#	echo "0" > /sys/module/msm_show_resume_irq/parameters/debug_mask;
+#	echo "0" > /sys/module/mpm_of/parameters/debug_mask;
+#	echo "0" > /sys/module/pm_8x60/parameters/debug_mask;
+#	echo "0" > /sys/module/smp2p/parameters/debug_mask;
 fi;
 
 OPEN_RW;
