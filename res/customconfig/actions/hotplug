@@ -4,6 +4,8 @@
 # $2 - value=
 # Created By Dorimanx
 
+BB=/sbin/busybox
+
 if [ "a$2" != "a" ]; then
 	hotplug=$2;
 
@@ -13,7 +15,7 @@ if [ "a$2" != "a" ]; then
 			echo "0" > /sys/kernel/alucard_hotplug/hotplug_enable;
 			echo "1" > /sys/kernel/intelli_plug/intelli_plug_active;
 			if [ "$(ps | grep /system/bin/thermal-engine | wc -l)" -ge "1" ]; then
-				renice -n -17 -p $(pgrep -f "/system/bin/thermal-engine");
+				$BB renice -n -20 -p $(pgrep -f "/system/bin/thermal-engine");
 			fi;
 		;;
 		default)
@@ -21,6 +23,7 @@ if [ "a$2" != "a" ]; then
 			echo "0" > /sys/kernel/alucard_hotplug/hotplug_enable;
 			if [ "$(ps | grep "mpdecision" | wc -l)" -le "1" ]; then
 				/system/bin/start mpdecision
+				$BB renice -n -20 -p $(pgrep -f "/system/bin/mpdecision");
 			fi;
 		;;
 		alucard)

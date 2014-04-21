@@ -4,6 +4,8 @@
 # $2 - value=
 # Created By Dorimanx
 
+BB=/sbin/busybox
+
 # get values from profile
 PROFILE=$(cat /data/.dori/.active.profile);
 . /data/.dori/"$PROFILE".profile;
@@ -21,7 +23,7 @@ if [ "a$2" != "a" ]; then
 			if [ "$(ps | grep "/system/bin/thermal-engine" | wc -l)" -le "1" ]; then
 				/system/bin/start thermal-engine;
 			fi;
-			renice -n -17 -p $(pgrep -f "/system/bin/thermal-engine");
+			$BB renice -n -17 -p $(pgrep -f "/system/bin/thermal-engine");
 		;;
 		intelli_temp)
 			if [ "$(ps | grep "/system/bin/thermal-engine" | wc -l)" -ge "1" ]; then
