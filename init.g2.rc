@@ -72,6 +72,14 @@ on post-fs-data
     chmod 0775 /mpt
 # LGE_CHANGE_E for MLT
 
+# LGE_CHANGE_S for Touch Knock-Code
+on post-fs
+chown system system /sys/devices/virtual/input/lge_touch/lpwg_data
+chmod 664 /sys/devices/virtual/input/lge_touch/lpwg_data
+chown system system /sys/devices/virtual/input/lge_touch/lpwg_notify
+chmod 664 /sys/devices/virtual/input/lge_touch/lpwg_notify
+# LGE_CHANGE_E for Touch Knock-Code
+
 # 2012.08.24 real-wifi@lge.com[wo0gi] TestMode Daemon for broadcom driver [START]
 service diagd /system/bin/diagd
 	class late_start
@@ -148,6 +156,13 @@ service recovery_write /sbin/write_recovery
     class main
     oneshot
 #// LGE_UPDATE_S DMS_SYSTEM_GOTA dms-fota@lge.com 2012/11/09
+
+#//RCT
+service rctd /system/bin/rctd
+    class late_start
+    user root
+    group root
+#
 
 on property:sys.boot_completed=1
 	write sys/class/graphics/fb0/noti_boot 1
