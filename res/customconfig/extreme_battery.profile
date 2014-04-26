@@ -1,7 +1,7 @@
 stweaks_boot_control=yes
 oc_controller=stock
-hotplug=default
-eco_mode=strict
+hotplug=intelli
+eco_mode=eco
 msm_thermal=msm_temp
 enabled=off
 core_limit_temp_degC=80
