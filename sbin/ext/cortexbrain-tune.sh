@@ -221,23 +221,64 @@ CPU_CENTRAL_CONTROL()
 HOTPLUG_CONTROL()
 {
 	if [ "$hotplug" == "default" ]; then
-		echo "0" > /sys/kernel/intelli_plug/intelli_plug_active;
-		echo "0" > /sys/kernel/alucard_hotplug/hotplug_enable;
+		if [ "$(cat /sys/kernel/intelli_plug/intelli_plug_active)" -eq "1" ]; then
+			echo "0" > /sys/kernel/intelli_plug/intelli_plug_active;
+		fi;
+		if [ "$(cat /sys/kernel/alucard_hotplug/hotplug_enable)" -eq "1" ]; then
+			echo "0" > /sys/kernel/alucard_hotplug/hotplug_enable;
+		fi;
+		if [ "$(cat /sys/module/msm_hotplug/msm_enabled)" -eq "1" ]; then
+			echo "0" > /sys/module/msm_hotplug/msm_enabled;
+		fi;
 		if [ "$(ps | grep "mpdecision" | wc -l)" -le "1" ]; then
 			/system/bin/start mpdecision
 			$BB renice -n -20 -p $(pgrep -f "/system/bin/start mpdecision");
 		fi;
+		if [ "$(ps | grep /system/bin/thermal-engine | wc -l)" -ge "1" ]; then
+			$BB renice -n -20 -p $(pgrep -f "/system/bin/thermal-engine");
+		fi;
+	elif [ "$hotplug" == "msm_hotplug" ]; then
+		/system/bin/stop mpdecision
+		if [ "$(cat /sys/kernel/intelli_plug/intelli_plug_active)" -eq "1" ]; then
+			echo "0" > /sys/kernel/intelli_plug/intelli_plug_active;
+		fi;
+		if [ "$(cat /sys/kernel/alucard_hotplug/hotplug_enable)" -eq "1" ]; then
+			echo "0" > /sys/kernel/alucard_hotplug/hotplug_enable;
+		fi;
+		if [ "$(cat /sys/module/msm_hotplug/msm_enabled)" -eq "0" ]; then
+			echo "1" > /sys/module/msm_hotplug/msm_enabled;
+		fi;
+		if [ "$(ps | grep /system/bin/thermal-engine | wc -l)" -ge "1" ]; then
+			$BB renice -n -20 -p $(pgrep -f "/system/bin/thermal-engine");
+		fi;
 	elif [ "$hotplug" == "intelli" ]; then
 		/system/bin/stop mpdecision
-		echo "0" > /sys/kernel/alucard_hotplug/hotplug_enable;
-		echo "1" > /sys/kernel/intelli_plug/intelli_plug_active;
+		if [ "$(cat /sys/kernel/alucard_hotplug/hotplug_enable)" -eq "1" ]; then
+			echo "0" > /sys/kernel/alucard_hotplug/hotplug_enable;
+		fi;
+		if [ "$(cat /sys/kernel/intelli_plug/intelli_plug_active)" -eq "0" ]; then
+			echo "1" > /sys/kernel/intelli_plug/intelli_plug_active;
+		fi;
+		if [ "$(cat /sys/module/msm_hotplug/msm_enabled)" -eq "1" ]; then
+			echo "0" > /sys/module/msm_hotplug/msm_enabled;
+		fi;
 		if [ "$(ps | grep /system/bin/thermal-engine | wc -l)" -ge "1" ]; then
 			$BB renice -n -20 -p $(pgrep -f "/system/bin/thermal-engine");
 		fi;
 	elif [ "$hotplug" == "alucard" ]; then
 		/system/bin/stop mpdecision
-		echo "0" > /sys/kernel/intelli_plug/intelli_plug_active;
-		echo "1" > /sys/kernel/alucard_hotplug/hotplug_enable;
+		if [ "$(cat /sys/kernel/intelli_plug/intelli_plug_active)" -eq "1" ]; then
+			echo "0" > /sys/kernel/intelli_plug/intelli_plug_active;
+		fi;
+		if [ "$(cat /sys/module/msm_hotplug/msm_enabled)" -eq "1" ]; then
+			echo "0" > /sys/module/msm_hotplug/msm_enabled;
+		fi;
+		if [ "$(cat /sys/kernel/alucard_hotplug/hotplug_enable)" -eq "0" ]; then
+			echo "1" > /sys/kernel/alucard_hotplug/hotplug_enable;
+		fi;
+		if [ "$(ps | grep /system/bin/thermal-engine | wc -l)" -ge "1" ]; then
+			$BB renice -n -20 -p $(pgrep -f "/system/bin/thermal-engine");
+		fi;
 	fi;
 }
 

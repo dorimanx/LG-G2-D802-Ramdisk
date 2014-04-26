@@ -24,8 +24,9 @@
 			<spinnerItem name="Ultra OC 2.8GHz" value="ultra"/> 
 		</spinner>
 
-		<spinner description="CPU HotPlug Control, you can switch from LG Default HotPlug driver to IntelliHotPlug or Alucard driver, note that using Intelli CPU Thermal control with Default LG HotPlug is not recommended! low performance" name="HotPlug Driver" action="hotplug">
+		<spinner description="CPU HotPlug Control, you can switch from OLD LG Default HotPlug driver to MSM HotPlug, IntelliHotPlug or Alucard driver, note that using Intelli CPU Thermal control with Default LG HotPlug is not recommended! low performance" name="HotPlug Driver" action="hotplug">
 			<spinnerItem name="Default LG" value="default"/> 
+			<spinnerItem name="MSM HotPlug" value="msm_hotplug"/> 
 			<spinnerItem name="Alucard HotPlug" value="alucard"/> 
 			<spinnerItem name="Intelli HotPlug" value="intelli"/> 
 		</spinner>

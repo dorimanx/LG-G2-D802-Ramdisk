@@ -1,13 +1,13 @@
 stweaks_boot_control=yes
 oc_controller=ultra
-hotplug=default
+hotplug=msm_hotplug
 eco_mode=all
 msm_thermal=msm_temp
 enabled=off
 core_limit_temp_degC=80
 limit_temp_degC=75
 default_cpu_gov=ondemand
-cortexbrain_cpu=off
+cortexbrain_cpu=on
 cpu_max_freq=2803200
 cpu_min_freq=300000
 read_ahead_kb=1024
