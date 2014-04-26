@@ -137,9 +137,6 @@ $BB chmod 666 /sys/kernel/intelli_plug/*
 $BB chmod 666 /sys/class/kgsl/kgsl-3d0/max_gpuclk
 $BB chmod 666 /sys/devices/fdb00000.qcom,kgsl-3d0/devfreq/fdb00000.qcom,kgsl-3d0/governor
 
-$BB chown -R root:root /data/property;
-$BB chmod -R 0700 /data/property
-
 # Tweak some VM settings for system smoothness
 echo 20 > /proc/sys/vm/dirty_background_ratio
 echo 40 > /proc/sys/vm/dirty_ratio
