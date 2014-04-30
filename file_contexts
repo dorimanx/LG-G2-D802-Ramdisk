@@ -150,7 +150,7 @@
 /system/xbin/su		u:object_r:su_exec:s0
 /system/vendor/bin/gpsd u:object_r:gpsd_exec:s0
 /system/bin/ping    u:object_r:ping_exec:s0
-/system/xbin/wget	u:object_r:wget_exec:s0
+/system/xbin/wget      u:object_r:wget_exec:s0
 /system/bin/dnsmasq     u:object_r:dnsmasq_exec:s0
 /system/bin/hostapd     u:object_r:hostapd_exec:s0
 /system/bin/clatd	u:object_r:clatd_exec:s0
@@ -237,3 +237,8 @@
 
 /system/bin/lgdrmserver        u:object_r:lgdrmserver_exec:s0
 /data/lgdrm(/.*)?     u:object_r:lgdrm_data_file:s0
+#line 1 "vendor/lge/g2/g2_vzw/sepolicy/file_contexts"
+#############################
+# For operator
+# partition for make_ext4fs
+/eri(/.*)?           u:object_r:system_data_file:s0
