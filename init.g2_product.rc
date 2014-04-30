@@ -15,6 +15,8 @@ on boot
     setprop net.tcp.buffersize.wifi    524288,1048576,2097152,262144,524288,1048576
 ## 2013-08-09 sungwoo79.park@lge.com LGP_DATA_TCPIP_TCP_BUFSIZE_NATIVE [END]
 
+    write /proc/sys/net/ipv4/tcp_syn_retries 2
+
 # LGE_CHANGE_S, [yeonjun.kim@lge.com][2013-06-14] set default brightness
     write /sys/class/leds/lcd-backlight/brightness 173
 

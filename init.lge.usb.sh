@@ -37,16 +37,18 @@
 serialno=`getprop persist.usb.serialno`
 case "$serialno" in
 	"")
-	serialnum=`getprop ro.serialno`
-	case "$serialnum" in
-		"");; #Do nothing, use default serial number
-		* )
-		echo "$serialnum" > /sys/class/android_usb/android0/iSerial
-		;;
-	esac
+		serialnum=`getprop ro.serialno`
+		case "$serialnum" in
+			"")
+			;; #Do nothing, use default serial number
+			*)
+				echo "$serialnum" > /sys/class/android_usb/android0/iSerial
+			;;
+		esac
 	;;
-	* )
-	echo "$serialno" > /sys/class/android_usb/android0/iSerial
+	*)
+		echo "$serialno" > /sys/class/android_usb/android0/iSerial
+	;;
 esac
 
 #chown root.system /sys/devices/platform/msm_hsusb/gadget/wakeup
