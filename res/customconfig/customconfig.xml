@@ -53,6 +53,7 @@
 			<spinnerItem name="HYPER" value="HYPER"/> 
 			<spinnerItem name="pegasusq" value="pegasusq"/> 
 			<spinnerItem name="nightmare" value="nightmare"/> 
+			<spinnerItem name="darkness" value="darkness"/> 
 			<spinnerItem name="intellidemand" value="intellidemand"/> 
 			<spinnerItem name="intelliactive" value="intelliactive"/> 
 			<spinnerItem name="ondemand" value="ondemand"/> 
