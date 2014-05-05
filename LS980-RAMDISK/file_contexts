@@ -237,8 +237,8 @@
 
 /system/bin/lgdrmserver        u:object_r:lgdrmserver_exec:s0
 /data/lgdrm(/.*)?     u:object_r:lgdrm_data_file:s0
-#line 1 "vendor/lge/g2/g2_vzw/sepolicy/file_contexts"
+#line 1 "vendor/lge/g2/g2_spr_us/sepolicy/file_contexts"
 #############################
-# For operator
+# For operator 
 # partition for make_ext4fs
-/eri(/.*)?           u:object_r:system_data_file:s0
+/carrier(/.*)?           u:object_r:system_data_file:s0

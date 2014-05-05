@@ -8,7 +8,6 @@ on fota-update
 
     mkdir /sdcard
     mkdir /system
-    mkdir /cust
     #mkdir /data
     mkdir /cache
     mount /tmp /tmp tmpfs
@@ -22,10 +21,6 @@ on fota-update
 
 	wait /dev/block/platform/msm_sdcc.1/by-name/system
 	mount ext4 /dev/block/platform/msm_sdcc.1/by-name/system /system rw data=journal barrier=1
-
-	wait /dev/block/platform/msm_sdcc.1/by-name/cust
-	mount ext4 /dev/block/platform/msm_sdcc.1/by-name/cust /cust rw data=journal barrier=1
-
 
 	#wait /dev/block/platform/msm_sdcc.1/by-name/userdata
 	#exec /system/bin/e2fsck -y /dev/block/platform/msm_sdcc.1/by-name/userdata

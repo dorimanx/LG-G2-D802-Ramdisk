@@ -1,0 +1,108 @@
+## Be careful to use "exec" command.
+## If you execute a non-existing file, an additional init process can be created!
+
+on boot
+# LGE_DATA_CHANGE_S, [120820_US_ATT_0039], http://dev.lge.com/wiki/datacop/patch_0039
+# Define TCP buffer sizes for various networks
+#   ReadMin, ReadInitial, ReadMax, WriteMin, WriteInitial, WriteMax,
+    setprop net.tcp.buffersize.default 8096,2687380,3461120,4096,87380,3461120
+    setprop net.tcp.buffersize.lte     8096,2687380,3461120,4096,87380,3220608
+    setprop net.tcp.buffersize.umts    8096,2687380,3461120,4096,87380,3461120
+    setprop net.tcp.buffersize.hspa    8096,2687380,3461120,4096,87380,3461120
+    setprop net.tcp.buffersize.hsupa   8096,2687380,3461120,4096,87380,3461120
+    setprop net.tcp.buffersize.hsdpa   8096,2687380,3461120,4096,87380,3461120
+    setprop net.tcp.buffersize.edge    8096,87380,3461120,4096,16384,3461120
+    setprop net.tcp.buffersize.gprs    8096,87380,3461120,4096,16384,3461120
+    setprop net.tcp.buffersize.evdo_b  4094,87380,262144,4096,16384,262144
+
+    write /proc/sys/net/ipv4/tcp_syn_retries 2
+
+# LGE_CHANGE_S, [yeonjun.kim@lge.com][2013-06-14] set default brightness
+    write /sys/class/leds/lcd-backlight/brightness 173
+
+# Bluetooth tethering
+    setprop bluetooth.pan true
+# MPDN
+    setprop ro.support_mpdn true
+
+# LGE_CHANGE_S, [LGE_MODEL][CAPP_POSTINSTALL_MODIFIED], jasper.kim@lge.com, 2013-03-18
+service postinstaller /system/vendor/bin/postinstaller.sh
+    disabled
+    oneshot
+
+on property:vold.post_fs_data_done=1
+    start postinstaller
+# LGE_CHANGE_E, [LGE_MODEL][CAPP_POSTINSTALL_MODIFIED], jasper.kim@lge.com, 2013-03-18
+
+# LGE_CHANGE_S, [LGE_DATA][LPP_UPLUS_DATA_TCPIP_NSRM], ct-radio@lge.com, 2012-04-05
+          setprop lg.data.nsrm.policypath         /data/connectivity/nsrm/NsrmConfiguration.xml
+          setprop persist.cne.nsrm.bkg.evt        3955
+          chmod 0644 /persist/init.cne.rc
+
+#on post-fs-data
+  exec /system/bin/sh /system/etc/lg.nsrm.sh
+
+  mkdir /data/connectivity 0775 system system
+  mkdir /data/connectivity/nsrm 0775 system system
+  copy /system/etc/cne/NsrmConfiguration.xml /data/connectivity/nsrm/NsrmConfiguration.xml
+  chown system system /data/connectivity/nsrm/NsrmConfiguration.xml
+  chmod 775 /data/connectivity/nsrm/NsrmConfiguration.xml
+# LGE_CHANGE_E, [LGE_DATA][LPP_UPLUS_DATA_TCPIP_NSRM], ct-radio@lge.com, 2012-04-05
+
+
+# LGE_CHANGE_S, for CIQ HW12
+    chmod 0440 /proc/cmdline
+    chown system system /proc/cmdline
+# LGE_CHANGE_E, for CIQ HW12
+
+# Assign TCP buffer thresholds to be ceiling value of technology maximums
+# Increased technology maximums should be reflected here.
+    write /proc/sys/net/core/rmem_max  3461120
+    write /proc/sys/net/core/wmem_max  3461120
+# LGE_DATA_CHANGE_E, [120820_US_ATT_0039], http://dev.lge.com/wiki/datacop/patch_0039
+
+# [LGE_VPN][shpark82.park] Inside Secure VPN Kernel Module install [START]
+   insmod /system/lib/modules/vpnclient.ko ssh_procfs_uid=1000 ssh_procfs_gid=1000
+
+service vpnclientpm /system/bin/vpnclientpm -O /data/data/com.ipsec.vpnclient/vpnclientpm.txt -D*Pm*=99,*Netconfig*=99 -K*=99 -u 1000
+# uid dropped to system when capabilities are set
+  class main
+  group system net_admin net_raw
+  disabled
+
+service secstarter /system/bin/secstarter
+  class main
+  user system
+  group system net_admin net_raw
+# [LGE_VPN][shpark82.park] Inside Secure VPN Service & modules permission change [END]
+
+# 2013.04.24 [changik.jeong@lge.com] LGIMS ipsec solution [START]
+service ipsecclient /system/bin/ipsecclient
+    class main
+    group system net_admin net_raw
+    disabled
+
+service ipsecstarter /system/bin/ipsecstarter
+    class main
+    user system
+    group system net_admin net_raw
+# 2013.04.24 [changik.jeong@lge.com] LGIMS ipsec solution [END]
+
+# LGE_CHANGES_S, [ENCRYPTION][mudzizi.kim@lge.com] 2013-04-26 ufips for KFIPS crypto module
+service ufips /system/bin/ufips
+    class core
+    user system
+    group system
+# LGE_CHANGES_E, [ENCRYPTION][mudzizi.kim@lge.com] 2013-04-26 ufips for KFIPS crypto module
+
+# LGE_CHANGE_S, 20130507 G2-FS@lge.com, factory reset magic code
+on property:sys.factory=1
+    exec /system/bin/dd if=/system/etc/factory_reset_magic of=/dev/block/platform/msm_sdcc.1/by-name/pad1 bs=512 count=1
+# LGE_CHANGE_E, 20120507 G2-FS@lge.com, factory reset magic code
+
+#2013.05.30 LGE_CHANGE_S kijae.park@lge.com, SMPL count
+service smpl_count /system/bin/smpl_count
+    class main
+	user root
+	oneshot
+#2013.05.30 LGE_CHANGE_E kijae.park@lge.com, SMPL count
