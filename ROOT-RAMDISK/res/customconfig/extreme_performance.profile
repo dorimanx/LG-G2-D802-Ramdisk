@@ -1,6 +1,7 @@
 stweaks_boot_control=yes
 oc_controller=ultra
 hotplug=msm_hotplug
+cpus_boosted=2
 eco_mode=all
 msm_thermal=msm_temp
 enabled=off

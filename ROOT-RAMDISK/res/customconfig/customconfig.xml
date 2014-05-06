@@ -31,6 +31,11 @@
 			<spinnerItem name="Intelli HotPlug" value="intelli"/> 
 		</spinner>
 
+		<spinner description="MSM HotPlug additional CPU control, here you can tune how much cores will be active on high short load, default is 2 cores for 4sec, if you wish to save more power when using MSM HotPlug then best to use 1 core. or if performance is what you prefer then use 2 cores boost. Depend on MSM HotPlug selected!" name="MSM HotPlug Booster" action="generic /sys/module/msm_hotplug/cpus_boosted">
+			<spinnerItem name="One Core Boosted" value="1"/> 
+			<spinnerItem name="Two Cores Boosted" value="2"/> 
+		</spinner>
+
 		<spinner description="CPU ECO Mode, if ECO set, then only 2 cores can be ON, if STRICT set, then only 1 core can be ON, this will reduce performance but will save battery, depend on one of the custom HOTPLUGS, default not support this" name="Intelli ECO Mode" action="eco_mode">
 			<spinnerItem name="All Cores Used" value="all"/> 
 			<spinnerItem name="ECO Mode(2 cores max)" value="eco"/> 
