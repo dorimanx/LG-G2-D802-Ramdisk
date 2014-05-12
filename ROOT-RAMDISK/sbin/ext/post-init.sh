@@ -104,11 +104,11 @@ ONDEMAND_TUNING()
 {
 	echo "10" > /cpugov/ondemand/down_differential;
 	echo "3" > /cpugov/ondemand/down_differential_multi_core;
-	echo "85" > /cpugov/ondemand/micro_freq_up_threshold;
+	echo "95" > /cpugov/ondemand/micro_freq_up_threshold;
 	echo "1" > /cpugov/ondemand/sampling_down_factor;
 	echo "60000" > /cpugov/ondemand/sampling_rate;
-	echo "75" > /cpugov/ondemand/up_threshold;
-	echo "75" > /cpugov/ondemand/up_threshold_any_cpu_load;
+	echo "80" > /cpugov/ondemand/up_threshold;
+	echo "80" > /cpugov/ondemand/up_threshold_any_cpu_load;
 	echo "80" > /cpugov/ondemand/up_threshold_multi_core;
 }
 
@@ -138,15 +138,15 @@ $BB chmod 666 /sys/class/kgsl/kgsl-3d0/max_gpuclk
 $BB chmod 666 /sys/devices/fdb00000.qcom,kgsl-3d0/devfreq/fdb00000.qcom,kgsl-3d0/governor
 
 # Tweak some VM settings for system smoothness
-echo 20 > /proc/sys/vm/dirty_background_ratio
-echo 40 > /proc/sys/vm/dirty_ratio
+echo "15" > /proc/sys/vm/dirty_background_ratio
+echo "20" > /proc/sys/vm/dirty_ratio
 
 # set default readahead
-echo 1024 > /sys/block/mmcblk0/bdi/read_ahead_kb
-echo 1024 > /sys/block/mmcblk0/queue/read_ahead_kb
+echo "1024" > /sys/block/mmcblk0/bdi/read_ahead_kb
+echo "1024" > /sys/block/mmcblk0/queue/read_ahead_kb
 
 # make sure our max gpu clock is set via sysfs
-echo 450000000 > /sys/class/kgsl/kgsl-3d0/max_gpuclk
+echo "450000000" > /sys/class/kgsl/kgsl-3d0/max_gpuclk
 
 # set min max boot freq to default.
 echo "2265600" > /sys/devices/system/cpu/cpu0/cpufreq/scaling_max_freq;
@@ -169,7 +169,7 @@ fi;
 
 # reset profiles auto trigger to be used by kernel ADMIN, in case of need, if new value added in default profiles
 # just set numer $RESET_MAGIC + 1 and profiles will be reset one time on next boot with new kernel.
-RESET_MAGIC=14;
+RESET_MAGIC=15;
 if [ ! -e /data/.dori/reset_profiles ]; then
 	echo "0" > /data/.dori/reset_profiles;
 fi;
