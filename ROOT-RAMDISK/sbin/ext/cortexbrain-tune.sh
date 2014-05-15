@@ -212,6 +212,9 @@ CPU_CENTRAL_CONTROL()
 			echo "$cpu_max_freq" > /sys/devices/system/cpu/cpu0/cpufreq/scaling_max_freq;
 		fi;
 		return 1;
+		if [ -e /sys/devices/system/cpu/cpufreq/ondemand/smart_up ]; then
+			echo "$ondemand_slowup" > /sys/devices/system/cpu/cpufreq/ondemand/smart_up;
+		fi;
 		log -p i -t "$FILE_NAME" "*** CPU_CENTRAL_CONTROL max_freq:${cpu_max_freq} min_freq:${cpu_min_freq}***: done";
 	else
 		return 0;
