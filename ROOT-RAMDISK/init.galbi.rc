@@ -304,7 +304,7 @@ on boot
     # LGE_UPDATE_END
 
     # enable exfat feature
-    insmod /system/lib/modules/exfat.ko
+    insmod /lib/modules/exfat.ko
 
 # msm specific files that need to be created on /data
 on post-fs-data
