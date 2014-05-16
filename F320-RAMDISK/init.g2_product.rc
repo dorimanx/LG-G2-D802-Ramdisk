@@ -1,0 +1,58 @@
+## Be careful to use "exec" command.
+## If you execute a non-existing file, an additional init process can be created!
+
+on boot
+
+mkdir /data/playready 0777 system system
+chown system system /data/playready
+chmod 0777 /data/playready
+
+# Re-define TCP buffer size for SKT WCDMA network. Overwrite init.rc property
+# ReadMin, ReadInitial, ReadMax, WriteMin, WriteInitial, WriteMax,
+    setprop net.tcp.buffersize.umts		4094,87380,1220608,4096,16384,1220608
+    setprop net.tcp.buffersize.hspa		4094,87380,1220608,4096,16384,1220608
+    setprop net.tcp.buffersize.hsupa	4094,87380,1220608,4096,16384,1220608
+    setprop net.tcp.buffersize.hsdpa	4094,87380,1220608,4096,16384,1220608
+    setprop net.tcp.buffersize.lte     524288,1048576,2560000,524288,1048576,2560000
+
+# LGE_CHANGE_S, [yeonjun.kim@lge.com][2013-06-14] set default brightness
+    write /sys/class/leds/lcd-backlight/brightness 173
+
+# Bluetooth tethering
+    setprop bluetooth.pan true
+
+on init
+    mkdir /storage/external_SD 0700 root root
+    mkdir /mnt/media_rw 0700 media_rw media_rw
+    mkdir /mnt/media_rw/external_SD 0700 media_rw media_rw
+    export EXTERNAL_ADD_STORAGE /storage/external_SD
+    export SECONDARY_STORAGE /storage/external_SD
+
+service smpl_count /system/bin/smpl_count
+    class main
+    user root
+    oneshot
+
+on property:sys.factory=1
+    exec /system/bin/dd if=/system/etc/factory_reset_magic of=/dev/block/platform/msm_sdcc.1/by-name/pad1 bs=512 count=1
+    setprop wifi.lge.supportp2p5g full
+
+service broadcast /system/bin/libbroadcast_server
+    class main
+    user media
+    group system audio media graphics sdcard_rw
+
+on property:init.svc.media=restarting
+    restart broadcast
+
+service fuse_external_SD /system/bin/sdcard -u 1023 -g 1023 -w 1023 -d /mnt/media_rw/external_SD /storage/external_SD
+    class late_start
+    disabled
+
+on post-fs-data
+    setprop ro.ssbd.session /dev/block/platform/msm_sdcc.1/by-name/encrypt
+    setprop ro.ssbd.offset 50
+
+service ssbd /system/bin/ssbd
+    class main
+    socket ssbd stream 0660 root mount
