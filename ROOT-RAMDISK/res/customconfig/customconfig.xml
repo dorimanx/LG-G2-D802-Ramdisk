@@ -252,6 +252,12 @@
 
 	</settingsPane>
 
+	<settingsPane description="Camera ROM Driver Reset" name="Camera Reset">
+
+		<button description="Click here to RESET camera driver if you see BLACK screen when you open camera! that is KK ROM BUG origin unknown for now. so you can REBOOT or just push Reset Camera Now! then reopen camera" name="Reset Camera Driver" action="push-actions/camera_restart" label="RESET CAMERA NOW"/>
+
+	</settingsPane>
+
 	<settingsPane description="WIFI Settings" name="WIFI">
 
 		<button description="Clean WIFI DHCP IP Lease. Push the button to activate!" name="Clean WIFI Lease" action="push-actions/fix_wifi" label="Clean WIFI Lease"/>
@@ -321,6 +327,15 @@
 		<checkbox description="Enable one more Force Fast Charge HACK to mask any charger including USB as AC power. so we always get fast charge mode! no more SLOW CHARGE Icon! The side effect is that you get 2 connections sound and vibrate! one for USB connected and second for AC connected!" name="Fake AC Charger" action="generic01 /sys/kernel/fast_charge/fake_charge_ac" label="Fake AC Charger Hack"/>
 
 		<checkbox description="Enable support for iPhone or iPad chargers and treat them as AC power source, this can brake support for other not original charger, so enable only if you are using iPhone or iPad chargers" name="Support Apple Chargers" action="generic01 /sys/module/dwc3_msm/parameters/prop_chg_detect" label="Support Apple Chargers"/>
+
+	</settingsPane>
+
+	<settingsPane description="Enable using Android phone as USB and Keyboard for your PC!, lets say you dont have keyboard and you really need one! connect your phone via usb get app named USB KEYBOARD, enable the tweak here, and have fun!" name="Android USB HID Device">
+
+		<spinner description="Enable or Disable USB HID Device driver to control PC keyboard and mouse from phone!" name="USB HID Device" action="usb_keyboard">
+			<spinnerItem name="Enable USB HID" value="enable"/> 
+			<spinnerItem name="Disable USB HID" value="disable"/> 
+		</spinner>
 
 	</settingsPane>
 
