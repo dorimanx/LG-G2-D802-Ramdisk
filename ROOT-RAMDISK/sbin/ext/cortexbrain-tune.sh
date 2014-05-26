@@ -233,6 +233,9 @@ HOTPLUG_CONTROL()
 		if [ "$(cat /sys/module/msm_hotplug/msm_enabled)" -eq "1" ]; then
 			echo "0" > /sys/module/msm_hotplug/msm_enabled;
 		fi;
+		if [ "$(cat /sys/devices/system/cpu/cpu0/rq-stats/hotplug_disable)" -eq "1" ]; then
+			echo "0" > /sys/devices/system/cpu/cpu0/rq-stats/hotplug_disable;
+		fi;
 		if [ "$(ps | grep "mpdecision" | wc -l)" -le "1" ]; then
 			/system/bin/start mpdecision
 			$BB renice -n -20 -p $(pgrep -f "/system/bin/start mpdecision");
@@ -251,6 +254,9 @@ HOTPLUG_CONTROL()
 		if [ "$(cat /sys/module/msm_hotplug/msm_enabled)" -eq "0" ]; then
 			echo "1" > /sys/module/msm_hotplug/msm_enabled;
 		fi;
+		if [ "$(cat /sys/devices/system/cpu/cpu0/rq-stats/hotplug_disable)" -eq "0" ]; then
+			echo "1" > /sys/devices/system/cpu/cpu0/rq-stats/hotplug_disable;
+		fi;
 		if [ "$(ps | grep /system/bin/thermal-engine | wc -l)" -ge "1" ]; then
 			$BB renice -n -20 -p $(pgrep -f "/system/bin/thermal-engine");
 		fi;
@@ -265,6 +271,9 @@ HOTPLUG_CONTROL()
 		if [ "$(cat /sys/module/msm_hotplug/msm_enabled)" -eq "1" ]; then
 			echo "0" > /sys/module/msm_hotplug/msm_enabled;
 		fi;
+		if [ "$(cat /sys/devices/system/cpu/cpu0/rq-stats/hotplug_disable)" -eq "0" ]; then
+			echo "1" > /sys/devices/system/cpu/cpu0/rq-stats/hotplug_disable;
+		fi;
 		if [ "$(ps | grep /system/bin/thermal-engine | wc -l)" -ge "1" ]; then
 			$BB renice -n -20 -p $(pgrep -f "/system/bin/thermal-engine");
 		fi;
@@ -276,8 +285,11 @@ HOTPLUG_CONTROL()
 		if [ "$(cat /sys/module/msm_hotplug/msm_enabled)" -eq "1" ]; then
 			echo "0" > /sys/module/msm_hotplug/msm_enabled;
 		fi;
-		if [ "$(cat /sys/kernel/alucard_hotplug/hotplug_enable)" -eq "0" ]; then
-			echo "1" > /sys/kernel/alucard_hotplug/hotplug_enable;
+		if [ "$(cat /sys/devices/system/cpu/cpu0/rq-stats/hotplug_disable)" -eq "1" ]; then
+			echo "0" > /sys/devices/system/cpu/cpu0/rq-stats/hotplug_disable;
+		fi;
+		if [ "$(cat /sys/kernel/alucard_hotplug/hotplug_enable)" -eq "1" ]; then
+			echo "0" > /sys/kernel/alucard_hotplug/hotplug_enable;
 		fi;
 		if [ "$(ps | grep /system/bin/thermal-engine | wc -l)" -ge "1" ]; then
 			$BB renice -n -20 -p $(pgrep -f "/system/bin/thermal-engine");
