@@ -33,7 +33,6 @@ logger=off
 force_fast_charge=2
 fast_charge_level=1800
 fake_charge_ac=off
-fake_original_cable=on
 prop_chg_detect=off
 usb_keyboard=disable
 sweep2sleep=on

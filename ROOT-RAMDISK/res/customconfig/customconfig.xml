@@ -328,8 +328,6 @@
 
 		<checkbox description="Enable support for iPhone or iPad chargers and treat them as AC power source, this can brake support for other not original charger, so enable only if you are using iPhone or iPad chargers" name="Support Apple Chargers" action="generic01 /sys/module/dwc3_msm/parameters/prop_chg_detect" label="Support Apple Chargers"/>
 
-		<checkbox description="Enable hack for detecting any cable as !Original LG Cable!, this will allow faster file transfer and can improve charging power." name="Any cable fake as original" action="generic01 /sys/kernel/fast_charge/fake_original_cable" label="Any cable fake as original"/>
-
 	</settingsPane>
 
 	<settingsPane description="Enable using Android phone as USB and Keyboard for your PC!, lets say you dont have keyboard and you really need one! connect your phone via usb get app named USB KEYBOARD, enable the tweak here, and have fun!" name="Android USB HID Device">
