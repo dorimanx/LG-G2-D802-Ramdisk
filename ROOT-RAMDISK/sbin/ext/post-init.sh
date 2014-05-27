@@ -139,14 +139,6 @@ $BB chmod 666 /sys/kernel/intelli_plug/*
 $BB chmod 666 /sys/class/kgsl/kgsl-3d0/max_gpuclk
 $BB chmod 666 /sys/devices/fdb00000.qcom,kgsl-3d0/devfreq/fdb00000.qcom,kgsl-3d0/governor
 
-# Tweak some VM settings for system smoothness
-echo "15" > /proc/sys/vm/dirty_background_ratio
-echo "20" > /proc/sys/vm/dirty_ratio
-
-# set default readahead
-echo "1024" > /sys/block/mmcblk0/bdi/read_ahead_kb
-echo "1024" > /sys/block/mmcblk0/queue/read_ahead_kb
-
 # make sure our max gpu clock is set via sysfs
 echo "450000000" > /sys/class/kgsl/kgsl-3d0/max_gpuclk
 
