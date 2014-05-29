@@ -285,8 +285,8 @@ HOTPLUG_CONTROL()
 		if [ "$(cat /sys/module/msm_hotplug/msm_enabled)" -eq "1" ]; then
 			echo "0" > /sys/module/msm_hotplug/msm_enabled;
 		fi;
-		if [ "$(cat /sys/devices/system/cpu/cpu0/rq-stats/hotplug_disable)" -eq "1" ]; then
-			echo "0" > /sys/devices/system/cpu/cpu0/rq-stats/hotplug_disable;
+		if [ "$(cat /sys/devices/system/cpu/cpu0/rq-stats/hotplug_disable)" -eq "0" ]; then
+			echo "1" > /sys/devices/system/cpu/cpu0/rq-stats/hotplug_disable;
 		fi;
 		if [ "$(cat /sys/kernel/alucard_hotplug/hotplug_enable)" -eq "1" ]; then
 			echo "0" > /sys/kernel/alucard_hotplug/hotplug_enable;
