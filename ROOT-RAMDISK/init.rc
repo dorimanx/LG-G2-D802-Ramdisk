@@ -10,7 +10,7 @@
 import /init.lge.early.rc
 import /init.environ.rc
 import /init.usb.rc
-import /init.${ro.hardware}.rc
+import /init.g2.rc
 import /init.trace.rc
 import /init.lge.rc
 import /init.vmware.rc
@@ -70,8 +70,12 @@ loglevel 3
     mkdir /mnt/shell 0700 shell shell
     mkdir /mnt/media_rw 0700 media_rw media_rw
     mkdir /storage 0751 root sdcard_r
+
     # Create mountpoint so Dalvik can mark as slave in zygotes.
+    # And this allow CIFS mounting and other app databases.
+    mkdir /mnt/shell/emulated 0700 shell shell
     mount tmpfs tmpfs /storage mode=0751,uid=0,gid=1028
+    mount tmpfs tmpfs /mnt/shell/emulated mode=0700,uid=0,gid=0
 
     # Directory for putting things only root should see.
     mkdir /mnt/secure 0700 root root
