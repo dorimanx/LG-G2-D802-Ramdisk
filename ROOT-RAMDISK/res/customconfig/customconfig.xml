@@ -144,6 +144,70 @@
 
 </settingsTab>
 
+<settingsTab name="GPU CORE">
+
+	<settingsPane description="Here you can select GPU GOV, set Min Max GPU freq and update tuning" name="GPU Govs and settings">
+
+		<spinner description="Select GPU Governor that will control GPU freq according to GPU load and system needes, If you select Performance GOV GPU will be at MAX Freq non stop!" name="GPU Active Gov" action="generic /sys/devices/fdb00000.qcom,kgsl-3d0/devfreq/fdb00000.qcom,kgsl-3d0/governor">
+			<spinnerItem name="MSM-Adreno(default)" value="msm-adreno-tz"/> 
+			<spinnerItem name="Simple_Ondemand" value="simple_ondemand"/> 
+			<spinnerItem name="Conservative" value="conservative"/> 
+			<spinnerItem name="Performance" value="performance"/> 
+		</spinner>
+
+		<button description="To Update GPU GOV Tuning after selection, PUSH THIS" name="Update GPU GOV Tuning" action="push-actions/gpu_update" label="Update GPU GOV"/>
+
+		<spinner description="Select GPU Max speed when needed! it's will stay on MIN Speed on IDLE" name="GPU Max Speed" action="generic /sys/devices/fdb00000.qcom,kgsl-3d0/devfreq/fdb00000.qcom,kgsl-3d0/max_freq">
+			<spinnerItem name="450Mhz" value="450000000"/> 
+			<spinnerItem name="389Mhz" value="389000000"/> 
+			<spinnerItem name="320Mhz" value="320000000"/> 
+			<spinnerItem name="200Mhz" value="200000000"/> 
+		</spinner>
+
+		<spinner description="Select GPU Min speed when go to IDLE, if you set higher than 200Mhz then GPU will hold selected freq on IDLE" name="GPU Min Speed" action="generic /sys/devices/fdb00000.qcom,kgsl-3d0/devfreq/fdb00000.qcom,kgsl-3d0/min_freq">
+			<spinnerItem name="200Mhz" value="200000000"/> 
+			<spinnerItem name="320Mhz" value="320000000"/> 
+			<spinnerItem name="389Mhz" value="389000000"/> 
+			<spinnerItem name="450Mhz" value="450000000"/> 
+		</spinner>
+
+	</settingsPane>
+
+	<settingsPane description="Here you can tune MSM-Adreno GOV! Use the controls ONLY if MSM-Adreno is selected! or just nothing happen" name="MSM-Adreno Controls">
+
+		<seekBar description="MSM Adreno CAP, more info will be added latter, must NOT be HIGHER than TARGET value! (Default: 75)" name="CAP Value" action="generic /sys/devices/fdb00000.qcom,kgsl-3d0/devfreq/fdb00000.qcom,kgsl-3d0/gpufreq/msm-adreno-tz/cap" unit="%" min="40" reversed="false" step="5" max="90"/>
+
+		<seekBar description="MSM Adreno TARGET, more info will be added latter, must NOT be LOWER than TARGET value! (Default: 80)" name="TARGET Value" action="generic /sys/devices/fdb00000.qcom,kgsl-3d0/devfreq/fdb00000.qcom,kgsl-3d0/gpufreq/msm-adreno-tz/target" unit="%" min="40" reversed="false" step="5" max="90"/>
+
+		<spinner description="Here you can allow to manually control Simple_ramp_threshold and Simple_laziness value, or let the GOV to decide by AUTO, if set AUTO, then controls below have no effect" name="MSM-Adreno Extra Controls" action="generic /sys/module/simple_gpu_algorithm/parameters/simple_gpu_activate">
+			<spinnerItem name="Auto Mode" value="0"/> 
+			<spinnerItem name="Allow Controls" value="1"/> 
+		</spinner>
+
+		<seekBar description="MSM Adreno Simple_Laziness control, more info will be added latter (Default: 4)" name="Simple_Laziness Value" action="generic /sys/module/simple_gpu_algorithm/parameters/simple_laziness" unit="step" min="1" reversed="false" step="1" max="10"/>
+
+		<seekBar description="MSM Adreno Simple_ramp_threshold control, more info will be added latter (Default: 5000)" name="Simple_Laziness Value" action="generic /sys/module/simple_gpu_algorithm/parameters/simple_ramp_threshold" unit="ramp" min="1000" reversed="false" step="500" max="10000"/>
+
+	</settingsPane>
+
+	<settingsPane description="Here you can tune Simple_Ondemand GOV! Use the controls ONLY if Simple_Ondemand is selected! or just nothing happen" name="Simple_Ondemand Controls">
+
+		<seekBar description="Simple_Ondemand Downdifferential, when GPU load drop below Downdifferential, GPU freq is reduced to MIN, must NOT be HIGHER than Upthreshold value! (Default: 20)" name="Downdifferential Value" action="generic /sys/devices/fdb00000.qcom,kgsl-3d0/devfreq/fdb00000.qcom,kgsl-3d0/gpufreq/simple_ondemand/downdifferential" unit="%" min="5" reversed="false" step="5" max="60"/>
+
+		<seekBar description="Simple_Ondemand Upthreshold, when GPU load above Upthreshold, GPU freq is rised to next freq till MAX, must NOT be LOWER than Downdifferential (Default: 60)" name="Upthreshold Value" action="generic /sys/devices/fdb00000.qcom,kgsl-3d0/devfreq/fdb00000.qcom,kgsl-3d0/gpufreq/simple_ondemand/upthreshold" unit="%" min="30" reversed="false" step="5" max="90"/>
+
+	</settingsPane>
+
+	<settingsPane description="Here you can tune Conservative GOV! Use the controls ONLY if Conservative is selected! or just nothing happen" name="Conservative Controls">
+
+		<seekBar description="Conservative Downthreshold, when GPU load drop below Downthreshold GPU freq is reduced to MIN, must NOT be HIGHER than Upthreshold value! (Default: 20)" name="Downthreshold Value" action="generic /sys/devices/fdb00000.qcom,kgsl-3d0/devfreq/fdb00000.qcom,kgsl-3d0/gpufreq/conservative/downthreshold" unit="%" min="5" reversed="false" step="5" max="60"/>
+
+		<seekBar description="Conservative Upthreshold, when GPU load above Upthreshold, GPU freq is rised to next freq till MAX, must NOT be LOWER than Downthreshold (Default: 50)" name="Upthreshold Value" action="generic /sys/devices/fdb00000.qcom,kgsl-3d0/devfreq/fdb00000.qcom,kgsl-3d0/gpufreq/conservative/upthreshold_cons" unit="%" min="30" reversed="false" step="5" max="90"/>
+
+	</settingsPane>
+
+</settingsTab>
+
 <settingsTab name="IO">
 
 	<settingsPane description="Here you can tune IO settings managed by Kernel" name="IO Tuning">

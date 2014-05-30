@@ -112,6 +112,7 @@ ONDEMAND_TUNING()
 	echo "80" > /cpugov/ondemand/up_threshold_multi_core;
 	echo "1497600" > /cpugov/ondemand/sync_freq;
 	echo "1497600" > /cpugov/ondemand/optimal_freq;
+	echo "300000" > /sys/devices/system/cpu/cpu0/cpufreq/scaling_min_freq;
 }
 
 # oom and mem perm fix
@@ -140,7 +141,7 @@ $BB chmod 666 /sys/class/kgsl/kgsl-3d0/max_gpuclk
 $BB chmod 666 /sys/devices/fdb00000.qcom,kgsl-3d0/devfreq/fdb00000.qcom,kgsl-3d0/governor
 
 # make sure our max gpu clock is set via sysfs
-echo "450000000" > /sys/class/kgsl/kgsl-3d0/max_gpuclk
+echo "450000000" > /sys/devices/fdb00000.qcom,kgsl-3d0/devfreq/fdb00000.qcom,kgsl-3d0/max_freq
 
 # set min max boot freq to default.
 echo "2265600" > /sys/devices/system/cpu/cpu0/cpufreq/scaling_max_freq;
@@ -163,7 +164,7 @@ fi;
 
 # reset profiles auto trigger to be used by kernel ADMIN, in case of need, if new value added in default profiles
 # just set numer $RESET_MAGIC + 1 and profiles will be reset one time on next boot with new kernel.
-RESET_MAGIC=17;
+RESET_MAGIC=18;
 if [ ! -e /data/.dori/reset_profiles ]; then
 	echo "0" > /data/.dori/reset_profiles;
 fi;
