@@ -75,7 +75,7 @@ loglevel 3
     # And this allow CIFS mounting and other app databases.
     mkdir /mnt/shell/emulated 0700 shell shell
     mount tmpfs tmpfs /storage mode=0751,uid=0,gid=1028
-    mount tmpfs tmpfs /mnt/shell/emulated mode=0700,uid=0,gid=0
+    mount tmpfs tmpfs /mnt/shell mode=0700,uid=0,gid=0
 
     # Directory for putting things only root should see.
     mkdir /mnt/secure 0700 root root
