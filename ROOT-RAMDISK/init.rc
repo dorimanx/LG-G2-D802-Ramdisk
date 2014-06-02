@@ -10,7 +10,7 @@
 import /init.lge.early.rc
 import /init.environ.rc
 import /init.usb.rc
-import /init.g2.rc
+import /init.${ro.hardware}.rc
 import /init.trace.rc
 import /init.lge.rc
 import /init.vmware.rc
