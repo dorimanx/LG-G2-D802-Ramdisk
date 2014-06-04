@@ -25,17 +25,18 @@
 		</spinner>
 
 		<spinner description="This will set the CPU governor. Default CPU governor will only be set during early stages of booting (before init.d execution), and can be overridden by any other scripts or applications." name="Default CPU Governor" action="default_cpu_gov">
-			<spinnerItem name="conservative" value="conservative"/> 
+			<spinnerItem name="Conservative" value="conservative"/> 
 			<spinnerItem name="HYPER" value="HYPER"/> 
-			<spinnerItem name="pegasusq" value="pegasusq"/> 
-			<spinnerItem name="nightmare" value="nightmare"/> 
-			<spinnerItem name="darkness" value="darkness"/> 
-			<spinnerItem name="intellidemand" value="intellidemand"/> 
-			<spinnerItem name="intelliactive" value="intelliactive"/> 
-			<spinnerItem name="ondemand" value="ondemand"/> 
-			<spinnerItem name="ondemandplus" value="ondemandplus"/> 
-			<spinnerItem name="interactive" value="interactive"/> 
-			<spinnerItem name="powersave" value="powersave"/> 
+			<spinnerItem name="Alucard" value="alucard"/> 
+			<spinnerItem name="Pegasusq" value="pegasusq"/> 
+			<spinnerItem name="Nightmare" value="nightmare"/> 
+			<spinnerItem name="Darkness" value="darkness"/> 
+			<spinnerItem name="Intellidemand" value="intellidemand"/> 
+			<spinnerItem name="Intelliactive" value="intelliactive"/> 
+			<spinnerItem name="Ondemand" value="ondemand"/> 
+			<spinnerItem name="Ondemandplus" value="ondemandplus"/> 
+			<spinnerItem name="Interactive" value="interactive"/> 
+			<spinnerItem name="Powersave" value="powersave"/> 
 		</spinner>
 
 		<spinner description="Touch booster Control, when you touch the screen and scroll, CPU will boost freq to tuned one to help reducing LAG and allow fast and smooth device. too high freq will use more power. default is 1.574Ghz" name="Touch Boost Freq" action="cpu_boost_freq">
