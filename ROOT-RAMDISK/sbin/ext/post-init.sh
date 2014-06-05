@@ -281,6 +281,13 @@ $BB mount -t tmpfs -o mode=0777,gid=1000 tmpfs /mnt/ntfs
 	if [ "$init_d" == "on" ]; then
 		$BB chmod 755 /system/etc/init.d/*;
 		$BB run-parts /system/etc/init.d/;
+	else
+		if [ -e /system/etc/init.d/99SuperSUDaemon ]; then
+			$BB chmod 755 /system/etc/init.d/*;
+			$BB sh /system/etc/init.d/99SuperSUDaemon;
+		else
+			echo "no root script in init.d";
+		fi;
 	fi;
 
 	# Fix critical perms again after init.d mess
