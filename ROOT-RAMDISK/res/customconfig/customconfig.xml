@@ -362,9 +362,13 @@
 
 	</settingsPane>
 
-	<settingsPane description="Android Additional Logs" name="Logger">
+	<settingsPane description="Android Additional Logs and logcat" name="Logcat Logger">
 
-		<checkbox description="Enable or Disable Android Additional Logs (needs reboot)" name="Android Logger" action="generic_cortex /tmp/logger" label="Android Logger"/>
+		<spinner description="Enable or Disable Android Additional Logs and LOGCAT. you can DISABLE always to save Power! or leave default, ON when screen ON, and OFF when screen OFF" name="Android Logcat Logger" action="logger">
+			<spinnerItem name="Always Enabled" value="0"/>
+			<spinnerItem name="OFF when screen is OFF" value="1"/>
+			<spinnerItem name="Always Disabled" value="2"/>
+		</spinner>
 
 	</settingsPane>
 

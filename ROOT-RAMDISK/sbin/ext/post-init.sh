@@ -222,7 +222,7 @@ MODULES_LOAD()
 echo "0" > /proc/sys/kernel/kptr_restrict;
 
 # disable debugging on some modules
-if [ "$logger" == "off" ]; then
+if [ "$logger" -ge "1" ]; then
 	echo "N" > /sys/module/kernel/parameters/initcall_debug;
 #	echo "0" > /sys/module/alarm/parameters/debug_mask;
 #	echo "0" > /sys/module/alarm_dev/parameters/debug_mask;
