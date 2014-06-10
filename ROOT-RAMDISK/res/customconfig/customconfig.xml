@@ -50,7 +50,7 @@
 			<spinnerItem name="1190400" value="1190400"/> 
 			<spinnerItem name="1036800" value="1036800"/> 
 			<spinnerItem name="960000" value="960000"/> 
-			<spinnerItem name="DISABLED" value="300000"/> 
+			<spinnerItem name="DISABLED" value="0"/> 
 		</spinner>
 
 		<spinner description="When using ONDEMAND CPU Gov, you can have 2 modes! one for power save! and one for performance!, on power save freqs will go up slower and try to not use high OC even if set! max 2.26Ghz, when performance mode selected, then full freq is allowed and delivered with max power." name="Ondemand Power Save Switch" action="ondemand_slowup">
