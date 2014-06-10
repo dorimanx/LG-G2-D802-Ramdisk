@@ -13,6 +13,7 @@ limit_temp_degC=75
 hotplug=msm_hotplug
 cpus_boosted=2
 eco_mode=eco
+min_online_cpus=1
 governor=msm-adreno-tz
 max_freq=389000000
 min_freq=200000000

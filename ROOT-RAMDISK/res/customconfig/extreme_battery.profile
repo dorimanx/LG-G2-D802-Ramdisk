@@ -13,6 +13,7 @@ limit_temp_degC=75
 hotplug=msm_hotplug
 cpus_boosted=1
 eco_mode=eco
+min_online_cpus=1
 governor=conservative
 max_freq=320000000
 min_freq=200000000
