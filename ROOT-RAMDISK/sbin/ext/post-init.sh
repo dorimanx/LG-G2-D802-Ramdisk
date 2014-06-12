@@ -100,6 +100,15 @@ CRITICAL_PERM_FIX()
 }
 CRITICAL_PERM_FIX;
 
+SOUND_FIX()
+{
+	# fix mic and speaker low sound on boot.
+	echo "24" > /sys/kernel/sound_control_3/lge_cam_mic_gain;
+	echo "30" > /sys/kernel/sound_control_3/lge_mic_gain;
+	echo "22 22" > /sys/kernel/sound_control_3/lge_speaker_gain;
+	echo "sound fixed" > /data/.dori/sound_fix_on_boot;
+}
+
 ONDEMAND_TUNING()
 {
 	echo "10" > /cpugov/ondemand/down_differential;
@@ -292,6 +301,9 @@ $BB mount -t tmpfs -o mode=0777,gid=1000 tmpfs /mnt/ntfs
 
 	# Fix critical perms again after init.d mess
 	CRITICAL_PERM_FIX;
+
+	# fix sound gain
+	SOUND_FIX;
 
 	# script finish here, so let me know when
 	TIME_NOW=$(date)
