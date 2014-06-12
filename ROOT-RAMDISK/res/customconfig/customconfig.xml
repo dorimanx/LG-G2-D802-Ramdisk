@@ -2,7 +2,7 @@
 
 <settingsTab name="Master CORE">
 
-	<settingsPane description="Here you can switch STweaks settings to be applyed on BOOT or not." name="Global BOOT Settings">
+	<settingsPane description="Here you can switch STweaks settings to be applied on BOOT or not." name="Global BOOT Settings">
 
 		<spinner description="Master Switch, Load All settings from all TABS on boot or not! default is LOAD." name="Enable On Boot" action="generic_cortex /tmp/stweaks_boot_control">
 			<spinnerItem name="Load all Settings on boot" value="yes"/> 
@@ -15,7 +15,7 @@
 
 	<settingsPane description="Here you can tune CPU functions in kernel" name="CPU Tuning">
 
-		<spinner description="Control Over MAX allowed CPU frequency! here you can have normal 2.3GHz max or higher OC up to 2.8GHz! or you can limit to only 2.0GHz for battery save, when you set the value here all other apps or services can't set freq higher! so if you want more come here and change" name="OC Max Freq Control" action="oc_controller">
+		<spinner description="Control Over MAX allowed CPU frequency! here you can have normal 2.3GHz max or higher OC up to 2.8GHz! or you can limit to only 2.0GHz for battery save, when you set the value here all other apps or services can't set frequency higher! so if you want more come here and change" name="OC Max Frequency Control" action="oc_controller">
 			<spinnerItem name="Low freq 2.0GHz" value="battery"/> 
 			<spinnerItem name="Default 2.3GHz" value="stock"/> 
 			<spinnerItem name="Boost OC 2.4GHz" value="boost"/> 
@@ -39,7 +39,7 @@
 			<spinnerItem name="Powersave" value="powersave"/> 
 		</spinner>
 
-		<spinner description="Touch booster Control, when you touch the screen and scroll, CPU will boost freq to tuned one to help reducing LAG and allow fast and smooth device. too high freq will use more power. default is 1.574Ghz" name="Touch Boost Freq" action="cpu_boost_freq">
+		<spinner description="Touch booster Control, when you touch the screen and scroll, CPU will boost frequency to tuned one to help reducing LAG and allow fast and smooth device. too high frequency will use more power. default is 1.574Ghz" name="Touch Boost Frequency" action="cpu_boost_freq">
 			<spinnerItem name="2419200" value="2419200"/> 
 			<spinnerItem name="2265600" value="2265600"/> 
 			<spinnerItem name="1958400" value="1958400"/> 
@@ -53,12 +53,12 @@
 			<spinnerItem name="DISABLED" value="0"/> 
 		</spinner>
 
-		<spinner description="When using ONDEMAND CPU Gov, you can have 2 modes! one for power save! and one for performance!, on power save freqs will go up slower and try to not use high OC even if set! max 2.26Ghz, when performance mode selected, then full freq is allowed and delivered with max power." name="Ondemand Power Save Switch" action="ondemand_slowup">
+		<spinner description="When using ONDEMAND CPU Gov, you can have 2 modes! one for power save! and one for performance!, on power save frequency will go up slower and try to not use high OC even if set! max 2.26Ghz, when performance mode selected, then full frequency is allowed and delivered with max power." name="Ondemand Power Save Switch" action="ondemand_slowup">
 			<spinnerItem name="Power Save mode" value="1"/> 
 			<spinnerItem name="Performance mode" value="0"/> 
 		</spinner>
 
-		<checkbox description="Enable or Disable CPU-Tweaks below! if ON then kernel will obey only STweaks and set the below freqs on screen OFF and ON" name="CPU-Tweaks" action="generic_cortex /tmp/cortexbrain_cpu" label="CPU-Tweaks"/>
+		<checkbox description="Enable or Disable CPU-Tweaks below! if ON then kernel will obey only STweaks and set the below frequency on screen OFF and ON" name="CPU-Tweaks" action="generic_cortex /tmp/cortexbrain_cpu" label="CPU-Tweaks"/>
 
 		<spinner description="Maximum CPU-Speed. You can tune the MAX CPU frequency, DEPEND ON CPU-Tweaks ON ABOVE! (Default: 2265600 kHz)" name="Max CPU Frequency" action="cpu_max_freq">
 			<spinnerItem name="2803200" value="2803200"/> 
@@ -104,14 +104,14 @@
 
 	<settingsPane description="Here you can tune CPU Thermal Controls" name="CPU Thermal">
 
-		<spinner description="CPU Thermal control, Can be Default driver without controls, or Intelli thermal driver with controls below, its will limit CPU frequency when CPU reach the max limit heat, till cooled and restore full power, this can help with too hot phone playing games! intelli driver is more aggressive and drop freq to 1.4 then to 1.2 that will reduce performance in all bench apps! Default will lock on 1.7GHz most of the time, and burn the fingers but give you more SCORE to show off." name="CPU Temp Control" action="msm_thermal">
+		<spinner description="CPU Thermal control, Can be Default driver without controls, or Intelli Thermal driver with controls below, it will limit CPU frequency when CPU reach the max limit heat, till cooled and restore full power, this can help with too hot phone playing games! intelli driver is more aggressive and drop frequency to 1.4 then to 1.2 that will reduce performance in all bench apps! Default will lock on 1.7GHz most of the time, and burn the fingers but give you more SCORE to show off." name="CPU Temp Control" action="msm_thermal">
 			<spinnerItem name="Default Temp Control" value="msm_temp"/> 
 			<spinnerItem name="Intelli Temp Control" value="intelli_temp"/> 
 		</spinner>
 
-		<checkbox description="Enable or Disable CPU Cores ON and OFF based on Cores HEAT set below, if OFF! then all cores work but get low freq on high temp! if ON! then cores turned off to help with CPU cooling, but loose performance! very bad for bench show off apps! but good for heat stability" name="CPU Core Controls" action="generic01 /sys/module/msm_thermal/core_control/enabled" label="CPU Cores Control"/>
+		<checkbox description="Enable or Disable CPU Cores ON and OFF based on Cores HEAT set below, if OFF! then all cores work but get low frequency on high temp! if ON! then cores turned off to help with CPU cooling, but loose performance! very bad for bench show off apps! but good for heat stability" name="CPU Core Controls" action="generic01 /sys/module/msm_thermal/core_control/enabled" label="CPU Cores Control"/>
 
-		<seekBar description="Here you can change CORES max HEAT before turning OFF cores from 3 to 1 and keep normal phone heat, if you tune above CPU max TEMP below, then all cores will stay ON when over heatted! This will work only with Intelli Temp Control ON!!!" name="CORE Max Heat" action="generic /sys/module/msm_thermal/parameters/core_limit_temp_degC" unit="C" min="50" reversed="false" step="1" max="80"/>
+		<seekBar description="Here you can change CORES max HEAT before turning OFF cores from 3 to 1 and keep normal phone heat, if you tune above CPU max TEMP below, then all cores will stay ON when overheated! This will work only with Intelli Temp Control ON!!!" name="CORE Max Heat" action="generic /sys/module/msm_thermal/parameters/core_limit_temp_degC" unit="C" min="50" reversed="false" step="1" max="80"/>
 
 		<seekBar description="Here you can change CPU max HEAT before throttled down to cool and keep normal phone heat, depend on CPU Thermal control ON!" name="CPU Max Heat" action="generic /sys/module/msm_thermal/parameters/limit_temp_degC" unit="C" min="50" reversed="false" step="1" max="80"/>
 
@@ -123,7 +123,7 @@
 
 	<settingsPane description="Here you can tune CPU HotPlug and CPU Govs" name="Global HOTPLUG">
 
-		<spinner description="CPU HotPlug Control, you can switch from OLD LG Default HotPlug driver to MSM HotPlug, IntelliHotPlug or Alucard driver, note that using Intelli CPU Thermal control with Default LG HotPlug is not recommended! low performance" name="HotPlug Driver" action="hotplug">
+		<spinner description="CPU HotPlug Control, you can switch from OLD LG Default HotPlug driver to MSM HotPlug, Intelli HotPlug or Alucard driver, note that using Intelli CPU Thermal control with Default LG HotPlug is not recommended! low performance" name="HotPlug Driver" action="hotplug">
 			<spinnerItem name="Default LG" value="default"/> 
 			<spinnerItem name="MSM HotPlug" value="msm_hotplug"/> 
 			<spinnerItem name="Alucard HotPlug" value="alucard"/> 
@@ -141,7 +141,7 @@
 			<spinnerItem name="Strict Mode(1 core max)" value="strict"/> 
 		</spinner>
 
-		<spinner description="Minimum CPU Cores online, here you can set minimum CPU cores online non stop when screen is ON. by default we have only one core ON when device is idle, you can set 2,3,4 if you wish, this will give you much more smooth device, but will drain more power and heat up some more. default is NORMAL one core ON all the reset sleep till needed." name="Min CPU Online" action="min_online_cpus">
+		<spinner description="Minimum CPU Cores online, here you can set minimum CPU cores online nonstop when screen is ON. by default we have only one core ON when device is idle, you can set 2,3,4 if you wish, this will give you much more smooth device, but will drain more power and heat up some more. default is NORMAL one core ON all the reset sleep till needed." name="Min CPU Online" action="min_online_cpus">
 			<spinnerItem name="NORMAL(1 core)" value="1"/> 
 			<spinnerItem name="BOOSTER NOS(2 cores)" value="2"/> 
 			<spinnerItem name="TURBO CORE(3 cores)" value="3"/> 
@@ -154,9 +154,9 @@
 
 <settingsTab name="GPU CORE">
 
-	<settingsPane description="Here you can select GPU GOV, set Min Max GPU freq and update tuning" name="GPU Govs and settings">
+	<settingsPane description="Here you can select GPU GOV, set Min Max GPU frequency and update tuning" name="GPU Govs and settings">
 
-		<spinner description="Select GPU Governor that will control GPU freq according to GPU load and system needes, If you select Performance GOV GPU will be at MAX Freq non stop!" name="GPU Active Gov" action="generic /sys/devices/fdb00000.qcom,kgsl-3d0/devfreq/fdb00000.qcom,kgsl-3d0/governor">
+		<spinner description="Select GPU Governor that will control GPU frequency according to GPU load and system needs, If you select Performance GOV GPU will be at MAX frequency nonstop!" name="GPU Active Gov" action="generic /sys/devices/fdb00000.qcom,kgsl-3d0/devfreq/fdb00000.qcom,kgsl-3d0/governor">
 			<spinnerItem name="MSM-Adreno(default)" value="msm-adreno-tz"/> 
 			<spinnerItem name="Simple_Ondemand" value="simple_ondemand"/> 
 			<spinnerItem name="Conservative" value="conservative"/> 
@@ -172,7 +172,7 @@
 			<spinnerItem name="200Mhz" value="200000000"/> 
 		</spinner>
 
-		<spinner description="Select GPU Min speed when go to IDLE, if you set higher than 200Mhz then GPU will hold selected freq on IDLE" name="GPU Min Speed" action="generic /sys/devices/fdb00000.qcom,kgsl-3d0/devfreq/fdb00000.qcom,kgsl-3d0/min_freq">
+		<spinner description="Select GPU Min speed when go to IDLE, if you set higher than 200Mhz then GPU will hold selected frequency on IDLE" name="GPU Min Speed" action="generic /sys/devices/fdb00000.qcom,kgsl-3d0/devfreq/fdb00000.qcom,kgsl-3d0/min_freq">
 			<spinnerItem name="200Mhz" value="200000000"/> 
 			<spinnerItem name="320Mhz" value="320000000"/> 
 			<spinnerItem name="389Mhz" value="389000000"/> 
@@ -183,34 +183,34 @@
 
 	<settingsPane description="Here you can tune MSM-Adreno GOV! Use the controls ONLY if MSM-Adreno is selected! or just nothing happen" name="MSM-Adreno Controls">
 
-		<seekBar description="MSM Adreno CAP, more info will be added latter, must NOT be HIGHER than TARGET value! (Default: 75)" name="CAP Value" action="generic /sys/devices/fdb00000.qcom,kgsl-3d0/devfreq/fdb00000.qcom,kgsl-3d0/gpufreq/msm-adreno-tz/cap" unit="%" min="40" reversed="false" step="5" max="90"/>
+		<seekBar description="MSM Adreno CAP, more info will be added later, must NOT be HIGHER than TARGET value! (Default: 75)" name="CAP Value" action="generic /sys/devices/fdb00000.qcom,kgsl-3d0/devfreq/fdb00000.qcom,kgsl-3d0/gpufreq/msm-adreno-tz/cap" unit="%" min="40" reversed="false" step="5" max="90"/>
 
-		<seekBar description="MSM Adreno TARGET, more info will be added latter, must NOT be LOWER than TARGET value! (Default: 80)" name="TARGET Value" action="generic /sys/devices/fdb00000.qcom,kgsl-3d0/devfreq/fdb00000.qcom,kgsl-3d0/gpufreq/msm-adreno-tz/target" unit="%" min="40" reversed="false" step="5" max="90"/>
+		<seekBar description="MSM Adreno TARGET, more info will be added later, must NOT be LOWER than TARGET value! (Default: 80)" name="TARGET Value" action="generic /sys/devices/fdb00000.qcom,kgsl-3d0/devfreq/fdb00000.qcom,kgsl-3d0/gpufreq/msm-adreno-tz/target" unit="%" min="40" reversed="false" step="5" max="90"/>
 
 		<spinner description="Here you can allow to manually control Simple_ramp_threshold and Simple_laziness value, or let the GOV to decide by AUTO, if set AUTO, then controls below have no effect" name="MSM-Adreno Extra Controls" action="generic /sys/module/simple_gpu_algorithm/parameters/simple_gpu_activate">
 			<spinnerItem name="Auto Mode" value="0"/> 
 			<spinnerItem name="Allow Controls" value="1"/> 
 		</spinner>
 
-		<seekBar description="MSM Adreno Simple_Laziness control, more info will be added latter (Default: 4)" name="Simple_Laziness Value" action="generic /sys/module/simple_gpu_algorithm/parameters/simple_laziness" unit="step" min="1" reversed="false" step="1" max="10"/>
+		<seekBar description="MSM Adreno Simple_Laziness control, more info will be added later (Default: 4)" name="Simple_Laziness Value" action="generic /sys/module/simple_gpu_algorithm/parameters/simple_laziness" unit="step" min="1" reversed="false" step="1" max="10"/>
 
-		<seekBar description="MSM Adreno Simple_ramp_threshold control, more info will be added latter (Default: 5000)" name="Simple_Laziness Value" action="generic /sys/module/simple_gpu_algorithm/parameters/simple_ramp_threshold" unit="ramp" min="1000" reversed="false" step="500" max="10000"/>
+		<seekBar description="MSM Adreno Simple_ramp_threshold control, more info will be added later (Default: 5000)" name="Simple_Laziness Value" action="generic /sys/module/simple_gpu_algorithm/parameters/simple_ramp_threshold" unit="ramp" min="1000" reversed="false" step="500" max="10000"/>
 
 	</settingsPane>
 
 	<settingsPane description="Here you can tune Simple_Ondemand GOV! Use the controls ONLY if Simple_Ondemand is selected! or just nothing happen" name="Simple_Ondemand Controls">
 
-		<seekBar description="Simple_Ondemand Downdifferential, when GPU load drop below Downdifferential, GPU freq is reduced to MIN, must NOT be HIGHER than Upthreshold value! (Default: 20)" name="Downdifferential Value" action="generic /sys/devices/fdb00000.qcom,kgsl-3d0/devfreq/fdb00000.qcom,kgsl-3d0/gpufreq/simple_ondemand/downdifferential" unit="%" min="5" reversed="false" step="5" max="60"/>
+		<seekBar description="Simple_Ondemand Downdifferential, when GPU load drop below Downdifferential, GPU frequency is reduced to MIN, must NOT be HIGHER than Upthreshold value! (Default: 20)" name="Downdifferential Value" action="generic /sys/devices/fdb00000.qcom,kgsl-3d0/devfreq/fdb00000.qcom,kgsl-3d0/gpufreq/simple_ondemand/downdifferential" unit="%" min="5" reversed="false" step="5" max="60"/>
 
-		<seekBar description="Simple_Ondemand Upthreshold, when GPU load above Upthreshold, GPU freq is rised to next freq till MAX, must NOT be LOWER than Downdifferential (Default: 60)" name="Upthreshold Value" action="generic /sys/devices/fdb00000.qcom,kgsl-3d0/devfreq/fdb00000.qcom,kgsl-3d0/gpufreq/simple_ondemand/upthreshold" unit="%" min="30" reversed="false" step="5" max="90"/>
+		<seekBar description="Simple_Ondemand Upthreshold, when GPU load above Upthreshold, GPU frequency is raised to next frequency till MAX, must NOT be LOWER than Downdifferential (Default: 60)" name="Upthreshold Value" action="generic /sys/devices/fdb00000.qcom,kgsl-3d0/devfreq/fdb00000.qcom,kgsl-3d0/gpufreq/simple_ondemand/upthreshold" unit="%" min="30" reversed="false" step="5" max="90"/>
 
 	</settingsPane>
 
 	<settingsPane description="Here you can tune Conservative GOV! Use the controls ONLY if Conservative is selected! or just nothing happen" name="Conservative Controls">
 
-		<seekBar description="Conservative Downthreshold, when GPU load drop below Downthreshold GPU freq is reduced to MIN, must NOT be HIGHER than Upthreshold value! (Default: 20)" name="Downthreshold Value" action="generic /sys/devices/fdb00000.qcom,kgsl-3d0/devfreq/fdb00000.qcom,kgsl-3d0/gpufreq/conservative/downthreshold" unit="%" min="5" reversed="false" step="5" max="60"/>
+		<seekBar description="Conservative Downthreshold, when GPU load drop below Downthreshold GPU frequency is reduced to MIN, must NOT be HIGHER than Upthreshold value! (Default: 20)" name="Downthreshold Value" action="generic /sys/devices/fdb00000.qcom,kgsl-3d0/devfreq/fdb00000.qcom,kgsl-3d0/gpufreq/conservative/downthreshold" unit="%" min="5" reversed="false" step="5" max="60"/>
 
-		<seekBar description="Conservative Upthreshold, when GPU load above Upthreshold, GPU freq is rised to next freq till MAX, must NOT be LOWER than Downthreshold (Default: 50)" name="Upthreshold Value" action="generic /sys/devices/fdb00000.qcom,kgsl-3d0/devfreq/fdb00000.qcom,kgsl-3d0/gpufreq/conservative/upthreshold_cons" unit="%" min="30" reversed="false" step="5" max="90"/>
+		<seekBar description="Conservative Upthreshold, when GPU load above Upthreshold, GPU frequency is raised to next frequency till MAX, must NOT be LOWER than Downthreshold (Default: 50)" name="Upthreshold Value" action="generic /sys/devices/fdb00000.qcom,kgsl-3d0/devfreq/fdb00000.qcom,kgsl-3d0/gpufreq/conservative/upthreshold_cons" unit="%" min="30" reversed="false" step="5" max="90"/>
 
 	</settingsPane>
 
@@ -406,7 +406,7 @@
 
 	</settingsPane>
 
-	<settingsPane description="Enable using Android phone as USB and Keyboard for your PC!, lets say you dont have keyboard and you really need one! connect your phone via usb get app named USB KEYBOARD, enable the tweak here, and have fun!" name="Android USB HID Device">
+	<settingsPane description="Enable using Android phone as USB and Keyboard for your PC!, lets say you dont have keyboard and you really need one! connect your phone via USB get app named USB KEYBOARD, enable the tweak here, and have fun!" name="Android USB HID Device">
 
 		<spinner description="Enable or Disable USB HID Device driver to control PC keyboard and mouse from phone!" name="USB HID Device" action="usb_keyboard">
 			<spinnerItem name="Enable USB HID" value="enable"/> 
