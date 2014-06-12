@@ -9,20 +9,17 @@ if [ "a$2" != "a" ]; then
 
 	case "${eco_mode}" in
 		all)
-			echo "0" > /sys/kernel/intelli_plug/strict_mode_active;
-			echo "0" > /sys/kernel/intelli_plug/eco_mode_active;
+			echo "4" > /sys/kernel/intelli_plug/max_cpus_online;
 			echo "4" > /sys/module/msm_hotplug/max_cpus_online;
 			echo "4" > /sys/kernel/alucard_hotplug/maxcoreslimit;
 		;;
 		eco)
-			echo "0" > /sys/kernel/intelli_plug/strict_mode_active;
-			echo "1" > /sys/kernel/intelli_plug/eco_mode_active;
+			echo "2" > /sys/kernel/intelli_plug/max_cpus_online;
 			echo "2" > /sys/module/msm_hotplug/max_cpus_online;
 			echo "2" > /sys/kernel/alucard_hotplug/maxcoreslimit;
 		;;
 		strict)
-			echo "0" > /sys/kernel/intelli_plug/eco_mode_active;
-			echo "1" > /sys/kernel/intelli_plug/strict_mode_active;
+			echo "1" > /sys/kernel/intelli_plug/max_cpus_online;
 			echo "1" > /sys/module/msm_hotplug/max_cpus_online;
 			echo "1" > /sys/kernel/alucard_hotplug/maxcoreslimit;
 		;;

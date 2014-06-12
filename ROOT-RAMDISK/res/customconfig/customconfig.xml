@@ -130,18 +130,19 @@
 			<spinnerItem name="Intelli HotPlug" value="intelli"/> 
 		</spinner>
 
-		<spinner description="MSM HotPlug additional CPU control, here you can tune how much cores will be active on high short load, default is 2 cores for 4sec, if you wish to save more power when using MSM HotPlug then best to use 1 core. or if performance is what you prefer then use 2 cores boost. Depend on MSM HotPlug selected!" name="MSM HotPlug Booster" action="generic /sys/module/msm_hotplug/cpus_boosted">
+		<spinner description="HotPlug additional CPU control, here you can tune how much cores will be active on high short load, default is 2 cores for 4sec, if you wish to save more power when using MSM or Intelli HotPlug then best to use 1 core. or if performance is what you prefer then use 2 cores boost. Depend on MSM or Intelli HotPlug selected!" name="HotPlug CPU Booster" action="cpus_boosted">
 			<spinnerItem name="One Core Boosted" value="1"/> 
 			<spinnerItem name="Two Cores Boosted" value="2"/> 
+			<spinnerItem name="Three Cores Boosted" value="3"/> 
 		</spinner>
 
-		<spinner description="CPU ECO Mode, if ECO set, then only 2 cores can be ON, if STRICT set, then only 1 core can be ON, this will reduce performance but will save battery, depend on one of the custom HOTPLUGS, default not support this" name="ECO Mode" action="eco_mode">
+		<spinner description="Maximum allowed CPU Cores to be online when needed. you can have ECO mode that will limit CPU to have 2 cores, Strict mode will limit CPU to only 1 core! this mod will work with all custom hotplugs! default LG hotplug is not supported. this set is stronger than MIN cores online below!" name="Max Cores online" action="eco_mode">
 			<spinnerItem name="All Cores Used" value="all"/> 
 			<spinnerItem name="ECO Mode(2 cores max)" value="eco"/> 
 			<spinnerItem name="Strict Mode(1 core max)" value="strict"/> 
 		</spinner>
 
-		<spinner description="Minimum CPU Cores online, here you can set minimum CPU cores online nonstop when screen is ON. by default we have only one core ON when device is idle, you can set 2,3,4 if you wish, this will give you much more smooth device, but will drain more power and heat up some more. default is NORMAL one core ON all the reset sleep till needed." name="Min CPU Online" action="min_online_cpus">
+		<spinner description="Minimum CPU Cores online, here you can set minimum CPU cores online nonstop when screen is ON. by default we have only one core online when device is idle, you can set 2,3,4 if you wish, this will give you much more smooth device, but will drain more power and heat up some more. default is NORMAL one core ON all the reset sleep till needed. this setting is weaker than MAX cores online! above! if there you set 2 and here 4, you get 2 cores max" name="Min CPU Online" action="min_online_cpus">
 			<spinnerItem name="NORMAL(1 core)" value="1"/> 
 			<spinnerItem name="BOOSTER NOS(2 cores)" value="2"/> 
 			<spinnerItem name="TURBO CORE(3 cores)" value="3"/> 
