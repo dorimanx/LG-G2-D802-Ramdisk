@@ -105,7 +105,7 @@ SOUND_FIX()
 	# fix mic and speaker low sound on boot.
 	echo "24" > /sys/kernel/sound_control_3/lge_cam_mic_gain;
 	echo "30" > /sys/kernel/sound_control_3/lge_mic_gain;
-	echo "22 22" > /sys/kernel/sound_control_3/lge_speaker_gain;
+	echo "2 2" > /sys/kernel/sound_control_3/lge_speaker_gain;
 	echo "sound fixed" > /data/.dori/sound_fix_on_boot;
 }
 
