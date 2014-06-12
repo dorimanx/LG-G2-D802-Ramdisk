@@ -100,6 +100,18 @@
 			<spinnerItem name="300000" value="300000"/> 
 		</spinner>
 
+		<spinner description="Maximux allowed frequency when screen is OFF and phone is awake by any app that hold wakelock, as music app or etc. when screen will be ON, normal max allowed frequency will be set, this is only for screen OFF."  name="MAX Screen OFF CPU Frequency" action="suspend_max_freq">
+			<spinnerItem name="Max Allowed" value="4294967295"/> 
+			<spinnerItem name="2265600" value="2265600"/> 
+			<spinnerItem name="1958400" value="1958400"/> 
+			<spinnerItem name="1728000" value="1728000"/> 
+			<spinnerItem name="1574400" value="1574400"/> 
+			<spinnerItem name="1497600" value="1497600"/> 
+			<spinnerItem name="1267200" value="1267200"/> 
+			<spinnerItem name="1190400" value="1190400"/> 
+			<spinnerItem name="1036800" value="1036800"/> 
+		</spinner>
+
 	</settingsPane>
 
 	<settingsPane description="Here you can tune CPU Thermal Controls" name="CPU Thermal">

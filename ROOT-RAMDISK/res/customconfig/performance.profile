@@ -6,6 +6,7 @@ ondemand_slowup=1
 cortexbrain_cpu=off
 cpu_max_freq=2572800
 cpu_min_freq=300000
+suspend_max_freq=4294967295
 msm_thermal=msm_temp
 enabled=off
 core_limit_temp_degC=80
