@@ -100,8 +100,8 @@
 			<spinnerItem name="300000" value="300000"/> 
 		</spinner>
 
-		<spinner description="Maximux allowed frequency when screen is OFF and phone is awake by any app that hold wakelock, as music app or etc. when screen will be ON, normal max allowed frequency will be set, this is only for screen OFF."  name="MAX Screen OFF CPU Frequency" action="suspend_max_freq">
-			<spinnerItem name="Max Allowed" value="4294967295"/> 
+		<spinner description="Maximux allowed frequency when screen is OFF and phone is awake by any app that hold wakelock, as music app or etc. when screen will be ON, normal max allowed frequency will be set, this is only for screen OFF." name="MAX Screen OFF CPU Frequency" action="suspend_max_freq">
+			<spinnerItem name="Max Allowed" value="2803200"/> 
 			<spinnerItem name="2265600" value="2265600"/> 
 			<spinnerItem name="1958400" value="1958400"/> 
 			<spinnerItem name="1728000" value="1728000"/> 
@@ -169,7 +169,7 @@
 
 	<settingsPane description="Here you can select GPU GOV, set Min Max GPU frequency and update tuning" name="GPU Govs and settings">
 
-		<spinner description="Select GPU Governor that will control GPU frequency according to GPU load and system needs, If you select Performance GOV GPU will be at MAX frequency nonstop!" name="GPU Active Gov" action="generic /sys/devices/fdb00000.qcom,kgsl-3d0/devfreq/fdb00000.qcom,kgsl-3d0/governor">
+		<spinner description="Select GPU Governor that will control GPU frequency according to GPU load and system needs, If you select Performance GOV GPU will be at MAX frequency nonstop!" name="GPU Active Gov" action="gpu_governor">
 			<spinnerItem name="MSM-Adreno(default)" value="msm-adreno-tz"/> 
 			<spinnerItem name="Simple_Ondemand" value="simple_ondemand"/> 
 			<spinnerItem name="Conservative" value="conservative"/> 
@@ -313,8 +313,6 @@
 
 		<checkbox description="Cron to clear file-cache every hour, but only if CPU is resting (IDLE) and more than 50% of your memory is used! This will free RAM from unused buffers and cache." name="Clean file-cache" action="generic_cortex /tmp/cron_drop_cache" label="RAM cache clean every Hour"/>
 
-		<checkbox description="Cron to update AD-BLOCKER every week at SAT 6:00AM UTC time, from official site. The script will check, if you are connected with the internet, otherwise it will try to use WIFI! Script will turn wifi, wait for connection and update, then when it is finished it will turn WIFI off. If there is no connection, an error will be written in the log." name="Update AD-Block" action="generic_cortex /tmp/ad_block_update" label="Update AD-BLOCKER every week"/>
-
 		<checkbox description="Cron to DB Optimize every day at 3:00AM, only if CPU is resting (IDLE)!" name="DB Optimization" action="generic_cortex /tmp/cron_db_optimizing" label="DB Optimization task every day at 3:00AM"/>
 
 		<checkbox description="Cron to clear app-cache every day at 4:00AM, only if CPU is resting (IDLE)!" name="Clean app-cache" action="generic_cortex /tmp/cron_clear_app_cache" label="Disk Clean task every day at 4:00AM"/>
@@ -364,17 +362,7 @@
 
 		<button description="Click to see your current GPS ZONE" name="GPS ZONE" action="push-actions/gpszonecheck" label="GPS ZONE CHECK"/>
 
-		<!--button description="Update time via NTP server" name="UPDATE TIME" action="push-actions/time_update" label="UPDATE TIME"/-->
-
 	</settingsPane>
-
-	<!--settingsPane description="Here you can Add, Update or Remove AD Blocker! You need ROOT to do the tweak! If you want to update the blocker, you can push the UPDATE AD NOW button, to get the new one installed! If you install a new ROM, and you want to use AD BLOCKER, then push UPDATE AD NOW and REBOOT. If you need to REMOVE AD-BLOCKER use the REMOVE button and REBOOT" name="AD Blocker">
-
-		<button description="ADD or UPDATE AD BLOCKER" name="AD-B UPDATE or ADD" action="push-actions/ad_update" label="UPDATE AD-B NOW"/>
-
-		<button description="REMOVE AD Blocker" name="AD-B REMOVE" action="push-actions/ad_restore" label="REMOVE AD-B NOW"/>
-
-	</settingsPane-->
 
 	<settingsPane description="INIT.D" name="INIT.D">
 
@@ -502,12 +490,6 @@
 		<checkbox description="Enable or Disable CIFS Module. This will allow to use apps that can mount internal storage and publish over network. User can access data and system over network. No support, effect only after reboot!" name="CIFS Module" action="generic_cortex /tmp/cifs_module" label="CIFS Module"/>
 
 	</settingsPane>
-
-	<!--settingsPane description="Check if there is a new kernel-update available." name="Kernel-Update">
-
-		<button description="Check for Update" name="Kernel-Update" action="push-actions/kernel_check" label="KERNEL-CHECK"/>
-
-	</settingsPane-->
 
 </settingsTab>
 

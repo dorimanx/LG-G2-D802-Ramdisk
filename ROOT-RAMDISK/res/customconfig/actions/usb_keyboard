@@ -22,9 +22,6 @@ if [ "a$2" != "a" ]; then
 				echo "0" > /sys/module/g_android/parameters/usb_keyboard;
 				echo "mtp,adb" > /sys/devices/virtual/android_usb/android0/functions;
 				echo "1" > /sys/devices/virtual/android_usb/android0/enable;
-			else
-				chown system.system /dev/hidg*;
-				chmod 777 /dev/hidg*
 			fi;
 		;;
 		*)
