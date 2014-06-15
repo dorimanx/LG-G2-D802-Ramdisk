@@ -229,6 +229,20 @@
 
 </settingsTab>
 
+<settingsTab name="SOUND CONTROL">
+
+	<settingsPane description="Here you can tune MIC and SPEAKER volume gain" name="Sound Controls">
+
+		<seekBar description="Control for Camera recording MIC gain volume!" name="Camera MIC gain" action="generic_mic_sound /sys/kernel/sound_control_3/lge_cam_mic_gain" unit="vol" min="-10" reversed="false" step="1" max="24"/>
+
+		<seekBar description="Control for HeadSet MIC gain volume on call!" name="HeadSet MIC gain on call" action="generic_mic_sound /sys/kernel/sound_control_3/lge_mic_gain" unit="vol" min="-10" reversed="false" step="1" max="24"/>
+
+		<seekBar description="Control for Speaker gain volume! when you set higher better listen to music so you will know when is more than hardware can handle." name="Speaker Gain" action="generic_speaker_sound /sys/kernel/sound_control_3/lge_speaker_gain" unit="vol" min="-10" reversed="false" step="1" max="10"/>
+
+	</settingsPane>
+
+</settingsTab>
+
 <settingsTab name="IO">
 
 	<settingsPane description="Here you can tune IO settings managed by Kernel" name="IO Tuning">
