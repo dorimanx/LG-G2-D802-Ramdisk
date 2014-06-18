@@ -20,7 +20,7 @@ case "${config_backup_restore}" in
 				echo "battery" > /data/.dori/.active.profile;
 				echo "Updating configuration, please wait ~50sec"
 				echo "STweaks will restart with new settings.";
-				$BB sh /res/user_uci_test_run.sh > /dev/null;
+				$BB nohup /res/user_uci_test_run.sh > /dev/null;
 			fi;
 		)&
 	;;
@@ -31,7 +31,7 @@ case "${config_backup_restore}" in
 				echo "default" > /data/.dori/.active.profile;
 				echo "Updating configuration, please wait ~50sec"
 				echo "STweaks will will restart with new settings.";
-				$BB sh /res/user_uci_test_run.sh > /dev/null;
+				$BB nohup /res/user_uci_test_run.sh > /dev/null;
 			fi;
 		)&
 	;;
@@ -42,7 +42,7 @@ case "${config_backup_restore}" in
 				echo "performance" > /data/.dori/.active.profile;
 				echo "Updating configuration, please wait ~50sec"
 				echo "STweaks will restart with new settings.";
-				$BB sh /res/user_uci_test_run.sh > /dev/null;
+				$BB nohup /res/user_uci_test_run.sh > /dev/null;
 			fi;
 		)&
 	;;
@@ -53,7 +53,7 @@ case "${config_backup_restore}" in
 				echo "extreme_battery" > /data/.dori/.active.profile;
 				echo "Updating configuration, please wait ~50sec"
 				echo "STweaks will restart with new settings.";
-				$BB sh /res/user_uci_test_run.sh > /dev/null;
+				$BB nohup /res/user_uci_test_run.sh > /dev/null;
 			fi;
 		)&
 	;;
@@ -64,7 +64,7 @@ case "${config_backup_restore}" in
 				echo "extreme_performance" > /data/.dori/.active.profile;
 				echo "Updating configuration, please wait ~50sec"
 				echo "STweaks will restart with new settings.";
-				$BB sh /res/user_uci_test_run.sh > /dev/null;
+				$BB nohup /res/user_uci_test_run.sh > /dev/null;
 			fi;
 		)&
 	;;
@@ -141,7 +141,7 @@ case "${config_backup_restore}" in
 				chmod 06755 /res/customconfig/actions/push-actions/config_backup_restore;
 
 				# apply New STweaks settings
-				/res/uci.sh restore;
+				$BB nohup /res/uci.sh restore;
 				# add trigger for push actions restore function
 				echo "uci done" > $LOCK_FILE;
 			)&
