@@ -8,8 +8,8 @@ on post-fs
 
 on post-fs-data
     #CAPP_SECUREBOOT
-    exec /sbin/wallpaper -ap
-    wait /sbin/wallpaper
+#   exec /sbin/wallpaper -ap
+#   wait /sbin/wallpaper
 
     #CAPP_FONTS
     mkdir /data/font 775 system system
