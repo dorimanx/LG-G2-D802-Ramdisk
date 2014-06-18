@@ -7,9 +7,16 @@
 if [ "a$2" != "a" ]; then
 	suspend_max_freq=$2;
 
-	echo "$suspend_max_freq" > /sys/kernel/intelli_plug/suspend_max_freq;
-	echo "$suspend_max_freq" > /sys/module/msm_hotplug/suspend_max_freq;
-	echo "$suspend_max_freq" > /sys/kernel/alucard_hotplug/suspend_max_freq;
+	MAX_FREQ_NOW=$(cat /cpufreq/scaling_max_freq);
+	if [ "$suspend_max_freq" -eq "2803200" ]; then
+		SLEEP_MAX_FREQ=0;
+	else
+		SLEEP_MAX_FREQ="$suspend_max_freq";
+	fi;
+
+	echo "$SLEEP_MAX_FREQ" > /sys/kernel/intelli_plug/suspend_max_freq;
+	echo "$SLEEP_MAX_FREQ" > /sys/module/msm_hotplug/suspend_max_freq;
+	echo "$SLEEP_MAX_FREQ" > /sys/kernel/alucard_hotplug/suspend_max_freq;
 fi;
 
 echo ${suspend_max_freq};
