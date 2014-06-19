@@ -209,6 +209,9 @@ CPU_CENTRAL_CONTROL()
 			echo "$cpu_max_freq" > /sys/devices/system/cpu/cpu0/cpufreq/scaling_max_freq;
 		elif [ "$state" == "sleep" ]; then
 			echo "$cpu_min_freq" > /sys/devices/system/cpu/cpu0/cpufreq/scaling_min_freq;
+			if [ "$suspend_max_freq" -lt "2803200" ]; then
+				echo "$suspend_max_freq" > /sys/kernel/msm_cpufreq_limit/suspend_max_freq;
+			fi;
 		fi;
 		return 1;
 		if [ -e /sys/devices/system/cpu/cpufreq/ondemand/smart_up ]; then

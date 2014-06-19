@@ -7,13 +7,11 @@
 if [ "a$2" != "a" ]; then
 	suspend_max_freq=$2;
 
-	if [ "$suspend_max_freq" -eq "2803200" ]; then
-		SLEEP_MAX_FREQ=0;
+	if [ "$suspend_max_freq" -lt "2803200" ]; then
+		echo "$suspend_max_freq" > /sys/kernel/msm_cpufreq_limit/suspend_max_freq;
 	else
-		SLEEP_MAX_FREQ="$suspend_max_freq";
+		echo "0" > /sys/kernel/msm_cpufreq_limit/suspend_max_freq;
 	fi;
-
-	echo "$SLEEP_MAX_FREQ" > /sys/kernel/msm_cpufreq_limit/suspend_max_freq;
 fi;
 
 echo ${suspend_max_freq};
