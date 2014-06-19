@@ -71,11 +71,12 @@ OPEN_RW;
 
 # some nice thing for dev
 if [ ! -e /cpufreq ]; then
-	$BB ln -s /sys/devices/system/cpu/cpu0/cpufreq /cpufreq;
+	$BB ln -s /sys/devices/system/cpu/cpu0/cpufreq/ /cpufreq;
 	$BB ln -s /sys/devices/system/cpu/cpufreq/ /cpugov;
 	$BB ln -s /sys/module/msm_thermal/parameters/ /cputemp;
-	$BB ln -s /sys/kernel/alucard_hotplug/ /alucard_plug;
-	$BB ln -s /sys/kernel/intelli_plug/ /intelli_plug;
+	$BB ln -s /sys/kernel/alucard_hotplug/ /hotplugs/alucard;
+	$BB ln -s /sys/kernel/intelli_plug/ /hotplugs/intelli;
+	$BB ln -s /sys/module/msm_hotplug/ /hotplugs/msm_hotplug;
 fi;
 
 # cleaning
@@ -117,7 +118,6 @@ ONDEMAND_TUNING()
 	echo "15" > /cpugov/ondemand/high_grid_step;
 	echo "30" > /cpugov/ondemand/middle_grid_load;
 	echo "40" > /cpugov/ondemand/high_grid_load;
-	echo "300000" > /sys/devices/system/cpu/cpu0/cpufreq/scaling_min_freq;
 }
 
 # oom and mem perm fix
@@ -144,8 +144,10 @@ $BB chmod 666 /sys/module/msm_thermal/core_control/enabled
 $BB chmod 666 /sys/kernel/intelli_plug/*
 $BB chmod 666 /sys/class/kgsl/kgsl-3d0/max_gpuclk
 $BB chmod 666 /sys/devices/fdb00000.qcom,kgsl-3d0/devfreq/fdb00000.qcom,kgsl-3d0/governor
+$BB chmod 666 /sys/devices/fdb00000.qcom,kgsl-3d0/devfreq/fdb00000.qcom,kgsl-3d0/*_freq
 
 # make sure our max gpu clock is set via sysfs
+echo "200000000" > /sys/devices/fdb00000.qcom,kgsl-3d0/devfreq/fdb00000.qcom,kgsl-3d0/min_freq
 echo "450000000" > /sys/devices/fdb00000.qcom,kgsl-3d0/devfreq/fdb00000.qcom,kgsl-3d0/max_freq
 
 # set min max boot freq to default.
@@ -244,57 +246,59 @@ OPEN_RW;
 $BB mkdir /mnt/ntfs
 $BB mount -t tmpfs -o mode=0777,gid=1000 tmpfs /mnt/ntfs
 
-(
-	# set ondemand as default gov
-	echo "ondemand" > /sys/devices/system/cpu/cpu0/cpufreq/scaling_governor;
-	ONDEMAND_TUNING;
 
-	if [ "$stweaks_boot_control" == "yes" ]; then
-		# stop uci.sh from running all the PUSH Buttons in stweaks on boot
-		OPEN_RW;
-		$BB chown -R root:system /res/customconfig/actions/;
-		$BB chmod -R 06755 /res/customconfig/actions/;
-		$BB mv /res/customconfig/actions/push-actions/* /res/no-push-on-boot/;
-		$BB chmod 06755 /res/no-push-on-boot/*;
+# set ondemand as default gov
+echo "ondemand" > /sys/devices/system/cpu/cpu0/cpufreq/scaling_governor;
+ONDEMAND_TUNING;
 
-		# apply STweaks settings
-		$BB pkill -f "com.gokhanmoral.stweaks.app";
-		$BB nohup $BB sh /res/uci.sh restore;
+if [ "$stweaks_boot_control" == "yes" ]; then
+	# stop uci.sh from running all the PUSH Buttons in stweaks on boot
+	OPEN_RW;
+	$BB chown -R root:system /res/customconfig/actions/;
+	$BB chmod -R 06755 /res/customconfig/actions/;
+	$BB mv /res/customconfig/actions/push-actions/* /res/no-push-on-boot/;
+	$BB chmod 06755 /res/no-push-on-boot/*;
 
-		OPEN_RW;
-		# restore all the PUSH Button Actions back to there location
-		$BB mv /res/no-push-on-boot/* /res/customconfig/actions/push-actions/;
-		$BB pkill -f "com.gokhanmoral.stweaks.app";
+	# apply STweaks settings
+	$BB pkill -f "com.gokhanmoral.stweaks.app";
+	$BB nohup $BB sh /res/uci.sh restore;
 
-		# correct oom tuning, if changed by apps/rom
-		$BB sh /res/uci.sh oom_config_screen_on "$oom_config_screen_on";
-		$BB sh /res/uci.sh oom_config_screen_off "$oom_config_screen_off";
+	OPEN_RW;
+	# restore all the PUSH Button Actions back to there location
+	$BB mv /res/no-push-on-boot/* /res/customconfig/actions/push-actions/;
+	$BB pkill -f "com.gokhanmoral.stweaks.app";
 
-		# Load Custom Modules
-		MODULES_LOAD;
-		if [ -e /cpugov/ondemand ]; then
-			ONDEMAND_TUNING;
-		fi;
+	# correct oom tuning, if changed by apps/rom
+	$BB sh /res/uci.sh oom_config_screen_on "$oom_config_screen_on";
+	$BB sh /res/uci.sh oom_config_screen_off "$oom_config_screen_off";
+
+	# Load Custom Modules
+	MODULES_LOAD;
+	if [ -e /cpugov/ondemand ]; then
+		ONDEMAND_TUNING;
 	fi;
+fi;
 
-	# Start any init.d scripts that may be present in the rom or added by the user
-	if [ "$init_d" == "on" ]; then
+# Start any init.d scripts that may be present in the rom or added by the user
+if [ "$init_d" == "on" ]; then
+	$BB chmod 755 /system/etc/init.d/*;
+	$BB run-parts /system/etc/init.d/;
+else
+	if [ -e /system/etc/init.d/99SuperSUDaemon ]; then
 		$BB chmod 755 /system/etc/init.d/*;
-		$BB run-parts /system/etc/init.d/;
+		$BB sh /system/etc/init.d/99SuperSUDaemon;
 	else
-		if [ -e /system/etc/init.d/99SuperSUDaemon ]; then
-			$BB chmod 755 /system/etc/init.d/*;
-			$BB sh /system/etc/init.d/99SuperSUDaemon;
-		else
-			echo "no root script in init.d";
-		fi;
+		echo "no root script in init.d";
 	fi;
+fi;
 
-	# Fix critical perms again after init.d mess
-	CRITICAL_PERM_FIX;
+# Fix critical perms again after init.d mess
+CRITICAL_PERM_FIX;
 
-	# script finish here, so let me know when
-	TIME_NOW=$(date)
-	echo "$TIME_NOW" > /data/boot_log_dm
-)&
+sleep 30;
+echo "300000" > /sys/devices/system/cpu/cpu0/cpufreq/scaling_min_freq;
+
+# script finish here, so let me know when
+TIME_NOW=$(date)
+echo "$TIME_NOW" > /data/boot_log_dm
 
