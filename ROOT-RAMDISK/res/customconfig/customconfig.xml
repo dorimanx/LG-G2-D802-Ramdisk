@@ -235,9 +235,9 @@
 
 		<seekBar description="Control for Camera recording MIC gain volume!" name="Camera MIC gain" action="generic_mic_sound /sys/kernel/sound_control_3/lge_cam_mic_gain" unit="vol" min="-10" reversed="false" step="1" max="24"/>
 
-		<seekBar description="Control for HeadSet MIC gain volume on call!" name="HeadSet MIC gain on call" action="generic_mic_sound /sys/kernel/sound_control_3/lge_mic_gain" unit="vol" min="-10" reversed="false" step="1" max="24"/>
+		<seekBar description="Control for HandSet MIC gain volume on call!" name="HandSet MIC gain on call" action="generic_mic_sound /sys/kernel/sound_control_3/lge_mic_gain" unit="vol" min="-10" reversed="false" step="1" max="24"/>
 
-		<seekBar description="Control for Speaker gain volume! when you set higher better listen to music so you will know when is more than hardware can handle." name="Speaker Gain" action="generic_speaker_sound /sys/kernel/sound_control_3/lge_speaker_gain" unit="vol" min="-10" reversed="false" step="1" max="10"/>
+		<seekBar description="Control for Speaker gain volume! when you set higher better listen to music so you will know when is more than hardware can handle. if you already have sound control MODS! use them, as MODS brake STOCK control. this is not BUG! your MOD is BUGGED" name="Speaker Gain" action="generic_speaker_sound /sys/kernel/sound_control_3/lge_speaker_gain" unit="vol" min="-10" reversed="false" step="1" max="10"/>
 
 	</settingsPane>
 
