@@ -355,6 +355,18 @@
 
 	</settingsPane>
 
+	<settingsPane description="Congestion control concerns controlling traffic entry into a telecommunications network, so as to avoid congestive collapse by attempting to avoid oversubscription of any of the processing or link capabilities of the intermediate nodes and networks and taking resource reducing steps" name="Net Congestion Control">
+
+		<spinner description="Allow USER to READ GOOGLE! then come here and select what he think is BEST for him for NET Congestion Control, if USER is lazy to read google then leave it default CUBIC! and dont ask what is the difference." name="Net Congestion Control" action="generic /proc/sys/net/ipv4/tcp_congestion_control">
+			<spinnerItem name="Set CUBIC" value="cubic"/> 
+			<spinnerItem name="Set RENO" value="reno"/> 
+			<spinnerItem name="Set WESTWOOD" value="westwood"/> 
+			<spinnerItem name="Set BIC" value="bic"/> 
+			<spinnerItem name="Set HTCP" value="htcp"/> 
+		</spinner>
+
+	</settingsPane>
+
 	<settingsPane description="WIFI Settings" name="WIFI">
 
 		<button description="Clean WIFI DHCP IP Lease. Push the button to activate!" name="Clean WIFI Lease" action="push-actions/fix_wifi" label="Clean WIFI Lease"/>

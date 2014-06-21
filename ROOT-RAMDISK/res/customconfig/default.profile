@@ -43,6 +43,7 @@ cron_drop_cache=off
 cron_db_optimizing=off
 cron_clear_app_cache=off
 cron_zipalign=off
+tcp_congestion_control=cubic
 gpsregion=No_GPS_Zone_changes
 init_d=off
 logger=1
