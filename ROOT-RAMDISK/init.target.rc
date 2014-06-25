@@ -66,6 +66,9 @@ on fs
     setprop ro.ril.disable.power.collapse 1
     setprop pm.sleep_mode 1
 
+    # Extra Dori config
+    write /sys/kernel/sched/gentle_fair_sleepers 0
+
 on post-fs-data
     mkdir /data/tombstones 0775 system system
     mkdir /tombstones/modem 0771 system system
