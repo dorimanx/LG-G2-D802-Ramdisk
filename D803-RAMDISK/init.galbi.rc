@@ -306,6 +306,18 @@ on boot
     # enable exfat feature
     insmod /system/lib/modules/exfat.ko
 
+# set eMMC size property
+on property:persist.sys.emmc_size=0
+    start set_emmc_size
+
+on property:persist.sys.emmc_size=32GB
+    setprop ro.device.memory.system 0
+    setprop ro.device.memory.internal 32
+
+on property:persist.sys.emmc_size=16GB
+    setprop ro.device.memory.system 0
+    setprop ro.device.memory.internal 16
+
 # msm specific files that need to be created on /data
 on post-fs-data
     # we will remap this as /mnt/sdcard with the sdcard fuse tool
@@ -449,6 +461,14 @@ service usbhub_init /system/bin/usbhub_init
    user root
    disabled
    oneshot
+
+#set_emmc_size
+service set_emmc_size /system/bin/sh /set_emmc_size.sh
+    class main
+    user root
+    group media_rw system sdcard_rw
+    disabled
+    oneshot
 
 on property:init.svc.surfaceflinger=stopped
     stop ppd
