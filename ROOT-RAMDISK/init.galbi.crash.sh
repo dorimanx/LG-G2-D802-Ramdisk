@@ -17,7 +17,7 @@ case $enable in
         echo 1 > /sys/kernel/debug/tracing/events/workqueue/workqueue_execute_end/enable
         case $boot in
             "1")
-                stop mpdecision
+                # stop mpdecision
                 echo 1 > /sys/devices/system/cpu/cpu1/online
                 echo 1 > /sys/devices/system/cpu/cpu2/online
                 echo 1 > /sys/devices/system/cpu/cpu3/online
@@ -26,7 +26,7 @@ case $enable in
                 echo 1 > /sys/bus/coresight/devices/coresight-etm2/enable
                 echo 1 > /sys/bus/coresight/devices/coresight-etm3/enable
                 echo 1 > /sys/bus/coresight/devices/coresight-tmc-etf/curr_sink
-                start mpdecision
+                # start mpdecision
                 ;;
             *)
                 echo 1 > /sys/bus/coresight/devices/coresight-etm0/enable
