@@ -19,9 +19,6 @@ OPEN_RW()
 }
 OPEN_RW;
 
-# updating thermal engine config
-$BB cp -a /sbin/thermal/* /system/etc/;
-
 # fix storage folder owner
 $BB chown system.sdcard_rw /storage;
 
@@ -238,9 +235,10 @@ fi;
 OPEN_RW;
 
 # for ntfs automounting
-$BB mkdir /mnt/ntfs
-$BB mount -t tmpfs -o mode=0777,gid=1000 tmpfs /mnt/ntfs
-
+if [ ! -d /mnt/ntfs ]; then
+	$BB mkdir /mnt/ntfs
+	$BB mount -t tmpfs -o mode=0777,gid=1000 tmpfs /mnt/ntfs
+fi;
 
 # set ondemand as default gov
 echo "ondemand" > /sys/devices/system/cpu/cpu0/cpufreq/scaling_governor;
