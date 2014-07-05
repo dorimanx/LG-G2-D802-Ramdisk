@@ -24,17 +24,6 @@ case "${debug_to_sd}" in
 				echo "" >> $DEBUG_FILE;
 			}
 
-			# more debug
-			echo "1" > /sys/module/ump/parameters/ump_debug_level;
-			echo "1" > /sys/module/mali/parameters/mali_debug_level;
-			echo "1" > /sys/module/kernel/parameters/initcall_debug;
-			echo "2" > /sys/module/lowmemorykiller/parameters/debug_level;
-			echo "1" > /sys/module/earlysuspend/parameters/debug_mask;
-			echo "1" > /sys/module/alarm/parameters/debug_mask;
-			echo "1" > /sys/module/alarm_dev/parameters/debug_mask;
-			echo "1" > /sys/module/binder/parameters/debug_mask;
-			echo "1" > /sys/module/xt_qtaguid/parameters/debug_mask;
-
 			# overwrite old debug-file
 			echo "" > $DEBUG_FILE;
 			echo " --- DEBUG from "`date`" --- " >> $DEBUG_FILE;
@@ -51,8 +40,6 @@ case "${debug_to_sd}" in
 			# System
 			echo "ROM-Version:" >> $DEBUG_FILE;
 			cat init.rc | grep "# THIS INIT.RC is FOR" >> $DEBUG_FILE;
-			getprop ro.modversion >> $DEBUG_FILE;
-			getprop cm.version >> $DEBUG_FILE;
 			getprop ro.build.description >> $DEBUG_FILE;
 			getprop ro.build.date >> $DEBUG_FILE;
 			getprop ro.build.display.id >> $DEBUG_FILE;
@@ -68,7 +55,6 @@ case "${debug_to_sd}" in
 			# Memory
 			echo "Memory-Info:" >> $DEBUG_FILE;
 			free >> $DEBUG_FILE;
-			cat /proc/swaps >> $DEBUG_FILE;
 			cat /proc/meminfo >> $DEBUG_FILE;
 			SEPARATOR;
 
@@ -126,11 +112,6 @@ case "${debug_to_sd}" in
 			done;
 			SEPARATOR;
 
-			# Scheduler
-			echo "Scheduler-Info:" >> $DEBUG_FILE;
-			cat /proc/sched_debug >> $DEBUG_FILE;
-			SEPARATOR;
-
 			# Interrupts
 			echo "Interrupts-Info:" >> $DEBUG_FILE;
 			cat /proc/interrupts >> $DEBUG_FILE;
@@ -148,13 +129,7 @@ case "${debug_to_sd}" in
 
 			# NET
 			echo "NET-Info:" >> $DEBUG_FILE;
-			ifconfig pdp0 >> $DEBUG_FILE;
 			ifconfig wlan0 >> $DEBUG_FILE;
-			SEPARATOR;
-
-			# USB
-			echo "USB-Info:" >> $DEBUG_FILE;
-			lsusb >> $DEBUG_FILE;
 			SEPARATOR;
 
 			# lsmod
@@ -170,15 +145,11 @@ case "${debug_to_sd}" in
 
 			# Partitions status
 			echo "DATA Partition" >> $DEBUG_FILE;
-			/sbin/tune2fs -l /res/dev/data | grep 'Filesystem state' | cut -c 27-44 >> $DEBUG_FILE;
+			/system/bin/tune2fs -l /dev/block/platform/msm_sdcc.1/by-name/userdata | grep 'Filesystem state' | cut -c 27-44 >> $DEBUG_FILE;
 			echo "SYSTEM Partition" >> $DEBUG_FILE;
-			/sbin/tune2fs -l /res/dev/system | grep 'Filesystem state' | cut -c 27-44 >> $DEBUG_FILE;
+			/system/bin/tune2fs -l /dev/block/platform/msm_sdcc.1/by-name/system | grep 'Filesystem state' | cut -c 27-44 >> $DEBUG_FILE;
 			echo "CACHE Partition" >> $DEBUG_FILE;
-			/sbin/tune2fs -l /res/dev/cache | grep 'Filesystem state' | cut -c 27-44 >> $DEBUG_FILE;
-			echo "EFS Partition" >> $DEBUG_FILE;
-			/sbin/tune2fs -l /dev/block/mmcblk0p1 | grep 'Filesystem state' | cut -c 27-44 >> $DEBUG_FILE;
-			echo "Preloaded Partition" >> $DEBUG_FILE;
-			/sbin/tune2fs -l /dev/block/mmcblk0p12 | grep 'Filesystem state' | cut -c 27-44 >> $DEBUG_FILE;
+			/system/bin/tune2fs -l /dev/block/platform/msm_sdcc.1/by-name/cache | grep 'Filesystem state' | cut -c 27-44 >> $DEBUG_FILE;
 			SEPARATOR;
 
 			# System
@@ -192,11 +163,11 @@ case "${debug_to_sd}" in
 
 			# Processes
 			echo "Process-Info: top" >> $DEBUG_FILE;
-			top -b -n 1 >> $DEBUG_FILE;
+			top -n 1 -m 7 >> $DEBUG_FILE;
 			SEPARATOR;
 
 			echo "Process-Info: ps" >> $DEBUG_FILE;
-			ps -w >> $DEBUG_FILE;
+			ps >> $DEBUG_FILE;
 			SEPARATOR;
 
 			echo "Process-Info: nice (priority)" >> $DEBUG_FILE;
@@ -222,17 +193,11 @@ case "${debug_to_sd}" in
 			dmesg | grep -i "Fail" >> $DEBUG_FILE;
 			SEPARATOR;
 
-			if [ "$logger" == "off" ]; then
-				echo "0" > /sys/module/ump/parameters/ump_debug_level;
-				echo "0" > /sys/module/mali/parameters/mali_debug_level;
-				echo "0" > /sys/module/kernel/parameters/initcall_debug;
-				echo "1" > /sys/module/lowmemorykiller/parameters/debug_level;
-				echo "0" > /sys/module/earlysuspend/parameters/debug_mask;
-				echo "0" > /sys/module/alarm/parameters/debug_mask;
-				echo "0" > /sys/module/alarm_dev/parameters/debug_mask;
-				echo "0" > /sys/module/binder/parameters/debug_mask;
-				echo "0" > /sys/module/xt_qtaguid/parameters/debug_mask;
-			fi;
+			# last kmsg
+			echo "last_kmsg-Info:" >> $DEBUG_FILE;
+			cat /proc/last_kmsg >> $DEBUG_FILE;
+			SEPARATOR;
+
 		)&
 		echo "All Data collected and ready at $DEBUG_FILE";
 	;;
