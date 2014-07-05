@@ -290,7 +290,7 @@ CRITICAL_PERM_FIX;
 
 sleep 30;
 echo "300000" > /sys/devices/system/cpu/cpu0/cpufreq/scaling_min_freq;
-echo "0" > /cputemp/freq_debug;
+echo "0" > /cputemp/freq_limit_debug;
 
 # script finish here, so let me know when
 TIME_NOW=$(date)
