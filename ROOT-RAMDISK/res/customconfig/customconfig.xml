@@ -137,10 +137,11 @@
 			<spinnerItem name="Intelligent Hot Plug" value="intelli"/> 
 		</spinner>
 
-		<spinner description="Hot Plug additional CPU control, here you can tune how much cores will be active on high short load, default is 2 cores for 4sec, if you wish to save more power when using MSM or Intelligent Hot Plug then best to use 1 core. or if performance is what you prefer then use 2 cores boost. Depend on MSM or Intelligent Hot Plug selected!" name="Hot Plug CPU Booster" action="cpus_boosted">
+		<spinner description="Hot Plug additional CPU control, here you can tune how much cores will be active on high short load, default is 2 cores for 4sec, if you wish to save more power when using MSM or Intelligent Hot Plug then best to use 1 core. or if performance is what you prefer then use 2 or more cores boost. Depend on MSM or Intelligent Hot Plug selected!" name="Hot Plug CPU Booster" action="cpus_boosted">
 			<spinnerItem name="One Core Boosted" value="1"/> 
 			<spinnerItem name="Two Cores Boosted" value="2"/> 
 			<spinnerItem name="Three Cores Boosted" value="3"/> 
+			<spinnerItem name="Four Cores Boosted" value="4"/> 
 		</spinner>
 
 		<spinner description="Maximum allowed CPU Cores to be online when needed. you can have ECO mode that will limit CPU to have 2 cores, Strict mode will limit CPU to only 1 core! this mod will work with all custom hot plugs! default LG hot plug is not supported. this set is stronger than MIN cores online below!" name="Max Cores online" action="eco_mode">

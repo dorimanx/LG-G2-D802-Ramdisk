@@ -20,6 +20,10 @@ if [ "a$2" != "a" ]; then
 			echo "3" > /sys/module/msm_hotplug/cpus_boosted;
 			echo "3" > /sys/kernel/intelli_plug/cpus_boosted;
 		;;
+		4)
+			echo "4" > /sys/module/msm_hotplug/cpus_boosted;
+			echo "4" > /sys/kernel/intelli_plug/cpus_boosted;
+		;;
 		*)
 			cpus_boosted=1;
 		;;
