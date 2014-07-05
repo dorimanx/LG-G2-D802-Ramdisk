@@ -114,18 +114,13 @@
 
 	</settingsPane>
 
-	<settingsPane description="Here you can tune CPU Thermal Controls" name="CPU Thermal">
+	<settingsPane description="Here you can tune CPU Thermal Controls, with this kernel ROM thermal service and Intelligent Thermal Kernel driver running together! to protect your device from overheat and melt down the screen! controls below are active for both services. in case that ROM service die, Kernel will protect your LCD from damage!" name="CPU Thermal Protection">
 
-		<spinner description="CPU Thermal control, Can be Default driver without controls, or Intelligent Thermal driver with controls below, it will limit CPU frequency when CPU reach the max limit heat, till cooled and restore full power, this can help with too hot phone playing games! intelligent driver is more aggressive and drop frequency to 1.4 then to 1.2 that will reduce performance in all bench apps! Default will lock on 1.7GHz most of the time, and burn the fingers but give you more SCORE to show off." name="CPU Temp Control" action="msm_thermal">
-			<spinnerItem name="Default Temp Control" value="msm_temp"/> 
-			<spinnerItem name="Intelligent Temp Control" value="intelli_temp"/> 
-		</spinner>
+		<checkbox description="Enable or Disable CPU Cores ON and OFF based on Cores HEAT set below, if OFF! then all cores work but get low frequency on high temp! if ON! then cores turned off to help with CPU cooling, but loose performance! very bad for bench show off apps! but good for heat stability" name="CPU Core Controls" action="generic01 /sys/module/msm_thermal/core_control/enabled" label="Intelli CPU Cores Control"/>
 
-		<checkbox description="Enable or Disable CPU Cores ON and OFF based on Cores HEAT set below, if OFF! then all cores work but get low frequency on high temp! if ON! then cores turned off to help with CPU cooling, but loose performance! very bad for bench show off apps! but good for heat stability, WILL DO ANY EFFECT if Intelligent Temp Control is SELECTED above!" name="CPU Core Controls" action="generic01 /sys/module/msm_thermal/core_control/enabled" label="Intelli CPU Cores Control"/>
+		<seekBar description="Here you can change CORES max HEAT before turning OFF cores from 3 to 1 and keep normal phone heat, if you tune above CPU max TEMP below, then all cores will stay ON when overheated!" name="Intelli CORE Max Heat" action="generic /sys/module/msm_thermal/parameters/core_limit_temp_degC" unit="C" min="50" reversed="false" step="1" max="82"/>
 
-		<seekBar description="Here you can change CORES max HEAT before turning OFF cores from 3 to 1 and keep normal phone heat, if you tune above CPU max TEMP below, then all cores will stay ON when overheated! WILL DO ANY EFFECT if Intelligent Temp Control is SELECTED above!" name="Intelli CORE Max Heat" action="generic /sys/module/msm_thermal/parameters/core_limit_temp_degC" unit="C" min="50" reversed="false" step="1" max="80"/>
-
-		<seekBar description="Here you can change CPU max HEAT before throttled down to cool and keep normal phone heat, depend on CPU Thermal control ON!" name="CPU Max Heat" action="generic /sys/module/msm_thermal/parameters/limit_temp_degC" unit="C" min="50" reversed="false" step="1" max="80"/>
+		<seekBar description="Here you can change CPU max HEAT before throttled down to cool and keep normal phone heat, depend on CPU Thermal control ENABLED!" name="CPU Max Heat" action="generic /sys/module/msm_thermal/parameters/limit_temp_degC" unit="C" min="50" reversed="false" step="1" max="82"/>
 
 	</settingsPane>
 
