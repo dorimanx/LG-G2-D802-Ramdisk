@@ -98,7 +98,7 @@ ONDEMAND_TUNING()
 	echo "10" > /cpugov/ondemand/down_differential;
 	echo "3" > /cpugov/ondemand/down_differential_multi_core;
 	echo "80" > /cpugov/ondemand/micro_freq_up_threshold;
-	echo "1" > /cpugov/ondemand/sampling_down_factor;
+	echo "4" > /cpugov/ondemand/sampling_down_factor;
 	echo "50000" > /cpugov/ondemand/sampling_rate;
 	echo "75" > /cpugov/ondemand/up_threshold;
 	echo "75" > /cpugov/ondemand/up_threshold_any_cpu_load;
