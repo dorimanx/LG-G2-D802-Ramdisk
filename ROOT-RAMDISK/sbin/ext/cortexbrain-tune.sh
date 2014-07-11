@@ -198,6 +198,21 @@ IO_SCHEDULER()
 	fi;
 }
 
+GOV_TUNING()
+{
+	GOV_NAME=$(cat /sys/devices/system/cpu/cpu0/cpufreq/scaling_governor);
+
+	if [ -e /cpugov/$GOV_NAME/sync_freq ]; then
+		echo "1574400" > /cpugov/$GOV_NAME/sync_freq;
+	fi;
+	if [ -e /cpugov/$GOV_NAME/optimal_freq ]; then
+		echo "1574400" > /cpugov/$GOV_NAME/optimal_freq;
+	fi;
+	if [ -e /cpugov/$GOV_NAME/optimal_max_freq ]; then
+		echo "1574400" > /cpugov/$GOV_NAME/optimal_max_freq;
+	fi;
+}
+
 CPU_CENTRAL_CONTROL()
 {
 	if [ "$cortexbrain_cpu" == "on" ]; then
@@ -209,6 +224,7 @@ CPU_CENTRAL_CONTROL()
 			echo "$cpu_min_freq" > /sys/devices/system/cpu/cpu0/cpufreq/scaling_min_freq;
 			echo "$cpu_max_freq" > /sys/devices/system/cpu/cpu0/cpufreq/scaling_max_freq;
 			/res/uci.sh power_mode $power_mode;
+			GOV_TUNING;
 		elif [ "$state" == "sleep" ]; then
 			echo "$cpu_min_freq" > /sys/devices/system/cpu/cpu0/cpufreq/scaling_min_freq;
 			if [ "$suspend_max_freq" -lt "2803200" ]; then
