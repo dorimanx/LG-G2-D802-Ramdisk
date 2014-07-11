@@ -1,0 +1,29 @@
+#!/sbin/busybox sh
+
+# $1 - "power_mode"
+# $2 - value=
+# Created By Dorimanx
+
+if [ "a$2" != "a" ]; then
+	power_mode=$2;
+
+	GOV_NAME=$(cat /sys/devices/system/cpu/cpu0/cpufreq/scaling_governor);
+
+	case "${power_mode}" in
+		1)
+			if [ -e /sys/devices/system/cpu/cpufreq/$GOV_NAME/sampling_rate ]; then
+				echo "10000" > /sys/devices/system/cpu/cpufreq/$GOV_NAME/sampling_rate;
+			fi;
+		;;
+		0)
+			if [ -e /sys/devices/system/cpu/cpufreq/$GOV_NAME/sampling_rate ]; then
+				echo "50000" > /sys/devices/system/cpu/cpufreq/$GOV_NAME/sampling_rate;
+			fi;
+		;;
+		*)
+			power_mode=0;
+		;;
+	esac;
+fi;
+
+echo ${power_mode};

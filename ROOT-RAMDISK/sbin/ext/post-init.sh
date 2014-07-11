@@ -98,14 +98,13 @@ ONDEMAND_TUNING()
 	echo "10" > /cpugov/ondemand/down_differential;
 	echo "3" > /cpugov/ondemand/down_differential_multi_core;
 	echo "80" > /cpugov/ondemand/micro_freq_up_threshold;
-	echo "4" > /cpugov/ondemand/sampling_down_factor;
-	echo "50000" > /cpugov/ondemand/sampling_rate;
+	echo "1" > /cpugov/ondemand/sampling_down_factor;
 	echo "75" > /cpugov/ondemand/up_threshold;
 	echo "75" > /cpugov/ondemand/up_threshold_any_cpu_load;
 	echo "75" > /cpugov/ondemand/up_threshold_multi_core;
-	echo "1497600" > /cpugov/ondemand/sync_freq;
-	echo "1497600" > /cpugov/ondemand/optimal_freq;
-	echo "2265600" > /cpugov/ondemand/optimal_max_freq;
+	echo "1574400" > /cpugov/ondemand/sync_freq;
+	echo "960000" > /cpugov/ondemand/optimal_freq;
+	echo "1574400" > /cpugov/ondemand/optimal_max_freq;
 	echo "10" > /cpugov/ondemand/middle_grid_step;
 	echo "15" > /cpugov/ondemand/high_grid_step;
 	echo "30" > /cpugov/ondemand/middle_grid_load;
@@ -163,7 +162,7 @@ fi;
 
 # reset profiles auto trigger to be used by kernel ADMIN, in case of need, if new value added in default profiles
 # just set numer $RESET_MAGIC + 1 and profiles will be reset one time on next boot with new kernel.
-RESET_MAGIC=23;
+RESET_MAGIC=24;
 if [ ! -e /data/.dori/reset_profiles ]; then
 	echo "0" > /data/.dori/reset_profiles;
 fi;

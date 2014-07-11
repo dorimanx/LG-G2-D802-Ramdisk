@@ -53,9 +53,9 @@
 			<spinnerItem name="DISABLED" value="0"/> 
 		</spinner>
 
-		<spinner description="When using ONDEMAND CPU Governor! for others this has NO EFFECT!, you can have 2 modes! one for power save! and one for performance!, on power save frequency will go up slower and try to not use high OC even if set! max 2.26Ghz, when performance mode selected, then full frequency is allowed and delivered with max power." name="Ondemand Power Save Switch" action="ondemand_slowup">
-			<spinnerItem name="Power Save mode" value="1"/> 
-			<spinnerItem name="Performance mode" value="0"/> 
+		<spinner description="Here you can select 2 modes! one for power save! and one for performance!, on power save responce will be normal! when performance mode selected, high presure responce allowed with max power." name="Power Save Switch" action="power_mode">
+			<spinnerItem name="Power Save mode" value="0"/> 
+			<spinnerItem name="Performance mode" value="1"/> 
 		</spinner>
 
 		<checkbox description="Enable or Disable CPU-Tweaks below! if ON then kernel will obey only STweaks and set the below frequency on screen OFF and ON" name="CPU-Tweaks" action="generic_cortex /tmp/cortexbrain_cpu" label="CPU-Tweaks"/>

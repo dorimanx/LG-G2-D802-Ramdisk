@@ -4,30 +4,40 @@
 # $2 - value=
 # Created By Dorimanx
 
+# get values from profile
+PROFILE=$(cat /data/.dori/.active.profile);
+. /data/.dori/"$PROFILE".profile;
+
 if [ "a$2" != "a" ]; then
 	default_cpu_gov=$2;
 
 	case "${default_cpu_gov}" in
 		ondemand)
 			echo "ondemand" > /sys/devices/system/cpu/cpu0/cpufreq/scaling_governor;
+			/res/uci.sh power_mode $power_mode;
 		;;
 		ondemandplus)
 			echo "ondemandplus" > /sys/devices/system/cpu/cpu0/cpufreq/scaling_governor;
 		;;
 		HYPER)
 			echo "HYPER" > /sys/devices/system/cpu/cpu0/cpufreq/scaling_governor;
+			/res/uci.sh power_mode $power_mode;
 		;;
 		nightmare)
 			echo "nightmare" > /sys/devices/system/cpu/cpu0/cpufreq/scaling_governor;
+			/res/uci.sh power_mode $power_mode;
 		;;
 		darkness)
 			echo "darkness" > /sys/devices/system/cpu/cpu0/cpufreq/scaling_governor;
+			/res/uci.sh power_mode $power_mode;
 		;;
 		alucard)
 			echo "alucard" > /sys/devices/system/cpu/cpu0/cpufreq/scaling_governor;
+			/res/uci.sh power_mode $power_mode;
 		;;
 		pegasusq)
 			echo "pegasusq" > /sys/devices/system/cpu/cpu0/cpufreq/scaling_governor;
+			/res/uci.sh power_mode $power_mode;
 		;;
 		interactive)
 			echo "interactive" > /sys/devices/system/cpu/cpu0/cpufreq/scaling_governor;
@@ -37,12 +47,14 @@ if [ "a$2" != "a" ]; then
 		;;
 		intellidemand)
 			echo "intellidemand" > /sys/devices/system/cpu/cpu0/cpufreq/scaling_governor;
+			/res/uci.sh power_mode $power_mode;
 		;;
 		intelliactive)
 			echo "intelliactive" > /sys/devices/system/cpu/cpu0/cpufreq/scaling_governor;
 		;;
 		conservative)
 			echo "conservative" > /sys/devices/system/cpu/cpu0/cpufreq/scaling_governor;
+			/res/uci.sh power_mode $power_mode;
 		;;
 		performance)
 			echo "performance" > /sys/devices/system/cpu/cpu0/cpufreq/scaling_governor;
