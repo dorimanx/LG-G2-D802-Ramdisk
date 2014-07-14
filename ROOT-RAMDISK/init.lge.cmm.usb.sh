@@ -36,10 +36,10 @@
 usb_config=`getprop persist.sys.usb.config`
 case "$usb_config" in
 	"boot") #factory status, select default
-		setprop persist.sys.usb.config mtp_only
+		setprop persist.sys.usb.config charge_only
 	;;
 	"boot,adb") #factory status, select default
-		setprop persist.sys.usb.config mtp_only,adb
+		setprop persist.sys.usb.config charge_only,adb
 	;;
 	*) ;; #USB persist config exists, do nothing
 esac

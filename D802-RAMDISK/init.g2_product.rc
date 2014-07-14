@@ -25,6 +25,15 @@ on boot
     setprop persist.service.bt.support.sap true
     setprop service.bt.support.busytone true
 
+#2013-07-12 hwayoung.lim@lge.com LGP_DATA_TCPIP_NSRM [START]
+    mkdir /data/connectivity 0775 system system
+    mkdir /data/connectivity/nsrm 0775 system system
+    copy /system/etc/cne/NsrmConfiguration.xml /data/connectivity/nsrm/NsrmConfiguration.xml
+    chown system system /data/connectivity/nsrm/NsrmConfiguration.xml
+    chmod 775 /data/connectivity/nsrm/NsrmConfiguration.xml
+#2013-07-12 hwayoung.lim@lge.com LGP_DATA_TCPIP_NSRM [END]
+
+
 # Assign TCP buffer thresholds to be ceiling value of technology maximums
 # Increased technology maximums should be reflected here.
     write /proc/sys/net/core/rmem_max  3461120
@@ -72,7 +81,7 @@ on fs
     mkdir /cust 0771 system system
     wait /dev/block/platform/msm_sdcc.1/by-name/cust
     exec /system/bin/e2fsck -p /dev/block/platform/msm_sdcc.1/by-name/cust
-    mount ext4 /dev/block/platform/msm_sdcc.1/by-name/cust /cust rw nosuid nodev barrier=1 noauto_da_alloc
+    mount ext4 /dev/block/platform/msm_sdcc.1/by-name/cust /cust ro nosuid nodev barrier=1 noauto_da_alloc
 
 on init
     exec /sbin/setup_fs_static \
