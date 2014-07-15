@@ -4,6 +4,10 @@
 # $2 - value=
 # Created By Dorimanx
 
+# get values from profile
+PROFILE=$(cat /data/.dori/.active.profile);
+. /data/.dori/"$PROFILE".profile;
+
 if [ "a$2" != "a" ]; then
 	power_mode=$2;
 
@@ -17,7 +21,7 @@ if [ "a$2" != "a" ]; then
 		;;
 		0)
 			if [ -e /sys/devices/system/cpu/cpufreq/$GOV_NAME/sampling_rate ]; then
-				echo "50000" > /sys/devices/system/cpu/cpufreq/$GOV_NAME/sampling_rate;
+				echo "$sample_rate" > /sys/devices/system/cpu/cpufreq/$GOV_NAME/sampling_rate;
 			fi;
 		;;
 		*)

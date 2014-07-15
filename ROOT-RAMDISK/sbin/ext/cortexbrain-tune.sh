@@ -223,15 +223,11 @@ CPU_CENTRAL_CONTROL()
 		if [ "$state" == "awake" ]; then
 			echo "$cpu_min_freq" > /sys/devices/system/cpu/cpu0/cpufreq/scaling_min_freq;
 			echo "$cpu_max_freq" > /sys/devices/system/cpu/cpu0/cpufreq/scaling_max_freq;
-			/res/uci.sh power_mode $power_mode;
 			GOV_TUNING;
 		elif [ "$state" == "sleep" ]; then
 			echo "$cpu_min_freq" > /sys/devices/system/cpu/cpu0/cpufreq/scaling_min_freq;
 			if [ "$suspend_max_freq" -lt "2803200" ]; then
 				echo "$suspend_max_freq" > /sys/kernel/msm_cpufreq_limit/suspend_max_freq;
-			fi;
-			if [ -e /sys/devices/system/cpu/cpufreq/$GOV_NAME/sampling_rate ]; then
-				echo "60000" > /sys/devices/system/cpu/cpufreq/$GOV_NAME/sampling_rate;
 			fi;
 		fi;
 		log -p i -t "$FILE_NAME" "*** CPU_CENTRAL_CONTROL max_freq:${cpu_max_freq} min_freq:${cpu_min_freq}***: done";

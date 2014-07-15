@@ -2,6 +2,7 @@ stweaks_boot_control=yes
 oc_controller=high
 default_cpu_gov=ondemand
 cpu_boost_freq=1728000
+sample_rate=50000
 power_mode=0
 cortexbrain_cpu=off
 cpu_max_freq=2572800

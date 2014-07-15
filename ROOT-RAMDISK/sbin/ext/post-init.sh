@@ -19,6 +19,12 @@ OPEN_RW()
 }
 OPEN_RW;
 
+# Boost CPU GOV sampling_rate on boot.
+GOV_NAME=$(cat /sys/devices/system/cpu/cpu0/cpufreq/scaling_governor);
+if [ -e /sys/devices/system/cpu/cpufreq/$GOV_NAME/sampling_rate ]; then
+	echo "10000" > /sys/devices/system/cpu/cpufreq/$GOV_NAME/sampling_rate;
+fi;
+
 # fix storage folder owner
 $BB chown system.sdcard_rw /storage;
 
@@ -162,7 +168,7 @@ fi;
 
 # reset profiles auto trigger to be used by kernel ADMIN, in case of need, if new value added in default profiles
 # just set numer $RESET_MAGIC + 1 and profiles will be reset one time on next boot with new kernel.
-RESET_MAGIC=24;
+RESET_MAGIC=25;
 if [ ! -e /data/.dori/reset_profiles ]; then
 	echo "0" > /data/.dori/reset_profiles;
 fi;
