@@ -270,6 +270,9 @@ if [ "$stweaks_boot_control" == "yes" ]; then
 	$BB sh /res/uci.sh oom_config_screen_on "$oom_config_screen_on";
 	$BB sh /res/uci.sh oom_config_screen_off "$oom_config_screen_off";
 
+	# Reduce heat limit during boot.
+	$BB sh /res/uci.sh generic /sys/module/msm_thermal/parameters/limit_temp_degC 77;
+
 	# Load Custom Modules
 	MODULES_LOAD;
 	if [ -e /cpugov/ondemand ]; then
@@ -296,6 +299,9 @@ CRITICAL_PERM_FIX;
 sleep 30;
 echo "300000" > /sys/devices/system/cpu/cpu0/cpufreq/scaling_min_freq;
 echo "0" > /cputemp/freq_limit_debug;
+
+# restore USER cpu heat temp from STweaks.
+$BB sh /res/uci.sh generic /sys/module/msm_thermal/parameters/limit_temp_degC $limit_temp_degC;
 
 # script finish here, so let me know when
 TIME_NOW=$(date)
