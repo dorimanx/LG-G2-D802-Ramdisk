@@ -252,19 +252,10 @@ ONDEMAND_TUNING;
 if [ "$stweaks_boot_control" == "yes" ]; then
 	# stop uci.sh from running all the PUSH Buttons in stweaks on boot
 	OPEN_RW;
-	$BB chown -R root:system /res/customconfig/actions/;
-	$BB chmod -R 06755 /res/customconfig/actions/;
-	$BB mv /res/customconfig/actions/push-actions/* /res/no-push-on-boot/;
-	$BB chmod 06755 /res/no-push-on-boot/*;
 
 	# apply STweaks settings
 	$BB pkill -f "com.gokhanmoral.stweaks.app";
-	$BB nohup $BB sh /res/uci.sh restore;
-
-	OPEN_RW;
-	# restore all the PUSH Button Actions back to there location
-	$BB mv /res/no-push-on-boot/* /res/customconfig/actions/push-actions/;
-	$BB pkill -f "com.gokhanmoral.stweaks.app";
+	$BB nohup $BB sh /res/uci.sh apply;
 
 	# correct oom tuning, if changed by apps/rom
 	$BB sh /res/uci.sh oom_config_screen_on "$oom_config_screen_on";

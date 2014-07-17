@@ -12,9 +12,6 @@ chmod 06755 /res/no-push-on-boot/*;
 /sbin/busybox cp /res/misc_scripts/config_backup_restore /res/customconfig/actions/push-actions/;
 chmod 06755 /res/customconfig/actions/push-actions/config_backup_restore;
 
-UCI_PID=`pgrep "user_uci_test_run.sh"`;
-renice -n -15 -p $UCI_PID;
-
 ACTION_SCRIPTS=/res/customconfig/actions;
 source /res/customconfig/customconfig-helper;
 
@@ -29,5 +26,4 @@ write_config;
 # restore all the PUSH Button Actions back to there location
 mv /res/no-push-on-boot/* /res/customconfig/actions/push-actions/;
 pkill -f "com.gokhanmoral.stweaks.app";
-/system/bin/am start -a android.intent.action.MAIN -n com.gokhanmoral.stweaks.app/.MainActivity;
 

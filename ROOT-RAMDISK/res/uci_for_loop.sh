@@ -8,8 +8,6 @@
 ACTION_SCRIPTS=/res/customconfig/actions;
 source /res/customconfig/customconfig-helper;
 
-/sbin/busybox mount -o remount,rw /;
-
 # first, read defaults
 read_defaults;
 

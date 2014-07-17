@@ -2,29 +2,11 @@
 
 BB=/sbin/busybox
 
-$BB mount -o remount,rw /;
-
 (
 	if [ "$(pgrep -f "/res/customconfig/actions/push-actions/reload_settings" | wc -l)" -le "3" ]; then
-
-		. /res/customconfig/customconfig-helper;
-		read_defaults;
-		read_config;
-
-		$BB chown -R root:system /res/customconfig/actions/;
-		$BB chmod -R 06755 /res/customconfig/actions/;
-
-		# stop uci.sh from running all the PUSH Buttons in stweaks on boot
-		$BB mv /res/customconfig/actions/push-actions/* /res/no-push-on-boot/;
-		$BB chmod 06755 /res/no-push-on-boot/*;
-
+		echo "Loading Config, reload STweaks after 10sec";
 		# apply STweaks settings
-		$BB nohup "$BB" sh /res/uci.sh restore > /dev/null;
-		UCI_PID=$(pgrep -f "/res/uci.sh");
-		echo "-800" > /proc/"$UCI_PID"/oom_score_adj;
-
-		# restore all the PUSH Button Actions back to there location
-		$BB mv /res/no-push-on-boot/* /res/customconfig/actions/push-actions/;
+		$BB nohup $BB sh /res/uci.sh apply > /dev/null;
 
 		# Load Custom Modules
 		if [ "$cifs_module" == "on" ]; then
@@ -33,7 +15,10 @@ $BB mount -o remount,rw /;
         		fi;
 		fi;
 
-		echo "Config Loaded!";
+		sync;
+		$BB rm -rf /data/data/com.gokhanmoral.stweaks.app/*;
+		$BB pkill -f "com.gokhanmoral.stweaks.app";
+		exit;
 	else
 		echo "Still running!!"
 	fi;

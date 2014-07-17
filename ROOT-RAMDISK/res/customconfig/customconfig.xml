@@ -9,7 +9,7 @@
 			<spinnerItem name="Don't load all Settings on boot" value="no"/> 
 		</spinner>
 
-		<button description="Push this in order to load all tuned settings IF the master switch is (or was already) OFF. If the master switch was ON when phone booted, then you don't need to touch this, wait until you see that the settings are loaded" name="LOAD ALL" action="push-actions/reload_settings" label="LOAD ALL"/>
+		<button description="Push this in order to load all tuned settings IF the master switch is (or was already) OFF. If the master switch was ON when phone booted, then you don't need to touch this, wait until STweaks will close then start STweaks again if you wish." name="LOAD ALL" action="push-actions/reload_settings" label="LOAD ALL"/>
 
 	</settingsPane>
 
@@ -424,6 +424,8 @@
 			<spinnerItem name="MAX 1800mA" value="1800"/> 
 			<spinnerItem name="MAX 2000mA" value="2000"/> 
 		</spinner>
+
+		<button description="Here you can RESET battery fuel counter, if you see that battery present counter is not showing correct state, you can ask kernel to recalibrate battery state." name="Reset Battery Counter" action="push-actions/reset_battery" label="Reset Battery Counter"/>
 
 		<checkbox description="Enable one more Force Fast Charge hack to mask any charger (including USB) as AC power. That way, we always get fast charging mode! No more SLOW CHARGE Icon! The side effect is that you get 2 connection sound and vibrations - one for USB connected and second for AC connected." name="Fake AC Charger" action="generic01 /sys/kernel/fast_charge/fake_charge_ac" label="Fake AC Charger Hack"/>
 
