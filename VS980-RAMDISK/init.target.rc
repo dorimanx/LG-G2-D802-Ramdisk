@@ -65,6 +65,8 @@ on fs
     setprop ro.ril.disable.power.collapse 1
     setprop pm.sleep_mode 1
 
+    write /sys/module/msm_hotplug/update_rates "200 5:100 50:50 350:200"
+
 on post-fs-data
     mkdir /data/tombstones 0775 system system
     mkdir /tombstones/modem 0771 system system
