@@ -223,7 +223,7 @@ CPU_CENTRAL_CONTROL()
 		if [ "$state" == "awake" ]; then
 			echo "$cpu_min_freq" > /sys/devices/system/cpu/cpu0/cpufreq/scaling_min_freq;
 			echo "$cpu_max_freq" > /sys/devices/system/cpu/cpu0/cpufreq/scaling_max_freq;
-			GOV_TUNING;
+			#GOV_TUNING;
 		elif [ "$state" == "sleep" ]; then
 			echo "$cpu_min_freq" > /sys/devices/system/cpu/cpu0/cpufreq/scaling_min_freq;
 			if [ "$suspend_max_freq" -lt "2803200" ]; then
