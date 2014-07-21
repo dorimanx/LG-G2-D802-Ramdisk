@@ -255,7 +255,7 @@ if [ "$stweaks_boot_control" == "yes" ]; then
 
 	# apply STweaks settings
 	$BB pkill -f "com.gokhanmoral.stweaks.app";
-	$BB nohup $BB sh /res/uci.sh apply;
+	$BB sh /res/uci.sh apply;
 
 	# correct oom tuning, if changed by apps/rom
 	$BB sh /res/uci.sh oom_config_screen_on "$oom_config_screen_on";
