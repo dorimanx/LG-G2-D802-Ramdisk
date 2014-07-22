@@ -2,7 +2,7 @@
 export PATH="/res/customconfig/actions/push-actions:${PATH}";
 
 (
-	CORTEX_CHECK=$(pgrep -f "/sbin/busybox sh /sbin/ext/cortexbrain-tune.sh" | wc -l);
+	CORTEX_CHECK=$(pgrep -f "/sbin/ext/cortexbrain-tune.sh" | wc -l);
 	if [ "$CORTEX_CHECK" != "0" ]; then
 		echo "SERVICE ONLINE";
 	else
