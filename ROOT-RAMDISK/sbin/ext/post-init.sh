@@ -294,6 +294,7 @@ $BB sh /res/uci.sh generic /sys/module/msm_thermal/parameters/limit_temp_degC $l
 $BB sh /res/uci.sh oom_config_screen_on "$oom_config_screen_on";
 $BB sh /res/uci.sh oom_config_screen_off "$oom_config_screen_off";
 $BB sh /res/uci.sh default_cpu_gov "$default_cpu_gov";
+$BB sh /res/uci.sh hotplug "$hotplug";
 
 # script finish here, so let me know when
 TIME_NOW=$(date)
