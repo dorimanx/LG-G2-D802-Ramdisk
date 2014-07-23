@@ -257,10 +257,6 @@ if [ "$stweaks_boot_control" == "yes" ]; then
 	$BB pkill -f "com.gokhanmoral.stweaks.app";
 	$BB sh /res/uci.sh apply;
 
-	# correct oom tuning, if changed by apps/rom
-	$BB sh /res/uci.sh oom_config_screen_on "$oom_config_screen_on";
-	$BB sh /res/uci.sh oom_config_screen_off "$oom_config_screen_off";
-
 	# Reduce heat limit during boot.
 	$BB sh /res/uci.sh generic /sys/module/msm_thermal/parameters/limit_temp_degC 77;
 
@@ -293,6 +289,11 @@ echo "0" > /cputemp/freq_limit_debug;
 
 # restore USER cpu heat temp from STweaks.
 $BB sh /res/uci.sh generic /sys/module/msm_thermal/parameters/limit_temp_degC $limit_temp_degC;
+
+# Correct Kernel config after full boot.
+$BB sh /res/uci.sh oom_config_screen_on "$oom_config_screen_on";
+$BB sh /res/uci.sh oom_config_screen_off "$oom_config_screen_off";
+$BB sh /res/uci.sh default_cpu_gov "$default_cpu_gov";
 
 # script finish here, so let me know when
 TIME_NOW=$(date)

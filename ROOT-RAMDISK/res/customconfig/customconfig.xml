@@ -25,18 +25,19 @@
 		</spinner>
 
 		<spinner description="This will set the CPU governor. Default CPU governor will only be set during early stages of booting (before init.d execution) and can be overridden by any other scripts or apps." name="Default CPU Governor" action="default_cpu_gov">
-			<spinnerItem name="Conservative" value="conservative"/> 
 			<spinnerItem name="HYPER" value="HYPER"/> 
 			<spinnerItem name="Alucard" value="alucard"/> 
-			<spinnerItem name="Pegasusq" value="pegasusq"/> 
 			<spinnerItem name="Nightmare" value="nightmare"/> 
 			<spinnerItem name="Darkness" value="darkness"/> 
 			<spinnerItem name="Intellidemand" value="intellidemand"/> 
 			<spinnerItem name="Intelliactive" value="intelliactive"/> 
+			<spinnerItem name="Interactive" value="interactive"/> 
+			<spinnerItem name="Pegasusq" value="pegasusq"/> 
 			<spinnerItem name="Ondemand" value="ondemand"/> 
 			<spinnerItem name="Ondemandplus" value="ondemandplus"/> 
-			<spinnerItem name="Interactive" value="interactive"/> 
 			<spinnerItem name="Powersave" value="powersave"/> 
+			<spinnerItem name="Conservative" value="conservative"/> 
+			<spinnerItem name="Performance" value="performance"/> 
 		</spinner>
 
 		<spinner description="Touch boost control - when you touch the screen or scroll, the CPU's frequency will be boosted to maximum frequency set in order to help reducing LAG and allow fast and smooth operations. Too high frequencies will use more power. Default is 1.728 GHz." name="Touch Boost Frequency" action="cpu_boost_freq">
