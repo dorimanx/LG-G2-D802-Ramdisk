@@ -60,12 +60,12 @@ on fs
     setprop persist.adb.notify 0
     setprop dalvik.vm.execution-mode int:jit
     setprop ro.kernel.android.checkjni 0
-    setprop ro.kernel.checkjni 0
     setprop ro.config.nocheckin 1
-    setprop ro.ril.disable.power.collapse 1
+    setprop ro.ril.disable.power.collapse 0
+    setprop debug.performance.tuning 1
+    setprop video.accelerate.hw 1
+    setprop windowsmgr.max_events_per_sec 150
     setprop pm.sleep_mode 1
-
-    write /sys/module/msm_hotplug/update_rates "200 5:100 50:50 350:200"
 
 on post-fs-data
     mkdir /data/tombstones 0775 system system
