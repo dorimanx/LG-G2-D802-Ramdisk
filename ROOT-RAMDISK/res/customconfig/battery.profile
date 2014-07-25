@@ -40,6 +40,7 @@ dirty_background_ratio=20
 dirty_ratio=25
 crontab=off
 cron_drop_cache=off
+ad_block_update=off
 cron_db_optimizing=off
 cron_clear_app_cache=off
 cron_zipalign=off

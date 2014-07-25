@@ -1,10 +1,9 @@
 #!/sbin/busybox sh
 
 
-WGET_CHECK1=`ls -la /system/xbin/wget | wc -l`;
-WGET_CHECK2=`ls -la /system/bin/wget | wc -l`;
+WGET_CHECK1=`ls -la /system/wget/wget | wc -l`;
 
-if [ "$WGET_CHECK1" -eq "1" ] || [ "$WGET_CHECK2" -eq "1" ]; then
+if [ "$WGET_CHECK1" -eq "1" ]; then
 
 	mount -o remount,rw /;
 	mount -o remount,rw /system;
@@ -34,5 +33,5 @@ if [ "$WGET_CHECK1" -eq "1" ] || [ "$WGET_CHECK2" -eq "1" ]; then
 	fi;
 		rm -f $TMPFILE;
 else
-	echo "Your BusyBox is not supported! Update to latest";
+	echo "Your System dont have WGET binary from my kernel, reinstall my kernel.";
 fi;

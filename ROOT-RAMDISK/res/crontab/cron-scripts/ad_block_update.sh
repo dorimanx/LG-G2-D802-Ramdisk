@@ -5,10 +5,9 @@ PROFILE=`cat /data/.dori/.active.profile`;
 
 if [ "$ad_block_update" == "on" ]; then
 
-	WGET_CHECK1=`ls -la /system/xbin/wget | wc -l`;
-	WGET_CHECK2=`ls -la /system/bin/wget | wc -l`;
+	WGET_CHECK1=`ls -la /system/wget/wget | wc -l`;
 
-	if [ "$WGET_CHECK1" -eq "1" ] || [ "$WGET_CHECK2" -eq "1" ]; then
+	if [ "$WGET_CHECK1" -eq "1" ]; then
 
 		TMPFILE=$(mktemp -t);
 		HOST_FILE="/system/etc/hosts";
@@ -54,6 +53,6 @@ if [ "$ad_block_update" == "on" ]; then
 		rm -f $TMPFILE;
 	else
 		date +%H:%M-%D-%Z > /data/crontab/cron-ad_block_update;
-		echo "Your BusyBox is not supported! Update to latest" >> /data/crontab/cron-ad_block_update;
+		echo "You need working WGET binary" >> /data/crontab/cron-ad_block_update;
 	fi;
 fi;
