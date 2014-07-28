@@ -8,6 +8,7 @@ cortexbrain_cpu=on
 cpu_max_freq=1958400
 cpu_min_freq=300000
 suspend_max_freq=2803200
+msm_thermal=intelli_temp
 enabled=off
 core_limit_temp_degC=80
 limit_temp_degC=78

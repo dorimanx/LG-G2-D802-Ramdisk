@@ -117,7 +117,12 @@
 
 	</settingsPane>
 
-	<settingsPane description="Here you can tune CPU Thermal Controls, with this kernel + ROM thermal service and Intelligent Thermal Kernel driver running together! To protect your device from overheating and melting the chipset, screen and your fingers! Controls below are active for both services. In case the ROM service dies, kernel will protect your chipset, LCD and other components from damage!" name="CPU Thermal Protection">
+	<settingsPane description="Here you can tune CPU Thermal Controls, with this kernel ROM thermal service and Intelligent Thermal Kernel driver can be enabled together! To protect your device from overheating and melting the chipset, screen and your fingers! Controls below are active for Dual Intelligent Temp Control. In case the ROM service dies, kernel will protect your chipset, LCD and other components from damage! only if Dual Intelligent Temp Control is used" name="CPU Thermal Protection">
+
+		<spinner description="CPU Thermal control, Can be Default driver without controls, or Dual Intelligent Thermal driver with controls below and ROM thermal control, it will limit CPU frequency when CPU reach the max limit heat, till cooled and restore full power, by using Default Temp Control you have one temp protection by ROM, and if ROM stuck and hotboot there is no one to protect your CPU from heatup the LCD and burn it. BUT you get better game performance by using ONE protection. when Dual Intelligent Temp Control enabled, kernel protects your hardware in any condition! reboot or hotboot! or any other problem." name="CPU Temp Control" action="msm_thermal">
+			<spinnerItem name="Default Temp Control" value="msm_temp"/>
+			<spinnerItem name="Dual Intelligent Temp Control" value="intelli_temp"/>
+		</spinner>
 
 		<checkbox description="Enable or disable CPU cores based on each core's temperature (set below). If OFF, then all CPU cores will be online and operate at lower frequencies when the temperature is high! If ON, then some CPU cores will be disabled in order to help cooling down the CPU (some performance loss is expected) - very bad for benchmarking apps, but good for heat stability and device health!" name="CPU Core Controls" action="generic01 /sys/module/msm_thermal/core_control/enabled" label="Intelli CPU Cores Control"/>
 
