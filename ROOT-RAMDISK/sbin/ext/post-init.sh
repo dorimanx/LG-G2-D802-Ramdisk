@@ -104,12 +104,12 @@ ONDEMAND_TUNING()
 	echo "25" > /cpugov/ondemand/def_down_threshold;
 	echo "80" > /cpugov/ondemand/micro_freq_up_threshold;
 	echo "1" > /cpugov/ondemand/sampling_down_factor;
-	echo "80" > /cpugov/ondemand/up_threshold;
+	echo "75" > /cpugov/ondemand/up_threshold;
 	echo "2265600" > /cpugov/ondemand/optimal_max_freq;
 	echo "20" > /cpugov/ondemand/middle_grid_step;
 	echo "30" > /cpugov/ondemand/high_grid_step;
 	echo "60" > /cpugov/ondemand/middle_grid_load;
-	echo "85" > /cpugov/ondemand/high_grid_load;
+	echo "80" > /cpugov/ondemand/high_grid_load;
 }
 
 # oom and mem perm fix

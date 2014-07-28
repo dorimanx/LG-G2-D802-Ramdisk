@@ -63,8 +63,7 @@ on fs
     setprop ro.config.nocheckin 1
     setprop ro.ril.disable.power.collapse 0
     setprop debug.performance.tuning 1
-    setprop video.accelerate.hw 1
-    setprop windowsmgr.max_events_per_sec 150
+    setprop windowsmgr.max_events_per_sec 240
     setprop pm.sleep_mode 1
 
 on post-fs-data
