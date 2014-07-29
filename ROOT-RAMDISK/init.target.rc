@@ -61,8 +61,7 @@ on fs
     setprop dalvik.vm.execution-mode int:jit
     setprop ro.kernel.android.checkjni 0
     setprop ro.config.nocheckin 1
-    setprop ro.ril.disable.power.collapse 0
-    setprop debug.performance.tuning 1
+    setprop ro.ril.disable.power.collapse 1
     setprop windowsmgr.max_events_per_sec 240
     setprop pm.sleep_mode 1
 
