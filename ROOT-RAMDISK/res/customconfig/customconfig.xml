@@ -104,7 +104,7 @@
 		</spinner>
 
 		<spinner description="Maximum allowed CPU frequency when screen is OFF and phone is awake (by any app that holds wakelocks, such as music apps etc). This is ONLY for screen OFF. When screen is ON, normal maximum allowed frequency will be set." name="MAX Screen OFF CPU Frequency" action="suspend_max_freq">
-			<spinnerItem name="Max Allowed" value="2803200"/> 
+			<spinnerItem name="Max Allowed" value="max_freq"/> 
 			<spinnerItem name="2265600" value="2265600"/> 
 			<spinnerItem name="1958400" value="1958400"/> 
 			<spinnerItem name="1728000" value="1728000"/> 
