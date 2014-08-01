@@ -14,8 +14,14 @@ done;
 
 OPEN_RW()
 {
-        $BB mount -o remount,rw /;
-        $BB mount -o remount,rw /system;
+	ROOTFS_MOUNT=$(mount | grep rootfs | cut -c26-27 | grep rw | wc -l)
+	SYSTEM_MOUNT=$(mount | grep system | cut -c69-70 | grep rw | wc -l)
+	if [ "$ROOTFS_MOUNT" -eq "0" ]; then
+		$BB mount -o remount,rw /;
+	fi;
+	if [ "$SYSTEM_MOUNT" -eq "0" ]; then
+		$BB mount -o remount,rw /system;
+	fi;
 }
 OPEN_RW;
 
@@ -50,21 +56,6 @@ if [ ! -d /system/etc/init.d ]; then
 	$BB chmod 755 /system/etc/init.d/;
 fi;
 
-(
-	if [ ! -d /data/init.d_bkp ]; then
-		$BB mkdir /data/init.d_bkp;
-	fi;
-	$BB mv /system/etc/init.d/* /data/init.d_bkp/;
-        # run ROM scripts
-        if [ -e /system/etc/init.galbi.post_boot.sh ]; then
-                $BB sh /system/etc/init.galbi.post_boot.sh
-        else
-                $BB echo "No ROM Boot script detected"
-        fi;
-	$BB mv /data/init.d_bkp/* /system/etc/init.d/
-)&
-
-sleep 5;
 OPEN_RW;
 
 # some nice thing for dev
@@ -81,6 +72,19 @@ fi;
 $BB rm -rf /cache/lost+found/* 2> /dev/null;
 $BB rm -rf /data/lost+found/* 2> /dev/null;
 $BB rm -rf /data/tombstones/* 2> /dev/null;
+
+(
+	if [ ! -d /data/init.d_bkp ]; then
+		$BB mkdir /data/init.d_bkp;
+	fi;
+	$BB mv /system/etc/init.d/* /data/init.d_bkp/;
+	# run ROM scripts
+	if [ -e /system/etc/init.galbi.post_boot.sh ]; then
+		$BB nohup $BB sh /system/etc/init.galbi.post_boot.sh
+	fi;
+)&
+
+OPEN_RW;
 
 CRITICAL_PERM_FIX()
 {
@@ -263,6 +267,7 @@ if [ "$stweaks_boot_control" == "yes" ]; then
 fi;
 
 # Start any init.d scripts that may be present in the rom or added by the user
+$BB mv /data/init.d_bkp/* /system/etc/init.d/
 if [ "$init_d" == "on" ]; then
 	$BB chmod 755 /system/etc/init.d/*;
 	$BB run-parts /system/etc/init.d/;

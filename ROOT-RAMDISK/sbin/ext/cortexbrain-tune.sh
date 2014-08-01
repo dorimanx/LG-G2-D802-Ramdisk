@@ -16,7 +16,10 @@
 BB=/sbin/busybox
 
 # change mode for /tmp/
-mount -o remount,rw /;
+ROOTFS_MOUNT=$(mount | grep rootfs | cut -c26-27 | grep rw | wc -l)
+if [ "$ROOTFS_MOUNT" -eq "0" ]; then
+	mount -o remount,rw /;
+fi;
 chmod -R 777 /tmp/;
 
 # ==============================================================

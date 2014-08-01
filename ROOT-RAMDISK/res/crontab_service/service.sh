@@ -2,8 +2,14 @@
 
 # Created By Dorimanx and Dairinin
 
-/sbin/mount -o remount,rw /;
-/sbin/mount -o remount,rw /system;
+ROOTFS_MOUNT=$(mount | grep rootfs | cut -c26-27 | grep rw | wc -l)
+SYSTEM_MOUNT=$(mount | grep system | cut -c69-70 | grep rw | wc -l)
+if [ "$ROOTFS_MOUNT" -eq "0" ]; then
+	$BB mount -o remount,rw /;
+fi;
+if [ "$SYSTEM_MOUNT" -eq "0" ]; then
+	$BB mount -o remount,rw /system;
+fi;
 
 # allow custom user jobs
 if [ ! -e /data/crontab/root ]; then
