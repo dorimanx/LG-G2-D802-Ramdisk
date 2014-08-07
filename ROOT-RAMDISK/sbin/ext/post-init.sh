@@ -111,8 +111,6 @@ ONDEMAND_TUNING()
 	echo "3" > /cpugov/ondemand/down_differential_multi_core;
 	echo "1" > /cpugov/ondemand/sampling_down_factor;
 	echo "75" > /cpugov/ondemand/up_threshold;
-	echo "75" > /cpugov/ondemand/up_threshold_any_cpu_load;
-	echo "75" > /cpugov/ondemand/up_threshold_multi_core;
 	echo "1574400" > /cpugov/ondemand/sync_freq;
 	echo "1574400" > /cpugov/ondemand/optimal_freq;
 	echo "1958400" > /cpugov/ondemand/optimal_max_freq;
