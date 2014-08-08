@@ -145,17 +145,18 @@
 			<spinnerItem name="Intelligent Hot Plug" value="intelli"/> 
 		</spinner>
 
-		<spinner description="Additional CPU HotPlug control - here you can tune how many cores will be active on a high load for a short time (default is 2 cores for 4 sec). If you wish to save more power when using MSM or Intelligent Hot Plug, then it is best to use 1 core. If performance is what you prefer, then use 2 or more cores boost. Depend on MSM or Intelligent Hot Plug selected!" name="Hot Plug CPU Booster" action="cpus_boosted">
-			<spinnerItem name="One Core Boosted" value="1"/> 
-			<spinnerItem name="Two Cores Boosted" value="2"/> 
-			<spinnerItem name="Three Cores Boosted" value="3"/> 
-			<spinnerItem name="Four Cores Boosted" value="4"/> 
+		<spinner description="Additional CPU HotPlug control - here you can tune how many cores will be active on a high load spikes for a short time (default is 2 cores for 4 sec). If you wish to save more power when using MSM or Intelligent HotPlug, then it is best to use 1 core boost. If performance is what you prefer, then use DUAL or more cores boost. Depend on MSM or Intelligent Hot Plug selected!" name="Hot Plug CPU Booster" action="cpus_boosted">
+			<spinnerItem name="One Core Boost" value="1"/> 
+			<spinnerItem name="Dual Core Boost" value="2"/> 
+			<spinnerItem name="Tripple Core Boost" value="3"/> 
+			<spinnerItem name="Quad Core Boost" value="4"/> 
 		</spinner>
 
-		<spinner description="Maximum allowed CPU Cores online - you can have All Cores, ECO mode (will limit the online number of CPU cores to 2), Strict mode (will limit CPU to only 1 core)! This mod will work with all custom hot plugs! Default LG hot plug is not supported. This set is stronger than MIN cores online below!" name="Max Cores online" action="eco_mode">
-			<spinnerItem name="All Cores Used" value="all"/> 
-			<spinnerItem name="ECO Mode (2 cores max)" value="eco"/> 
-			<spinnerItem name="Strict Mode (1 core max)" value="strict"/> 
+		<spinner description="Maximum allowed CPU Cores online - you can have QUAD CORE, or select CPU CORE type that you want, This mod will work with all custom hotplugs! Default LG hotplug is not supported. This set is stronger than MIN cores online below!" name="Max Cores online" action="eco_mode">
+			<spinnerItem name="Quad Core CPU" value="all"/> 
+			<spinnerItem name="Tripple Core CPU" value="eco_boost"/> 
+			<spinnerItem name="Dual Core CPU" value="eco"/> 
+			<spinnerItem name="One Core CPU" value="strict"/> 
 		</spinner>
 
 		<spinner description="Minimum allowed CPU Cores online - here you can set the minimum number of CPU cores to be online nonstop when screen is ON. By default, we have only one core online when device is idle. You can set 2, 3 or all 4 if you wish - this will give your device much more power, but will drain the battery faster and warm up the device faster. Default is NORMAL (one core online + other cores offline until needed). This setting is weaker than MAX cores online above! If you set 2 max cores online and 4 min cores online, you get 2 cores max." name="Min CPU Online" action="min_online_cpus">
