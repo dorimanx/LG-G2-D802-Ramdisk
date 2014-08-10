@@ -31,9 +31,6 @@ import /init.g2_product.rc
 on fs
     mount_all fstab.g2
 
-    # save rtc time offsets
-    mkdir /data/system/time/ 0774 system system
-
     # LGE_UPDATE_START
     # Executing tune2fs to reserve some region in /data. (40MB)
     # 2013-02-05 G2-FS@lge.com
