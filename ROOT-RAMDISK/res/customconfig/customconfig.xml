@@ -148,13 +148,13 @@
 		<spinner description="Additional CPU HotPlug control - here you can tune how many cores will be active on a high load spikes for a short time (default is 2 cores for 4 sec). If you wish to save more power when using MSM or Intelligent HotPlug, then it is best to use 1 core boost. If performance is what you prefer, then use DUAL or more cores boost. Depend on MSM or Intelligent Hot Plug selected!" name="Hot Plug CPU Booster" action="cpus_boosted">
 			<spinnerItem name="One Core Boost" value="1"/> 
 			<spinnerItem name="Dual Core Boost" value="2"/> 
-			<spinnerItem name="Tripple Core Boost" value="3"/> 
+			<spinnerItem name="Triple Core Boost" value="3"/> 
 			<spinnerItem name="Quad Core Boost" value="4"/> 
 		</spinner>
 
 		<spinner description="Maximum allowed CPU Cores online - you can have QUAD CORE, or select CPU CORE type that you want, This mod will work with all custom hotplugs! Default LG hotplug is not supported. This set is stronger than MIN cores online below!" name="Max Cores online" action="eco_mode">
 			<spinnerItem name="Quad Core CPU" value="all"/> 
-			<spinnerItem name="Tripple Core CPU" value="eco_boost"/> 
+			<spinnerItem name="Triple Core CPU" value="eco_boost"/> 
 			<spinnerItem name="Dual Core CPU" value="eco"/> 
 			<spinnerItem name="One Core CPU" value="strict"/> 
 		</spinner>
