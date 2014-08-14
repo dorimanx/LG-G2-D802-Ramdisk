@@ -72,6 +72,10 @@ on post-fs-data
     chmod 0775 /mpt
 # LGE_CHANGE_E for MLT
 
+# Fix build.prop perms
+    chown root root /system/build.prop
+    chmod 0644 /system/build.prop
+
 # LGE_CHANGE_S for Touch Knock-Code
 on post-fs
 chown system system /sys/devices/virtual/input/lge_touch/lpwg_data
