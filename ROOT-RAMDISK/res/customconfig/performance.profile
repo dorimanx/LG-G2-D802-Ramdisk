@@ -13,6 +13,7 @@ enabled=off
 core_limit_temp_degC=80
 limit_temp_degC=80
 hotplug=msm_hotplug
+hotplug_suspend=always_active
 cpus_boosted=2
 eco_mode=all
 min_online_cpus=1
