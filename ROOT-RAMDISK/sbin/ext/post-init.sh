@@ -161,7 +161,7 @@ setprop dalvik.vm.execution-mode int:jit
 setprop pm.sleep_mode 1
 
 if [ ! -d /data/.dori ]; then
-	$BB mkdir -p /data/.dori;
+	$BB mkdir /data/.dori/;
 fi;
 
 # reset config-backup-restore
@@ -171,15 +171,38 @@ fi;
 
 # reset profiles auto trigger to be used by kernel ADMIN, in case of need, if new value added in default profiles
 # just set numer $RESET_MAGIC + 1 and profiles will be reset one time on next boot with new kernel.
+# incase that ADMIN feel that something wrong with global STweaks config and profiles, then ADMIN can add +1 to CLEAN_DORI_DIR
+# to clean all files on first boot from /data/.dori/ folder.
 RESET_MAGIC=27;
+CLEAN_DORI_DIR=1;
 if [ ! -e /data/.dori/reset_profiles ]; then
 	echo "0" > /data/.dori/reset_profiles;
 fi;
-if [ "$(cat /data/.dori/reset_profiles)" -eq "$RESET_MAGIC" ]; then
-	echo "no need to reset profiles";
+if [ ! -e /data/reset_dori_dir ]; then
+	echo "0" > /data/reset_dori_dir;
+fi;
+if [ -e /data/.dori/.active.profile ]; then
+	PROFILE=$(cat /data/.dori/.active.profile);
+fi;
+if [ "$(cat /data/reset_dori_dir)" -eq "$CLEAN_DORI_DIR" ]; then
+	if [ "$(cat /data/.dori/reset_profiles)" -eq "$RESET_MAGIC" ]; then
+		echo "no need to reset profiles";
+	else
+		$BB rm -f /data/.dori/*.profile;
+		echo "$RESET_MAGIC" > /data/.dori/reset_profiles;
+	fi;
+elif [ ! -e /data/.dori/.active.profile ]; then
+	echo "first boot with my kernel or user wipe";
+	echo "default" > /data/.dori/.active.profile;
 else
-	$BB rm -f /data/.dori/*.profile;
+	# Clean /data/.dori/ folder from all files to fix any mess but do it in smart way.
+	if [ -e /data/.dori/"$PROFILE".profile ]; then
+		cp /data/.dori/"$PROFILE".profile /sdcard/"$PROFILE".profile_backup;
+	fi;
+	$BB rm -f /data/.dori/*
+	echo "$CLEAN_DORI_DIR" > /data/reset_dori_dir;
 	echo "$RESET_MAGIC" > /data/.dori/reset_profiles;
+	echo "$PROFILE" > /data/.dori/.active.profile;
 fi;
 
 [ ! -f /data/.dori/default.profile ] && cp -a /res/customconfig/default.profile /data/.dori/default.profile;
