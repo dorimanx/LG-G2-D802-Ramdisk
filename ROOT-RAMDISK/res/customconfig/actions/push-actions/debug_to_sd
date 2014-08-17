@@ -59,16 +59,16 @@ case "${debug_to_sd}" in
 			SEPARATOR;
 
 			# low mem kill info
-			echo "App-Info for 'low memory killer':" >> $DEBUG_FILE;
-			for i in `ls /proc/ | grep -E '^[0-9]+'`; do
-				if [ "$i" -ne 0 ] && [ -f  "/proc/$i/oom_score_adj" ] && [ "`cat /proc/$i/cmdline`" ]; then
-					echo "" >> $DEBUG_FILE;
-					cat /proc/$i/oom_score_adj >> $DEBUG_FILE;
-					cat /proc/$i/cmdline >> $DEBUG_FILE;
-					echo "" >> $DEBUG_FILE;
-				fi;
-			done;
-			SEPARATOR;
+			#echo "App-Info for 'low memory killer':" >> $DEBUG_FILE;
+			#for i in `ls /proc/ | grep -E '^[0-9]+'`; do
+			#	if [ "$i" -ne 0 ] && [ -f  "/proc/$i/oom_score_adj" ] && [ "`cat /proc/$i/cmdline`" ]; then
+			#		echo "" >> $DEBUG_FILE;
+			#		cat /proc/$i/oom_score_adj >> $DEBUG_FILE;
+			#		cat /proc/$i/cmdline >> $DEBUG_FILE;
+			#		echo "" >> $DEBUG_FILE;
+			#	fi;
+			#done;
+			#SEPARATOR;
 
 			# CPU
 			echo "CPU-Info:" >> $DEBUG_FILE;
@@ -113,9 +113,9 @@ case "${debug_to_sd}" in
 			SEPARATOR;
 
 			# Interrupts
-			echo "Interrupts-Info:" >> $DEBUG_FILE;
-			cat /proc/interrupts >> $DEBUG_FILE;
-			SEPARATOR;
+			#echo "Interrupts-Info:" >> $DEBUG_FILE;
+			#cat /proc/interrupts >> $DEBUG_FILE;
+			#SEPARATOR;
 
 			# Wakeup
 			echo "Wakeup-Info:" >> $DEBUG_FILE;
@@ -128,9 +128,9 @@ case "${debug_to_sd}" in
 			SEPARATOR;
 
 			# NET
-			echo "NET-Info:" >> $DEBUG_FILE;
-			ifconfig wlan0 >> $DEBUG_FILE;
-			SEPARATOR;
+			#echo "NET-Info:" >> $DEBUG_FILE;
+			#ifconfig wlan0 >> $DEBUG_FILE;
+			#SEPARATOR;
 
 			# lsmod
 			echo "lsmod-Info:" >> $DEBUG_FILE;
@@ -155,7 +155,7 @@ case "${debug_to_sd}" in
 			# System
 			echo "System-Info:" >> $DEBUG_FILE;
 			echo "sysctl:" >> $DEBUG_FILE;
-			sysctl -a >> $DEBUG_FILE;
+			sysctl -a | grep -v net.* >> $DEBUG_FILE;
 			echo "" >> $DEBUG_FILE;
 			echo "getprop:" >> $DEBUG_FILE;
 			getprop >> $DEBUG_FILE;
@@ -170,15 +170,15 @@ case "${debug_to_sd}" in
 			ps >> $DEBUG_FILE;
 			SEPARATOR;
 
-			echo "Process-Info: nice (priority)" >> $DEBUG_FILE;
-			for z in `ls /proc/*/stat`; do
-				tmp=`cat $z` && echo $tmp | cut -f 2 -d ' ' >> $DEBUG_FILE && echo $tmp | cut -f 19 -d ' ' >> $DEBUG_FILE && echo " " >> $DEBUG_FILE;
-			done;
-			SEPARATOR;
+			#echo "Process-Info: nice (priority)" >> $DEBUG_FILE;
+			#for z in `ls /proc/*/stat`; do
+			#	tmp=`cat $z` && echo $tmp | cut -f 2 -d ' ' >> $DEBUG_FILE && echo $tmp | cut -f 19 -d ' ' >> $DEBUG_FILE && echo " " >> $DEBUG_FILE;
+			#done;
+			#SEPARATOR;
 
 			# dmesg
-			echo "dmesg-Info:" >> $DEBUG_FILE;
-			dmesg >> $DEBUG_FILE;
+			echo "dmesg last 250 lines:" >> $DEBUG_FILE;
+			dmesg | tail -n 250 >> $DEBUG_FILE;
 			SEPARATOR;
 
 			echo "dmesg-Error:" >> $DEBUG_FILE;
@@ -195,8 +195,13 @@ case "${debug_to_sd}" in
 
 			# last kmsg
 			echo "last_kmsg-Info:" >> $DEBUG_FILE;
-			cat /proc/last_kmsg >> $DEBUG_FILE;
-			SEPARATOR;
+			if [ -e /proc/last_kmsg ]; then
+				cat /proc/last_kmsg >> $DEBUG_FILE;
+				SEPARATOR;
+			else
+				echo "there was no /proc/last_kmsg to read from" >> $DEBUG_FILE;
+				SEPARATOR;
+			fi;
 
 		)&
 		echo "All Data collected and ready at $DEBUG_FILE";
