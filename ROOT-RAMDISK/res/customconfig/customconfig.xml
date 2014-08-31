@@ -367,6 +367,14 @@
 
 	</settingsPane>
 
+	<settingsPane description="Screen Backlight Control, here you can set custom values for Auto backlight driver." name="Min BackLight Control">
+
+		<checkbox description="Enable or Disable custom backlight override set below, this will allow user to set MIN backlight in full darkness." name="Min Backlight Override Switch" action="generic01 /sys/devices/f9967000.i2c/i2c-0/0-0038/lm3630_min_backlight_reducer" label="Min Backlight Override Switch"/>
+
+		<seekBar description="If custom backlight switch is ON above!, you can set the MIN backlight in dark place when ROM auto backlight is used, and you feel that screen is too bright! in order for change to take effect you need to make the screen brighter then set auto, and see that it's will be darker than was on default. (Default ROM value equal 80Lux, and when screen is dimmed before turn off it's 50Lux)" name="Min Backlight Lux" action="generic /sys/devices/f9967000.i2c/i2c-0/0-0038/lm3630_min_backlight_set" unit="Lux" min="30" reversed="false" step="10" max="100"/>
+
+	</settingsPane>
+
 	<settingsPane description="Congestion control concerns controlling traffic entry into a telecommunications network, so as to avoid congestive collapse by attempting to avoid oversubscription of any of the processing or link capabilities of the intermediate nodes and networks and taking resource reducing steps." name="Net Congestion Control">
 
 		<spinner description="Allow USER to READ GOOGLE! Then come here and select what he thinks is BEST for him for NET Congestion Control. If the USER is lazy to read Google, then leave it default (CUBIC) and don't ask what is the difference!" name="Net Congestion Control" action="generic /proc/sys/net/ipv4/tcp_congestion_control">
