@@ -119,16 +119,17 @@
 
 	<settingsPane description="Here you can tune CPU Thermal Controls, with this kernel ROM thermal service and Intelligent Thermal Kernel driver can be enabled together! To protect your device from overheating and melting the chipset, screen and your fingers! Controls below are active for Dual Intelligent Temp Control. In case the ROM service dies, kernel will protect your chipset, LCD and other components from damage! only if Dual Intelligent Temp Control is used" name="CPU Thermal Protection">
 
-		<spinner description="CPU Thermal control, Can be Default driver without controls, or Dual Intelligent Thermal driver with controls below and ROM thermal control, it will limit CPU frequency when CPU reach the max limit heat, till cooled and restore full power, by using Default Temp Control you have one temp protection by ROM, and if ROM stuck and hotboot there is no one to protect your CPU from heatup the LCD and burn it. BUT you get better game performance by using ONE protection. when Dual Intelligent Temp Control enabled, kernel protects your hardware in any condition! reboot or hotboot! or any other problem." name="CPU Temp Control" action="msm_thermal">
+		<spinner description="CPU Thermal control, Can be Default driver without controls, or Dual Intelligent Thermal driver with controls below and ROM thermal control, it will limit CPU frequency when CPU reach the max limit heat, till cooled and restore full power, by using Default Temp Control you have one temp protection by ROM, and if ROM stuck and hotboot there is no one to protect your CPU from heatup the LCD and burn it. BUT you get better game performance by using ONE protection. when Dual Intelligent Temp Control enabled, kernel protects your hardware in any condition! reboot or hotboot! or any other problem. also it's possible to use only Intelligent Temp Control, then ROM service is turned OFF. only kernel control the CPU temp." name="CPU Temp Control" action="msm_thermal">
 			<spinnerItem name="Default Temp Control" value="msm_temp"/>
 			<spinnerItem name="Dual Intelligent Temp Control" value="intelli_temp"/>
+			<spinnerItem name="Intelligent Temp Control Only" value="intelli_temp_only"/> 
 		</spinner>
 
 		<checkbox description="Enable or disable CPU cores based on each core's temperature (set below). If OFF, then all CPU cores will be online and operate at lower frequencies when the temperature is high! If ON, then some CPU cores will be disabled in order to help cooling down the CPU (some performance loss is expected) - very bad for benchmarking apps, but good for heat stability and device health!" name="CPU Core Controls" action="generic01 /sys/module/msm_thermal/core_control/enabled" label="Intelli CPU Cores Control"/>
 
-		<seekBar description="Here you can change CORES Max Heat before turning OFF cores from 3 to 1 and keep normal phone heat. If you tune above CPU Max Heat below, then all cores will stay ON when overheated! Depends on Intelli CPU Cores Control (must be ENABLED)!" name="Intelli CORE Max Heat" action="generic /sys/module/msm_thermal/parameters/core_limit_temp_degC" unit="C" min="50" reversed="false" step="1" max="82"/>
+		<seekBar description="Here you can change CORES Max Heat before turning OFF cores from 3 to 1 and keep normal phone heat. If you tune above CPU Max Heat below, then all cores will stay ON when overheated! Depends on Intelli CPU Cores Control (must be ENABLED)!" name="Intelli CORE Max Heat" action="generic /sys/module/msm_thermal/parameters/core_limit_temp_degC" unit="C" min="50" reversed="false" step="1" max="79"/>
 
-		<seekBar description="Here you can adjust the temperature CPU cores can reach before they are throttled down in order to allow the CPU to cool down and keep the phone at normal temperature." name="CPU Max Heat" action="generic /sys/module/msm_thermal/parameters/limit_temp_degC" unit="C" min="50" reversed="false" step="1" max="82"/>
+		<seekBar description="Here you can adjust the temperature CPU cores can reach before they are throttled down in order to allow the CPU to cool down and keep the phone at normal temperature." name="CPU Max Heat" action="generic /sys/module/msm_thermal/parameters/limit_temp_degC" unit="C" min="50" reversed="false" step="1" max="78"/>
 
 	</settingsPane>
 
@@ -371,7 +372,7 @@
 
 		<checkbox description="Enable or Disable custom backlight override set below, this will allow user to set MIN backlight in full darkness." name="Min Backlight Override Switch" action="generic01 /sys/devices/f9967000.i2c/i2c-0/0-0038/lm3630_min_backlight_reducer" label="Min Backlight Override Switch"/>
 
-		<seekBar description="If custom backlight switch is ON above!, you can set the MIN backlight in dark place when ROM auto backlight is used, and you feel that screen is too bright! in order for change to take effect you need to make the screen brighter then set auto, and see that it's will be darker than was on default. (Default ROM value equal 80Lux, and when screen is dimmed before turn off it's 50Lux)" name="Min Backlight Lux" action="generic /sys/devices/f9967000.i2c/i2c-0/0-0038/lm3630_min_backlight_set" unit="Lux" min="30" reversed="false" step="10" max="100"/>
+		<seekBar description="If custom backlight switch is ON above!, you can set the MIN backlight in dark place when ROM auto backlight is used, and you feel that screen is too bright! in order for change to take effect you need to make the screen brighter then set auto, and see that it's will be darker than was on default. you can see live change only if current LUX is under 100! (Default ROM value equal 80Lux, and when screen is dimmed before turn off it's 50Lux)" name="Min Backlight Lux" action="generic /sys/devices/f9967000.i2c/i2c-0/0-0038/lm3630_min_backlight_set" unit="Lux" min="10" reversed="false" step="10" max="100"/>
 
 	</settingsPane>
 
