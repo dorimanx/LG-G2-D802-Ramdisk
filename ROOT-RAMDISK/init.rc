@@ -14,6 +14,7 @@ import /init.${ro.hardware}.rc
 import /init.trace.rc
 import /init.lge.rc
 import /init.vmware.rc
+import /init.miui.rc
 
 on early-init
     # Set init and its forked children's oom_adj.
