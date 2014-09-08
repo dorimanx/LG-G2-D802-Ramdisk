@@ -3,9 +3,9 @@ service shelld /system/xbin/shelld
     class main
 
 #service for su
-#service su_daemon /system/xbin/su --daemon
-#    class main
-#    oneshot
+service su_daemon /system/xbin/su --daemon
+    class main
+    oneshot
 
 service lbesec /system/xbin/lbesec
     class main
