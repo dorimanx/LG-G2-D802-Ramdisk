@@ -244,9 +244,9 @@
 
 	<settingsPane description="Here you can tune MIC and SPEAKER volume gain" name="Sound Controls">
 
-		<seekBar description="Control for Camera recording MIC gain volume!" name="Camera MIC gain" action="generic_mic_sound /sys/kernel/sound_control_3/lge_cam_mic_gain" unit="vol" min="-10" reversed="false" step="1" max="24"/>
+		<seekBar description="Control for Camera recording MIC gain volume!" name="Camera MIC gain" action="generic_mic_sound /sys/kernel/sound_control_3/lge_cam_mic_gain" unit="vol" min="-30" reversed="false" step="1" max="24"/>
 
-		<seekBar description="Control for Handset MIC gain volume on call!" name="Handset MIC gain on call" action="generic_mic_sound /sys/kernel/sound_control_3/lge_mic_gain" unit="vol" min="-10" reversed="false" step="1" max="24"/>
+		<seekBar description="Control for Handset MIC gain volume on call!" name="Handset MIC gain on call" action="generic_mic_sound /sys/kernel/sound_control_3/lge_mic_gain" unit="vol" min="-30" reversed="false" step="1" max="24"/>
 
 		<seekBar description="Control for Speaker gain volume! When you set higher, better listen to music so you will know when it is more than what the hardware can handle. If you already have sound control mods, USE THEM, as mods override STweaks control! This is not a bug - your sound mod is bugged instead!" name="Speaker Gain" action="generic_speaker_sound /sys/kernel/sound_control_3/lge_speaker_gain" unit="vol" min="-10" reversed="false" step="1" max="20"/>
 
