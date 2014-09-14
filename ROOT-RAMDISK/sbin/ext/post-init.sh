@@ -276,15 +276,12 @@ echo "ondemand" > /sys/devices/system/cpu/cpu0/cpufreq/scaling_governor;
 ONDEMAND_TUNING;
 
 if [ "$stweaks_boot_control" == "yes" ]; then
-	# stop uci.sh from running all the PUSH Buttons in stweaks on boot
-	OPEN_RW;
-
 	# apply STweaks settings
 	$BB pkill -f "com.gokhanmoral.stweaks.app";
 	$BB sh /res/uci.sh apply;
 
 	# Reduce heat limit during boot.
-	$BB sh /res/uci.sh generic /sys/module/msm_thermal/parameters/limit_temp_degC 77;
+	$BB sh /res/uci.sh generic /sys/module/msm_thermal/parameters/limit_temp_degC 75;
 
 	# Load Custom Modules
 	MODULES_LOAD;
