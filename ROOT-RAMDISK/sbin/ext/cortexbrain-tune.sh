@@ -256,7 +256,7 @@ HOTPLUG_CONTROL()
 		if [ "$(cat /sys/devices/system/cpu/cpu0/rq-stats/hotplug_disable)" -eq "1" ]; then
 			echo "0" > /sys/devices/system/cpu/cpu0/rq-stats/hotplug_disable;
 		fi;
-		if [ "$(ps | grep "mpdecision" | wc -l)" -le "1" ]; then
+		if [ "$(ps | grep "mpdecision" | wc -l)" -lt "2" ]; then
 			/system/bin/start mpdecision
 			$BB renice -n -20 -p $(pgrep -f "/system/bin/start mpdecision");
 		fi;
@@ -264,7 +264,7 @@ HOTPLUG_CONTROL()
 			$BB renice -n -20 -p $(pgrep -f "/system/bin/thermal-engine");
 		fi;
 	elif [ "$hotplug" == "msm_hotplug" ]; then
-		/system/bin/stop mpdecision
+		#/system/bin/stop mpdecision
 		if [ "$(cat /sys/kernel/intelli_plug/intelli_plug_active)" -eq "1" ]; then
 			echo "0" > /sys/kernel/intelli_plug/intelli_plug_active;
 		fi;
@@ -281,7 +281,7 @@ HOTPLUG_CONTROL()
 			$BB renice -n -20 -p $(pgrep -f "/system/bin/thermal-engine");
 		fi;
 	elif [ "$hotplug" == "intelli" ]; then
-		/system/bin/stop mpdecision
+		#/system/bin/stop mpdecision
 		if [ "$(cat /sys/kernel/alucard_hotplug/hotplug_enable)" -eq "1" ]; then
 			echo "0" > /sys/kernel/alucard_hotplug/hotplug_enable;
 		fi;
@@ -298,7 +298,7 @@ HOTPLUG_CONTROL()
 			$BB renice -n -20 -p $(pgrep -f "/system/bin/thermal-engine");
 		fi;
 	elif [ "$hotplug" == "alucard" ]; then
-		/system/bin/stop mpdecision
+		#/system/bin/stop mpdecision
 		if [ "$(cat /sys/kernel/intelli_plug/intelli_plug_active)" -eq "1" ]; then
 			echo "0" > /sys/kernel/intelli_plug/intelli_plug_active;
 		fi;

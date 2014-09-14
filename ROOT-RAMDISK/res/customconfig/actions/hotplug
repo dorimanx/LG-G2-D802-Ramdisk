@@ -6,23 +6,20 @@
 
 BB=/sbin/busybox
 
-START_CORES()
-{
-	echo "1" > /sys/devices/system/cpu/cpu1/online > /dev/null;
-	echo "1" > /sys/devices/system/cpu/cpu2/online > /dev/null;
-	echo "1" > /sys/devices/system/cpu/cpu3/online > /dev/null;
-}
+if [ "$(ps | grep "mpdecision" | wc -l)" -lt "2" ]; then
+	/system/bin/start mpdecision
+	$BB renice -n -20 -p $(pgrep -f "/system/bin/mpdecision");
+fi;
 
 if [ "a$2" != "a" ]; then
 	hotplug=$2;
 
 	case "${hotplug}" in
 		intelli)
-			/system/bin/stop mpdecision
+#			/system/bin/stop mpdecision
 			echo "0" > /sys/kernel/alucard_hotplug/hotplug_enable;
 			echo "0" > /sys/module/msm_hotplug/msm_enabled;
 			echo "1" > /sys/devices/system/cpu/cpu0/rq-stats/hotplug_disable;
-			START_CORES;
 			echo "1" > /sys/kernel/intelli_plug/intelli_plug_active;
 			if [ "$(ps | grep /system/bin/thermal-engine | wc -l)" -ge "1" ]; then
 				$BB renice -n -20 -p $(pgrep -f "/system/bin/thermal-engine");
@@ -33,32 +30,25 @@ if [ "a$2" != "a" ]; then
 			echo "0" > /sys/kernel/alucard_hotplug/hotplug_enable;
 			echo "0" > /sys/module/msm_hotplug/msm_enabled;
 			echo "0" > /sys/devices/system/cpu/cpu0/rq-stats/hotplug_disable;
-			START_CORES;
-			if [ "$(ps | grep "mpdecision" | wc -l)" -lt "2" ]; then
-				/system/bin/start mpdecision
-				$BB renice -n -20 -p $(pgrep -f "/system/bin/mpdecision");
-			fi;
 			if [ "$(ps | grep /system/bin/thermal-engine | wc -l)" -ge "1" ]; then
 				$BB renice -n -20 -p $(pgrep -f "/system/bin/thermal-engine");
 			fi;
 		;;
 		msm_hotplug)
-			/system/bin/stop mpdecision
+#			/system/bin/stop mpdecision
 			echo "0" > /sys/kernel/intelli_plug/intelli_plug_active;
 			echo "0" > /sys/kernel/alucard_hotplug/hotplug_enable;
 			echo "1" > /sys/devices/system/cpu/cpu0/rq-stats/hotplug_disable;
-			START_CORES;
 			echo "1" > /sys/module/msm_hotplug/msm_enabled;
 			if [ "$(ps | grep /system/bin/thermal-engine | wc -l)" -ge "1" ]; then
 				$BB renice -n -20 -p $(pgrep -f "/system/bin/thermal-engine");
 			fi;
 		;;
 		alucard)
-			/system/bin/stop mpdecision
+#			/system/bin/stop mpdecision
 			echo "0" > /sys/kernel/intelli_plug/intelli_plug_active;
 			echo "0" > /sys/module/msm_hotplug/msm_enabled;
 			echo "1" > /sys/devices/system/cpu/cpu0/rq-stats/hotplug_disable;
-			START_CORES;
 			echo "1" > /sys/kernel/alucard_hotplug/hotplug_enable;
 			if [ "$(ps | grep /system/bin/thermal-engine | wc -l)" -ge "1" ]; then
 				$BB renice -n -20 -p $(pgrep -f "/system/bin/thermal-engine");
