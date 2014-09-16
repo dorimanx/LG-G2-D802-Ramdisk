@@ -10,19 +10,24 @@ BB=/sbin/busybox
 PROFILE=$(cat /data/.dori/.active.profile);
 . /data/.dori/"$PROFILE".profile;
 
+CORE_CONTROL()
+{
+	if [ "$enabled" == "off" ]; then
+		echo "0" > /sys/module/msm_thermal/core_control/core_control_enabled;
+	else
+		echo "1" > /sys/module/msm_thermal/core_control/core_control_enabled;
+	fi;
+}
+
 if [ "a$2" != "a" ]; then
 	msm_thermal=$2;
 
 	case "${msm_thermal}" in
 		msm_temp)
-			if [ "$(ps | grep "/system/bin/thermal-engine" | wc -l)" -le "1" ]; then
+			if [ "$(ps | grep "/system/bin/thermal-engine" | wc -l)" -lt "2" ]; then
 				/system/bin/start thermal-engine;
 			fi;
-			if [ "$enabled" == "off" ]; then
-				echo "0" > /sys/module/msm_thermal/core_control/enabled;
-			else
-				echo "1" > /sys/module/msm_thermal/core_control/enabled;
-			fi;
+			CORE_CONTROL;
 			if [ "$(cat /sys/module/msm_thermal/parameters/intelli_enabled)" == "Y" ]; then
 				echo "N" > /sys/module/msm_thermal/parameters/intelli_enabled;
 			fi;
@@ -37,11 +42,7 @@ if [ "a$2" != "a" ]; then
 				echo "$limit_temp_degC" > /sys/module/msm_thermal/parameters/limit_temp_degC;
 				echo "$core_limit_temp_degC" > /sys/module/msm_thermal/parameters/core_limit_temp_degC;
 			fi;
-			if [ "$enabled" == "off" ]; then
-				echo "0" > /sys/module/msm_thermal/core_control/enabled;
-			else
-				echo "1" > /sys/module/msm_thermal/core_control/enabled;
-			fi;
+			CORE_CONTROL;
 		;;
 		intelli_temp_only)
 			if [ "$(cat /sys/module/msm_thermal/parameters/intelli_enabled)" == "N" ]; then
@@ -49,11 +50,7 @@ if [ "a$2" != "a" ]; then
 				echo "$limit_temp_degC" > /sys/module/msm_thermal/parameters/limit_temp_degC;
 				echo "$core_limit_temp_degC" > /sys/module/msm_thermal/parameters/core_limit_temp_degC;
 			fi;
-			if [ "$enabled" == "off" ]; then
-				echo "0" > /sys/module/msm_thermal/core_control/enabled;
-			else
-				echo "1" > /sys/module/msm_thermal/core_control/enabled;
-			fi;
+			CORE_CONTROL;
 			if [ "$(ps | grep "/system/bin/thermal-engine" | wc -l)" -ge "2" ]; then
 				/system/bin/stop thermal-engine;
 			fi;
