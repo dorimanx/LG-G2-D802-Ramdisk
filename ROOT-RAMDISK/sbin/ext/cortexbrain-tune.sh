@@ -324,6 +324,7 @@ AWAKE_MODE()
 {
 	IO_SCHEDULER "awake";
 	CPU_CENTRAL_CONTROL "awake";
+	HOTPLUG_CONTROL;
 	log -p i -t "$FILE_NAME" "*** AWAKE_MODE - WAKEUP ***: done";
 }
 
@@ -339,7 +340,6 @@ SLEEP_MODE()
 	CROND_SAFETY;
 	IO_SCHEDULER "sleep";
 	CPU_CENTRAL_CONTROL "sleep";
-	HOTPLUG_CONTROL;
 
 	log -p i -t "$FILE_NAME" "*** SLEEP mode ***";
 }

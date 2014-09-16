@@ -31,6 +31,9 @@ if [ -e /sys/devices/system/cpu/cpufreq/$GOV_NAME/sampling_rate ]; then
 	echo "10000" > /sys/devices/system/cpu/cpufreq/$GOV_NAME/sampling_rate;
 fi;
 
+# Turn off CORE CONTROL, to boot on all cores!
+echo "0" > /sys/module/msm_thermal/core_control/core_control_enabled;
+
 # fix storage folder owner
 $BB chown system.sdcard_rw /storage;
 
