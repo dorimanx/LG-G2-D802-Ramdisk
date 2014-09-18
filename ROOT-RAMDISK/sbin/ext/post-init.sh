@@ -154,8 +154,8 @@ echo "200000000" > /sys/devices/fdb00000.qcom,kgsl-3d0/devfreq/fdb00000.qcom,kgs
 echo "450000000" > /sys/devices/fdb00000.qcom,kgsl-3d0/devfreq/fdb00000.qcom,kgsl-3d0/max_freq
 
 # set min max boot freq to default.
-echo "2265600" > /sys/devices/system/cpu/cpu0/cpufreq/scaling_max_freq;
 echo "300000" > /sys/devices/system/cpu/cpu0/cpufreq/scaling_min_freq;
+echo "2265600" > /sys/devices/system/cpu/cpu0/cpufreq/scaling_max_freq;
 
 # Fix ROM dev wrong sets.
 setprop persist.adb.notify 0
@@ -167,36 +167,32 @@ if [ ! -d /data/.dori ]; then
 	$BB mkdir /data/.dori/;
 fi;
 
-# reset config-backup-restore
-if [ -f /data/.dori/restore_running ]; then
-	$BB rm -f /data/.dori/restore_running;
-fi;
-
 # reset profiles auto trigger to be used by kernel ADMIN, in case of need, if new value added in default profiles
 # just set numer $RESET_MAGIC + 1 and profiles will be reset one time on next boot with new kernel.
 # incase that ADMIN feel that something wrong with global STweaks config and profiles, then ADMIN can add +1 to CLEAN_DORI_DIR
 # to clean all files on first boot from /data/.dori/ folder.
 RESET_MAGIC=31;
 CLEAN_DORI_DIR=2;
+
 if [ ! -e /data/.dori/reset_profiles ]; then
-	echo "0" > /data/.dori/reset_profiles;
+	echo "$RESET_MAGIC" > /data/.dori/reset_profiles;
 fi;
 if [ ! -e /data/reset_dori_dir ]; then
-	echo "0" > /data/reset_dori_dir;
+	echo "$CLEAN_DORI_DIR" > /data/reset_dori_dir;
 fi;
 if [ -e /data/.dori/.active.profile ]; then
 	PROFILE=$(cat /data/.dori/.active.profile);
+else
+	echo "default" > /data/.dori/.active.profile;
+	PROFILE=$(cat /data/.dori/.active.profile);
 fi;
 if [ "$(cat /data/reset_dori_dir)" -eq "$CLEAN_DORI_DIR" ]; then
-	if [ "$(cat /data/.dori/reset_profiles)" -eq "$RESET_MAGIC" ]; then
-		echo "no need to reset profiles";
-	else
+	if [ "$(cat /data/.dori/reset_profiles)" != "$RESET_MAGIC" ]; then
 		$BB rm -f /data/.dori/*.profile;
 		echo "$RESET_MAGIC" > /data/.dori/reset_profiles;
+	else
+		echo "no need to reset profiles or delete .dori folder";
 	fi;
-elif [ ! -e /data/.dori/.active.profile ]; then
-	echo "first boot with my kernel or user wipe";
-	echo "default" > /data/.dori/.active.profile;
 else
 	# Clean /data/.dori/ folder from all files to fix any mess but do it in smart way.
 	if [ -e /data/.dori/"$PROFILE".profile ]; then
@@ -219,6 +215,10 @@ $BB chmod -R 0777 /data/.dori/;
 . /res/customconfig/customconfig-helper;
 read_defaults;
 read_config;
+
+if [ "$cpu_max_freq" -gt "2265600" ]; then
+	echo "$cpu_max_freq" > /sys/devices/system/cpu/cpu0/cpufreq/scaling_max_freq;
+fi;
 
 (
 	# Apps Install
@@ -310,8 +310,10 @@ fi;
 # Fix critical perms again after init.d mess
 CRITICAL_PERM_FIX;
 
-sleep 30;
-echo "300000" > /sys/devices/system/cpu/cpu0/cpufreq/scaling_min_freq;
+sleep 20;
+echo "$cpu_min_freq" > /sys/devices/system/cpu/cpu0/cpufreq/scaling_min_freq;
+echo "$cpu_max_freq" > /sys/devices/system/cpu/cpu0/cpufreq/scaling_max_freq;
+
 echo "0" > /cputemp/freq_limit_debug;
 
 # restore USER cpu heat temp from STweaks.
