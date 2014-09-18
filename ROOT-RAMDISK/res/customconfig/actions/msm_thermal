@@ -12,7 +12,7 @@ PROFILE=$(cat /data/.dori/.active.profile);
 
 CORE_CONTROL()
 {
-	if [ "$enabled" == "off" ]; then
+	if [ "$core_control_enabled" == "off" ]; then
 		echo "0" > /sys/module/msm_thermal/core_control/core_control_enabled;
 	else
 		echo "1" > /sys/module/msm_thermal/core_control/core_control_enabled;
