@@ -14,8 +14,8 @@ done;
 
 OPEN_RW()
 {
-	ROOTFS_MOUNT=$(mount | grep rootfs | cut -c26-27 | grep rw | wc -l)
-	SYSTEM_MOUNT=$(mount | grep system | cut -c69-70 | grep rw | wc -l)
+	ROOTFS_MOUNT=$(mount | grep rootfs | cut -c26-27 | grep -c rw | wc -l)
+	SYSTEM_MOUNT=$(mount | grep system | cut -c69-70 | grep -c rw | wc -l)
 	if [ "$ROOTFS_MOUNT" -eq "0" ]; then
 		$BB mount -o remount,rw /;
 	fi;
@@ -27,8 +27,8 @@ OPEN_RW;
 
 # Boost CPU GOV sampling_rate on boot.
 GOV_NAME=$(cat /sys/devices/system/cpu/cpu0/cpufreq/scaling_governor);
-if [ -e /sys/devices/system/cpu/cpufreq/$GOV_NAME/sampling_rate ]; then
-	echo "10000" > /sys/devices/system/cpu/cpufreq/$GOV_NAME/sampling_rate;
+if [ -e /sys/devices/system/cpu/cpufreq/"$GOV_NAME"/sampling_rate ]; then
+	echo "10000" > /sys/devices/system/cpu/cpufreq/"$GOV_NAME"/sampling_rate;
 fi;
 
 # Turn off CORE CONTROL, to boot on all cores!
@@ -317,7 +317,7 @@ echo "$cpu_max_freq" > /sys/devices/system/cpu/cpu0/cpufreq/scaling_max_freq;
 echo "0" > /cputemp/freq_limit_debug;
 
 # restore USER cpu heat temp from STweaks.
-$BB sh /res/uci.sh generic /sys/module/msm_thermal/parameters/limit_temp_degC $limit_temp_degC;
+$BB sh /res/uci.sh generic /sys/module/msm_thermal/parameters/limit_temp_degC "$limit_temp_degC";
 
 # Correct Kernel config after full boot.
 $BB sh /res/uci.sh oom_config_screen_on "$oom_config_screen_on";

@@ -16,7 +16,7 @@
 BB=/sbin/busybox
 
 # change mode for /tmp/
-ROOTFS_MOUNT=$(mount | grep rootfs | cut -c26-27 | grep rw | wc -l)
+ROOTFS_MOUNT=$(mount | grep rootfs | cut -c26-27 | grep -c rw | wc -l)
 if [ "$ROOTFS_MOUNT" -eq "0" ]; then
 	mount -o remount,rw /;
 fi;
@@ -27,7 +27,6 @@ chmod -R 777 /tmp/;
 # ==============================================================
 
 FILE_NAME=$0;
-PIDOFCORTEX=$$;
 # (since we don't have the recovery source code I can't change the ".dori" dir, so just leave it there for history)
 DATA_DIR=/data/.dori;
 
@@ -181,8 +180,6 @@ IO_SCHEDULER()
 			sys_mmc1_scheduler_tmp="/dev/null";
 		fi;
 
-		local ext_tmp_scheduler=$(cat "$sys_mmc1_scheduler_tmp" | sed -n 's/^.*\[\([a-z|A-Z]*\)\].*/\1/p');
-
 		if [ "$state" == "awake" ]; then
 			new_scheduler="$scheduler";
 			if [ "$tmp_scheduler" != "$scheduler" ]; then
@@ -201,32 +198,15 @@ IO_SCHEDULER()
 	fi;
 }
 
-GOV_TUNING()
-{
-	GOV_NAME=$(cat /sys/devices/system/cpu/cpu0/cpufreq/scaling_governor);
-
-	if [ -e /cpugov/$GOV_NAME/sync_freq ]; then
-		echo "1574400" > /cpugov/$GOV_NAME/sync_freq;
-	fi;
-	if [ -e /cpugov/$GOV_NAME/optimal_freq ]; then
-		echo "1574400" > /cpugov/$GOV_NAME/optimal_freq;
-	fi;
-	if [ -e /cpugov/$GOV_NAME/optimal_max_freq ]; then
-		echo "1574400" > /cpugov/$GOV_NAME/optimal_max_freq;
-	fi;
-}
-
 CPU_CENTRAL_CONTROL()
 {
 	if [ "$cortexbrain_cpu" == "on" ]; then
 
 		local state="$1";
-		GOV_NAME=$(cat /sys/devices/system/cpu/cpu0/cpufreq/scaling_governor);
 
 		if [ "$state" == "awake" ]; then
 			echo "$cpu_min_freq" > /sys/devices/system/cpu/cpu0/cpufreq/scaling_min_freq;
 			echo "$cpu_max_freq" > /sys/devices/system/cpu/cpu0/cpufreq/scaling_max_freq;
-			#GOV_TUNING;
 		elif [ "$state" == "sleep" ]; then
 			echo "$cpu_min_freq" > /sys/devices/system/cpu/cpu0/cpufreq/scaling_min_freq;
 			if [ "$suspend_max_freq" -lt "2803200" ]; then
@@ -243,7 +223,17 @@ CPU_CENTRAL_CONTROL()
 
 HOTPLUG_CONTROL()
 {
+	if [ "$(pgrep "/system/bin/thermal-engine" | wc -l)" -eq "1" ]; then
+		$BB renice -n -20 -p "$(pgrep /system/bin/thermal-engine)";
+	fi;
+
 	if [ "$hotplug" == "default" ]; then
+		if [ -e /system/bin/mpdecision ]; then
+			if [ "$(pgrep "/system/bin/mpdecision" | wc -l)" -eq "0" ]; then
+				/system/bin/start mpdecision
+				$BB renice -n -20 -p "$(pgrep /system/bin/start mpdecision)";
+			fi;
+		fi;
 		if [ "$(cat /sys/kernel/intelli_plug/intelli_plug_active)" -eq "1" ]; then
 			echo "0" > /sys/kernel/intelli_plug/intelli_plug_active;
 		fi;
@@ -255,16 +245,15 @@ HOTPLUG_CONTROL()
 		fi;
 		if [ "$(cat /sys/devices/system/cpu/cpu0/rq-stats/hotplug_enable)" -eq "0" ]; then
 			echo "1" > /sys/devices/system/cpu/cpu0/rq-stats/hotplug_enable;
-			/system/bin/stop mpdecision
-			/system/bin/start mpdecision
-			$BB renice -n -20 -p $(pgrep -f "/system/bin/start mpdecision");
-		fi;
-		if [ "$(ps | grep "mpdecision" | wc -l)" -lt "2" ]; then
-			/system/bin/start mpdecision
-			$BB renice -n -20 -p $(pgrep -f "/system/bin/start mpdecision");
-		fi;
-		if [ "$(ps | grep /system/bin/thermal-engine | wc -l)" -ge "1" ]; then
-			$BB renice -n -20 -p $(pgrep -f "/system/bin/thermal-engine");
+			if [ -e /system/bin/mpdecision ]; then
+				/system/bin/stop mpdecision
+				/system/bin/start mpdecision
+				$BB renice -n -20 -p "$(pgrep /system/bin/start mpdecision)";
+			else
+				# Some !Stupid APP! changed mpdecision name, not my problem. use msm hotplug!
+				echo "0" > /sys/devices/system/cpu/cpu0/rq-stats/hotplug_enable;
+				echo "1" > /sys/module/msm_hotplug/msm_enabled;
+			fi;
 		fi;
 	elif [ "$hotplug" == "msm_hotplug" ]; then
 		if [ "$(cat /sys/kernel/intelli_plug/intelli_plug_active)" -eq "1" ]; then
@@ -279,9 +268,6 @@ HOTPLUG_CONTROL()
 		if [ "$(cat /sys/devices/system/cpu/cpu0/rq-stats/hotplug_enable)" -eq "1" ]; then
 			echo "0" > /sys/devices/system/cpu/cpu0/rq-stats/hotplug_enable;
 		fi;
-		if [ "$(ps | grep /system/bin/thermal-engine | wc -l)" -ge "1" ]; then
-			$BB renice -n -20 -p $(pgrep -f "/system/bin/thermal-engine");
-		fi;
 	elif [ "$hotplug" == "intelli" ]; then
 		if [ "$(cat /sys/kernel/alucard_hotplug/hotplug_enable)" -eq "1" ]; then
 			echo "0" > /sys/kernel/alucard_hotplug/hotplug_enable;
@@ -295,9 +281,6 @@ HOTPLUG_CONTROL()
 		if [ "$(cat /sys/devices/system/cpu/cpu0/rq-stats/hotplug_enable)" -eq "1" ]; then
 			echo "0" > /sys/devices/system/cpu/cpu0/rq-stats/hotplug_enable;
 		fi;
-		if [ "$(ps | grep /system/bin/thermal-engine | wc -l)" -ge "1" ]; then
-			$BB renice -n -20 -p $(pgrep -f "/system/bin/thermal-engine");
-		fi;
 	elif [ "$hotplug" == "alucard" ]; then
 		if [ "$(cat /sys/kernel/intelli_plug/intelli_plug_active)" -eq "1" ]; then
 			echo "0" > /sys/kernel/intelli_plug/intelli_plug_active;
@@ -310,9 +293,6 @@ HOTPLUG_CONTROL()
 		fi;
 		if [ "$(cat /sys/devices/system/cpu/cpu0/rq-stats/hotplug_enable)" -eq "1" ]; then
 			echo "0" > /sys/devices/system/cpu/cpu0/rq-stats/hotplug_enable;
-		fi;
-		if [ "$(ps | grep /system/bin/thermal-engine | wc -l)" -ge "1" ]; then
-			$BB renice -n -20 -p $(pgrep -f "/system/bin/thermal-engine");
 		fi;
 	fi;
 }
@@ -351,7 +331,7 @@ SLEEP_MODE()
 # Dynamic value do not change/delete
 cortexbrain_background_process=1;
 
-if [ "$cortexbrain_background_process" -eq "1" ] && [ "$(pgrep -f "/sbin/ext/cortexbrain-tune.sh" | wc -l)" -eq "2" ]; then
+if [ "$cortexbrain_background_process" -eq "1" ] && [ "$(pgrep "/sbin/ext/cortexbrain-tune.sh" | wc -l)" -eq "2" ]; then
 	(while true; do
 		while [ "$(cat /sys/power/autosleep)" != "off" ]; do
 			sleep "3";

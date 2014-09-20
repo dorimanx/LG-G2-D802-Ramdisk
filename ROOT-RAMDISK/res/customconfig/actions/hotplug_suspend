@@ -1,4 +1,4 @@
-#!/system/xbin/bash
+#!/sbin/busybox sh
 
 # $1 - "hotplug_suspend"
 # $2 - value=
