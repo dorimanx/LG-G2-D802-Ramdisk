@@ -310,7 +310,7 @@ fi;
 # Fix critical perms again after init.d mess
 CRITICAL_PERM_FIX;
 
-sleep 20;
+sleep 35;
 echo "$cpu_min_freq" > /sys/devices/system/cpu/cpu0/cpufreq/scaling_min_freq;
 echo "$cpu_max_freq" > /sys/devices/system/cpu/cpu0/cpufreq/scaling_max_freq;
 
@@ -322,8 +322,6 @@ $BB sh /res/uci.sh generic /sys/module/msm_thermal/parameters/limit_temp_degC $l
 # Correct Kernel config after full boot.
 $BB sh /res/uci.sh oom_config_screen_on "$oom_config_screen_on";
 $BB sh /res/uci.sh oom_config_screen_off "$oom_config_screen_off";
-$BB sh /res/uci.sh default_cpu_gov "$default_cpu_gov";
-$BB sh /res/uci.sh hotplug "$hotplug";
 
 # script finish here, so let me know when
 TIME_NOW=$(date)

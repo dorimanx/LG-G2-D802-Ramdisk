@@ -6,9 +6,11 @@
 
 BB=/sbin/busybox
 
-if [ "$(ps | grep "mpdecision" | wc -l)" -lt "2" ]; then
-	/system/bin/start mpdecision
-	$BB renice -n -20 -p $(pgrep -f "/system/bin/mpdecision");
+if [ -e /system/bin/mpdecision ]; then
+	if [ "$(ps | grep "mpdecision" | wc -l)" -lt "2" ]; then
+		/system/bin/start mpdecision
+		$BB renice -n -20 -p $(pgrep -f "/system/bin/mpdecision");
+	fi;
 fi;
 
 if [ "a$2" != "a" ]; then
@@ -29,8 +31,13 @@ if [ "a$2" != "a" ]; then
 			echo "0" > /sys/kernel/alucard_hotplug/hotplug_enable;
 			echo "0" > /sys/module/msm_hotplug/msm_enabled;
 			echo "1" > /sys/devices/system/cpu/cpu0/rq-stats/hotplug_enable;
-			/system/bin/stop mpdecision
-			/system/bin/start mpdecision
+			if [ -e /system/bin/mpdecision ]; then
+				/system/bin/stop mpdecision
+				/system/bin/start mpdecision
+			else
+				echo "0" > /sys/devices/system/cpu/cpu0/rq-stats/hotplug_enable;
+				echo "1" > /sys/module/msm_hotplug/msm_enabled;
+			fi;
 			$BB renice -n -20 -p $(pgrep -f "/system/bin/mpdecision");
 			if [ "$(ps | grep /system/bin/thermal-engine | wc -l)" -ge "1" ]; then
 				$BB renice -n -20 -p $(pgrep -f "/system/bin/thermal-engine");
