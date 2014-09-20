@@ -223,15 +223,15 @@ CPU_CENTRAL_CONTROL()
 
 HOTPLUG_CONTROL()
 {
-	if [ "$(pgrep "/system/bin/thermal-engine" | wc -l)" -eq "1" ]; then
-		$BB renice -n -20 -p "$(pgrep /system/bin/thermal-engine)";
+	if [ "$(pgrep -f "/system/bin/thermal-engine" | wc -l)" -eq "1" ]; then
+		$BB renice -n -20 -p "$(pgrep -f "/system/bin/thermal-engine")";
 	fi;
 
 	if [ "$hotplug" == "default" ]; then
 		if [ -e /system/bin/mpdecision ]; then
-			if [ "$(pgrep "/system/bin/mpdecision" | wc -l)" -eq "0" ]; then
+			if [ "$(pgrep -f "/system/bin/mpdecision" | wc -l)" -eq "0" ]; then
 				/system/bin/start mpdecision
-				$BB renice -n -20 -p "$(pgrep /system/bin/start mpdecision)";
+				$BB renice -n -20 -p "$(pgrep -f "/system/bin/start mpdecision")";
 			fi;
 		fi;
 		if [ "$(cat /sys/kernel/intelli_plug/intelli_plug_active)" -eq "1" ]; then
@@ -248,7 +248,7 @@ HOTPLUG_CONTROL()
 			if [ -e /system/bin/mpdecision ]; then
 				/system/bin/stop mpdecision
 				/system/bin/start mpdecision
-				$BB renice -n -20 -p "$(pgrep /system/bin/start mpdecision)";
+				$BB renice -n -20 -p "$(pgrep -f "/system/bin/start mpdecision")";
 			else
 				# Some !Stupid APP! changed mpdecision name, not my problem. use msm hotplug!
 				echo "0" > /sys/devices/system/cpu/cpu0/rq-stats/hotplug_enable;
@@ -331,7 +331,7 @@ SLEEP_MODE()
 # Dynamic value do not change/delete
 cortexbrain_background_process=1;
 
-if [ "$cortexbrain_background_process" -eq "1" ] && [ "$(pgrep "/sbin/ext/cortexbrain-tune.sh" | wc -l)" -eq "2" ]; then
+if [ "$cortexbrain_background_process" -eq "1" ] && [ "$(pgrep -f "/sbin/ext/cortexbrain-tune.sh" | wc -l)" -eq "2" ]; then
 	(while true; do
 		while [ "$(cat /sys/power/autosleep)" != "off" ]; do
 			sleep "3";

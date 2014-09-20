@@ -7,14 +7,14 @@
 BB=/sbin/busybox
 
 if [ -e /system/bin/mpdecision ]; then
-	if [ "$(pgrep "/system/bin/mpdecision" | wc -l)" -eq "0" ]; then
+	if [ "$(pgrep -f "/system/bin/mpdecision" | wc -l)" -eq "0" ]; then
 		/system/bin/start mpdecision
-		$BB renice -n -20 -p "$(pgrep /system/bin/mpdecision)";
+		$BB renice -n -20 -p "$(pgrep -f "/system/bin/mpdecision")";
 	fi;
 fi;
 
-if [ "$(pgrep "/system/bin/thermal-engine" | wc -l)" -eq "1" ]; then
-	$BB renice -n -20 -p "$(pgrep /system/bin/thermal-engine)";
+if [ "$(pgrep -f "/system/bin/thermal-engine" | wc -l)" -eq "1" ]; then
+	$BB renice -n -20 -p "$(pgrep -f "/system/bin/thermal-engine")";
 fi;
 
 if [ "a$2" != "a" ]; then
@@ -35,7 +35,7 @@ if [ "a$2" != "a" ]; then
 			if [ -e /system/bin/mpdecision ]; then
 				/system/bin/stop mpdecision
 				/system/bin/start mpdecision
-				$BB renice -n -20 -p "$(pgrep /system/bin/mpdecision)";
+				$BB renice -n -20 -p "$(pgrep -f "/system/bin/mpdecision")";
 			else
 				echo "0" > /sys/devices/system/cpu/cpu0/rq-stats/hotplug_enable;
 				echo "1" > /sys/module/msm_hotplug/msm_enabled;
