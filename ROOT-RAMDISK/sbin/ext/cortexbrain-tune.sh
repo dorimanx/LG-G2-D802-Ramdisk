@@ -200,23 +200,40 @@ IO_SCHEDULER()
 
 CPU_CENTRAL_CONTROL()
 {
-	if [ "$cortexbrain_cpu" == "on" ]; then
+	GOV_NAME=$(cat /sys/devices/system/cpu/cpu0/cpufreq/scaling_governor);
 
-		local state="$1";
+	local state="$1";
+
+	if [ "$cortexbrain_cpu" == "on" ]; then
 
 		if [ "$state" == "awake" ]; then
 			echo "$cpu_min_freq" > /sys/devices/system/cpu/cpu0/cpufreq/scaling_min_freq;
 			echo "$cpu_max_freq" > /sys/devices/system/cpu/cpu0/cpufreq/scaling_max_freq;
+			/res/uci.sh power_mode $power_mode > /dev/null;
 		elif [ "$state" == "sleep" ]; then
 			echo "$cpu_min_freq" > /sys/devices/system/cpu/cpu0/cpufreq/scaling_min_freq;
 			if [ "$suspend_max_freq" -lt "2803200" ]; then
 				echo "$suspend_max_freq" > /sys/kernel/msm_cpufreq_limit/suspend_max_freq;
+			fi;
+			if [ -e /sys/devices/system/cpu/cpufreq/$GOV_NAME/sampling_rate ]; then
+				if [ "$(cat /sys/devices/system/cpu/cpufreq/$GOV_NAME/sampling_rate)" -lt "50000" ]; then
+					echo "50000" > /sys/devices/system/cpu/cpufreq/$GOV_NAME/sampling_rate;
+				fi;
 			fi;
 		fi;
 		log -p i -t "$FILE_NAME" "*** CPU_CENTRAL_CONTROL max_freq:${cpu_max_freq} min_freq:${cpu_min_freq}***: done";
 	else
 		if [ "$(cat /sys/devices/system/cpu/cpu0/cpufreq/scaling_min_freq)" -ge "729600" ]; then
 			echo "$cpu_min_freq" > /sys/devices/system/cpu/cpu0/cpufreq/scaling_min_freq;
+		fi;
+		if [ "$state" == "awake" ]; then
+			/res/uci.sh power_mode $power_mode > /dev/null;
+		elif [ "$state" == "sleep" ]; then
+			if [ -e /sys/devices/system/cpu/cpufreq/$GOV_NAME/sampling_rate ]; then
+				if [ "$(cat /sys/devices/system/cpu/cpufreq/$GOV_NAME/sampling_rate)" -lt "50000" ]; then
+					echo "50000" > /sys/devices/system/cpu/cpufreq/$GOV_NAME/sampling_rate;
+				fi;
+			fi;
 		fi;
 	fi;
 }
@@ -249,6 +266,7 @@ HOTPLUG_CONTROL()
 				/system/bin/stop mpdecision
 				/system/bin/start mpdecision
 				$BB renice -n -20 -p "$(pgrep -f "/system/bin/start mpdecision")";
+				echo "20" > /sys/devices/system/cpu/cpu0/rq-stats/run_queue_poll_ms;
 			else
 				# Some !Stupid APP! changed mpdecision name, not my problem. use msm hotplug!
 				echo "0" > /sys/devices/system/cpu/cpu0/rq-stats/hotplug_enable;

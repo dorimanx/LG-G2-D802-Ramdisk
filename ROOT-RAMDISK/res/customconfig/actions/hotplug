@@ -36,6 +36,8 @@ if [ "a$2" != "a" ]; then
 				/system/bin/stop mpdecision
 				/system/bin/start mpdecision
 				$BB renice -n -20 -p "$(pgrep -f "/system/bin/mpdecision")";
+				/res/uci.sh power_mode $power_mode > /dev/null;
+				echo "20" > /sys/devices/system/cpu/cpu0/rq-stats/run_queue_poll_ms;
 			else
 				echo "0" > /sys/devices/system/cpu/cpu0/rq-stats/hotplug_enable;
 				echo "1" > /sys/module/msm_hotplug/msm_enabled;
