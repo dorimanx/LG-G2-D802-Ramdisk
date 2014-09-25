@@ -11,12 +11,12 @@ fi;
 DEBUG_FILE="/sdcard/dorimanx_debug";
 DEBUG_FILE_LOGCAT="/sdcard/dorimanx_debug_logcat";
 
+PROFILE=`cat /data/.dori/.active.profile`;
+. /data/.dori/${PROFILE}.profile;
+
 case "${debug_to_sd}" in
 	1)
 		(
-			PROFILE=`cat /data/.dori/.active.profile`;
-			. /data/.dori/${PROFILE}.profile;
-
 			SEPARATOR()
 			{
 				echo "" >> $DEBUG_FILE;
@@ -211,14 +211,16 @@ case "${debug_to_sd}" in
 		(
 			# overwrite old debug-file
 			echo "" > $DEBUG_FILE_LOGCAT;
+			echo "1" > /sys/module/logger/parameters/log_mode;
 
 			logcat -f $DEBUG_FILE_LOGCAT;
 
-			wait 60;
-			pkill logcat;
-			#maybe we can also grep / remove personal infos here (e.g . email address)
+			sleep 30;
+			pkill -f "logcat";
+			echo "logger" > /sys/module/logger/parameters/log_mode;
+			pkill -f "com.gokhanmoral.stweaks.app";
 		)&
-		echo "Collecting logs for 60Sec please wait";
+		echo "Collecting logs for 30Sec please wait till STweaks will CLOSE";
 	;;
 	*)
 		echo "need input";
