@@ -16,6 +16,7 @@ limit_temp_degC=75
 hotplug=msm_hotplug
 hotplug_suspend=always_active
 cpus_boosted=2
+cpus_boosted_time=750
 eco_mode=all
 min_online_cpus=1
 gpu_governor=msm-adreno-tz
