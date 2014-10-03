@@ -315,6 +315,22 @@ HOTPLUG_CONTROL()
 	fi;
 }
 
+WORKQUEUE_CONTROL()
+{
+	local state="$1";
+
+	if [ "$state" == "awake" ]; then
+		if [ "$power_efficient" == "on" ]; then
+			echo "1" > /sys/module/workqueue/parameters/power_efficient;
+		else
+			echo "0" > /sys/module/workqueue/parameters/power_efficient;
+		fi;
+	elif [ "$state" == "sleep" ]; then
+		echo "1" > /sys/module/workqueue/parameters/power_efficient;
+	fi;
+	log -p i -t "$FILE_NAME" "*** WORKQUEUE_CONTROL ***: done";
+}
+
 # ==============================================================
 # TWEAKS: if Screen-ON
 # ==============================================================
@@ -323,6 +339,7 @@ AWAKE_MODE()
 	IO_SCHEDULER "awake";
 	CPU_CENTRAL_CONTROL "awake";
 	HOTPLUG_CONTROL;
+	WORKQUEUE_CONTROL "awake";
 	log -p i -t "$FILE_NAME" "*** AWAKE_MODE - WAKEUP ***: done";
 }
 
@@ -338,6 +355,7 @@ SLEEP_MODE()
 	CROND_SAFETY;
 	IO_SCHEDULER "sleep";
 	CPU_CENTRAL_CONTROL "sleep";
+	WORKQUEUE_CONTROL "sleep";
 
 	log -p i -t "$FILE_NAME" "*** SLEEP mode ***";
 }

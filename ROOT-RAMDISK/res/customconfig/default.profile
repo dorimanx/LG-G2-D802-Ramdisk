@@ -4,6 +4,7 @@ default_cpu_gov=ondemand
 cpu_boost_freq=1728000
 sample_rate=50000
 power_mode=0
+power_efficient=on
 cortexbrain_cpu=off
 cpu_max_freq=2265600
 cpu_min_freq=300000

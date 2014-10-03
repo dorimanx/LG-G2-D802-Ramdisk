@@ -61,6 +61,8 @@
 			<spinnerItem name="Performance mode" value="1"/> 
 		</spinner>
 
+		<checkbox description="Enable or disable Power-efficient Workqueues will help to reduce power consumption at the cost of slight performance overhead. By enabling this, PE workqueues are used for unbound scheduled work to save load on sibling CPU cores and queuing work on CPU 0." name="Power-efficient Workqueues"  action="generic01 /sys/module/workqueue/parameters/power_efficient" label="Power-efficient Workqueues"/>
+
 		<checkbox description="Enable or disable CPU-Tweaks below! If ON, then kernel will obey only STweaks and set the frequencies selected below, on screen OFF and ON" name="CPU-Tweaks" action="generic_cortex /tmp/cortexbrain_cpu" label="CPU-Tweaks"/>
 
 		<spinner description="Maximum CPU-Speed. Here, you can change the maximum CPU frequency allowed. This depends on CPU-Tweaks (has to be enabled above)! (Default is 2 265 600 Khz)" name="Max CPU Frequency" action="cpu_max_freq">
