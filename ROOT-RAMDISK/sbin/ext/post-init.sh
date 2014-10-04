@@ -188,6 +188,10 @@ else
 fi;
 if [ "$(cat /data/reset_dori_dir)" -eq "$CLEAN_DORI_DIR" ]; then
 	if [ "$(cat /data/.dori/reset_profiles)" != "$RESET_MAGIC" ]; then
+		if [ ! -e /data/.dori_old ]; then
+			mkdir /data/.dori_old;
+		fi;
+		cp -a /data/.dori/*.profile /data/.dori_old/;
 		$BB rm -f /data/.dori/*.profile;
 		echo "$RESET_MAGIC" > /data/.dori/reset_profiles;
 	else
@@ -198,6 +202,10 @@ else
 	if [ -e /data/.dori/"$PROFILE".profile ]; then
 		cp /data/.dori/"$PROFILE".profile /sdcard/"$PROFILE".profile_backup;
 	fi;
+	if [ ! -e /data/.dori_old ]; then
+		mkdir /data/.dori_old;
+	fi;
+	cp -a /data/.dori/* /data/.dori_old/;
 	$BB rm -f /data/.dori/*
 	echo "$CLEAN_DORI_DIR" > /data/reset_dori_dir;
 	echo "$RESET_MAGIC" > /data/.dori/reset_profiles;

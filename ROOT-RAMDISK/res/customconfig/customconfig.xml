@@ -160,7 +160,7 @@
 			<spinnerItem name="Quad Core Boost" value="4"/> 
 		</spinner>
 
-		<seekBar description="Here you can adjust the CPU BOOST time duration, when hotplug turn the amount of boosted cpus on spike load. it's for MSM and INTELLIGENT Hotplugs only! 100msec equal 1sec (default is 750msec)" name="CPU Booster Duration" action="cpus_boosted_time" unit="Msec" min="250" reversed="false" step="250" max="3000"/>
+		<seekBar description="Here you can adjust the CPU BOOST time duration, when hotplug turn the amount of boosted cpus on spike load. it's for MSM and INTELLIGENT Hotplugs only! 1000msec equal 1sec (default is 750msec)" name="CPU Booster Duration" action="cpus_boosted_time" unit="Msec" min="250" reversed="false" step="250" max="3000"/>
 
 		<spinner description="Maximum allowed CPU Cores online - you can have QUAD CORE, or select CPU CORE type that you want, This mod will work with all custom hotplugs! Default LG hotplug is not supported. This set is stronger than MIN cores online below!" name="Max Cores online" action="eco_mode">
 			<spinnerItem name="Quad Core CPU" value="all"/> 
