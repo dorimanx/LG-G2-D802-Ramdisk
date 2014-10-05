@@ -3,7 +3,7 @@
 BB=/sbin/busybox
 
 (
-	if [ "$(pgrep -f "/res/customconfig/actions/push-actions/reload_settings" | wc -l)" -le "3" ]; then
+	if [ "$(pgrep -f "/res/customconfig/actions/push-actions/reload_settings" | wc -l)" -le "2" ]; then
 		echo "Loading Config, reload STweaks after 10sec";
 		# apply STweaks settings
 		$BB nohup $BB sh /res/uci.sh apply > /dev/null;
@@ -17,7 +17,8 @@ BB=/sbin/busybox
 
 		sync;
 		$BB rm -rf /data/data/com.gokhanmoral.stweaks.app/*;
-		$BB pkill -f "com.gokhanmoral.stweaks.app";
+		am force-stop com.gokhanmoral.stweaks.app 2> /dev/null;
+		am start -a android.intent.action.MAIN -n com.gokhanmoral.stweaks.app/.MainActivity 2> /dev/null;
 		exit;
 	else
 		echo "Still running!!"

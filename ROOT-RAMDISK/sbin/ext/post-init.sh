@@ -171,7 +171,7 @@ fi;
 # just set numer $RESET_MAGIC + 1 and profiles will be reset one time on next boot with new kernel.
 # incase that ADMIN feel that something wrong with global STweaks config and profiles, then ADMIN can add +1 to CLEAN_DORI_DIR
 # to clean all files on first boot from /data/.dori/ folder.
-RESET_MAGIC=33;
+RESET_MAGIC=34;
 CLEAN_DORI_DIR=2;
 
 if [ ! -e /data/.dori/reset_profiles ]; then
@@ -289,10 +289,8 @@ ONDEMAND_TUNING;
 if [ "$stweaks_boot_control" == "yes" ]; then
 	# apply STweaks settings
 	$BB pkill -f "com.gokhanmoral.stweaks.app";
+	$BB sh /sbin/uci;
 	$BB sh /res/uci.sh apply;
-
-	# Reduce heat limit during boot.
-	$BB sh /res/uci.sh generic /sys/module/msm_thermal/parameters/limit_temp_degC 75;
 
 	# Load Custom Modules
 	MODULES_LOAD;
@@ -323,9 +321,6 @@ echo "$cpu_min_freq" > /sys/devices/system/cpu/cpu0/cpufreq/scaling_min_freq;
 echo "$cpu_max_freq" > /sys/devices/system/cpu/cpu0/cpufreq/scaling_max_freq;
 
 echo "0" > /cputemp/freq_limit_debug;
-
-# restore USER cpu heat temp from STweaks.
-$BB sh /res/uci.sh generic /sys/module/msm_thermal/parameters/limit_temp_degC "$limit_temp_degC";
 
 # Correct Kernel config after full boot.
 $BB sh /res/uci.sh oom_config_screen_on "$oom_config_screen_on";

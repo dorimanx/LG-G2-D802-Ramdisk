@@ -127,11 +127,7 @@
 			<spinnerItem name="Intelligent Temp Control Only" value="intelli_temp_only"/> 
 		</spinner>
 
-		<checkbox description="Enable or disable CPU cores based on each core's temperature (set below). If OFF, then all CPU cores will be online and operate at lower frequencies when the temperature is high! If ON, then some CPU cores will be disabled in order to help cooling down the CPU (some performance loss is expected) - very bad for benchmarking apps, but good for heat stability and device health!" name="CPU Core Controls" action="generic01 /sys/module/msm_thermal/core_control/core_control_enabled" label="Intelli CPU Cores Control"/>
-
-		<seekBar description="Here you can change CORES Max Heat before turning OFF cores from 3 to 1 and keep normal phone heat. If you tune above CPU Max Heat below, then all cores will stay ON when overheated! Depends on Intelli CPU Cores Control (must be ENABLED)!" name="Intelli CORE Max Heat" action="generic /sys/module/msm_thermal/parameters/core_limit_temp_degC" unit="C" min="50" reversed="false" step="1" max="79"/>
-
-		<seekBar description="Here you can adjust the temperature CPU cores can reach before they are throttled down in order to allow the CPU to cool down and keep the phone at normal temperature." name="CPU Max Heat" action="generic /sys/module/msm_thermal/parameters/limit_temp_degC" unit="C" min="50" reversed="false" step="1" max="78"/>
+		<button description="To access CPU Thermal Controls and LIVE stats from my kernel PUSH the BUTTON!" name="Thermal Controls Access" action="push-actions/thermal_control" label="Switch to Synapse Controls"/>
 
 	</settingsPane>
 

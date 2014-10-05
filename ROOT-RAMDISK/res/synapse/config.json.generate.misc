@@ -1,0 +1,94 @@
+#!/sbin/busybox sh
+
+cat << CTAG
+{
+    name:MISC,
+    elements:[
+		`[ -d "/sys/module/msm_pm" ] && PM=/sys/module/msm_pm;
+		
+		if [ -d "$PM/modes/cpu0" ]; then
+			$BB echo '{ SPane:{
+				title:"Krait C-States Settings"
+			}},'
+			if [ -f "$PM/modes/cpu0/wfi/idle_enabled" ]; then
+			C0=\`$BB cat $PM/modes/cpu0/wfi/idle_enabled\`;
+				$BB echo '{ SCheckBox:{
+					description:"Shallowest Sleep with instant wake up.",
+					label:"C0 (WFI)",
+					default:'$C0',
+					action:"socset '$PM'/modes/cpu0/wfi/idle_enabled wfi"
+				}},'
+			fi
+			if [ -f "$PM/modes/cpu0/retention/idle_enabled" ]; then
+			C1=\`$BB cat $PM/modes/cpu0/retention/idle_enabled\`;
+				$BB echo '{ SCheckBox:{
+					description:"Slightly deeper sleep with slight latency when waking up. (Disable this if you encounter screen flickering)",
+					label:"C1 (Retention)",
+					default:'$C1',
+					action:"socset '$PM'/modes/cpu0/retention/idle_enabled retention"
+				}},'
+			fi
+			if [ -f "$PM/modes/cpu0/standalone_power_collapse/idle_enabled" ]; then
+			C2=\`$BB cat $PM/modes/cpu0/standalone_power_collapse/idle_enabled\`;
+				$BB echo '{ SCheckBox:{
+					description:"Deeper sleep with longer latency when waking up.",
+					label:"C2 (Stand Alone Power Collapse)",
+					default:'$C2',
+					action:"socset '$PM'/modes/cpu0/standalone_power_collapse/idle_enabled standalone_power_collapse"
+				}},'
+			fi
+			if [ -f "$PM/modes/cpu0/power_collapse/idle_enabled" ]; then
+			C3=\`$BB cat $PM/modes/cpu0/power_collapse/idle_enabled\`;
+				$BB echo '{ SCheckBox:{
+					description:"Really deep sleep with longest latency when waking up.",
+					label:"C3 (Power Collapse)",
+					default:'$C3',
+					action:"socset '$PM'/modes/cpu0/power_collapse/idle_enabled power_collapse"
+				}},'
+			fi
+		fi`
+		`if [ -d "/sys/class/leds" ]; then
+			$BB echo '{ SPane:{
+				title:"LED Control",
+				description:"Kernel trigger for LEDs. Using this might interfere with OS level LED management and vice versa.",
+			}},'
+			if [ -f "/sys/class/leds/blue/trigger" ]; then
+				$BB echo '{ SOptionList:{
+					title:"Blue",
+					default:none,
+					action:"bracket-option /sys/class/leds/blue/trigger",
+					values:['
+						for LEDS in \`$BB cat /sys/class/leds/blue/trigger | $BB sed -e "s/\]//;s/\[//"\`; do
+							$BB echo "\"$LEDS\",";
+						done;
+					$BB echo ']
+				}},'
+			fi
+			if [ -f "/sys/class/leds/green/trigger" ]; then
+				$BB echo '{ SOptionList:{
+					title:"Green",
+					default:none,
+					action:"bracket-option /sys/class/leds/green/trigger",
+					values:['
+						for LEDS in \`$BB cat /sys/class/leds/green/trigger | $BB sed -e "s/\]//;s/\[//"\`; do
+							$BB echo "\"$LEDS\",";
+						done;
+					$BB echo ']
+				}},'
+			fi
+			if [ -f "/sys/class/leds/red/trigger" ]; then
+				$BB echo '{ SOptionList:{
+					title:"Red",
+					default:none,
+					action:"bracket-option /sys/class/leds/red/trigger",
+					values:['
+						for LEDS in \`$BB cat /sys/class/leds/red/trigger | $BB sed -e "s/\]//;s/\[//"\`; do
+							$BB echo "\"$LEDS\",";
+						done;
+					$BB echo ']
+				}},'
+			fi
+		fi`
+    ]
+}
+CTAG

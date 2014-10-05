@@ -1,0 +1,96 @@
+#!/sbin/busybox sh
+
+cat << CTAG
+{
+	name:STATUS,
+		elements:[
+			{ SLiveLabel:{
+				title:"CPU PVS MODEL",
+				refresh:50000,
+				action:"live Acpu_pvs"
+			}},
+			{ SLiveLabel:{
+				title:"CPU SPEED BIN",
+				refresh:50000,
+				action:"live Speed_bin"
+			}},
+			{ SLiveLabel:{
+				title:"CPU Scaling Frequencies",
+				description: "Scaling Min Max frequencies are affected by thermal engine/driver and CPU Boost driver. You may enable and use MSM Limiter Driver below to make sure scaling frequencies are desired ranges most of the time.",
+				refresh:1000,
+				action:"live CPU_MAX_MIN_Freq"
+			}},
+			{ SLiveLabel:{
+				title:"CPU Temperature:",
+				refresh:3000,
+				action:"live CPUTemperature"
+			}},
+			{ SLiveLabel:{
+				title:"Current Active CPU Governor",
+				description: "Display Current Active CPU Governor",
+				refresh:10000,
+				action:"live DefaultCPUGovernor"
+			}},
+			{ SLiveLabel:{
+				title:"GPU Scaling Frequencies",
+				description: "Scaling Min Max GPU frequencies",
+				refresh:2000,
+				action:"live GPU_MAX_MIN_Freq"
+			}},
+			{ SLiveLabel:{
+				title:"Current GPU Frequency:",
+				refresh:500,
+				action:"live GPUFrequency"
+			}},
+			{ SLiveLabel:{
+				title:"Current GPU Governor:",
+				refresh:10000,
+				action:"live DefaultGPUGovernor"
+			}},
+			{ SLiveLabel:{
+				title:"Battery Temperature:",
+				refresh:3000,
+				action:"live BatteryTemperature"
+			}},
+			{ SLiveLabel:{
+				title:"Memory:",
+				refresh:3000,
+				action:"live Memory"
+			}},
+			{ SLiveLabel:{
+				title:"Uptime:",
+				refresh:5000,
+				action:"live UpTime"
+			}},
+			{ SLiveLabel:{
+				title:"Unused States:",
+				refresh:5000,
+				action:"live UnUsed"
+			}},
+			{ SLiveLabel:{
+				title:"Time in States:",
+				refresh:5000,
+				action:"live Time 0 9"
+			}},
+			{ SLiveLabel:{
+				refresh:5000,
+				action:"live Time 10 19"
+			}},
+			{ SLiveLabel:{
+				title:"MMC IO Read Ahead Size:",
+				refresh:10000,
+				action:"live IOReadAheadSize"
+			}},
+			{ SLiveLabel:{
+				title:"MMC Current IO Scheduler:",
+				refresh:10000,
+				action:"live IOScheduler"
+			}},
+			{ SLiveLabel:{
+				title:"NET Current TCP Congestion:",
+				refresh:10000,
+				action:"live TCPCongestion"
+			}},
+		]
+}
+CTAG

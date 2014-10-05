@@ -1,0 +1,62 @@
+#!/sbin/busybox sh
+
+BB=/sbin/busybox;
+DEVICE=`sh /res/synapse/files/lg_g2.sh`;
+
+UCI_CONFIG=/res/synapse/config.json;
+UCI_ACTION=/res/synapse/actions/;
+DEBUG=/data/.dori/;
+SYNAPSE_SD_DIR=/sdcard/Synapse;
+
+# Mount root as RW to apply tweaks and settings
+$BB mount -o remount,rw /;
+
+if [ ! -f $UCI_CONFIG ]; then
+	[ ! -d "$SYNAPSE_SD_DIR" ] && $BB mkdir -p "$SYNAPSE_SD_DIR";
+	# Use this trigger to reset Synapse settings on boot.
+	# Just increment it for cases like default parameters are changed
+	# for some drivers and you wish user to use these parameters on boot.
+	KERNEL_CURR=1;
+	
+	if [ ! -f "$SYNAPSE_SD_DIR/last_kernel" ]; then
+		$BB rm -R /data/data/com.af.synapse/databases;
+		$BB echo "$KERNEL_CURR" > $SYNAPSE_SD_DIR/last_kernel;
+	else
+		KERNEL_LAST=`$BB cat $SYNAPSE_SD_DIR/last_kernel 2> /dev/null`;
+		
+		if [ "$KERNEL_CURR" != "$KERNEL_LAST" ]; then
+			$BB rm -R /data/data/com.af.synapse/databases;
+			$BB echo "$KERNEL_CURR" > $SYNAPSE_SD_DIR/last_kernel;
+		fi
+	fi
+
+	$BB chmod -R 755 $UCI_ACTION;
+	
+	if [ ! -f $DEBUG/pvs_bin ]; then
+		PVS=$(dmesg | grep "ACPU PVS" | cut -c34-45 | grep -v "REV");
+		echo "$PVS" > $DEBUG/acpu_pvs;
+	fi
+	
+	if [ ! -f $DEBUG/speed_bin ]; then
+		SPEED=$(dmesg | grep "SPEED BIN" | cut -c34-55);
+		echo "SPEED" > $DEBUG/speed_bin;
+	fi
+	
+	if [ ! -f $DEBUG/last_kmsg ]; then
+		LAST_KMSG=$($BB tail -n 250 /proc/last_kmsg);
+		echo "$LAST_KMSG" > $DEBUG/last_kmsg;
+	fi
+
+	source /res/synapse/config.json.generate > $UCI_CONFIG;
+fi;
+
+case "${1}" in
+  config)
+		$BB cat $UCI_CONFIG;;
+  configpath)
+		$BB echo $UCI_CONFIG;;
+  actionpath)
+		$BB echo $UCI_ACTION;;
+  reset)
+		$BB rm -f $UCI_CONFIG;
+esac;

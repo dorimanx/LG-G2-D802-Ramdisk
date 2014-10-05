@@ -16,7 +16,8 @@ RELOAD_STWEAKS()
 {
 	sync;
 	$BB rm -rf /data/data/com.gokhanmoral.stweaks.app/*;
-	$BB pkill -f "com.gokhanmoral.stweaks.app";
+	am force-stop com.gokhanmoral.stweaks.app 2> /dev/null;
+	am start -a android.intent.action.MAIN -n com.gokhanmoral.stweaks.app/.MainActivity 2> /dev/null;
 	exit;
 }
 
