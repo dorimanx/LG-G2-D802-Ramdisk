@@ -286,6 +286,9 @@ fi;
 echo "ondemand" > /sys/devices/system/cpu/cpu0/cpufreq/scaling_governor;
 ONDEMAND_TUNING;
 
+# Turn off CORE CONTROL, to boot on all cores!
+echo "0" > /sys/module/msm_thermal/core_control/core_control_enabled;
+
 if [ "$stweaks_boot_control" == "yes" ]; then
 	# apply STweaks settings
 	$BB pkill -f "com.gokhanmoral.stweaks.app";
