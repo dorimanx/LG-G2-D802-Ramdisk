@@ -8,7 +8,7 @@ cat << CTAG
 					label:"Core Control",
 					description:"When core control is enabled, CPU sibling cores will shut down at high temperature which impact performance, when core control is disabled, CPU sibling cores will operate at lower frequencies at high temperature and will give good balance between device temperature control and performance.",
 					default:'$CCE',
-					action:"generic /sys/module/msm_thermal/core_control/core_control_enabled"
+					action:"boolean /sys/module/msm_thermal/core_control/core_control_enabled"
 				}},'
 				LT=$(cat /sys/module/msm_thermal/parameters/limit_temp_degC);
 				$BB echo '{ SSeekBar:{
@@ -31,46 +31,6 @@ cat << CTAG
 					max:80,
 					default:'$TEMP',
 					action:"generic /sys/module/msm_thermal/parameters/core_limit_temp_degC"
-				}},'
-				$BB echo '{ SDescription:{
-					description:"Frequency Throttling Cores:"
-				}},
-				{ SDescription:{
-					description:"Cores to throttle frequency when temperature limit is reached. We recommend all cores except Core 0 should be frequency-throttled."
-				}}
-				{ SCheckBox:{
-					label:"Core 0",
-					action:"intellithermal freq core0"
-				}},
-				{ SCheckBox:{
-					label:"Core 1",
-					action:"intellithermal freq core1"
-				}},
-				{ SCheckBox:{
-					label:"Core 2",
-					action:"intellithermal freq core2"
-				}},
-				{ SCheckBox:{
-					label:"Core 3",
-					action:"intellithermal freq core3"
-				}},'
-				$BB echo '{ SDescription:{
-					description:"Core Throttling Cores:"
-				}},
-				{ SDescription:{
-					description:"Cores to shutdown when temperature limit is reached. These controls are ineffective if core-control is disabled."
-				}}
-				{ SCheckBox:{
-					label:"Core 1",
-					action:"intellithermal core core1"
-				}},
-				{ SCheckBox:{
-					label:"Core 2",
-					action:"intellithermal core core2"
-				}},
-				{ SCheckBox:{
-					label:"Core 3",
-					action:"intellithermal core core3"
 				}},'
 				CTHG=$(cat /sys/module/msm_thermal/parameters/core_temp_hysteresis_degC);
 				$BB echo '{ SSeekBar:{

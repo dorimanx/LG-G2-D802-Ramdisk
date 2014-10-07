@@ -207,11 +207,21 @@ CPU_CENTRAL_CONTROL()
 	if [ "$cortexbrain_cpu" == "on" ]; then
 
 		if [ "$state" == "awake" ]; then
-			echo "$cpu_min_freq" > /sys/devices/system/cpu/cpu0/cpufreq/scaling_min_freq;
-			echo "$cpu_max_freq" > /sys/devices/system/cpu/cpu0/cpufreq/scaling_max_freq;
+			echo "$cpu0_min_freq" > /sys/devices/system/cpu/cpufreq/all_cpus/scaling_min_freq_cpu0;
+			echo "$cpu1_min_freq" > /sys/devices/system/cpu/cpufreq/all_cpus/scaling_min_freq_cpu1;
+			echo "$cpu2_min_freq" > /sys/devices/system/cpu/cpufreq/all_cpus/scaling_min_freq_cpu2;
+			echo "$cpu3_min_freq" > /sys/devices/system/cpu/cpufreq/all_cpus/scaling_min_freq_cpu3;
+
+			echo "$cpu0_max_freq" > /sys/devices/system/cpu/cpufreq/all_cpus/scaling_max_freq_cpu0;
+			echo "$cpu1_max_freq" > /sys/devices/system/cpu/cpufreq/all_cpus/scaling_max_freq_cpu1;
+			echo "$cpu2_max_freq" > /sys/devices/system/cpu/cpufreq/all_cpus/scaling_max_freq_cpu2;
+			echo "$cpu3_max_freq" > /sys/devices/system/cpu/cpufreq/all_cpus/scaling_max_freq_cpu3;
 			/res/uci.sh power_mode $power_mode > /dev/null;
 		elif [ "$state" == "sleep" ]; then
-			echo "$cpu_min_freq" > /sys/devices/system/cpu/cpu0/cpufreq/scaling_min_freq;
+			echo "$cpu0_min_freq" > /sys/devices/system/cpu/cpufreq/all_cpus/scaling_min_freq_cpu0;
+			echo "$cpu1_min_freq" > /sys/devices/system/cpu/cpufreq/all_cpus/scaling_min_freq_cpu1;
+			echo "$cpu2_min_freq" > /sys/devices/system/cpu/cpufreq/all_cpus/scaling_min_freq_cpu2;
+			echo "$cpu3_min_freq" > /sys/devices/system/cpu/cpufreq/all_cpus/scaling_min_freq_cpu3;
 			if [ "$suspend_max_freq" -lt "2803200" ]; then
 				echo "$suspend_max_freq" > /sys/kernel/msm_cpufreq_limit/suspend_max_freq;
 			fi;
@@ -224,7 +234,10 @@ CPU_CENTRAL_CONTROL()
 		log -p i -t "$FILE_NAME" "*** CPU_CENTRAL_CONTROL max_freq:${cpu_max_freq} min_freq:${cpu_min_freq}***: done";
 	else
 		if [ "$(cat /sys/devices/system/cpu/cpu0/cpufreq/scaling_min_freq)" -ge "729600" ]; then
-			echo "$cpu_min_freq" > /sys/devices/system/cpu/cpu0/cpufreq/scaling_min_freq;
+			echo "$cpu0_min_freq" > /sys/devices/system/cpu/cpufreq/all_cpus/scaling_min_freq_cpu0;
+			echo "$cpu1_min_freq" > /sys/devices/system/cpu/cpufreq/all_cpus/scaling_min_freq_cpu1;
+			echo "$cpu2_min_freq" > /sys/devices/system/cpu/cpufreq/all_cpus/scaling_min_freq_cpu2;
+			echo "$cpu3_min_freq" > /sys/devices/system/cpu/cpufreq/all_cpus/scaling_min_freq_cpu3;
 		fi;
 		if [ "$state" == "awake" ]; then
 			/res/uci.sh power_mode $power_mode > /dev/null;

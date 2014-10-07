@@ -3,17 +3,6 @@
 BB=/sbin/busybox;
 
 case "$1" in
-	LiveCPUFrequencyList)
-		for CPUFREQ in `$BB cat /sys/devices/system/cpu/cpu0/cpufreq/scaling_available_frequencies`; do
-		LABEL=$((CPUFREQ / 1000));
-			$BB echo "$CPUFREQ:\"${LABEL} MHz\", ";
-		done;
-	;;
-	LiveCPUGovernorList)
-		for CPUGOV in `$BB cat /sys/devices/system/cpu/cpu0/cpufreq/scaling_available_governors`; do
-			$BB echo "\"$CPUGOV\",";
-		done;
-	;;
 	LiveAcpu_pvs)
 		$BB echo "`$BB cat /data/.dori/acpu_pvs`"
 	;;
@@ -24,7 +13,11 @@ case "$1" in
 		$BB echo "`$BB cat /sys/devices/fdb00000.qcom,kgsl-3d0/devfreq/fdb00000.qcom,kgsl-3d0/governor`"
 	;;
 	LiveDefaultCPUGovernor)
-		$BB echo "`$BB cat /sys/devices/system/cpu/cpu0/cpufreq/scaling_governor`";
+		CPU0_GOV=$(cat /sys/devices/system/cpu/cpufreq/all_cpus/scaling_governor_cpu0);
+		CPU1_GOV=$(cat /sys/devices/system/cpu/cpufreq/all_cpus/scaling_governor_cpu1);
+		CPU2_GOV=$(cat /sys/devices/system/cpu/cpufreq/all_cpus/scaling_governor_cpu2);
+		CPU3_GOV=$(cat /sys/devices/system/cpu/cpufreq/all_cpus/scaling_governor_cpu3);
+		echo "CPU0 GOV: $CPU0_GOV@nCPU1 GOV: $CPU1_GOV@nCPU2 GOV: $CPU2_GOV@nCPU3 GOV: $CPU3_GOV";
 	;;
 	LiveGPUFrequency)
 		GPUFREQ="$((`$BB cat /sys/class/kgsl/kgsl-3d0/gpuclk` / 1000000)) MHz";
@@ -45,9 +38,15 @@ case "$1" in
 		$BB echo "`$BB cat /proc/sys/net/ipv4/tcp_congestion_control`";
 	;;
 	LiveCPU_MAX_MIN_Freq)
-		FREQMAX="$(expr `cat /sys/devices/system/cpu/cpu0/cpufreq/policy_max_freq` / 1000)MHz"
-		FREQMIN="$(expr `cat /sys/devices/system/cpu/cpu0/cpufreq/policy_min_freq` / 1000)MHz"
-		echo "Max CPU Freq: $FREQMAX@nMin CPU Freq: $FREQMIN"
+		CPU0_FREQMAX="$(expr `cat /sys/devices/system/cpu/cpufreq/all_cpus/scaling_max_freq_cpu0` / 1000)MHz"
+		CPU0_FREQMIN="$(expr `cat /sys/devices/system/cpu/cpufreq/all_cpus/scaling_min_freq_cpu0` / 1000)MHz"
+		CPU1_FREQMAX="$(expr `cat /sys/devices/system/cpu/cpufreq/all_cpus/scaling_max_freq_cpu1` / 1000)MHz"
+		CPU1_FREQMIN="$(expr `cat /sys/devices/system/cpu/cpufreq/all_cpus/scaling_min_freq_cpu1` / 1000)MHz"
+		CPU2_FREQMAX="$(expr `cat /sys/devices/system/cpu/cpufreq/all_cpus/scaling_max_freq_cpu2` / 1000)MHz"
+		CPU2_FREQMIN="$(expr `cat /sys/devices/system/cpu/cpufreq/all_cpus/scaling_min_freq_cpu2` / 1000)MHz"
+		CPU3_FREQMAX="$(expr `cat /sys/devices/system/cpu/cpufreq/all_cpus/scaling_max_freq_cpu3` / 1000)MHz"
+		CPU3_FREQMIN="$(expr `cat /sys/devices/system/cpu/cpufreq/all_cpus/scaling_min_freq_cpu3` / 1000)MHz"
+		echo "Max CPU0 Freq: $CPU0_FREQMAX@nMin CPU0 Freq: $CPU0_FREQMIN@nMax CPU1 Freq: $CPU1_FREQMAX@nMin CPU1 Freq: $CPU1_FREQMIN@nMax CPU2 Freq: $CPU2_FREQMAX@nMin CPU2 Freq: $CPU2_FREQMIN@nMax CPU3 Freq: $CPU3_FREQMAX@nMin CPU3 Freq: $CPU3_FREQMIN"
 	;;
 	LiveBatteryTemperature)
 		BAT_C=`$BB awk '{ print $1 / 10 }' /sys/class/power_supply/battery/temp`;
