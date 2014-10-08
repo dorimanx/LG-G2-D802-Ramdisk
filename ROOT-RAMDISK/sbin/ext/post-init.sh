@@ -344,6 +344,7 @@ echo "0" > /cputemp/freq_limit_debug;
 # Correct Kernel config after full boot.
 $BB sh /res/uci.sh oom_config_screen_on "$oom_config_screen_on";
 $BB sh /res/uci.sh oom_config_screen_off "$oom_config_screen_off";
+$BB sh /res/uci.sh selinux_control "$selinux_control";
 
 # Reload SuperSU daemonsu to fix SuperUser bugs.
 if [ -e /system/xbin/daemonsu ]; then

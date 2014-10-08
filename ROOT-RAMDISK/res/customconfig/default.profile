@@ -55,6 +55,7 @@ ad_block_update=off
 cron_db_optimizing=off
 cron_clear_app_cache=off
 cron_zipalign=off
+selinux_control=on
 lm3630_min_backlight_reducer=off
 lm3630_min_backlight_set=80
 tcp_congestion_control=cubic

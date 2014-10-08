@@ -5,17 +5,6 @@ TIMESTAMP=`date +%Y-%m-%d.%H.%M.%S`;
 LOGS=/sdcard/logs;
 
 case $1 in
-	selinux)	
-		if [[ ! -z $2 ]]; then
-			if [ $2 = "Enforcing" ]; then
-				setenforce 1;
-			elif [ $2 = "Permissive" ]; then
-				setenforce 0;
-			fi;
-		fi;
-
-		$BB echo `getenforce`;
-	;;
 	logcat)
 		saved="$LOGS/chaos-logcat-$TIMESTAMP.txt";
 		[ ! -d "$LOGS" ] && $BB mkdir -p "$LOGS";
