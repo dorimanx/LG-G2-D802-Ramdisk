@@ -76,6 +76,9 @@ fi;
 $BB rm -rf /cache/lost+found/* 2> /dev/null;
 $BB rm -rf /data/lost+found/* 2> /dev/null;
 $BB rm -rf /data/tombstones/* 2> /dev/null;
+if [ -d /data/crontab ]; then
+	$BB rm /data/crontab/cron-*
+fi;
 
 (
 	if [ ! -d /data/init.d_bkp ]; then
