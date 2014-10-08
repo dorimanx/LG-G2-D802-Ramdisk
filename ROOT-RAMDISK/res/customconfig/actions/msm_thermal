@@ -10,15 +10,6 @@ BB=/sbin/busybox
 PROFILE=$(cat /data/.dori/.active.profile);
 . /data/.dori/"$PROFILE".profile;
 
-CORE_CONTROL()
-{
-	if [ "$core_control_enabled" == "off" ]; then
-		echo "0" > /sys/module/msm_thermal/core_control/core_control_enabled;
-	else
-		echo "1" > /sys/module/msm_thermal/core_control/core_control_enabled;
-	fi;
-}
-
 if [ "a$2" != "a" ]; then
 	msm_thermal=$2;
 
@@ -27,7 +18,6 @@ if [ "a$2" != "a" ]; then
 			if [ "$(pgrep -f "/system/bin/thermal-engine" | wc -l)" -eq "0" ]; then
 				/system/bin/start thermal-engine;
 			fi;
-			CORE_CONTROL;
 			if [ "$(cat /sys/module/msm_thermal/parameters/intelli_enabled)" == "Y" ]; then
 				echo "N" > /sys/module/msm_thermal/parameters/intelli_enabled;
 			fi;
@@ -43,7 +33,6 @@ if [ "a$2" != "a" ]; then
 				echo "$core_limit_temp_degC" > /sys/module/msm_thermal/parameters/core_limit_temp_degC;
 			fi;
 			$BB renice -n -17 -p "$(pgrep -f "/system/bin/thermal-engine")";
-			CORE_CONTROL;
 		;;
 		intelli_temp_only)
 			if [ "$(cat /sys/module/msm_thermal/parameters/intelli_enabled)" == "N" ]; then
@@ -51,7 +40,6 @@ if [ "a$2" != "a" ]; then
 				echo "$limit_temp_degC" > /sys/module/msm_thermal/parameters/limit_temp_degC;
 				echo "$core_limit_temp_degC" > /sys/module/msm_thermal/parameters/core_limit_temp_degC;
 			fi;
-			CORE_CONTROL;
 			if [ "$(pgrep -f "/system/bin/thermal-engine" | wc -l)" -ge "1" ]; then
 				/system/bin/stop thermal-engine;
 				/system/bin/stop thermal-engine;

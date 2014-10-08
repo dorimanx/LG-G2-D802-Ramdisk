@@ -7,7 +7,7 @@ cat << CTAG
 					title:"Core Control",
 					description:"When core control is enabled, CPU sibling cores will shut down at high temperature which impact performance, when core control is disabled, CPU sibling cores will operate at lower frequencies at high temperature and will give good balance between device temperature control and performance.",
 					default:0,
-					action:"generic /sys/module/msm_thermal/core_control/core_control_enabled",
+					action:"generic /sys/module/msm_thermal/core_control/core_control",
 					values:{
 						0:"Disabled", 1:"Enabled"
 					}
