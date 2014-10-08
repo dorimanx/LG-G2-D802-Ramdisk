@@ -435,6 +435,8 @@
 			<spinnerItem name="2560 kB" value="2560"/> 
 		</spinner>
 
+		<button description="Use this button to Trim System and Data Nand partitions to speed up Read and Write Access, good to use once in a day or two." name="Trim System and Data" action="push-actions/fstrim" label="Trim NOW"/>
+
 		<spinner description="This will set the default AWAKE I/O scheduler for internal storage. (Default equal ROW)" name="Default Awake I/O Scheduler" action="scheduler">
 			<spinnerItem name="CFQ" value="cfq"/> 
 			<spinnerItem name="BFQ" value="bfq"/> 
@@ -505,6 +507,8 @@
 		<button description="Use this button to RESET the scripts and jobs from kernel, to refresh the configuration. This will clear all your custom changes!" name="CRON RESET" action="push-actions/crontab_reset" label="RESET CRON"/>
 
 		<checkbox description="Cron to clear file-cache every hour, but only if CPU is resting (IDLE) and more than 50% of your memory is used! This will free RAM from unused buffers and cache." name="Clean file-cache" action="generic_cortex /tmp/cron_drop_cache" label="RAM cache clean every hour"/>
+
+		<checkbox description="Enable Trim of System and Data partitions every day to speed up NAND Read and Write Access"  name="Trim every day" action="generic_cortex /tmp/cron_fstrim" label="Trim every day"/>
 
 		<checkbox description="Cron to update AD-BLOCKER every week at SAT 6:00AM UTC time, from official site. The script will check, if you are connected with the internet, otherwise it will try to use WIFI! Script will turn wifi, wait for connection and update, then when it is finished it will turn WIFI off. If there is no connection, an error will be written in the log." name="Update AD-Block" action="generic_cortex /tmp/ad_block_update" label="Update AD-BLOCKER every week"/>
 

@@ -173,7 +173,7 @@ fi;
 # just set numer $RESET_MAGIC + 1 and profiles will be reset one time on next boot with new kernel.
 # incase that ADMIN feel that something wrong with global STweaks config and profiles, then ADMIN can add +1 to CLEAN_DORI_DIR
 # to clean all files on first boot from /data/.dori/ folder.
-RESET_MAGIC=35;
+RESET_MAGIC=36;
 CLEAN_DORI_DIR=2;
 
 if [ ! -e /data/.dori/reset_profiles ]; then
@@ -333,6 +333,10 @@ echo "$cpu2_max_freq" > /sys/devices/system/cpu/cpufreq/all_cpus/scaling_max_fre
 echo "$cpu3_max_freq" > /sys/devices/system/cpu/cpufreq/all_cpus/scaling_max_freq_cpu3;
 
 echo "0" > /cputemp/freq_limit_debug;
+
+# Trim /system and data on boot!
+/sbin/busybox fstrim /system
+/sbin/busybox fstrim /data
 
 # Correct Kernel config after full boot.
 $BB sh /res/uci.sh oom_config_screen_on "$oom_config_screen_on";
