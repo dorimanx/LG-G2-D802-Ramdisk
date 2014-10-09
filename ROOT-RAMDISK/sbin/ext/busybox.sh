@@ -5,7 +5,7 @@ BB=/sbin/busybox
 $BB mount -o remount,rw /system;
 $BB mount -o remount,rw /;
 
-# installe latest busybox to ROM
+# Install latest busybox to ROM
 $BB cp /sbin/busybox /system/xbin/;
 /system/xbin/busybox --install -s /system/xbin/
 if [ -e /system/xbin/wget ]; then
@@ -13,10 +13,15 @@ if [ -e /system/xbin/wget ]; then
 fi;
 if [ -e /system/wget/wget ]; then
 	chmod 755 /system/wget/wget;
+	ln -s /system/wget/wget /system/xbin/wget;
 fi;
 chmod 06755 /system/xbin/busybox;
-chmod 06755 /system/xbin/su;
-chmod 06755 /system/xbin/daemonsu;
+if [ -e /system/xbin/su ]; then
+	$BB chmod 06755 /system/xbin/su;
+fi;
+if [ -e /system/xbin/daemonsu ]; then
+	$BB chmod 06755 /system/xbin/daemonsu;
+fi;
 
 $BB sh /sbin/ext/post-init.sh;
 

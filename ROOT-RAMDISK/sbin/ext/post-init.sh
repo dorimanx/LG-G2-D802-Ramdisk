@@ -112,7 +112,6 @@ CRITICAL_PERM_FIX;
 
 ONDEMAND_TUNING()
 {
-#	echo "25" > /cpugov/ondemand/def_down_threshold;
 	echo "80" > /cpugov/ondemand/micro_freq_up_threshold;
 	echo "10" > /cpugov/ondemand/down_differential;
 	echo "3" > /cpugov/ondemand/down_differential_multi_core;
@@ -176,7 +175,7 @@ fi;
 # just set numer $RESET_MAGIC + 1 and profiles will be reset one time on next boot with new kernel.
 # incase that ADMIN feel that something wrong with global STweaks config and profiles, then ADMIN can add +1 to CLEAN_DORI_DIR
 # to clean all files on first boot from /data/.dori/ folder.
-RESET_MAGIC=36;
+RESET_MAGIC=37;
 CLEAN_DORI_DIR=2;
 
 if [ ! -e /data/.dori/reset_profiles ]; then
@@ -198,6 +197,9 @@ if [ "$(cat /data/reset_dori_dir)" -eq "$CLEAN_DORI_DIR" ]; then
 		fi;
 		cp -a /data/.dori/*.profile /data/.dori_old/;
 		$BB rm -f /data/.dori/*.profile;
+		if [ -e /data/data/com.af.synapse/databases ]; then
+			$BB rm -R /data/data/com.af.synapse/databases;
+		fi;
 		echo "$RESET_MAGIC" > /data/.dori/reset_profiles;
 	else
 		echo "no need to reset profiles or delete .dori folder";
@@ -212,6 +214,9 @@ else
 	fi;
 	cp -a /data/.dori/* /data/.dori_old/;
 	$BB rm -f /data/.dori/*
+	if [ -e /data/data/com.af.synapse/databases ]; then
+		$BB rm -R /data/data/com.af.synapse/databases;
+	fi;
 	echo "$CLEAN_DORI_DIR" > /data/reset_dori_dir;
 	echo "$RESET_MAGIC" > /data/.dori/reset_profiles;
 	echo "$PROFILE" > /data/.dori/.active.profile;
@@ -237,9 +242,6 @@ fi;
 	# Apps Install
 	$BB sh /sbin/ext/install.sh;
 )&
-
-# enable force fast charge on USB to charge faster
-echo "$force_fast_charge" > /sys/kernel/fast_charge/force_fast_charge;
 
 ######################################
 # Loading Modules
@@ -300,18 +302,19 @@ if [ "$stweaks_boot_control" == "yes" ]; then
 	(
 		UCI_COUNTER=0;
 		while [ "$(cat /data/.dori/uci_loading)" == "0" ]; do
-			if [ "$UCI_COUNTER" -ge "30" ]; then
+			if [ "$UCI_COUNTER" -ge "60" ]; then
 				break;
 			fi;
 			$BB pkill -f "com.gokhanmoral.stweaks.app";
-			sleep 5;
+			sleep 3;
 			UCI_COUNTER=$((UCI_COUNTER+1));
 		done;
 	)&
-	# apply STweaks settings
+	# apply STweaks and Synapse settings
 	$BB sh /sbin/uci;
 	$BB sh /res/uci.sh apply;
 	echo "1" > /data/.dori/uci_loading;
+	$BB sh /sbin/uci;
 
 	# Load Custom Modules
 	MODULES_LOAD;
@@ -353,6 +356,7 @@ echo "0" > /cputemp/freq_limit_debug;
 # Trim /system and data on boot!
 /sbin/busybox fstrim /system
 /sbin/busybox fstrim /data
+/sbin/busybox fstrim /cache
 
 # Correct Kernel config after full boot.
 $BB sh /res/uci.sh oom_config_screen_on "$oom_config_screen_on";

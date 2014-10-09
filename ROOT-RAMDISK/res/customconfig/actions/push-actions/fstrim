@@ -2,6 +2,7 @@
 
 /sbin/busybox fstrim -v /system > /data/.dori/fstrim_log;
 /sbin/busybox fstrim -v /data >> /data/.dori/fstrim_log;
+/sbin/busybox fstrim -v /cache >> /data/.dori/fstrim_log;
 
 fstrim_log=$(cat /data/.dori/fstrim_log);
 

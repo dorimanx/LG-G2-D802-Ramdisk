@@ -5,24 +5,20 @@ cat << CTAG
 	name:STATUS,
 		elements:[
 			{ SLiveLabel:{
-				title:"CPU PVS MODEL",
-				refresh:50000,
-				action:"live Acpu_pvs"
-			}},
-			{ SLiveLabel:{
-				title:"CPU SPEED BIN",
-				refresh:50000,
-				action:"live Speed_bin"
-			}},
-			{ SLiveLabel:{
 				title:"CPU Scaling Frequencies",
-				description: "Scaling Min Max frequencies are affected by thermal engine/driver and CPU Boost driver. You may enable and use MSM Limiter Driver below to make sure scaling frequencies are desired ranges most of the time.",
-				refresh:1000,
+				description: "Scaling Min Max frequencies are affected by thermal engine/driver and CPU Boost driver.",
+				refresh:2000,
 				action:"live CPU_MAX_MIN_Freq"
 			}},
 			{ SLiveLabel:{
+				title:"CPU Cores State",
+				description: "Actual CORES state, Active or Sleeping.",
+				refresh:1000,
+				action:"live CPU_CORES_ON_OFF"
+			}},
+			{ SLiveLabel:{
 				title:"CPU Temperature:",
-				refresh:3000,
+				refresh:2000,
 				action:"live CPUTemperature"
 			}},
 			{ SLiveLabel:{
@@ -39,7 +35,7 @@ cat << CTAG
 			}},
 			{ SLiveLabel:{
 				title:"Current GPU Frequency:",
-				refresh:500,
+				refresh:1000,
 				action:"live GPUFrequency"
 			}},
 			{ SLiveLabel:{
@@ -90,6 +86,16 @@ cat << CTAG
 				title:"NET Current TCP Congestion:",
 				refresh:10000,
 				action:"live TCPCongestion"
+			}},
+			{ SLiveLabel:{
+				title:"CPU PVS MODEL",
+				refresh:50000,
+				action:"live Acpu_pvs"
+			}},
+			{ SLiveLabel:{
+				title:"CPU SPEED BIN",
+				refresh:50000,
+				action:"live Speed_bin"
 			}},
 		]
 }
