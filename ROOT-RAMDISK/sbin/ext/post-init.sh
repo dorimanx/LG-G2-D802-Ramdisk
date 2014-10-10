@@ -25,6 +25,9 @@ OPEN_RW()
 }
 OPEN_RW;
 
+# run ROM scripts
+$BB sh /init.galbi.post_boot.sh;
+
 # Boost CPU GOV sampling_rate on boot.
 GOV_NAME=$(cat /sys/devices/system/cpu/cpu0/cpufreq/scaling_governor);
 if [ -e /sys/devices/system/cpu/cpufreq/"$GOV_NAME"/sampling_rate ]; then
@@ -32,6 +35,7 @@ if [ -e /sys/devices/system/cpu/cpufreq/"$GOV_NAME"/sampling_rate ]; then
 fi;
 
 # Turn off CORE CONTROL, to boot on all cores!
+$BB chmod 666 /sys/module/msm_thermal/core_control/*
 echo "0" > /sys/module/msm_thermal/core_control/core_control;
 
 # fix storage folder owner
@@ -79,17 +83,6 @@ $BB rm -rf /data/tombstones/* 2> /dev/null;
 if [ -d /data/crontab ]; then
 	$BB rm /data/crontab/cron-*
 fi;
-
-(
-	if [ ! -d /data/init.d_bkp ]; then
-		$BB mkdir /data/init.d_bkp;
-	fi;
-	$BB mv /system/etc/init.d/* /data/init.d_bkp/;
-	# run ROM scripts
-	if [ -e /system/etc/init.galbi.post_boot.sh ]; then
-		$BB nohup $BB sh /system/etc/init.galbi.post_boot.sh
-	fi;
-)&
 
 OPEN_RW;
 
@@ -147,7 +140,6 @@ $BB chmod 666 /sys/devices/system/cpu/cpu1/online
 $BB chmod 666 /sys/devices/system/cpu/cpu2/online
 $BB chmod 666 /sys/devices/system/cpu/cpu3/online
 $BB chmod 666 /sys/module/msm_thermal/parameters/*
-$BB chmod 666 /sys/module/msm_thermal/core_control/*
 $BB chmod 666 /sys/kernel/intelli_plug/*
 $BB chmod 666 /sys/class/kgsl/kgsl-3d0/max_gpuclk
 $BB chmod 666 /sys/devices/fdb00000.qcom,kgsl-3d0/devfreq/fdb00000.qcom,kgsl-3d0/governor
@@ -170,6 +162,13 @@ setprop pm.sleep_mode 1
 if [ ! -d /data/.dori ]; then
 	$BB mkdir /data/.dori/;
 fi;
+
+# Load parameters for Synapse
+DEBUG=/data/.dori/;
+PVS=$(dmesg | grep "ACPU PVS" | cut -c34-45 | grep -v "REV");
+echo "$PVS" > $DEBUG/acpu_pvs;
+SPEED=$(dmesg | grep "SPEED BIN" | cut -c34-46);
+echo "$SPEED" > $DEBUG/speed_bin;
 
 # reset profiles auto trigger to be used by kernel ADMIN, in case of need, if new value added in default profiles
 # just set numer $RESET_MAGIC + 1 and profiles will be reset one time on next boot with new kernel.
@@ -293,28 +292,12 @@ fi;
 echo "ondemand" > /sys/devices/system/cpu/cpufreq/all_cpus/scaling_governor_all_cpus;
 ONDEMAND_TUNING;
 
-# Turn off CORE CONTROL, to boot on all cores!
-echo "0" > /sys/module/msm_thermal/core_control/core_control;
-
 if [ "$stweaks_boot_control" == "yes" ]; then
-	echo "0" > /data/.dori/uci_loading;
-	# function will wait for 3min for uci to finish.
-	(
-		UCI_COUNTER=0;
-		while [ "$(cat /data/.dori/uci_loading)" == "0" ]; do
-			if [ "$UCI_COUNTER" -ge "60" ]; then
-				break;
-			fi;
-			$BB pkill -f "com.gokhanmoral.stweaks.app";
-			sleep 3;
-			UCI_COUNTER=$((UCI_COUNTER+1));
-		done;
-	)&
-	# apply STweaks and Synapse settings
-	$BB sh /sbin/uci;
-	$BB sh /res/uci.sh apply;
-	echo "1" > /data/.dori/uci_loading;
-	$BB sh /sbin/uci;
+	OPEN_RW;
+	# apply STweaks settings
+	$BB sh /res/uci_boot.sh apply;
+	sleep 3;
+	$BB mv /res/uci_boot.sh /res/uci.sh;
 
 	# Load Custom Modules
 	MODULES_LOAD;
@@ -324,10 +307,11 @@ if [ "$stweaks_boot_control" == "yes" ]; then
 fi;
 
 # Start any init.d scripts that may be present in the rom or added by the user
-$BB mv /data/init.d_bkp/* /system/etc/init.d/
 if [ "$init_d" == "on" ]; then
 	$BB chmod 755 /system/etc/init.d/*;
-	$BB run-parts /system/etc/init.d/;
+	(
+		$BB run-parts /system/etc/init.d/;
+	)&
 else
 	if [ -e /system/etc/init.d/99SuperSUDaemon ]; then
 		$BB chmod 755 /system/etc/init.d/*;
@@ -337,35 +321,22 @@ else
 	fi;
 fi;
 
+# if user waiting for STweaks to work, reload it.
+if [ "$(pgrep -f com.gokhanmoral.stweaks.app | wc -l)" -eq "1" ]; then
+	am force-stop com.gokhanmoral.stweaks.app 2> /dev/null;
+	am start -a android.intent.action.MAIN -n com.gokhanmoral.stweaks.app/.MainActivity 2> /dev/null;
+fi;
+
 # Fix critical perms again after init.d mess
 CRITICAL_PERM_FIX;
 
 sleep 35;
-echo "$cpu0_min_freq" > /sys/devices/system/cpu/cpufreq/all_cpus/scaling_min_freq_cpu0;
-echo "$cpu1_min_freq" > /sys/devices/system/cpu/cpufreq/all_cpus/scaling_min_freq_cpu1;
-echo "$cpu2_min_freq" > /sys/devices/system/cpu/cpufreq/all_cpus/scaling_min_freq_cpu2;
-echo "$cpu3_min_freq" > /sys/devices/system/cpu/cpufreq/all_cpus/scaling_min_freq_cpu3;
-
-echo "$cpu0_max_freq" > /sys/devices/system/cpu/cpufreq/all_cpus/scaling_max_freq_cpu0;
-echo "$cpu1_max_freq" > /sys/devices/system/cpu/cpufreq/all_cpus/scaling_max_freq_cpu1;
-echo "$cpu2_max_freq" > /sys/devices/system/cpu/cpufreq/all_cpus/scaling_max_freq_cpu2;
-echo "$cpu3_max_freq" > /sys/devices/system/cpu/cpufreq/all_cpus/scaling_max_freq_cpu3;
-
 echo "0" > /cputemp/freq_limit_debug;
 
 # Trim /system and data on boot!
 /sbin/busybox fstrim /system
 /sbin/busybox fstrim /data
 /sbin/busybox fstrim /cache
-
-# Correct Kernel config after full boot.
-$BB sh /res/uci.sh oom_config_screen_on "$oom_config_screen_on";
-$BB sh /res/uci.sh oom_config_screen_off "$oom_config_screen_off";
-$BB sh /res/uci.sh selinux_control "$selinux_control";
-
-if [ -e /data/.dori/uci_loading ]; then
-	rm /data/.dori/uci_loading;
-fi;
 
 # Reload SuperSU daemonsu to fix SuperUser bugs.
 if [ -e /system/xbin/daemonsu ]; then

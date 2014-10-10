@@ -73,7 +73,7 @@ case "${debug_to_sd}" in
 			# CPU
 			echo "CPU-Info:" >> $DEBUG_FILE;
 			cd /sys/devices/system/cpu/cpufreq/all_cpus/;
-			grep "." * > $DEBUG_FILE;
+			grep "." * >> $DEBUG_FILE;
 			cd /;
 			total_trans=$(cat /sys/devices/system/cpu/cpu0/cpufreq/stats/total_trans);
 			echo "Total freq-switch: $total_trans" >> $DEBUG_FILE;
@@ -113,9 +113,9 @@ case "${debug_to_sd}" in
 			#SEPARATOR;
 
 			# Wakeup
-			echo "Wakeup-Info:" >> $DEBUG_FILE;
-			cat /sys/kernel/debug/wakeup_sources >> $DEBUG_FILE;
-			SEPARATOR;
+			#echo "Wakeup-Info:" >> $DEBUG_FILE;
+			#cat /sys/kernel/debug/wakeup_sources >> $DEBUG_FILE;
+			#SEPARATOR;
 
 			# Suspend
 			echo "Suspend-Info:" >> $DEBUG_FILE;
@@ -191,7 +191,7 @@ case "${debug_to_sd}" in
 			# last kmsg
 			echo "last_kmsg-Info:" >> $DEBUG_FILE;
 			if [ -e /proc/last_kmsg ]; then
-				cat /proc/last_kmsg >> $DEBUG_FILE;
+				cat /proc/last_kmsg | tail -n 300 >> $DEBUG_FILE;
 				SEPARATOR;
 			else
 				echo "there was no /proc/last_kmsg to read from" >> $DEBUG_FILE;
