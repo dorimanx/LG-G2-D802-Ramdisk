@@ -28,16 +28,6 @@ OPEN_RW;
 # run ROM scripts
 $BB sh /init.galbi.post_boot.sh;
 
-# Boost CPU GOV sampling_rate on boot.
-GOV_NAME=$(cat /sys/devices/system/cpu/cpu0/cpufreq/scaling_governor);
-if [ -e /sys/devices/system/cpu/cpufreq/"$GOV_NAME"/sampling_rate ]; then
-	echo "10000" > /sys/devices/system/cpu/cpufreq/"$GOV_NAME"/sampling_rate;
-fi;
-
-# Turn off CORE CONTROL, to boot on all cores!
-$BB chmod 666 /sys/module/msm_thermal/core_control/*
-echo "0" > /sys/module/msm_thermal/core_control/core_control;
-
 # fix storage folder owner
 $BB chown system.sdcard_rw /storage;
 
@@ -171,7 +161,7 @@ echo "$SPEED" > $DEBUG/speed_bin;
 # incase that ADMIN feel that something wrong with global STweaks config and profiles, then ADMIN can add +1 to CLEAN_DORI_DIR
 # to clean all files on first boot from /data/.dori/ folder.
 RESET_MAGIC=37;
-CLEAN_DORI_DIR=2;
+CLEAN_DORI_DIR=3;
 
 if [ ! -e /data/.dori/reset_profiles ]; then
 	echo "$RESET_MAGIC" > /data/.dori/reset_profiles;
@@ -229,6 +219,14 @@ $BB chmod -R 0777 /data/.dori/;
 read_defaults;
 read_config;
 
+if [ "$stweaks_boot_control" == "yes" ]; then
+        OPEN_RW;
+        # apply STweaks settings
+        $BB sh /res/uci_boot.sh apply;
+        $BB mv /res/uci_boot.sh /res/uci.sh;
+	$BB sh /res/synapse/uci;
+fi;
+
 (
 	# Apps Install
 	$BB sh /sbin/ext/install.sh;
@@ -280,23 +278,12 @@ if [ ! -d /mnt/ntfs ]; then
 	$BB mount -t tmpfs -o mode=0777,gid=1000 tmpfs /mnt/ntfs
 fi;
 
-# set ondemand as default gov
-echo "ondemand" > /sys/devices/system/cpu/cpufreq/all_cpus/scaling_governor_all_cpus;
+# set ondemand tuning.
 ONDEMAND_TUNING;
 
-if [ "$stweaks_boot_control" == "yes" ]; then
-	OPEN_RW;
-	# apply STweaks settings
-	$BB sh /res/uci_boot.sh apply;
-	sleep 3;
-	$BB mv /res/uci_boot.sh /res/uci.sh;
-
-	# Load Custom Modules
-	MODULES_LOAD;
-	if [ -e /cpugov/ondemand ]; then
-		ONDEMAND_TUNING;
-	fi;
-fi;
+# Turn off CORE CONTROL, to boot on all cores!
+$BB chmod 666 /sys/module/msm_thermal/core_control/*
+echo "0" > /sys/module/msm_thermal/core_control/core_control;
 
 # Start any init.d scripts that may be present in the rom or added by the user
 if [ "$init_d" == "on" ]; then
@@ -313,27 +300,32 @@ else
 	fi;
 fi;
 
-# if user waiting for STweaks to work, reload it.
-if [ "$(pgrep -f com.gokhanmoral.stweaks.app | wc -l)" -eq "1" ]; then
-	am force-stop com.gokhanmoral.stweaks.app 2> /dev/null;
-	am start -a android.intent.action.MAIN -n com.gokhanmoral.stweaks.app/.MainActivity 2> /dev/null;
-fi;
-
 # Fix critical perms again after init.d mess
 CRITICAL_PERM_FIX;
 
-sleep 35;
+if [ "$stweaks_boot_control" == "yes" ]; then
+	# Load Custom Modules
+	MODULES_LOAD;
+	if [ -e /cpugov/ondemand ]; then
+		ONDEMAND_TUNING;
+	fi;
+fi;
+
 echo "0" > /cputemp/freq_limit_debug;
 
-# Trim /system and data on boot!
-/sbin/busybox fstrim /system
-/sbin/busybox fstrim /data
-/sbin/busybox fstrim /cache
+sleep 30;
 
-# Reload SuperSU daemonsu to fix SuperUser bugs.
-if [ -e /system/xbin/daemonsu ]; then
-	pkill -f "daemonsu";
-	/system/xbin/daemonsu --auto-daemon &
+if [ "$(cat /sys/power/autosleep)" != "mem" ]; then
+	$BB sh /res/uci.sh cpu0_min_freq "$cpu0_min_freq";
+	$BB sh /res/uci.sh cpu1_min_freq "$cpu1_min_freq";
+	$BB sh /res/uci.sh cpu2_min_freq "$cpu2_min_freq";
+	$BB sh /res/uci.sh cpu3_min_freq "$cpu3_min_freq";
+
+	# Reload SuperSU daemonsu to fix SuperUser bugs.
+	if [ -e /system/xbin/daemonsu ]; then
+        	pkill -f "daemonsu";
+        	/system/xbin/daemonsu --auto-daemon &
+	fi;
 fi;
 
 # script finish here, so let me know when

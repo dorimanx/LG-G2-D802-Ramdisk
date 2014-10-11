@@ -28,7 +28,7 @@ LOAD_NEW_SETTINGS()
 	. /data/.dori/"$NEW_PROFILE".profile;
 
 	# Set new CPU freq based on profile.
-	echo "$cpu0_min_freq" > /sys/devices/system/cpu/cpufreq/all_cpus/scaling_min_freq_cpu0;
+	echo "$cpu0_min_freq" > /sys/devices/system/cpu/cpu0/cpufreq/scaling_max_freq;
 	echo "$cpu1_min_freq" > /sys/devices/system/cpu/cpufreq/all_cpus/scaling_min_freq_cpu1;
 	echo "$cpu2_min_freq" > /sys/devices/system/cpu/cpufreq/all_cpus/scaling_min_freq_cpu2;
 	echo "$cpu3_min_freq" > /sys/devices/system/cpu/cpufreq/all_cpus/scaling_min_freq_cpu3;

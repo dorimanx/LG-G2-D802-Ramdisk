@@ -207,7 +207,7 @@ CPU_CENTRAL_CONTROL()
 	if [ "$cortexbrain_cpu" == "on" ]; then
 
 		if [ "$state" == "awake" ]; then
-			echo "$cpu0_min_freq" > /sys/devices/system/cpu/cpufreq/all_cpus/scaling_min_freq_cpu0;
+			echo "$cpu0_min_freq" > /sys/devices/system/cpu/cpu0/cpufreq/scaling_min_freq;
 			echo "$cpu1_min_freq" > /sys/devices/system/cpu/cpufreq/all_cpus/scaling_min_freq_cpu1;
 			echo "$cpu2_min_freq" > /sys/devices/system/cpu/cpufreq/all_cpus/scaling_min_freq_cpu2;
 			echo "$cpu3_min_freq" > /sys/devices/system/cpu/cpufreq/all_cpus/scaling_min_freq_cpu3;
@@ -228,7 +228,7 @@ CPU_CENTRAL_CONTROL()
 		log -p i -t "$FILE_NAME" "*** CPU_CENTRAL_CONTROL max_freq:${cpu_max_freq} min_freq:${cpu_min_freq}***: done";
 	else
 		if [ "$state" == "awake" ]; then
-			echo "$cpu0_min_freq" > /sys/devices/system/cpu/cpufreq/all_cpus/scaling_min_freq_cpu0;
+			echo "$cpu0_min_freq" > /sys/devices/system/cpu/cpu0/cpufreq/scaling_min_freq;
 			echo "$cpu1_min_freq" > /sys/devices/system/cpu/cpufreq/all_cpus/scaling_min_freq_cpu1;
 			echo "$cpu2_min_freq" > /sys/devices/system/cpu/cpufreq/all_cpus/scaling_min_freq_cpu2;
 			echo "$cpu3_min_freq" > /sys/devices/system/cpu/cpufreq/all_cpus/scaling_min_freq_cpu3;

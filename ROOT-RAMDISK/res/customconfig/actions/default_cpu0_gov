@@ -11,7 +11,7 @@ PROFILE=$(cat /data/.dori/.active.profile);
 if [ "a$2" != "a" ]; then
 	default_cpu0_gov=$2;
 
-	echo "$default_cpu0_gov" > /sys/devices/system/cpu/cpufreq/all_cpus/scaling_governor_cpu0;
+	echo "$default_cpu0_gov" > /sys/devices/system/cpu/cpu0/cpufreq/scaling_governor;
 	/res/uci.sh power_mode $power_mode > /dev/null;
 fi;
 

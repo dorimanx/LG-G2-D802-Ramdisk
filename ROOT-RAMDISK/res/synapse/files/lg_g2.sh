@@ -13,7 +13,7 @@ case "$1" in
 		$BB echo "`$BB cat /sys/devices/fdb00000.qcom,kgsl-3d0/devfreq/fdb00000.qcom,kgsl-3d0/governor`"
 	;;
 	LiveDefaultCPUGovernor)
-		CPU0_GOV=$(cat /sys/devices/system/cpu/cpufreq/all_cpus/scaling_governor_cpu0);
+		CPU0_GOV=$(cat /sys/devices/system/cpu/cpu0/cpufreq/scaling_governor);
 		CPU1_GOV=$(cat /sys/devices/system/cpu/cpufreq/all_cpus/scaling_governor_cpu1);
 		CPU2_GOV=$(cat /sys/devices/system/cpu/cpufreq/all_cpus/scaling_governor_cpu2);
 		CPU3_GOV=$(cat /sys/devices/system/cpu/cpufreq/all_cpus/scaling_governor_cpu3);
@@ -38,8 +38,8 @@ case "$1" in
 		$BB echo "`$BB cat /proc/sys/net/ipv4/tcp_congestion_control`";
 	;;
 	LiveCPU_MAX_MIN_Freq)
-		CPU0_FREQMAX="$(expr `cat /sys/devices/system/cpu/cpufreq/all_cpus/scaling_max_freq_cpu0` / 1000)MHz"
-		CPU0_FREQMIN="$(expr `cat /sys/devices/system/cpu/cpufreq/all_cpus/scaling_min_freq_cpu0` / 1000)MHz"
+		CPU0_FREQMAX="$(expr `cat /sys/devices/system/cpu/cpu0/cpufreq/scaling_max_freq` / 1000)MHz"
+		CPU0_FREQMIN="$(expr `cat /sys/devices/system/cpu/cpu0/cpufreq/scaling_min_freq` / 1000)MHz"
 		CPU1_FREQMAX="$(expr `cat /sys/devices/system/cpu/cpufreq/all_cpus/scaling_max_freq_cpu1` / 1000)MHz"
 		CPU1_FREQMIN="$(expr `cat /sys/devices/system/cpu/cpufreq/all_cpus/scaling_min_freq_cpu1` / 1000)MHz"
 		CPU2_FREQMAX="$(expr `cat /sys/devices/system/cpu/cpufreq/all_cpus/scaling_max_freq_cpu2` / 1000)MHz"
