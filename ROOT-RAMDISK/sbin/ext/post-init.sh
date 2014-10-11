@@ -149,10 +149,6 @@ $BB chmod 666 /sys/devices/fdb00000.qcom,kgsl-3d0/devfreq/fdb00000.qcom,kgsl-3d0
 echo "200000000" > /sys/devices/fdb00000.qcom,kgsl-3d0/devfreq/fdb00000.qcom,kgsl-3d0/min_freq
 echo "450000000" > /sys/devices/fdb00000.qcom,kgsl-3d0/devfreq/fdb00000.qcom,kgsl-3d0/max_freq
 
-# set min max boot freq to default.
-echo "300000" > /sys/devices/system/cpu/cpufreq/all_cpus/scaling_min_freq_all_cpus;
-echo "2265600" > /sys/devices/system/cpu/cpufreq/all_cpus/scaling_max_freq_all_cpus;
-
 # Fix ROM dev wrong sets.
 setprop persist.adb.notify 0
 setprop persist.service.adb.enable 1
@@ -232,10 +228,6 @@ $BB chmod -R 0777 /data/.dori/;
 . /res/customconfig/customconfig-helper;
 read_defaults;
 read_config;
-
-if [ "$cpu0_max_freq" -gt "2265600" ]; then
-	echo "$cpu0_max_freq" > /sys/devices/system/cpu/cpufreq/all_cpus/scaling_max_freq_all_cpus;
-fi;
 
 (
 	# Apps Install

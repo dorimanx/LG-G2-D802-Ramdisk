@@ -33,10 +33,10 @@ LOAD_NEW_SETTINGS()
 	echo "$cpu2_min_freq" > /sys/devices/system/cpu/cpufreq/all_cpus/scaling_min_freq_cpu2;
 	echo "$cpu3_min_freq" > /sys/devices/system/cpu/cpufreq/all_cpus/scaling_min_freq_cpu3;
 
-	echo "$cpu0_max_freq" > /sys/devices/system/cpu/cpufreq/all_cpus/scaling_max_freq_cpu0;
-	echo "$cpu1_max_freq" > /sys/devices/system/cpu/cpufreq/all_cpus/scaling_max_freq_cpu1;
-	echo "$cpu2_max_freq" > /sys/devices/system/cpu/cpufreq/all_cpus/scaling_max_freq_cpu2;
-	echo "$cpu3_max_freq" > /sys/devices/system/cpu/cpufreq/all_cpus/scaling_max_freq_cpu3;
+	$BB sh /res/uci.sh cpu0_max_freq "$cpu0_max_freq";
+	$BB sh /res/uci.sh cpu1_max_freq "$cpu1_max_freq";
+	$BB sh /res/uci.sh cpu2_max_freq "$cpu2_max_freq";
+	$BB sh /res/uci.sh cpu3_max_freq "$cpu3_max_freq";
 }
 
 case "${config_backup_restore}" in
