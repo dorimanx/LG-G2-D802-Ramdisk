@@ -149,13 +149,6 @@ if [ ! -d /data/.dori ]; then
 	$BB mkdir /data/.dori/;
 fi;
 
-# Load parameters for Synapse
-DEBUG=/data/.dori/;
-PVS=$(dmesg | grep "ACPU PVS" | cut -c34-45 | grep -v "REV");
-echo "$PVS" > $DEBUG/acpu_pvs;
-SPEED=$(dmesg | grep "SPEED BIN" | cut -c34-46);
-echo "$SPEED" > $DEBUG/speed_bin;
-
 # reset profiles auto trigger to be used by kernel ADMIN, in case of need, if new value added in default profiles
 # just set numer $RESET_MAGIC + 1 and profiles will be reset one time on next boot with new kernel.
 # incase that ADMIN feel that something wrong with global STweaks config and profiles, then ADMIN can add +1 to CLEAN_DORI_DIR
@@ -218,6 +211,13 @@ $BB chmod -R 0777 /data/.dori/;
 . /res/customconfig/customconfig-helper;
 read_defaults;
 read_config;
+
+# Load parameters for Synapse
+DEBUG=/data/.dori/;
+PVS=$(dmesg | grep "ACPU PVS" | cut -c34-45 | grep -v "REV");
+echo "$PVS" > $DEBUG/acpu_pvs;
+SPEED=$(dmesg | grep "SPEED BIN" | cut -c34-46);
+echo "$SPEED" > $DEBUG/speed_bin;
 
 if [ "$stweaks_boot_control" == "yes" ]; then
         OPEN_RW;
