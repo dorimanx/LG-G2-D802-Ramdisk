@@ -18,19 +18,19 @@ cat << CTAG
 			}},
 			{ SLiveLabel:{
 				title:"CPU Temperature:",
-				refresh:2000,
+				refresh:1000,
 				action:"live CPUTemperature"
 			}},
 			{ SLiveLabel:{
 				title:"Current Active CPU Governor",
 				description: "Display Current Active CPU Governor",
-				refresh:10000,
+				refresh:8000,
 				action:"live DefaultCPUGovernor"
 			}},
 			{ SLiveLabel:{
 				title:"GPU Scaling Frequencies",
 				description: "Scaling Min Max GPU frequencies",
-				refresh:2000,
+				refresh:8000,
 				action:"live GPU_MAX_MIN_Freq"
 			}},
 			{ SLiveLabel:{
