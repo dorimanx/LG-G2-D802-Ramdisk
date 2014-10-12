@@ -2,10 +2,6 @@
 
 BB=/sbin/busybox
 
-. /res/customconfig/customconfig-helper;
-read_defaults;
-read_config;
-
 ROOTFS_MOUNT=$(mount | grep rootfs | cut -c26-27 | grep rw | wc -l)
 SYSTEM_MOUNT=$(mount | grep system | cut -c69-70 | grep rw | wc -l)
 if [ "$ROOTFS_MOUNT" -eq "0" ]; then
@@ -19,7 +15,6 @@ cd /;
 
 # copy cron files
 $BB cp -a /res/crontab/ /data/
-$BB rm -rf /data/crontab/cron/ > /dev/null 2>&1;
 if [ ! -e /data/crontab/custom_jobs ]; then
 	$BB touch /data/crontab/custom_jobs;
 	$BB chmod 777 /data/crontab/custom_jobs;
@@ -43,7 +38,6 @@ if [ -f /system/app/STweaks.apk ]; then
 		$BB chmod 644 /system/app/STweaks.apk;
 	fi;
 else
-	$BB rm -f /data/app/com.gokhanmoral.*weak*.apk > /dev/null 2>&1;
 	$BB rm -r /data/data/com.gokhanmoral.*weak*/* > /dev/null 2>&1;
 	$BB cp -a /res/misc/payload/STweaks.apk /system/app/;
 	$BB chown root.root /system/app/STweaks.apk;

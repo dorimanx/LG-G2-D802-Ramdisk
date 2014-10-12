@@ -34,6 +34,9 @@ DATA_DIR=/data/.dori;
 # INITIATE
 # ==============================================================
 
+# For CHARGER CHECK.
+echo "1" > /data/dori_cortex_sleep;
+
 # get values from profile
 PROFILE=$(cat $DATA_DIR/.active.profile);
 . "$DATA_DIR"/"$PROFILE".profile;
@@ -157,7 +160,7 @@ CROND_SAFETY()
 {
 	if [ "$crontab" == "on" ]; then
 		pkill -f "crond";
-		/res/crontab_service/service.sh;
+		$BB sh /res/crontab_service/service.sh;
 
 		log -p i -t "$FILE_NAME" "*** CROND_SAFETY ***";
 
@@ -344,11 +347,16 @@ WORKQUEUE_CONTROL()
 # ==============================================================
 AWAKE_MODE()
 {
-	IO_SCHEDULER "awake";
-	CPU_CENTRAL_CONTROL "awake";
-	HOTPLUG_CONTROL;
-	WORKQUEUE_CONTROL "awake";
-	log -p i -t "$FILE_NAME" "*** AWAKE_MODE - WAKEUP ***: done";
+	if [ "$(cat /data/dori_cortex_sleep)" -eq "1" ]; then
+		IO_SCHEDULER "awake";
+		CPU_CENTRAL_CONTROL "awake";
+		HOTPLUG_CONTROL;
+		WORKQUEUE_CONTROL "awake";
+		echo "0" > /data/dori_cortex_sleep;
+		log -p i -t "$FILE_NAME" "*** AWAKE_MODE - WAKEUP ***: done";
+	else
+		log -p i -t "$FILE_NAME" "*** AWAKE_MODE - WAS NOT SLEEPING ***: done";
+	fi;
 }
 
 # ==============================================================
@@ -360,12 +368,19 @@ SLEEP_MODE()
 	PROFILE=$(cat "$DATA_DIR"/.active.profile);
 	. "$DATA_DIR"/"$PROFILE".profile;
 
-	CROND_SAFETY;
-	IO_SCHEDULER "sleep";
-	CPU_CENTRAL_CONTROL "sleep";
-	WORKQUEUE_CONTROL "sleep";
+	CHARGER_STATE=$(cat /sys/class/power_supply/battery/charging_enabled);
 
-	log -p i -t "$FILE_NAME" "*** SLEEP mode ***";
+	if [ "$CHARGER_STATE" -eq "0" ]; then
+		CROND_SAFETY;
+		IO_SCHEDULER "sleep";
+		CPU_CENTRAL_CONTROL "sleep";
+		WORKQUEUE_CONTROL "sleep";
+		echo "1" > /data/dori_cortex_sleep;
+		log -p i -t "$FILE_NAME" "*** SLEEP mode ***";
+	else
+		echo "0" > /data/dori_cortex_sleep;
+		log -p i -t "$FILE_NAME" "*** NO SLEEP CHARGING ***";
+	fi;
 }
 
 # ==============================================================

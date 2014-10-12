@@ -4,6 +4,8 @@
 # $2 - value=
 # Created By Dorimanx and Dairinin
 
+BB=/sbin/busybox
+
 if [ "a$2" != "a" ]; then
 	crontab=$2;
 
@@ -14,13 +16,13 @@ if [ "a$2" != "a" ]; then
 				pkill -f "crond";
 
 				# starting crontab service
-				/res/crontab_service/service.sh > /dev/null;
+				$BB sh /res/crontab_service/service.sh > /dev/null;
 
 				# setting my jobs with corrected timezone for all world.
-				/res/crontab_service/dm_job.sh "3:00" "/sbin/busybox sh /data/crontab/cron-scripts/database_optimizing.sh"
-				/res/crontab_service/dm_job.sh "4:00" "/sbin/busybox sh /data/crontab/cron-scripts/clear-file-cache.sh"
-				/res/crontab_service/dm_job.sh "4:50" "/sbin/busybox sh /data/crontab/cron-scripts/zipalign.sh"
-				/res/crontab_service/dm_job.sh "6:00" "/sbin/busybox sh /data/crontab/cron-scripts/fstrim.sh"
+				$BB sh /res/crontab_service/dm_job.sh "3:00" "/sbin/busybox sh /data/crontab/cron-scripts/database_optimizing.sh"
+				$BB sh /res/crontab_service/dm_job.sh "4:00" "/sbin/busybox sh /data/crontab/cron-scripts/clear-file-cache.sh"
+				$BB sh /res/crontab_service/dm_job.sh "4:50" "/sbin/busybox sh /data/crontab/cron-scripts/zipalign.sh"
+				$BB sh /res/crontab_service/dm_job.sh "6:00" "/sbin/busybox sh /data/crontab/cron-scripts/fstrim.sh"
 			fi;
 		;;
 		off)

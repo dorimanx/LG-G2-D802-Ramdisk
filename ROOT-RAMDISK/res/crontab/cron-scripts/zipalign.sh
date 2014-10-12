@@ -3,23 +3,10 @@
 #Modded by Dorimanx.
 
 (
-PROFILE=`cat /data/.dori/.active.profile`;
-. /data/.dori/${PROFILE}.profile;
+	PROFILE=$(cat /data/.dori/.active.profile);
+	. /data/.dori/${PROFILE}.profile;
 
-if [ "$cron_zipalign" == "on" ]; then
-
-	while [ ! "$(cat /proc/loadavg | cut -c1-4)" \< "3.50" ]; do
-        	echo "Waiting For CPU to cool down";
-        	sleep 30;
-	done;
-
-	if [ "$(pgrep -f "zipalign" | wc -l)" -le "5" ]; then
-		echo "Starting zipalign, it's will take 2min to finish, please wait.";
-		sleep 3;
-
-		/sbin/busybox mount -o remount,rw /system;
-		/sbin/busybox mount -o remount,rw /data;
-
+	if [ "$cron_zipalign" == "on" ]; then
 		if [ -e /data/zipalign.log ]; then
 			rm -f /data/zipalign.log;
 			rm -f /data/zipalign.db;
@@ -71,9 +58,5 @@ if [ "$cron_zipalign" == "on" ]; then
 		mv /data/local/*.apk /data/app/
 		chown system:system /data/app/*
 		chmod 644 /data/app/*
-	else
-		echo "ZipAlign already running, please wait.";
 	fi;
-fi;
 )&
-

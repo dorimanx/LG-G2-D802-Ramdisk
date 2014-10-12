@@ -70,9 +70,6 @@ fi;
 $BB rm -rf /cache/lost+found/* 2> /dev/null;
 $BB rm -rf /data/lost+found/* 2> /dev/null;
 $BB rm -rf /data/tombstones/* 2> /dev/null;
-if [ -d /data/crontab ]; then
-	$BB rm /data/crontab/cron-*
-fi;
 
 OPEN_RW;
 
@@ -141,8 +138,6 @@ echo "450000000" > /sys/devices/fdb00000.qcom,kgsl-3d0/devfreq/fdb00000.qcom,kgs
 
 # Fix ROM dev wrong sets.
 setprop persist.adb.notify 0
-setprop persist.service.adb.enable 1
-setprop dalvik.vm.execution-mode int:jit
 setprop pm.sleep_mode 1
 
 if [ ! -d /data/.dori ]; then
@@ -221,16 +216,16 @@ echo "$SPEED" > $DEBUG/speed_bin;
 
 if [ "$stweaks_boot_control" == "yes" ]; then
         OPEN_RW;
-        # apply STweaks settings
-        $BB sh /res/uci_boot.sh apply;
-        $BB mv /res/uci_boot.sh /res/uci.sh;
-	$BB sh /res/synapse/uci;
+	(
+        	# apply STweaks settings
+        	$BB sh /res/uci_boot.sh apply;
+        	$BB mv /res/uci_boot.sh /res/uci.sh;
+		$BB sh /res/synapse/uci;
+	)&
 fi;
 
-(
-	# Apps Install
-	$BB sh /sbin/ext/install.sh;
-)&
+# Apps Install
+$BB sh /sbin/ext/install.sh;
 
 ######################################
 # Loading Modules
@@ -313,7 +308,7 @@ fi;
 
 echo "0" > /cputemp/freq_limit_debug;
 
-sleep 30;
+sleep 35;
 
 if [ "$(cat /sys/power/autosleep)" != "mem" ]; then
 	$BB sh /res/uci.sh cpu0_min_freq "$cpu0_min_freq";

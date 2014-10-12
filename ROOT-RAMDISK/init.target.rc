@@ -57,13 +57,9 @@ on fs
 #   start qcamerasvr
 
     # ROM Tunings
-    setprop persist.adb.notify 0
-    setprop dalvik.vm.execution-mode int:jit
     setprop ro.kernel.android.checkjni 0
     setprop ro.config.nocheckin 1
     setprop ro.ril.disable.power.collapse 1
-    setprop windowsmgr.max_events_per_sec 240
-    setprop pm.sleep_mode 1
 
 on post-fs-data
     mkdir /data/tombstones 0775 system system

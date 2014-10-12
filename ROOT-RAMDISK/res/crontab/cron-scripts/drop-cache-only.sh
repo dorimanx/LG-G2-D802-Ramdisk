@@ -1,7 +1,7 @@
 #!/sbin/busybox sh
 
 (
-	PROFILE=`cat /data/.dori/.active.profile`;
+	PROFILE=$(cat /data/.dori/.active.profile);
 	. /data/.dori/${PROFILE}.profile;
 
 	if [ "$cron_drop_cache" == "on" ]; then
@@ -12,12 +12,7 @@
 
 		# do clean cache only if cache uses 50% of free memory.
 		if [ "$MEM_USED_CALC" -gt "50" ]; then
-			# wait till CPU is idle.
-			while [ ! `cat /proc/loadavg | cut -c1-4` \< "3.50" ]; do
-				echo "Waiting For CPU to cool down";
-				sleep 30;
-			done;
-
+			sync;
 			sync;
 			sysctl -w vm.drop_caches=3;
 			date +%H:%M-%D-%Z > /data/crontab/cron-clear-ram-cache;
@@ -25,4 +20,3 @@
 		fi;
 	fi;
 )&
-

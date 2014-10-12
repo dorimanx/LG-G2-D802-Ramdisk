@@ -1,27 +1,22 @@
 #!/sbin/busybox sh
 
 (
-	PROFILE=`cat /data/.dori/.active.profile`;
+	PROFILE=$(cat /data/.dori/.active.profile);
 	. /data/.dori/${PROFILE}.profile;
 
 	if [ "$cron_db_optimizing" == "on" ]; then
-		while [ ! `cat /proc/loadavg | cut -c1-4` \< "3.50" ]; do
-			echo "Waiting For CPU to cool down";
-			sleep 30;
+		for i in $(find /data -iname "*.db"); do
+			/system/xbin/sqlite3 $i 'VACUUM;' > /dev/null;
+			/system/xbin/sqlite3 $i 'REINDEX;' > /dev/null;
 		done;
 
-		for i in `find /data -iname "*.db"`; do 
-			/system/xbin/sqlite3 $i 'VACUUM;';
-			/system/xbin/sqlite3 $i 'REINDEX;';
-		done;
-
-		for i in `find /sdcard -iname "*.db"`; do
-			/system/xbin/sqlite3 $i 'VACUUM;';
-			/system/xbin/sqlite3 $i 'REINDEX;';
+		for i in $(find /sdcard -iname "*.db"); do
+			/system/xbin/sqlite3 $i 'VACUUM;' > /dev/null;
+			/system/xbin/sqlite3 $i 'REINDEX;' > /dev/null;
 		done;
 
 		date +%H:%M-%D-%Z > /data/crontab/cron-db-optimizing;
 		echo "Done! DB Optimized" >> /data/crontab/cron-db-optimizing;
+		sync;
 	fi;
 )&
-
