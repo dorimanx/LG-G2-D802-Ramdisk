@@ -13,7 +13,7 @@
 
 	</settingsPane>
 
-	<settingsPane description="Here you can tune the CPU functions in the kernel" name="CPU Tuning">
+	<settingsPane description="Here you can tune the MAX allowed CPU frequency for all CORES!" name="Master CPU Max Limit">
 
 		<spinner description="Control over MAX allowed CPU frequency! Here you can have normal CPU frequency (2.3 GHz max), overclock (up to 2.8 GHz) or underclock (for battery saving purposes). When you set the values here, all other apps or services can't raise the frequency any more higher! So, if you want more power, come here and turn it up!" name="OC Max Frequency Control" action="oc_controller">
 			<spinnerItem name="Low freq 2.0GHz" value="battery"/> 
@@ -23,6 +23,10 @@
 			<spinnerItem name="Mega OC 2.7GHz" value="mega"/> 
 			<spinnerItem name="Ultra OC 2.8GHz" value="ultra"/> 
 		</spinner>
+
+	</settingsPane>
+
+	<settingsPane description="Here you can tune the CPU Active Governor" name="CPU Active Governor">
 
 		<spinner description="This will set the CPU0 governor." name="Default CPU0 Governor" action="default_cpu0_gov">
 			<spinnerItem name="HYPER" value="HYPER"/> 
@@ -88,6 +92,10 @@
 			<spinnerItem name="Performance" value="performance"/> 
 		</spinner>
 
+	</settingsPane>
+
+	<settingsPane description="Here you can tune the CPU Power and Boost Controls" name="CPU Power and Boost Controls">
+
 		<spinner description="Touch boost control - when you touch the screen or scroll, the CPU's frequency will be boosted to maximum frequency set in order to help reducing LAG and allow fast and smooth operations. Too high frequencies will use more power. Default is 1.728 GHz." name="Touch Boost Frequency" action="cpu_boost_freq">
 			<spinnerItem name="2419200" value="2419200"/> 
 			<spinnerItem name="2265600" value="2265600"/> 
@@ -112,6 +120,10 @@
 		<checkbox description="Enable or disable Power-efficient Workqueues will help to reduce power consumption at the cost of slight performance overhead. By enabling this, PE workqueues are used for unbound scheduled work to save load on sibling CPU cores and queuing work on CPU 0." name="Power-efficient Workqueues"  action="generic01 /sys/module/workqueue/parameters/power_efficient" label="Power-efficient Workqueues"/>
 
 		<checkbox description="Enable or disable CPU-Tweaks below! If ON, then kernel will obey only STweaks and set the frequencies selected below, on screen OFF and ON" name="CPU-Tweaks" action="generic_cortex /tmp/cortexbrain_cpu" label="CPU-Tweaks"/>
+
+	</settingsPane>
+
+	<settingsPane description="Here you can tune the Maximum CPU Frequency, when set here no other APP or Service can set higher!" name="Maximum CPU Frequency">
 
 		<spinner description="Maximum CPU0 Speed. Here, you can change the maximum CPU0 frequency allowed. This depends on CPU-Tweaks (has to be enabled above)! (Default is 2 265 600 Khz)" name="Max CPU0 Frequency" action="cpu0_max_freq">
 			<spinnerItem name="2803200" value="2803200"/> 
@@ -197,6 +209,10 @@
 			<spinnerItem name="300000" value="300000"/> 
 		</spinner>
 
+	</settingsPane>
+
+	<settingsPane description="Here you can tune the Minimum CPU Frequency" name="Minimum CPU Frequency">
+
 		<spinner description="Minimum CPU0 Speed. Here, you can change the minimum CPU0 frequency allowed (it can't be higher than Maximum CPU0 Speed). This depends on CPU-Tweaks (has to be enabled above)! (Default is 300 000 Khz)" name="Min CPU0 Frequency" action="cpu0_min_freq">
 			<spinnerItem name="2496000" value="2496000"/> 
 			<spinnerItem name="2419200" value="2419200"/> 
@@ -272,6 +288,10 @@
 			<spinnerItem name="422400" value="422400"/> 
 			<spinnerItem name="300000" value="300000"/> 
 		</spinner>
+
+	</settingsPane>
+
+	<settingsPane description="Here you can tune the Maximum Suspend Frequency on core0 it's only one that work." name="Max Suspend Frequency">
 
 		<spinner description="Maximum allowed CPU frequency when screen is OFF and phone is awake (by any app that holds wakelocks, such as music apps etc). This is ONLY for screen OFF. When screen is ON, normal maximum allowed frequency will be set." name="MAX Screen OFF CPU Frequency" action="suspend_max_freq">
 			<spinnerItem name="Max Allowed" value="max_freq"/> 
