@@ -308,7 +308,15 @@ fi;
 
 echo "0" > /cputemp/freq_limit_debug;
 
-sleep 35;
+sleep 5;
+# Reload usb driver to open MTP and fix fast charge.
+CHARGER_STATE=$(cat /sys/class/power_supply/battery/charging_enabled);
+if [ "$CHARGER_STATE" -eq "1" ]; then
+	echo "0" > /sys/class/android_usb/android0/enable;
+	echo "1" > /sys/class/android_usb/android0/enable;
+fi;
+
+sleep 30;
 
 if [ "$(cat /sys/power/autosleep)" != "mem" ]; then
 	$BB sh /res/uci.sh cpu0_min_freq "$cpu0_min_freq";

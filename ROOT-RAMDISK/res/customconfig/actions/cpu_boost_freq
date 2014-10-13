@@ -7,7 +7,7 @@
 if [ "a$2" != "a" ]; then
 	cpu_boost_freq=$2;
 
-	echo "$cpu_boost_freq" > /sys/module/cpu_boost/parameters/input_boost_freq;
+	echo "$cpu_boost_freq" > /sys/module/alu_t_boost/parameters/input_boost_freq;
 fi;
 
 echo ${cpu_boost_freq};
