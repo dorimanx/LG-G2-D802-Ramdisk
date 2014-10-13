@@ -1,5 +1,4 @@
 stweaks_boot_control=yes
-oc_controller=ultra
 default_cpu0_gov=ondemand
 default_cpu1_gov=ondemand
 default_cpu2_gov=ondemand

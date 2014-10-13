@@ -13,20 +13,7 @@
 
 	</settingsPane>
 
-	<settingsPane description="Here you can tune the MAX allowed CPU frequency for all CORES!" name="Master CPU Max Limit">
-
-		<spinner description="Control over MAX allowed CPU frequency! Here you can have normal CPU frequency (2.3 GHz max), overclock (up to 2.8 GHz) or underclock (for battery saving purposes). When you set the values here, all other apps or services can't raise the frequency any more higher! So, if you want more power, come here and turn it up!" name="OC Max Frequency Control" action="oc_controller">
-			<spinnerItem name="Low freq 2.0GHz" value="battery"/> 
-			<spinnerItem name="Default 2.3GHz" value="stock"/> 
-			<spinnerItem name="Boost OC 2.4GHz" value="boost"/> 
-			<spinnerItem name="High OC 2.5GHz" value="high"/> 
-			<spinnerItem name="Mega OC 2.7GHz" value="mega"/> 
-			<spinnerItem name="Ultra OC 2.8GHz" value="ultra"/> 
-		</spinner>
-
-	</settingsPane>
-
-	<settingsPane description="Here you can tune the CPU Active Governor" name="CPU Active Governor">
+	<settingsPane description="Here you can tune the CPU Active Governor per core" name="CPU Active Governor">
 
 		<spinner description="This will set the CPU0 governor." name="Default CPU0 Governor" action="default_cpu0_gov">
 			<spinnerItem name="HYPER" value="HYPER"/> 
@@ -123,7 +110,7 @@
 
 	</settingsPane>
 
-	<settingsPane description="Here you can tune the Maximum CPU Frequency, when set here no other APP or Service can set higher!" name="Maximum CPU Frequency">
+	<settingsPane description="Here you can tune the Maximum CPU Frequency per core, when set here no other APP or Service can set higher!!!" name="Maximum CPU Frequency">
 
 		<spinner description="Maximum CPU0 Speed. Here, you can change the maximum CPU0 frequency allowed. This depends on CPU-Tweaks (has to be enabled above)! (Default is 2 265 600 Khz)" name="Max CPU0 Frequency" action="cpu0_max_freq">
 			<spinnerItem name="2803200" value="2803200"/> 
@@ -211,7 +198,7 @@
 
 	</settingsPane>
 
-	<settingsPane description="Here you can tune the Minimum CPU Frequency" name="Minimum CPU Frequency">
+	<settingsPane description="Here you can tune the Minimum CPU Frequency per core" name="Minimum CPU Frequency">
 
 		<spinner description="Minimum CPU0 Speed. Here, you can change the minimum CPU0 frequency allowed (it can't be higher than Maximum CPU0 Speed). This depends on CPU-Tweaks (has to be enabled above)! (Default is 300 000 Khz)" name="Min CPU0 Frequency" action="cpu0_min_freq">
 			<spinnerItem name="2496000" value="2496000"/> 
