@@ -79,10 +79,7 @@ IO_TWEAKS()
 		return 0;
 	fi;
 }
-apply_cpu="$2";
-if [ "$apply_cpu" != "update" ]; then
-	IO_TWEAKS;
-fi;
+IO_TWEAKS;
 
 # ==============================================================
 # KERNEL-TWEAKS
@@ -106,10 +103,7 @@ KERNEL_TWEAKS()
 		echo "memory_tweaks disabled";
 	fi;
 }
-apply_cpu="$2";
-if [ "$apply_cpu" != "update" ]; then
-	KERNEL_TWEAKS;
-fi;
+KERNEL_TWEAKS;
 
 # ==============================================================
 # SYSTEM-TWEAKS
@@ -124,10 +118,7 @@ SYSTEM_TWEAKS()
 		echo "system_tweaks disabled";
 	fi;
 }
-apply_cpu="$2";
-if [ "$apply_cpu" != "update" ]; then
-	SYSTEM_TWEAKS;
-fi;
+SYSTEM_TWEAKS;
 
 # ==============================================================
 # MEMORY-TWEAKS
@@ -150,10 +141,7 @@ MEMORY_TWEAKS()
 		return 0;
 	fi;
 }
-apply_cpu="$2";
-if [ "$apply_cpu" != "update" ]; then
-	MEMORY_TWEAKS;
-fi;
+MEMORY_TWEAKS;
 
 # if crond used, then give it root perent - if started by STweaks, then it will be killed in time
 CROND_SAFETY()
@@ -214,6 +202,11 @@ CPU_CENTRAL_CONTROL()
 			echo "$cpu1_min_freq" > /sys/devices/system/cpu/cpufreq/all_cpus/scaling_min_freq_cpu1;
 			echo "$cpu2_min_freq" > /sys/devices/system/cpu/cpufreq/all_cpus/scaling_min_freq_cpu2;
 			echo "$cpu3_min_freq" > /sys/devices/system/cpu/cpufreq/all_cpus/scaling_min_freq_cpu3;
+
+                        echo "$cpu0_max_freq" > /sys/devices/system/cpu/cpu0/cpufreq/scaling_max_freq;
+                        echo "$cpu1_max_freq" > /sys/devices/system/cpu/cpufreq/all_cpus/scaling_max_freq_cpu1;
+                        echo "$cpu2_max_freq" > /sys/devices/system/cpu/cpufreq/all_cpus/scaling_max_freq_cpu2;
+                        echo "$cpu3_max_freq" > /sys/devices/system/cpu/cpufreq/all_cpus/scaling_max_freq_cpu3;
 			/res/uci.sh power_mode $power_mode > /dev/null;
 		elif [ "$state" == "sleep" ]; then
 			if [ "$(cat /sys/devices/system/cpu/cpu0/cpufreq/scaling_min_freq)" -ge "729600" ]; then
@@ -347,9 +340,10 @@ WORKQUEUE_CONTROL()
 # ==============================================================
 AWAKE_MODE()
 {
+	CPU_CENTRAL_CONTROL "awake";
+
 	if [ "$(cat /data/dori_cortex_sleep)" -eq "1" ]; then
 		IO_SCHEDULER "awake";
-		CPU_CENTRAL_CONTROL "awake";
 		HOTPLUG_CONTROL;
 		WORKQUEUE_CONTROL "awake";
 		echo "0" > /data/dori_cortex_sleep;
