@@ -198,8 +198,17 @@ case "${debug_to_sd}" in
 				SEPARATOR;
 			fi;
 
+			if [ -e /system/xbin/zip ]; then
+				chmod 755 /system/xbin/zip
+				/system/xbin/zip ${DEBUG_FILE}.zip $DEBUG_FILE > /dev/null;
+				rm $DEBUG_FILE;
+			fi;
 		)&
-		echo "All Data collected and ready at $DEBUG_FILE";
+		if [ -e /system/xbin/zip ]; then
+			echo "All Data collected and ready at ${DEBUG_FILE}.zip";
+		else
+			echo "All Data collected and ready at ${DEBUG_FILE}";
+		fi;
 	;;
 	2)
 		# logcat
