@@ -83,7 +83,7 @@
 
 	<settingsPane description="Here you can tune the CPU Power and Boost Controls" name="CPU Power and Boost Controls">
 
-		<spinner description="Touch boost control - when you touch the screen or scroll, the CPU's frequency will be boosted to maximum frequency set in order to help reducing LAG and allow fast and smooth operations. Too high frequencies will use more power. Default is 1.728 GHz." name="Touch Boost Frequency" action="cpu_boost_freq">
+		<spinner description="Touch boost control - when you touch the screen or scroll, the CPU's frequency will be boosted to maximum frequency set in order to help reducing LAG and allow fast and smooth operations. Too high frequencies will use more power. Default is 1.19 GHz." name="Touch Boost Frequency" action="cpu_boost_freq">
 			<spinnerItem name="2419200" value="2419200"/> 
 			<spinnerItem name="2265600" value="2265600"/> 
 			<spinnerItem name="1958400" value="1958400"/> 
@@ -95,6 +95,15 @@
 			<spinnerItem name="1036800" value="1036800"/> 
 			<spinnerItem name="960000" value="960000"/> 
 			<spinnerItem name="DISABLED" value="0"/> 
+		</spinner>
+
+		<seekBar description="Here you can set Touch Boost duration in micro seconds! 10ms is equal 0.01sec and boost is set every 0.15sec interval when screen is touched for this set duration, it's ultra fast!" name="CPU Touch Boost duration" action="generic /sys/module/alu_t_boost/parameters/input_boost_ms" unit="ms" min="10" reversed="false" step="10" max="100"/>
+
+		<seekBar description="Here you can set how many cores affected by Touch Boost Frequency" name="Affected Cores On Touch Boost" action="generic /sys/module/alu_t_boost/parameters/nr_boost_cpus" unit="cores" min="1" reversed="false" step="1" max="4"/>
+
+		<spinner description="Here you can enable or disable touch boost frequency set on activated core from sleep for one round. core wakeup, first frequency it's get is the boost frequency, then do his work with cpu governor decided frequency, it's not depend on user touch screen or not, but its depend on how many cores boosted above." name="Touch Boost HotPlug CPU" action="generic /sys/module/alu_t_boost/parameters/hotplug_boost">
+			<spinnerItem name="Enabled" value="1"/> 
+			<spinnerItem name="Disabled" value="0"/> 
 		</spinner>
 
 		<seekBar description="Here you can select CPU governor sample rate when using Power Save mode below, lower the value faster responce you get, but more power drained. default rate is 50000" name="CPU Governor Sample Rate" action="sample_rate" unit="rate" min="10000" reversed="false" step="5000" max="80000"/>
