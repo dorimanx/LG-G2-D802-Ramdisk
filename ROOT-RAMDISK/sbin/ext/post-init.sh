@@ -323,12 +323,6 @@ if [ "$(cat /sys/power/autosleep)" != "mem" ]; then
 	$BB sh /res/uci.sh cpu1_min_freq "$cpu1_min_freq";
 	$BB sh /res/uci.sh cpu2_min_freq "$cpu2_min_freq";
 	$BB sh /res/uci.sh cpu3_min_freq "$cpu3_min_freq";
-
-	# Reload SuperSU daemonsu to fix SuperUser bugs.
-	if [ -e /system/xbin/daemonsu ]; then
-        	pkill -f "daemonsu";
-        	/system/xbin/daemonsu --auto-daemon &
-	fi;
 fi;
 
 # script finish here, so let me know when
