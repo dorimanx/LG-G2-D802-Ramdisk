@@ -92,18 +92,18 @@ CRITICAL_PERM_FIX;
 
 ONDEMAND_TUNING()
 {
-	echo "80" > /cpugov/ondemand/micro_freq_up_threshold;
+	echo "95" > /cpugov/ondemand/micro_freq_up_threshold;
 	echo "10" > /cpugov/ondemand/down_differential;
 	echo "3" > /cpugov/ondemand/down_differential_multi_core;
 	echo "1" > /cpugov/ondemand/sampling_down_factor;
-	echo "75" > /cpugov/ondemand/up_threshold;
+	echo "80" > /cpugov/ondemand/up_threshold;
 	echo "1574400" > /cpugov/ondemand/sync_freq;
 	echo "1574400" > /cpugov/ondemand/optimal_freq;
-	echo "1958400" > /cpugov/ondemand/optimal_max_freq;
-	echo "20" > /cpugov/ondemand/middle_grid_step;
-	echo "30" > /cpugov/ondemand/high_grid_step;
-	echo "60" > /cpugov/ondemand/middle_grid_load;
-	echo "80" > /cpugov/ondemand/high_grid_load;
+	echo "1574400" > /cpugov/ondemand/optimal_max_freq;
+	echo "14" > /cpugov/ondemand/middle_grid_step;
+	echo "20" > /cpugov/ondemand/high_grid_step;
+	echo "65" > /cpugov/ondemand/middle_grid_load;
+	echo "89" > /cpugov/ondemand/high_grid_load;
 }
 
 # oom and mem perm fix
@@ -323,6 +323,11 @@ if [ "$(cat /sys/power/autosleep)" != "mem" ]; then
 	$BB sh /res/uci.sh cpu1_min_freq "$cpu1_min_freq";
 	$BB sh /res/uci.sh cpu2_min_freq "$cpu2_min_freq";
 	$BB sh /res/uci.sh cpu3_min_freq "$cpu3_min_freq";
+
+	echo "$cpu0_max_freq" > /sys/devices/system/cpu/cpu0/cpufreq/scaling_max_freq;
+	echo "$cpu1_max_freq" > /sys/devices/system/cpu/cpufreq/all_cpus/scaling_max_freq_cpu1;
+	echo "$cpu2_max_freq" > /sys/devices/system/cpu/cpufreq/all_cpus/scaling_max_freq_cpu2;
+	echo "$cpu3_max_freq" > /sys/devices/system/cpu/cpufreq/all_cpus/scaling_max_freq_cpu3;
 fi;
 
 # script finish here, so let me know when
