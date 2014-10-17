@@ -15,8 +15,8 @@ cat << CTAG
 		`if [ -n "$DEVICE" ]; then
 			. /res/synapse/config.json.generate.status
 			$BB echo ','
-			. /res/synapse/config.json.generate.thermal
-			$BB echo ','
+			#. /res/synapse/config.json.generate.thermal
+			#$BB echo ','
 			. /res/synapse/config.json.generate.misc
 			$BB echo ','
 			. /res/synapse/config.json.generate.tools

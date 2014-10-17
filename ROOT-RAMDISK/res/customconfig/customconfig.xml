@@ -97,9 +97,9 @@
 			<spinnerItem name="DISABLED" value="0"/> 
 		</spinner>
 
-		<seekBar description="Here you can set Touch Boost duration in micro seconds! 10ms is equal 0.01sec, its the time that core is locked on it's min frequency to one you set here on touch! it's ultra fast!" name="CPU Touch Boost duration" action="generic /sys/module/alu_t_boost/parameters/input_boost_ms" unit="ms" min="10" reversed="false" step="10" max="100"/>
+		<seekBar description="Here you can set Touch Boost duration in micro seconds! 10ms is equal 0.01sec, it's the time that core is locked on it's min frequency to one you set here on touch! it's Ultra Fast!" name="CPU Touch Boost duration" action="generic /sys/module/alu_t_boost/parameters/input_boost_ms" unit="ms" min="10" reversed="false" step="10" max="100"/>
 
-		<seekBar description="Here you can set Touch Boost interval in micro seconds! 100ms is equal 0.1sec, when touch screen report touch here we set timer for how long to wait before setting core min frequency for duration above, this is ultra fast even on 500ms" name="CPU Touch Boost Interval" action="generic /sys/module/alu_t_boost/parameters/min_input_interval" unit="ms" min="100" reversed="false" step="50" max="1500"/>
+		<seekBar description="Here you can set Touch Boost interval in micro seconds! 100ms is equal 0.1sec, when touch screen report touch here we set timer for how long to wait before setting core min frequency for duration above, this is Ultra Fast even on 500ms" name="CPU Touch Boost Interval" action="generic /sys/module/alu_t_boost/parameters/min_input_interval" unit="ms" min="100" reversed="false" step="50" max="1500"/>
 
 		<seekBar description="Here you can set how many cores affected by Touch Boost Frequency" name="Affected Cores On Touch Boost" action="generic /sys/module/alu_t_boost/parameters/nr_boost_cpus" unit="cores" min="1" reversed="false" step="1" max="4"/>
 
@@ -250,7 +250,7 @@
 
 	<settingsPane description="Here you can tune the Maximum Suspend Frequency on core0 it's only one that work." name="Max Suspend Frequency">
 
-		<spinner description="Maximum allowed CPU frequency when screen is OFF and phone is awake (by any app that holds wakelocks, such as music apps etc). This is ONLY for screen OFF. When screen is ON, normal maximum allowed frequency will be set." name="MAX Screen OFF CPU Frequency" action="suspend_max_freq">
+		<spinner description="Maximum allowed CPU frequency when screen is OFF and phone is awake (by any app that holds wakelocks, such as music apps etc.) This is ONLY for screen OFF. When screen is ON, normal maximum allowed frequency will be set." name="MAX Screen OFF CPU Frequency" action="suspend_max_freq">
 			<spinnerItem name="Max Allowed" value="max_freq"/> 
 			<spinnerItem name="2265600" value="2265600"/> 
 			<spinnerItem name="1958400" value="1958400"/> 
@@ -262,17 +262,45 @@
 			<spinnerItem name="1036800" value="1036800"/> 
 		</spinner>
 
+		<button description="To access CPU LIVE Stats from my kernel PUSH the BUTTON!" name="CPU LIVE Stats" action="push-actions/thermal_control" label="Switch to Synapse Controls"/>
+
 	</settingsPane>
+
+</settingsTab>
+
+<settingsTab name="Thermal Controls">
 
 	<settingsPane description="Here you can tune CPU Thermal Controls, with this kernel ROM thermal service and Intelligent Thermal Kernel driver can be enabled together! To protect your device from overheating and melting the chipset, screen and your fingers! Controls below are active for Dual Intelligent Temp Control. In case the ROM service dies, kernel will protect your chipset, LCD and other components from damage! only if Dual Intelligent Temp Control is used" name="CPU Thermal Protection">
 
-		<spinner description="CPU Thermal control, Can be Default driver without controls, or Dual Intelligent Thermal driver with controls below and ROM thermal control, it will limit CPU frequency when CPU reach the max limit heat, till cooled and restore full power, by using Default Temp Control you have one temp protection by ROM, and if ROM stuck and hotboot there is no one to protect your CPU from heatup the LCD and burn it. BUT you get better game performance by using ONE protection. when Dual Intelligent Temp Control enabled, kernel protects your hardware in any condition! reboot or hotboot! or any other problem. also it's possible to use only Intelligent Temp Control, then ROM service is turned OFF. only kernel control the CPU temp." name="CPU Temp Control" action="msm_thermal">
-			<spinnerItem name="Default Temp Control" value="msm_temp"/>
-			<spinnerItem name="Dual Intelligent Temp Control" value="intelli_temp"/>
+		<spinner description="CPU Thermal control, Can be Default driver without controls, or Dual Intelligent Thermal driver with controls below and ROM thermal control, it will limit CPU frequency when CPU reach the max limit heat, till cooled and restore full power, by using Default Temp Control you have one temp protection by ROM, and if ROM stuck and hotboot there is no one to protect your CPU from heat up the LCD and burn it. BUT you get better game performance by using ONE protection. when Dual Intelligent Temp Control enabled, kernel protects your hardware in any condition! reboot or hotboot! or any other problem. also it's possible to use only Intelligent Temp Control, then ROM service is turned OFF. only kernel control the CPU temp." name="CPU Temp Control" action="msm_thermal">
+			<spinnerItem name="Default Temp Control" value="msm_temp"/> 
+			<spinnerItem name="Dual Intelligent Temp Control" value="intelli_temp"/> 
 			<spinnerItem name="Intelligent Temp Control Only" value="intelli_temp_only"/> 
 		</spinner>
 
-		<button description="To access CPU Thermal Controls and LIVE stats from my kernel PUSH the BUTTON!" name="Thermal Controls Access" action="push-actions/thermal_control" label="Switch to Synapse Controls"/>
+		<seekBar description="Here you can adjust the temperature CPU cores can reach before they are throttled down in order to allow the CPU to cool down and keep the phone at normal temperature." name="CPU Max Heat" action="generic /sys/module/msm_thermal/parameters/limit_temp_degC" unit="C" min="50" reversed="false" step="1" max="78"/>
+
+		<seekBar description="Here you can adjust the Frequency Step when throttling down" name="Frequency Step" action="generic /sys/module/msm_thermal/parameters/freq_step" unit="Step" min="1" reversed="false" step="1" max="4"/>
+
+		<seekBar description="Here you can adjust the Temp Pull Timer interval, lower set force driver to check temp faster and tune max frequency" name="Temp Pull Timer" action="generic /sys/module/msm_thermal/parameters/poll_ms" unit="ms" min="200" reversed="false" step="50" max="500"/>
+
+		<seekBar description="Here you can adjust the Temperature Hysteresis for driver to calculate temp difference and adjust the frequency" name="Temperature Hysteresis" action="generic /sys/module/msm_thermal/parameters/temp_hysteresis_degC" unit="C" min="2" reversed="false" step="1" max="20"/>
+		<seekBar description="Here you can adjust the Thermal Limit Lowest Frequency, 7 = 1.19Ghz 6 = 1.03Ghz and so on." name="Thermal Limit Lowest Frequency" action="generic /sys/module/msm_thermal/parameters/thermal_limit_low" unit="Freq" min="5" reversed="false" step="1" max="10"/>
+
+		<checkbox description="Here you can enable or disable Immediately Limit Stop, it's allow to set max frequencies if heat is not rising it's stress the driver but allow higher performance and add 3c temp to global limit, use with caution." name="Immediately frequencies Limit Stop" action="generic01 /sys/module/msm_thermal/parameters/immediately_limit_stop" label="Immediately Limit Stop"/>
+
+	</settingsPane>
+
+	<settingsPane description="Here you can tune HotPlug CPU Thermal Controls, ON or OFF cores when over temp to reduce heat. but this will reduce performance, as you get one core enabled but on full power! others will wait till heat will be reduced." name="HotPlug CPU Thermal Controls">
+
+		<spinner description="Hotplug CPU Thermal control main switch, this allow to shutdown cores 1,2,3 and leave core 0 as main core on high frequency. but it's reduces global performance on high temp, if set disabled then all CPU cores will be online and operate at lower frequencies when the temperature is high!" name="HotPlug Thermal CPU Control" action="generic01 /sys/module/msm_thermal/core_control/core_control">
+			<spinnerItem name="Enabled" value="1"/> 
+			<spinnerItem name="Disabled" value="0"/> 
+		</spinner>
+
+		<seekBar description="Here you can change HotPlug CORES Max Heat before turning OFF cores from 3 to 1 and keep normal phone heat. you need to set this control BELOW Max TEMP Control in above section! then cores will go down when overheated! Depends on Intelli CPU Cores Control (must be ENABLED)!" name="Intelli CORE Max Heat" action="generic /sys/module/msm_thermal/parameters/core_limit_temp_degC" unit="C" min="50" reversed="false" step="1" max="80"/>
+
+		<seekBar description="Here you can adjust Here you can adjust the Core HotPlug Temperature Hysteresis for driver to calculate temp difference and adjust the online cores by turning them OFF Depends on Intelli CPU Cores Control (must be ENABLED)!" name="Core Temperature Hysteresis" action="generic /sys/module/msm_thermal/parameters/core_temp_hysteresis_degC" unit="C" min="2" reversed="false" step="1" max="20"/>
 
 	</settingsPane>
 
@@ -334,7 +362,7 @@
 
 		<button description="To update GPU Governor tuning after selection, Push This" name="Update GPU Governor Tuning" action="push-actions/gpu_update" label="Update GPU Governor"/>
 
-		<spinner description="Select GPU Max frequency when needed! GPU will stay at MIN freq on IDLE." name="GPU Max Speed" action="generic /sys/devices/fdb00000.qcom,kgsl-3d0/devfreq/fdb00000.qcom,kgsl-3d0/max_freq">
+		<spinner description="Select GPU Max frequency when needed! GPU will stay at MIN frequency on IDLE." name="GPU Max Speed" action="generic /sys/devices/fdb00000.qcom,kgsl-3d0/devfreq/fdb00000.qcom,kgsl-3d0/max_freq">
 			<spinnerItem name="450 Mhz" value="450000000"/> 
 			<spinnerItem name="389 Mhz" value="389000000"/> 
 			<spinnerItem name="320 Mhz" value="320000000"/> 
@@ -507,7 +535,7 @@
 
 		<button description="Click here to start Zipaligning ONLY user apps. System may be unresponsive - it is OK, do not use phone for 2 minutes. WARNING! Backup all apps before use, as this process will remove apps that are BROKEN and not compressed or compiled correctly, so you may find some apps missing! Use it AT YOUR OWN RISK and update the broken applications!" name="ZIPALIGN" action="push-actions/zipalign" label="ZIPALIGN ALL APPS"/>
 
-		<button description="Click here to start applications Database Optimization. Compacting, cleaning and indexing will take max 2 mins." name="DB OPTIMIZATION" action="push-actions/database_optimizing" label="DATABASE OPTIMIZATON"/>
+		<button description="Click here to start applications Database Optimization. Compacting, cleaning and indexing will take max 2 minutes." name="DB OPTIMIZATION" action="push-actions/database_optimizing" label="DATABASE OPTIMIZATON"/>
 
 		<spinner description="Allows you to change your SELinux (Security-Enhanced Linux) Status from Enforcing (policy is enforced) to Permissive (prints warnings instead of enforcing)." name="SeLinux Control" action="selinux_control">
 			<spinnerItem name="Enforcing" value="on"/> 
@@ -522,7 +550,7 @@
 
 	</settingsPane>
 
-	<settingsPane description="Screen Backlight Control, here you can set custom values for Auto backlight driver." name="Min BackLight Control">
+	<settingsPane description="Screen Backlight Control, here you can set custom values for Auto backlight driver." name="Min Backlight Control">
 
 		<checkbox description="Enable or Disable custom backlight override set below, this will allow user to set MIN backlight in full darkness." name="Min Backlight Override Switch" action="generic01 /sys/devices/f9967000.i2c/i2c-0/0-0038/lm3630_min_backlight_reducer" label="Min Backlight Override Switch"/>
 
