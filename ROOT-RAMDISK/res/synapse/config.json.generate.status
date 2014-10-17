@@ -28,6 +28,12 @@ cat << CTAG
 				action:"live DefaultCPUGovernor"
 			}},
 			{ SLiveLabel:{
+				title:"Current Active CPU HotPlug",
+				description: "Display Current Active CPU HotPlug Driver",
+				refresh:8000,
+				action:"live CPU_HOTPLUG"
+			}},
+			{ SLiveLabel:{
 				title:"GPU Scaling Frequencies",
 				description: "Scaling Min Max GPU frequencies",
 				refresh:8000,

@@ -35,6 +35,9 @@ case $1 in
 	CPU_MAX_MIN_Freq)
 		$BB echo `sh $DEVICE LiveCPU_MAX_MIN_Freq`;
 	;;
+	CPU_HOTPLUG)
+		$BB echo `sh $DEVICE LiveCPU_HOTPLUG`;
+	;;
 	CPU_CORES_ON_OFF)
 		$BB echo `sh $DEVICE LiveCPU_CORES_ON_OFF`;
 	;;

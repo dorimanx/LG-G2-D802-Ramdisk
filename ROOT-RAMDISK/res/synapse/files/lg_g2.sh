@@ -48,19 +48,42 @@ case "$1" in
 		CPU3_FREQMIN="$(expr `cat /sys/devices/system/cpu/cpufreq/all_cpus/scaling_min_freq_cpu3` / 1000)MHz"
 		echo "Max CPU0 Freq: $CPU0_FREQMAX@nMin CPU0 Freq: $CPU0_FREQMIN@nMax CPU1 Freq: $CPU1_FREQMAX@nMin CPU1 Freq: $CPU1_FREQMIN@nMax CPU2 Freq: $CPU2_FREQMAX@nMin CPU2 Freq: $CPU2_FREQMIN@nMax CPU3 Freq: $CPU3_FREQMAX@nMin CPU3 Freq: $CPU3_FREQMIN"
 	;;
+	LiveCPU_HOTPLUG)
+		if [ "$(cat /sys/devices/system/cpu/cpu0/rq-stats/hotplug_enable)" -eq "1" ]; then
+			DEFAULT_HOTPLUG=Active;
+		else
+			DEFAULT_HOTPLUG=Inactive;
+		fi;
+		if [ "$(cat /sys/kernel/alucard_hotplug/hotplug_enable)" -eq "1" ]; then
+			ALUCARD_HOTPLUG=Active;
+		else
+			ALUCARD_HOTPLUG=Inactive;
+		fi;
+		if [ "$(cat /sys/module/msm_hotplug/msm_enabled)" -eq "1" ]; then
+			MSM_HOTPLUG=Active;
+		else
+			MSM_HOTPLUG=Inactive;
+		fi;
+		if [ "$(cat /sys/kernel/intelli_plug/intelli_plug_active)" -eq "1" ]; then
+			INTELLI_HOTPLUG=Active;
+		else
+			INTELLI_HOTPLUG=Inactive;
+		fi;
+		echo "Default HotPlug: $DEFAULT_HOTPLUG@nAlucard HotPlug: $ALUCARD_HOTPLUG@nMSM HotPlug: $MSM_HOTPLUG@nIntelli HotPlug: $INTELLI_HOTPLUG"
+	;;
 	LiveCPU_CORES_ON_OFF)
 		CPU0_CORE_STATE=Active;
-		if [ "$(cat /sys/devices/system/cpu/cpu1/online)" == "1" ]; then
+		if [ "$(cat /sys/devices/system/cpu/cpu1/online)" -eq "1" ]; then
 			CPU1_CORE_STATE=Active;
 		else
 			CPU1_CORE_STATE=Sleeping;
 		fi;
-		if [ "$(cat /sys/devices/system/cpu/cpu2/online)" == "1" ]; then
+		if [ "$(cat /sys/devices/system/cpu/cpu2/online)" -eq "1" ]; then
 			CPU2_CORE_STATE=Active;
 		else
 			CPU2_CORE_STATE=Sleeping;
 		fi;
-		if [ "$(cat /sys/devices/system/cpu/cpu3/online)" == "1" ]; then
+		if [ "$(cat /sys/devices/system/cpu/cpu3/online)" -eq "1" ]; then
 			CPU3_CORE_STATE=Active;
 		else
 			CPU3_CORE_STATE=Sleeping;
