@@ -300,7 +300,7 @@
 
 		<seekBar description="Here you can change HotPlug CORES Max Heat before turning OFF cores from 3 to 1 and keep normal phone heat. you need to set this control BELOW Max TEMP Control in above section! then cores will go down when overheated! Depends on Intelli CPU Cores Control (must be ENABLED)!" name="Intelli CORE Max Heat" action="generic /sys/module/msm_thermal/parameters/core_limit_temp_degC" unit="C" min="50" reversed="false" step="1" max="80"/>
 
-		<seekBar description="Here you can adjust Here you can adjust the Core HotPlug Temperature Hysteresis for driver to calculate temp difference and adjust the online cores by turning them OFF Depends on Intelli CPU Cores Control (must be ENABLED)!" name="Core Temperature Hysteresis" action="generic /sys/module/msm_thermal/parameters/core_temp_hysteresis_degC" unit="C" min="2" reversed="false" step="1" max="20"/>
+		<seekBar description="Here you can adjust the Core HotPlug Temperature Hysteresis for driver to calculate temp difference and adjust the online cores by turning them OFF Depends on Intelli CPU Cores Control (must be ENABLED)!" name="Core Temperature Hysteresis" action="generic /sys/module/msm_thermal/parameters/core_temp_hysteresis_degC" unit="C" min="2" reversed="false" step="1" max="20"/>
 
 	</settingsPane>
 
