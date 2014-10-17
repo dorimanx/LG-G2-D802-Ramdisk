@@ -316,19 +316,27 @@ if [ "$CHARGER_STATE" -eq "1" ]; then
 	echo "1" > /sys/class/android_usb/android0/enable;
 fi;
 
-sleep 30;
+sleep 40;
 
-if [ "$(cat /sys/power/autosleep)" != "mem" ]; then
+if [ "$(cat /sys/power/autosleep)" == "off" ]; then
 	$BB sh /res/uci.sh cpu0_min_freq "$cpu0_min_freq";
 	$BB sh /res/uci.sh cpu1_min_freq "$cpu1_min_freq";
 	$BB sh /res/uci.sh cpu2_min_freq "$cpu2_min_freq";
 	$BB sh /res/uci.sh cpu3_min_freq "$cpu3_min_freq";
 
-	echo "$cpu0_max_freq" > /sys/devices/system/cpu/cpu0/cpufreq/scaling_max_freq;
-	echo "$cpu1_max_freq" > /sys/devices/system/cpu/cpufreq/all_cpus/scaling_max_freq_cpu1;
-	echo "$cpu2_max_freq" > /sys/devices/system/cpu/cpufreq/all_cpus/scaling_max_freq_cpu2;
-	echo "$cpu3_max_freq" > /sys/devices/system/cpu/cpufreq/all_cpus/scaling_max_freq_cpu3;
+	$BB sh /res/uci.sh cpu1_max_freq "$cpu1_max_freq";
+	$BB sh /res/uci.sh cpu2_max_freq "$cpu2_max_freq";
+	$BB sh /res/uci.sh cpu3_max_freq "$cpu3_max_freq";
 fi;
+
+# Fix bug on boot with ROM Thrmal.
+while [ "$(cat /sys/devices/system/cpu/cpu0/cpufreq/scaling_max_freq)" != "$cpu0_max_freq" ]; do
+	if [ "$(cat /sys/power/autosleep)" != "off" ]; then
+		brake;
+	fi;
+	echo "$cpu0_max_freq" > /sys/devices/system/cpu/cpu0/cpufreq/scaling_max_freq;
+	sleep 10;
+done;
 
 # script finish here, so let me know when
 TIME_NOW=$(date)
