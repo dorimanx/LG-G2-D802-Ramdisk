@@ -302,6 +302,13 @@
 			<spinnerItem name="Disabled" value="0"/> 
 		</spinner>
 
+		<spinner description="Here you can control how many cores will stay active on high temp, more cores OFF will give you higher frequency on cores that remain Online, disabled Cores can go online by auto if temp is below the set mark in control below, Change will take effect ONLY on LOW Temp! do not change on high CPU stress, depend on Hotplug CPU Thermal control Enabled above!" name="Max online CPU's" action="core_mask">
+			<spinnerItem name="Core0" value="1"/> 
+			<spinnerItem name="Core0,1" value="2"/> 
+			<spinnerItem name="Core0,1,2" value="3"/> 
+			<spinnerItem name="All Cores ON" value="4"/> 
+		</spinner>
+
 		<seekBar description="Here you can change HotPlug CORES Max Heat before turning OFF cores from 3 to 1 and keep normal phone heat. you need to set this control BELOW Max TEMP Control in above section! then cores will go down when overheated! Depends on Intelli CPU Cores Control (must be ENABLED)!" name="Intelli CORE Max Heat" action="generic /sys/module/msm_thermal/parameters/core_limit_temp_degC" unit="C" min="50" reversed="false" step="1" max="80"/>
 
 		<seekBar description="Here you can adjust the Core HotPlug Temperature Hysteresis for driver to calculate temp difference and adjust the online cores by turning them OFF Depends on Intelli CPU Cores Control (must be ENABLED)!" name="Core Temperature Hysteresis" action="generic /sys/module/msm_thermal/parameters/core_temp_hysteresis_degC" unit="C" min="2" reversed="false" step="1" max="20"/>

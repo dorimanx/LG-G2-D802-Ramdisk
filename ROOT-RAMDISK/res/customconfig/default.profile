@@ -28,6 +28,7 @@ temp_hysteresis_degC=5
 thermal_limit_low=7
 immediately_limit_stop=off
 core_control=0
+core_mask=2
 core_limit_temp_degC=75
 core_temp_hysteresis_degC=5
 hotplug=msm_hotplug
