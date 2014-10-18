@@ -23,6 +23,10 @@ if [ "a$2" != "a" ]; then
 				$BB sh /res/crontab_service/dm_job.sh "4:00" "/sbin/busybox sh /data/crontab/cron-scripts/clear-file-cache.sh"
 				$BB sh /res/crontab_service/dm_job.sh "4:50" "/sbin/busybox sh /data/crontab/cron-scripts/zipalign.sh"
 				$BB sh /res/crontab_service/dm_job.sh "6:00" "/sbin/busybox sh /data/crontab/cron-scripts/fstrim.sh"
+
+				# restart cron
+				pkill -f "crond";
+				$BB sh /res/crontab_service/service.sh > /dev/null;
 			fi;
 		;;
 		off)
