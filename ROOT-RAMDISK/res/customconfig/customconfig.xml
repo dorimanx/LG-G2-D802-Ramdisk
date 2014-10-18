@@ -81,9 +81,9 @@
 
 	</settingsPane>
 
-	<settingsPane description="Here you can tune the CPU Power and Boost Controls" name="CPU Power and Boost Controls">
+	<settingsPane description="Here you can tune the Touch Boost Controls" name="Touch Boost Controls">
 
-		<spinner description="Touch boost control - when you touch the screen or scroll, the CPU's frequency will be boosted to maximum frequency set in order to help reducing LAG and allow fast and smooth operations. Too high frequencies will use more power. Default is 1.19 GHz." name="Touch Boost Frequency" action="cpu_boost_freq">
+		<spinner description="Touch boost control - when you touch the screen or scroll, the CPU's frequency will be boosted to maximum frequency set in order to help reducing LAG and allow fast and smooth operations. Too high frequencies will use more power. Default is 1.497GHz." name="Touch Boost Frequency" action="cpu_boost_freq">
 			<spinnerItem name="2419200" value="2419200"/> 
 			<spinnerItem name="2265600" value="2265600"/> 
 			<spinnerItem name="1958400" value="1958400"/> 
@@ -97,11 +97,15 @@
 			<spinnerItem name="DISABLED" value="0"/> 
 		</spinner>
 
-		<seekBar description="Here you can set Touch Boost duration in micro seconds! 10ms is equal 0.01sec, it's the time that core is locked on it's min frequency to one you set here on touch! it's Ultra Fast!" name="CPU Touch Boost duration" action="generic /sys/module/alu_t_boost/parameters/input_boost_ms" unit="ms" min="10" reversed="false" step="10" max="100"/>
+		<seekBar description="Here you can set Touch Boost duration in miliseconds! 10ms is equal 0.01sec, it's the time that core is locked on it's min frequency to one you set here on touch! it's Ultra Fast!" name="CPU Touch Boost duration" action="generic /sys/module/alu_t_boost/parameters/input_boost_ms" unit="ms" min="10" reversed="false" step="10" max="100"/>
 
-		<seekBar description="Here you can set Touch Boost interval in micro seconds! 100ms is equal 0.1sec, when touch screen report touch here we set timer for how long to wait before setting core min frequency for duration above, this is Ultra Fast even on 500ms" name="CPU Touch Boost Interval" action="generic /sys/module/alu_t_boost/parameters/min_input_interval" unit="ms" min="100" reversed="false" step="50" max="1500"/>
+		<seekBar description="Here you can set Touch Boost interval in miliseconds! 100ms is equal 0.1sec, when touch screen report touch here we set timer for how long to wait before setting core min frequency for duration above, this is Ultra Fast even on 500ms" name="CPU Touch Boost Interval" action="generic /sys/module/alu_t_boost/parameters/min_input_interval" unit="ms" min="100" reversed="false" step="50" max="1500"/>
 
 		<seekBar description="Here you can set how many cores affected by Touch Boost Frequency" name="Affected Cores On Touch Boost" action="generic /sys/module/alu_t_boost/parameters/nr_boost_cpus" unit="cores" min="1" reversed="false" step="1" max="4"/>
+
+	</settingsPane>
+
+	<settingsPane description="Here you can tune the CPU Power" name="CPU Power Controls">
 
 		<seekBar description="Here you can select CPU governor sample rate when using Power Save mode below, lower the value faster responce you get, but more power drained. default rate is 50000" name="CPU Governor Sample Rate" action="sample_rate" unit="rate" min="10000" reversed="false" step="5000" max="80000"/>
 
