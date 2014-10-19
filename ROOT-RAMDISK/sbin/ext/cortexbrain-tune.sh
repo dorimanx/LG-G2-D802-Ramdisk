@@ -73,8 +73,6 @@ IO_TWEAKS()
 		echo "45" > /proc/sys/fs/lease-break-time;
 
 		log -p i -t "$FILE_NAME" "*** IO_TWEAKS ***: enabled";
-
-		return 1;
 	else
 		return 0;
 	fi;
@@ -135,8 +133,6 @@ MEMORY_TWEAKS()
 		echo "4096" > /proc/sys/vm/min_free_kbytes;
 
 		log -p i -t "$FILE_NAME" "*** MEMORY_TWEAKS ***: enabled";
-
-		return 1;
 	else
 		return 0;
 	fi;
@@ -148,11 +144,9 @@ CROND_SAFETY()
 {
 	if [ "$crontab" == "on" ]; then
 		pkill -f "crond";
-		$BB sh /res/crontab_service/service.sh;
+		$BB nohup $BB crond -c /var/spool/cron/crontabs/
 
 		log -p i -t "$FILE_NAME" "*** CROND_SAFETY ***";
-
-		return 1;
 	else
 		return 0;
 	fi;
@@ -405,25 +399,3 @@ else
 		echo "Cortex background process already running!";
 	fi;
 fi;
-
-# ==============================================================
-# Logic Explanations
-#
-# This script will manipulate all the system / cpu / battery behavior
-# Based on chosen STWEAKS profile+tweaks and based on SCREEN ON/OFF state.
-#
-# When User select battery/default profile all tuning will be toward battery save.
-# But user loose performance -20% and get more stable system and more battery left.
-#
-# When user select performance profile, tuning will be to max performance on screen ON.
-# When screen OFF all tuning switched to max power saving. as with battery profile,
-# So user gets max performance and max battery save but only on screen OFF.
-#
-# This script change governors and tuning for them on the fly.
-# Also switch on/off hotplug CPU core based on screen on/off.
-# This script reset battery stats when battery is 100% charged.
-# This script tune Network and System VM settings and ROM settings tuning.
-# This script changing default MOUNT options and I/O tweaks for all flash disks and ZRAM.
-#
-# TODO: add more description, explanations & default vaules ...
-#

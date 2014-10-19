@@ -6,12 +6,12 @@
 	cp -a /res/crontab/ /data/
 	chmod 777 /data/crontab/ -R
 
-	CRON_STATUS=`pgrep -f "crond" | wc -l`
-	if [ "$CRON_STATUS" != 0 ]; then
+	CRON_STATUS=$(pgrep -f "crond" | wc -l);
+	if [ "$CRON_STATUS" != "0" ]; then
 		pkill -f "crond"
-		/res/customconfig/actions/crontab crontab on
+		/sbin/busybox sh /res/uci.sh crontab on
 		echo "Reset Done and CRON enabled"
 	fi;
-
-	echo "Reset Done!"
 )&
+
+echo "Reset Done!"
