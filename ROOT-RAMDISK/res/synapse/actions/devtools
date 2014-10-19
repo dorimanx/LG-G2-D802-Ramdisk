@@ -6,14 +6,14 @@ LOGS=/sdcard/logs;
 
 case $1 in
 	logcat)
-		saved="$LOGS/chaos-logcat-$TIMESTAMP.txt";
+		saved="$LOGS/logcat-$TIMESTAMP.txt";
 		[ ! -d "$LOGS" ] && $BB mkdir -p "$LOGS";
 		$BB chmod 755 $LOGS;
 		
 		logcat -d > $saved;
 	;;
 	dmesg)
-		saved="$LOGS/chaos-dmesg-$TIMESTAMP.txt";
+		saved="$LOGS/dmesg-$TIMESTAMP.txt";
 		[ ! -d "$LOGS" ] && $BB mkdir -p "$LOGS";
 		$BB chmod 755 $LOGS;
 		
@@ -22,7 +22,7 @@ case $1 in
 	kmsg)
 		kmsg=/proc/last_kmsg;
 		if [ -f $kmsg ]; then
-			saved="$LOGS/chaos-last_kmsg-$TIMESTAMP.txt";
+			saved="$LOGS/last_kmsg-$TIMESTAMP.txt";
 			[ ! -d "$LOGS" ] && $BB mkdir -p "$LOGS";
 			$BB chmod 755 $LOGS;
 			
