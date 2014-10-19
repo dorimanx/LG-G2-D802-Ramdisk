@@ -29,6 +29,10 @@ import /init.galbi.rc
 import /init.g2_product.rc
 
 on fs
+    # auto mount ext4 or f2fs
+    chmod 0777 /sbin/fstab_mount/data_system.sh
+    exec /sbin/fstab_mount/data_system.sh
+
     mount_all fstab.g2
 
     # LGE_UPDATE_START
