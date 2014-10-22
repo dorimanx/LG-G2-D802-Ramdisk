@@ -654,8 +654,6 @@
 
 		<button description="Here you can RESET battery fuel counter, if you see that battery present counter is not showing correct state, you can ask kernel to recalibrate battery state." name="Reset Battery Counter" action="push-actions/reset_battery" label="Reset Battery Counter"/>
 
-		<checkbox description="Enable one more Force Fast Charge hack to mask any charger (including USB) as AC power. That way, we always get fast charging mode! No more SLOW CHARGE Icon! The side effect is that you get 2 connection sound and vibrations - one for USB connected and second for AC connected." name="Fake AC Charger" action="generic01 /sys/kernel/fast_charge/fake_charge_ac" label="Fake AC Charger Hack"/>
-
 		<checkbox description="Enable support for iPhone or iPad chargers and treat them as AC power source - this can break support for other not original charger, so enable only if you are using iPhone or iPad chargers." name="Support Apple Chargers" action="generic01 /sys/module/dwc3_msm/parameters/prop_chg_detect" label="Support Apple Chargers"/>
 
 	</settingsPane>
