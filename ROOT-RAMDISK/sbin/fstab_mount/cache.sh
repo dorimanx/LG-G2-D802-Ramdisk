@@ -1,10 +1,11 @@
 #!/sbin/busybox sh
 
-wait /dev/block/platform/msm_sdcc.1/by-name/cache
-CACHE=$(/sbin/busybox blkid /dev/block/mmcblk0p35 | /sbin/busybox grep "f2fs")
+BB=/sbin/busybox
 
-if [ "${CACHE}" != "" ]; then
-	/sbin/busybox mount -t f2fs /dev/block/platform/msm_sdcc.1/by-name/cache /cache -o seclabel,nosuid,nodev,noauto_da_alloc,errors=continue
+CACHE=$($BB blkid /dev/block/platform/msm_sdcc.1/by-name/cache | $BB grep "f2fs" | $BB wc -l)
+
+if [ "${CACHE}" -eq "1" ]; then
+	$BB mount -t f2fs /dev/block/platform/msm_sdcc.1/by-name/cache /cache -o seclabel,nosuid,nodev;
 else
-	/sbin/busybox mount -t ext4 /dev/block/platform/msm_sdcc.1/by-name/cache /cache -o seclabel,nosuid,nodev,noauto_da_alloc,errors=continue;
+	$BB mount -t ext4 /dev/block/platform/msm_sdcc.1/by-name/cache /cache -o seclabel,nosuid,nodev,noauto_da_alloc,errors=continue;
 fi;
