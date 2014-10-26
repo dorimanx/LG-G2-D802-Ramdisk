@@ -33,5 +33,14 @@ export TZ
 chown 0:0 /data/crontab/cron-scripts/*;
 chmod 777 /data/crontab/cron-scripts/*;
 
+if [ "$(pgrep -f crond | wc -l)" -ge "1" ]; then
+	pkill -f "crond";
+fi;
+
 # use /var/spool/cron/crontabs/ call the crontab file "root"
-$BB nohup $BB crond -c /var/spool/cron/crontabs/
+$BB nohup $BB crond -f -c /var/spool/cron/crontabs/ &
+
+$BB sh /res/crontab_service/dm_job.sh "3:00" "/sbin/busybox sh /data/crontab/cron-scripts/database_optimizing.sh"
+$BB sh /res/crontab_service/dm_job.sh "4:00" "/sbin/busybox sh /data/crontab/cron-scripts/clear-file-cache.sh"
+$BB sh /res/crontab_service/dm_job.sh "4:50" "/sbin/busybox sh /data/crontab/cron-scripts/zipalign.sh"
+$BB sh /res/crontab_service/dm_job.sh "6:00" "/sbin/busybox sh /data/crontab/cron-scripts/fstrim.sh"

@@ -11,21 +11,9 @@ if [ "a$2" != "a" ]; then
 
 	case "${crontab}" in
 		on)
-			# stop if was running
-			pkill -f "crond";
-
-			# starting crontab service
-			$BB sh /res/crontab_service/service.sh > /dev/null;
-
-			# setting my jobs with corrected timezone for all world.
-			$BB sh /res/crontab_service/dm_job.sh "3:00" "/sbin/busybox sh /data/crontab/cron-scripts/database_optimizing.sh"
-			$BB sh /res/crontab_service/dm_job.sh "4:00" "/sbin/busybox sh /data/crontab/cron-scripts/clear-file-cache.sh"
-			$BB sh /res/crontab_service/dm_job.sh "4:50" "/sbin/busybox sh /data/crontab/cron-scripts/zipalign.sh"
-			$BB sh /res/crontab_service/dm_job.sh "6:00" "/sbin/busybox sh /data/crontab/cron-scripts/fstrim.sh"
-
-			# restart cron
-			pkill -f "crond";
-			$BB nohup $BB crond -c /var/spool/cron/crontabs/ > /dev/null;
+			if [ "$(pgrep -f crond | wc -l)" -eq "0" ]; then
+				$BB sh /res/crontab_service/service.sh > /dev/null;
+			fi;
 		;;
 		off)
 			pkill -f "crond";

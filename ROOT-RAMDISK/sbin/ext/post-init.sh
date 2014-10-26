@@ -214,6 +214,15 @@ echo "$PVS" > $DEBUG/acpu_pvs;
 SPEED=$(dmesg | grep "SPEED BIN" | cut -c34-46);
 echo "$SPEED" > $DEBUG/speed_bin;
 
+# start CROND by tree root, so it's will not be terminated.
+$BB sh /res/crontab_service/service.sh;
+
+# start CORTEX by tree root, so it's will not be terminated.
+sed -i "s/cortexbrain_background_process=[0-1]*/cortexbrain_background_process=1/g" /sbin/ext/cortexbrain-tune.sh;
+if [ "$(pgrep -f "cortexbrain-tune.sh" | wc -l)" -eq "0" ]; then
+	$BB nohup $BB sh /sbin/ext/cortexbrain-tune.sh > /dev/null 2>&1;
+fi;
+
 if [ "$stweaks_boot_control" == "yes" ]; then
         OPEN_RW;
 	(

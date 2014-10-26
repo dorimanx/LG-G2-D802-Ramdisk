@@ -143,10 +143,12 @@ MEMORY_TWEAKS;
 CROND_SAFETY()
 {
 	if [ "$crontab" == "on" ]; then
-		pkill -f "crond";
-		$BB nohup $BB crond -c /var/spool/cron/crontabs/
-
-		log -p i -t "$FILE_NAME" "*** CROND_SAFETY ***";
+		if [ "$(pgrep -f crond | wc -l)" -eq "0" ]; then
+			$BB sh /res/crontab_service/service.sh > /dev/null;
+			log -p i -t "$FILE_NAME" "*** CROND STARTED ***";
+		else
+			log -p i -t "$FILE_NAME" "*** CROND IS ONLINE ***";
+		fi;
 	else
 		return 0;
 	fi;
@@ -358,8 +360,9 @@ SLEEP_MODE()
 
 	CHARGER_STATE=$(cat /sys/class/power_supply/battery/charging_enabled);
 
+	CROND_SAFETY;
+
 	if [ "$CHARGER_STATE" -eq "0" ]; then
-		CROND_SAFETY;
 		IO_SCHEDULER "sleep";
 		CPU_CENTRAL_CONTROL "sleep";
 		WORKQUEUE_CONTROL "sleep";
