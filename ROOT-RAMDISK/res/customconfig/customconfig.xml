@@ -374,17 +374,23 @@
 		<button description="To update GPU Governor tuning after selection, Push This" name="Update GPU Governor Tuning" action="push-actions/gpu_update" label="Update GPU Governor"/>
 
 		<spinner description="Select GPU Max frequency when needed! GPU will stay at MIN frequency on IDLE." name="GPU Max Speed" action="generic /sys/devices/fdb00000.qcom,kgsl-3d0/devfreq/fdb00000.qcom,kgsl-3d0/max_freq">
+			<spinnerItem name="650 Mhz" value="650000000"/> 
+			<spinnerItem name="533 Mhz" value="533333000"/> 
 			<spinnerItem name="450 Mhz" value="450000000"/> 
 			<spinnerItem name="389 Mhz" value="389000000"/> 
 			<spinnerItem name="320 Mhz" value="320000000"/> 
 			<spinnerItem name="200 Mhz" value="200000000"/> 
+			<spinnerItem name="100 Mhz" value="100000000"/> 
 		</spinner>
 
 		<spinner description="Select GPU Min frequency when going to IDLE - if you set higher than 200 MHz, then the GPU will hold selected frequency on IDLE." name="GPU Min Speed" action="generic /sys/devices/fdb00000.qcom,kgsl-3d0/devfreq/fdb00000.qcom,kgsl-3d0/min_freq">
+			<spinnerItem name="100 Mhz" value="100000000"/> 
 			<spinnerItem name="200 Mhz" value="200000000"/> 
 			<spinnerItem name="320 Mhz" value="320000000"/> 
 			<spinnerItem name="389 Mhz" value="389000000"/> 
 			<spinnerItem name="450 Mhz" value="450000000"/> 
+			<spinnerItem name="533 Mhz" value="533333000"/> 
+			<spinnerItem name="650 Mhz" value="650000000"/> 
 		</spinner>
 
 	</settingsPane>
