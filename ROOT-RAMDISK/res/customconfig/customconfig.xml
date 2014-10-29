@@ -664,9 +664,9 @@
 
 	</settingsPane>
 
-	<settingsPane description="Enable using Android phone as USB keyboard for your PC! Let's say you don't have a keyboard and you really need one! Connect your phone via USB, get the app named USB KEYBOARD, enable this tweak here and have fun!" name="Android USB HID Device">
+	<settingsPane description="Enable using Android phone as USB keyboard for your PC! Let's say you don't have a keyboard and you really need one! disconnect USB!!! make sure you are in MTP mode!!! enable the mode! Connect your phone via USB, get the app named USB KEYBOARD, and have fun!" name="Android USB HID Device">
 
-		<spinner description="Enable or disable USB HID Device driver to control PC keyboard and mouse from phone!" name="USB HID Device" action="usb_keyboard">
+		<spinner description="Enable or disable USB HID Device driver to control PC keyboard and mouse from phone! MUST BE IN MTP MODE(not LG Software)!!! or you will get blue screen in your PC!" name="USB HID Device" action="usb_keyboard">
 			<spinnerItem name="Enable USB HID" value="enable"/> 
 			<spinnerItem name="Disable USB HID" value="disable"/> 
 		</spinner>
