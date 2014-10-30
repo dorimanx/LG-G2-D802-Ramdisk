@@ -1,6 +1,8 @@
 #!/sbin/busybox sh
 export PATH="/res/customconfig/actions/push-actions:${PATH}";
 
+BB=/sbin/busybox
+
 if [ "a$2" == "a" ]; then
 	echo "$debug_to_sd";
 else
@@ -34,10 +36,17 @@ case "${debug_to_sd}" in
 			cat /proc/version >> $DEBUG_FILE;
 			SEPARATOR;
 
-			TOTAL_UPTIME_CHECK=$(awk '{ print $1 }' /proc/uptime);
-			TOTAL_UPTIME=$(echo - | awk -v "S=$TOTAL_TOTAL_UPTIME_CHECK" '{printf "%dh:%dm:%ds",S/(60*60),S%(60*60)/60,S%60}');
-			date +"Last Reboot: %d.%m.%y / %H:%m" >> $DEBUG_FILE;
-			echo "Uptime is $TOTAL_UPTIME" >> $DEBUG_FILE;
+			if [ -e /system/bin/uptime ]; then
+				/system/bin/uptime >> $DEBUG_FILE;
+			else
+				TOTAL_UPTIME=$($BB awk '{ print $1 }' /proc/uptime);
+				TOTAL_UPTIME=$($BB echo - | $BB awk -v "S=$TOTAL_UPTIME" '{printf "%dh:%dm:%ds",S/(60*60),S%(60*60)/60,S%60}');
+				date +"Last Reboot: %d.%m.%y / %H:%m" >> $DEBUG_FILE;
+				echo "Uptime is $TOTAL_UPTIME" >> $DEBUG_FILE;
+			fi;
+			if [ -e /system/xbin/uptime ]; then
+				/system/xbin/uptime | cut -c 22-54 >> $DEBUG_FILE;
+			fi;
 			SEPARATOR;
 
 			# System
@@ -122,8 +131,6 @@ case "${debug_to_sd}" in
 				echo "uptime with CPU on: $summe h" >> $DEBUG_FILE;
 			fi;
 			echo "" >> $DEBUG_FILE;
-			echo "Uptime:" >> $DEBUG_FILE;
-			uptime >> $DEBUG_FILE;
 			SEPARATOR;
 
 			echo "more CPU-Infos:" >> $DEBUG_FILE;
