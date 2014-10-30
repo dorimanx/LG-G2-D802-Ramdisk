@@ -406,9 +406,9 @@
 			<spinnerItem name="Allow Controls" value="1"/> 
 		</spinner>
 
-		<seekBar description="Msm-Adreno-Tz Simple_Laziness control, more info will be added later (Default: 4)" name="Simple_Laziness Value" action="generic /sys/module/simple_gpu_algorithm/parameters/simple_laziness" unit="step" min="1" reversed="false" step="1" max="10"/>
+		<seekBar description="Msm-Adreno-Tz Simple_Laziness control, here you can set the amount of steps to wait on high freq before reducing lower if nothing for GPU to do. higher set here, more battery drained, but more smooth UI (Default: 2)" name="Simple_Laziness Value" action="generic /sys/module/simple_gpu_algorithm/parameters/simple_laziness" unit="step" min="1" reversed="false" step="1" max="5"/>
 
-		<seekBar description="Msm-Adreno-Tz Simple_ramp_threshold control, more info will be added later (Default: 5000)" name="Simple_Laziness Value" action="generic /sys/module/simple_gpu_algorithm/parameters/simple_ramp_threshold" unit="ramp" min="1000" reversed="false" step="500" max="10000"/>
+		<seekBar description="Msm-Adreno-Tz Simple_ramp_threshold control, higher is set here, longer GPU freq will stay LOW on GPU load. (Default: 6000)" name="Simple_Laziness Value" action="generic /sys/module/simple_gpu_algorithm/parameters/simple_ramp_threshold" unit="ramp" min="2000" reversed="false" step="500" max="10000"/>
 
 	</settingsPane>
 
