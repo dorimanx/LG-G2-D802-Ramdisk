@@ -18,7 +18,6 @@ OPEN_RW()
 		$BB mount -o remount,rw /system;
 	fi;
 }
-OPEN_RW;
 
 ACTION_SCRIPTS=/res/customconfig/actions;
 source /res/customconfig/customconfig-helper;
@@ -46,6 +45,7 @@ case "${1}" in
     	list_profile;
     ;;
 	apply)
+		OPEN_RW;
 		# stop uci.sh from running all the PUSH Buttons in stweaks on boot
 		chmod -R 0755 /res/customconfig/actions/;
 		$BB mv /res/customconfig/actions/push-actions/* /res/no-push-on-boot/;

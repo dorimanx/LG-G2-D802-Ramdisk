@@ -6,7 +6,7 @@ BB=/sbin/busybox
 	if [ "$(pgrep -f "/res/customconfig/actions/push-actions/reload_settings" | wc -l)" -le "2" ]; then
 		echo "Loading Config, reload STweaks after 10sec";
 		# apply STweaks settings
-		$BB nohup $BB sh /res/uci.sh apply > /dev/null;
+		$BB nohup $BB sh /res/uci.sh apply > /data/.dori/uci.txt &
 
 		# Load Custom Modules
 		if [ "$cifs_module" == "on" ]; then

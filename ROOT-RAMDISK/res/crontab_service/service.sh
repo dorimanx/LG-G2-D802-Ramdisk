@@ -33,12 +33,12 @@ export TZ
 chown 0:0 /data/crontab/cron-scripts/*;
 chmod 777 /data/crontab/cron-scripts/*;
 
-if [ "$(pgrep -f crond | wc -l)" -ge "1" ]; then
-	pkill -f "crond";
-fi;
-
 # use /var/spool/cron/crontabs/ call the crontab file "root"
-$BB nohup $BB crond -f -c /var/spool/cron/crontabs/ &
+if [ "$(pgrep -f crond | wc -l)" -eq "0" ]; then
+	$BB nohup /sbin/crond -c /var/spool/cron/crontabs/ > /data/.dori/cron.txt &
+	PIDOFCRON=$(pgrep -f "crond");
+	echo "-600" > /proc/"$PIDOFCRON"/oom_score_adj;
+fi;
 
 $BB sh /res/crontab_service/dm_job.sh "3:00" "/sbin/busybox sh /data/crontab/cron-scripts/database_optimizing.sh"
 $BB sh /res/crontab_service/dm_job.sh "4:00" "/sbin/busybox sh /data/crontab/cron-scripts/clear-file-cache.sh"

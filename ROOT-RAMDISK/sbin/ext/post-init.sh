@@ -215,12 +215,14 @@ SPEED=$(dmesg | grep "SPEED BIN" | cut -c34-46);
 echo "$SPEED" > $DEBUG/speed_bin;
 
 # start CROND by tree root, so it's will not be terminated.
-$BB sh /res/crontab_service/service.sh;
+if [ "$(pgrep -f "crond" | wc -l)" -eq "0" ]; then
+	$BB nohup $BB sh /res/crontab_service/service.sh > /data/.dori/cron_boot.txt &
+fi;
 
 # start CORTEX by tree root, so it's will not be terminated.
 sed -i "s/cortexbrain_background_process=[0-1]*/cortexbrain_background_process=1/g" /sbin/ext/cortexbrain-tune.sh;
 if [ "$(pgrep -f "cortexbrain-tune.sh" | wc -l)" -eq "0" ]; then
-	$BB nohup $BB sh /sbin/ext/cortexbrain-tune.sh > /dev/null 2>&1;
+	$BB nohup $BB sh /sbin/ext/cortexbrain-tune.sh > /data/.dori/cortex.txt &
 fi;
 
 if [ "$stweaks_boot_control" == "yes" ]; then
@@ -229,12 +231,12 @@ if [ "$stweaks_boot_control" == "yes" ]; then
         	# apply STweaks settings
         	$BB sh /res/uci_boot.sh apply;
         	$BB mv /res/uci_boot.sh /res/uci.sh;
-		$BB sh /res/synapse/uci;
 	)&
 fi;
 
 # Apps Install
 $BB sh /sbin/ext/install.sh;
+
 
 ######################################
 # Loading Modules
@@ -290,15 +292,14 @@ $BB chmod 666 /sys/module/msm_thermal/core_control/*
 echo "0" > /sys/module/msm_thermal/core_control/core_control;
 
 # Start any init.d scripts that may be present in the rom or added by the user
+$BB chmod 755 /system/etc/init.d/*;
 if [ "$init_d" == "on" ]; then
-	$BB chmod 755 /system/etc/init.d/*;
 	(
-		$BB run-parts /system/etc/init.d/;
+		$BB nohup $BB run-parts /system/etc/init.d/ > /data/.dori/init.d.txt &
 	)&
 else
 	if [ -e /system/etc/init.d/99SuperSUDaemon ]; then
-		$BB chmod 755 /system/etc/init.d/*;
-		$BB sh /system/etc/init.d/99SuperSUDaemon;
+		$BB nohup $BB sh /system/etc/init.d/99SuperSUDaemon > /data/.dori/root.txt &
 	else
 		echo "no root script in init.d";
 	fi;
@@ -310,9 +311,6 @@ CRITICAL_PERM_FIX;
 if [ "$stweaks_boot_control" == "yes" ]; then
 	# Load Custom Modules
 	MODULES_LOAD;
-	if [ -e /cpugov/ondemand ]; then
-		ONDEMAND_TUNING;
-	fi;
 fi;
 
 echo "0" > /cputemp/freq_limit_debug;
