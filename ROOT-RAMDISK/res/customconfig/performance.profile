@@ -62,7 +62,6 @@ dirty_background_ratio=20
 dirty_ratio=25
 crontab=on
 cron_drop_cache=off
-cron_fstrim=on
 reset_battery=on
 ad_block_update=off
 cron_db_optimizing=on

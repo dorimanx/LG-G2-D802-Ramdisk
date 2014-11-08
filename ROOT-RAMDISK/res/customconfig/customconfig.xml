@@ -526,8 +526,6 @@
 
 		<checkbox description="Cron to clear file-cache every hour, but only if CPU is resting (IDLE) and more than 50% of your memory is used! This will free RAM from unused buffers and cache." name="Clean file-cache" action="generic_cortex /tmp/cron_drop_cache" label="RAM cache clean every hour"/>
 
-		<checkbox description="Enable Trim of System, Data and Cache partitions every day at 6:00AM to speed up NAND Read and Write Access"  name="Trim every day 6:00AM" action="generic_cortex /tmp/cron_fstrim" label="Trim every day"/>
-
 		<checkbox description="Enable Battery Calibration every week at SAT 6:00AM UTC time, to correct wrong calculation or remaining charge"  name="Calibrate Battery every week" action="generic_cortex /tmp/reset_battery" label="Calibrate Battery Every Week"/>
 
 		<checkbox description="Cron to update AD-BLOCKER every week at SAT 6:00AM UTC time, from official site. The script will check, if you are connected with the internet, otherwise it will try to use WIFI! Script will turn wifi, wait for connection and update, then when it is finished it will turn WIFI off. If there is no connection, an error will be written in the log." name="Update AD-Block" action="generic_cortex /tmp/ad_block_update" label="Update AD-BLOCKER every week"/>
