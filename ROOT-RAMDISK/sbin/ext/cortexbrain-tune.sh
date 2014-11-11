@@ -41,6 +41,18 @@ echo "1" > /data/dori_cortex_sleep;
 PROFILE=$(cat $DATA_DIR/.active.profile);
 . "$DATA_DIR"/"$PROFILE".profile;
 
+# start CROND by tree root, so it's will not be terminated.
+echo "1" > /data/.dori/cortex_cron;
+pkill -f "crond";
+/sbin/crond -c /var/spool/cron/crontabs/
+PIDOFCRON=$(pgrep -f "crond");
+echo "-900" > /proc/"$PIDOFCRON"/oom_score_adj;
+
+$BB sh /res/crontab_service/dm_job.sh "3:00" "/sbin/busybox sh /data/crontab/cron-scripts/database_optimizing.sh"
+$BB sh /res/crontab_service/dm_job.sh "4:00" "/sbin/busybox sh /data/crontab/cron-scripts/clear-file-cache.sh"
+$BB sh /res/crontab_service/dm_job.sh "4:50" "/sbin/busybox sh /data/crontab/cron-scripts/zipalign.sh"
+rm /data/.dori/cortex_cron;
+
 # ==============================================================
 # I/O-TWEAKS
 # ==============================================================

@@ -260,7 +260,7 @@ case "${debug_to_sd}" in
 
 			sleep 30;
 			pkill -f "logcat";
-			echo "logger" > /sys/module/logger/parameters/log_mode;
+			echo "$logger" > /sys/module/logger/parameters/log_mode;
 			pkill -f "com.gokhanmoral.stweaks.app";
 		)&
 		echo "Collecting logs for 30Sec please wait till STweaks will CLOSE";

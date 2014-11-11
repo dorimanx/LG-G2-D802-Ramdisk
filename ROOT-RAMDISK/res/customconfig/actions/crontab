@@ -16,10 +16,10 @@ if [ "a$2" != "a" ]; then
 			fi;
 		;;
 		off)
-			pkill -f "crond";
+			crontab=off;
 		;;
 		*)
-			crontab=off;
+			crontab=on;
 		;;
 	esac;
 fi;
