@@ -38,18 +38,29 @@ case "$target" in
         	echo 1 > /sys/module/lpm_resources/enable_low_power/vdd_dig
         	echo 1 > /sys/module/lpm_resources/enable_low_power/vdd_mem
 	fi;
-        echo 1 > /sys/module/msm_pm/modes/cpu0/power_collapse/suspend_enabled
+	# we must never touch this. it's should be 4 "power collapse = PC".
+        echo 4 > /sys/module/lpm_levels/enable_low_power/l2
+
+	# it's is critical to leave cpu0 with suspend off. this allow full stability. core will sleep any way.
+        echo 0 > /sys/module/msm_pm/modes/cpu0/power_collapse/suspend_enabled
+
+	# enable full suspend for all non boot cores.
         echo 1 > /sys/module/msm_pm/modes/cpu1/power_collapse/suspend_enabled
         echo 1 > /sys/module/msm_pm/modes/cpu2/power_collapse/suspend_enabled
         echo 1 > /sys/module/msm_pm/modes/cpu3/power_collapse/suspend_enabled
-        echo 1 > /sys/module/msm_pm/modes/cpu0/power_collapse/idle_enabled
-        echo 1 > /sys/module/msm_pm/modes/cpu1/power_collapse/idle_enabled
-        echo 1 > /sys/module/msm_pm/modes/cpu2/power_collapse/idle_enabled
-        echo 1 > /sys/module/msm_pm/modes/cpu3/power_collapse/idle_enabled
+
+	# no need to allow idle when need to sleep :)
+        echo 0 > /sys/module/msm_pm/modes/cpu0/power_collapse/idle_enabled
+        echo 0 > /sys/module/msm_pm/modes/cpu1/power_collapse/idle_enabled
+        echo 0 > /sys/module/msm_pm/modes/cpu2/power_collapse/idle_enabled
+        echo 0 > /sys/module/msm_pm/modes/cpu3/power_collapse/idle_enabled
+
+	# retention should be OFF.
         echo 0 > /sys/module/msm_pm/modes/cpu0/retention/idle_enabled
         echo 0 > /sys/module/msm_pm/modes/cpu1/retention/idle_enabled
         echo 0 > /sys/module/msm_pm/modes/cpu2/retention/idle_enabled
         echo 0 > /sys/module/msm_pm/modes/cpu3/retention/idle_enabled
+
         echo 1 > /sys/devices/system/cpu/cpu1/online
         echo 1 > /sys/devices/system/cpu/cpu2/online
         echo 1 > /sys/devices/system/cpu/cpu3/online
