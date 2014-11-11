@@ -49,8 +49,11 @@ case "$target" in
         echo 1 > /sys/module/msm_pm/modes/cpu2/power_collapse/suspend_enabled
         echo 1 > /sys/module/msm_pm/modes/cpu3/power_collapse/suspend_enabled
 
+	# allow idle for core0 should use only l2_cache_gdhs for LG source code.
+	# https://github.com/dorimanx/Dorimanx-LG-G2-D802-Kernel/commit/9081f0642a770d7cc3d8687c8da5c1d284677105#diff-93d41f1020da5ce790e92eceb2ae5e3cL180
+        echo 1 > /sys/module/msm_pm/modes/cpu0/power_collapse/idle_enabled
+
 	# no need to allow idle when need to sleep :)
-        echo 0 > /sys/module/msm_pm/modes/cpu0/power_collapse/idle_enabled
         echo 0 > /sys/module/msm_pm/modes/cpu1/power_collapse/idle_enabled
         echo 0 > /sys/module/msm_pm/modes/cpu2/power_collapse/idle_enabled
         echo 0 > /sys/module/msm_pm/modes/cpu3/power_collapse/idle_enabled
