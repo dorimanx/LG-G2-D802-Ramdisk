@@ -41,19 +41,16 @@ case "$target" in
 	# we must never touch this. it's should be 4 "power collapse = PC".
         echo 4 > /sys/module/lpm_levels/enable_low_power/l2
 
-	# it's is critical to leave cpu0 with suspend off. this allow full stability. core will sleep any way.
-        echo 0 > /sys/module/msm_pm/modes/cpu0/power_collapse/suspend_enabled
+	# we must set here 1 for core0 too, or it's not enter suspend, and waste power.
+        echo 1 > /sys/module/msm_pm/modes/cpu0/power_collapse/suspend_enabled
 
 	# enable full suspend for all non boot cores.
         echo 1 > /sys/module/msm_pm/modes/cpu1/power_collapse/suspend_enabled
         echo 1 > /sys/module/msm_pm/modes/cpu2/power_collapse/suspend_enabled
         echo 1 > /sys/module/msm_pm/modes/cpu3/power_collapse/suspend_enabled
 
-	# allow idle for core0 should use only l2_cache_gdhs for LG source code.
-	# https://github.com/dorimanx/Dorimanx-LG-G2-D802-Kernel/commit/9081f0642a770d7cc3d8687c8da5c1d284677105#diff-93d41f1020da5ce790e92eceb2ae5e3cL180
-        echo 1 > /sys/module/msm_pm/modes/cpu0/power_collapse/idle_enabled
-
 	# no need to allow idle when need to sleep :)
+        echo 0 > /sys/module/msm_pm/modes/cpu0/power_collapse/idle_enabled
         echo 0 > /sys/module/msm_pm/modes/cpu1/power_collapse/idle_enabled
         echo 0 > /sys/module/msm_pm/modes/cpu2/power_collapse/idle_enabled
         echo 0 > /sys/module/msm_pm/modes/cpu3/power_collapse/idle_enabled
