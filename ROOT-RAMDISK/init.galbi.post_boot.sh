@@ -121,8 +121,6 @@ esac
 # Post-setup services
 start mpdecision
 echo 1024 > /sys/block/mmcblk0/bdi/read_ahead_kb
-#include LGE POWER SAVE Feature
-start gbmonitor
 
 # Install AdrenoTest.apk if not already installed
 if [ -f /data/prebuilt/AdrenoTest.apk ]; then

@@ -8,11 +8,11 @@ DATA=$($BB blkid /dev/block/platform/msm_sdcc.1/by-name/userdata | $BB grep "f2f
 SYSTEM_TYPE=0;
 DATA_TYPE=0;
 
-if [ "${SYSTEM}" -eq "1" ]; then
+if [ "$SYSTEM" -eq "1" ]; then
 	$BB mount -t f2fs /dev/block/platform/msm_sdcc.1/by-name/system /system -o seclabel;
 	SYSTEM_TYPE=1;
 fi;
-if [ "${DATA}" -eq "1" ]; then
+if [ "$DATA" -eq "1" ]; then
 	$BB mount -t f2fs /dev/block/platform/msm_sdcc.1/by-name/userdata /data -o seclabel,nosuid,nodev;
 	DATA_TYPE=1;
 fi;

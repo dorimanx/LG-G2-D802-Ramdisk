@@ -140,7 +140,7 @@ on early-boot
     # set RLIMIT_MEMLOCK to 64MB
     setrlimit 8 67108864 67108864
     # Allow subsystem (modem etc) debugging
-    write /sys/module/subsystem_restart/parameters/enable_debug ${persist.sys.ssr.enable_debug}
+    write /sys/module/subsystem_restart/parameters/enable_debug 0
     exec /system/bin/sh /init.galbi.early_boot.sh ${ro.board.platform}
 #    exec /system/bin/sh /init.galbi.syspart_fixup.sh ${ro.board.platform} ${ro.serialno}
     exec /system/bin/sh /system/etc/init.galbi.audio.sh ${ro.board.platform}
@@ -883,10 +883,10 @@ service wifi-crda /system/bin/sh /system/etc/init.crda.sh
    oneshot
 
 #add RCT service
-service rctd /system/bin/rctd
-   class late_start
-   user root
-   group root
+#service rctd /system/bin/rctd
+#   class late_start
+#   user root
+#   group root
 
 # yongmin.jung@lge.com 2013.11.20 move qcom-post-boot starting point to boot animation end
 on property:init.svc.bootanim=stopped
@@ -896,7 +896,7 @@ service atfwd /system/bin/ATFWD-daemon
     class late_start
     user system
     group system radio
-    onrestart /system/bin/log -t RIL-ATFWD -p w "ATFWD daemon restarted"
+#   onrestart /system/bin/log -t RIL-ATFWD -p w "ATFWD daemon restarted"
 
 service hdmid /system/bin/hdmid
     class late_start
