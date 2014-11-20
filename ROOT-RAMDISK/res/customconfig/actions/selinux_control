@@ -7,12 +7,18 @@
 if [ "a$2" != "a" ]; then
 	selinux_control=$2;
 
+ENFORCE=$(getenforce);
+
 	case "${selinux_control}" in
 		on)
-			setenforce 1;
+			if [ "$ENFORCE" == "Permissive" ]; then
+				setenforce 1;
+			fi;
 		;;
 		off)
-			setenforce 0;
+			if [ "$ENFORCE" == "Enforcing" ]; then
+				setenforce 0;
+			fi;
 		;;
 		*)
 			selinux_control=on;
