@@ -6,6 +6,10 @@
 
 BB=/sbin/busybox
 
+# get values from profile
+PROFILE=$(cat /data/.dori/.active.profile);
+. /data/.dori/"$PROFILE".profile;
+
 if [ -e /system/bin/mpdecision ]; then
 	if [ "$(pgrep -f "/system/bin/mpdecision" | wc -l)" -eq "0" ]; then
 		/system/bin/start mpdecision
@@ -26,6 +30,8 @@ if [ "a$2" != "a" ]; then
 			echo "0" > /sys/module/msm_hotplug/msm_enabled;
 			echo "0" > /sys/devices/system/cpu/cpu0/rq-stats/hotplug_enable;
 			echo "1" > /sys/kernel/intelli_plug/intelli_plug_active;
+			echo "$min_online_cpus" > /sys/kernel/intelli_plug/min_cpus_online;
+			$BB sh /etc/uci.sh eco_mode "$eco_mode";
 		;;
 		default)
 			echo "0" > /sys/kernel/intelli_plug/intelli_plug_active;
@@ -48,12 +54,16 @@ if [ "a$2" != "a" ]; then
 			echo "0" > /sys/kernel/alucard_hotplug/hotplug_enable;
 			echo "0" > /sys/devices/system/cpu/cpu0/rq-stats/hotplug_enable;
 			echo "1" > /sys/module/msm_hotplug/msm_enabled;
+			echo "$min_online_cpus" > /sys/module/msm_hotplug/min_cpus_online;
+			$BB sh /etc/uci.sh eco_mode "$eco_mode";
 		;;
 		alucard)
 			echo "0" > /sys/kernel/intelli_plug/intelli_plug_active;
 			echo "0" > /sys/module/msm_hotplug/msm_enabled;
 			echo "0" > /sys/devices/system/cpu/cpu0/rq-stats/hotplug_enable;
 			echo "1" > /sys/kernel/alucard_hotplug/hotplug_enable;
+			echo "$min_online_cpus" > /sys/kernel/alucard_hotplug/min_cpus_online;
+			$BB sh /etc/uci.sh eco_mode "$eco_mode";
 		;;
 		*)
 			hotplug=msm_hotplug;
