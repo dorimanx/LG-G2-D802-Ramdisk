@@ -36,7 +36,7 @@
 usb_config=`getprop persist.sys.usb.config`
 case "$usb_config" in
 	"boot") #factory status, select default
-		setprop persist.sys.usb.config mtp_only,adb
+		setprop persist.sys.usb.config mtp_only
 	;;
 	"boot,adb") #factory status, select default
 		setprop persist.sys.usb.config mtp_only,adb
