@@ -23,6 +23,7 @@
 			<spinnerItem name="Intellidemand" value="intellidemand"/> 
 			<spinnerItem name="Intelliactive" value="intelliactive"/> 
 			<spinnerItem name="Interactive" value="interactive"/> 
+			<spinnerItem name="Intellimm" value="intellimm"/> 
 			<spinnerItem name="Pegasusq" value="pegasusq"/> 
 			<spinnerItem name="Ondemand" value="ondemand"/> 
 			<spinnerItem name="Ondemandplus" value="ondemandplus"/> 
@@ -39,6 +40,7 @@
 			<spinnerItem name="Intellidemand" value="intellidemand"/> 
 			<spinnerItem name="Intelliactive" value="intelliactive"/> 
 			<spinnerItem name="Interactive" value="interactive"/> 
+			<spinnerItem name="Intellimm" value="intellimm"/> 
 			<spinnerItem name="Pegasusq" value="pegasusq"/> 
 			<spinnerItem name="Ondemand" value="ondemand"/> 
 			<spinnerItem name="Ondemandplus" value="ondemandplus"/> 
@@ -55,6 +57,7 @@
 			<spinnerItem name="Intellidemand" value="intellidemand"/> 
 			<spinnerItem name="Intelliactive" value="intelliactive"/> 
 			<spinnerItem name="Interactive" value="interactive"/> 
+			<spinnerItem name="Intellimm" value="intellimm"/> 
 			<spinnerItem name="Pegasusq" value="pegasusq"/> 
 			<spinnerItem name="Ondemand" value="ondemand"/> 
 			<spinnerItem name="Ondemandplus" value="ondemandplus"/> 
@@ -71,6 +74,7 @@
 			<spinnerItem name="Intellidemand" value="intellidemand"/> 
 			<spinnerItem name="Intelliactive" value="intelliactive"/> 
 			<spinnerItem name="Interactive" value="interactive"/> 
+			<spinnerItem name="Intellimm" value="intellimm"/> 
 			<spinnerItem name="Pegasusq" value="pegasusq"/> 
 			<spinnerItem name="Ondemand" value="ondemand"/> 
 			<spinnerItem name="Ondemandplus" value="ondemandplus"/> 
