@@ -1,7 +1,7 @@
 stweaks_boot_control=yes
 default_cpu0_gov=ondemand
 default_cpu1_gov=ondemand
-default_cpu2_gov=aluacrd
+default_cpu2_gov=alucard
 default_cpu3_gov=alucard
 cpu_boost_freq=1497600
 input_boost_ms=40
