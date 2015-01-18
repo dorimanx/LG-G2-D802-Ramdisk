@@ -94,6 +94,11 @@ cat << CTAG
 				action:"live TCPCongestion"
 			}},
 			{ SLiveLabel:{
+				title:"BUSYBOX VERSION",
+				refresh:50000,
+				action:"live busybox_ver"
+			}},
+			{ SLiveLabel:{
 				title:"CPU PVS MODEL",
 				refresh:50000,
 				action:"live Acpu_pvs"

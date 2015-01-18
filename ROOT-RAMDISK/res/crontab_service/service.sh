@@ -38,9 +38,9 @@ chmod 777 /data/crontab/cron-scripts/*;
 if [ ! -e /data/.dori/cortex_cron ]; then
 	# use /var/spool/cron/crontabs/ call the crontab file "root"
 	if [ "$(pgrep -f crond | wc -l)" -eq "0" ]; then
-		$BB nohup /sbin/crond -c /var/spool/cron/crontabs/ > /data/.dori/cron.txt &
+		$BB nohup /system/xbin/crond -c /var/spool/cron/crontabs/ > /data/.dori/cron.txt &
 		PIDOFCRON=$(pgrep -f "crond");
-		echo "-600" > /proc/"$PIDOFCRON"/oom_score_adj;
+		echo "-900" > /proc/"$PIDOFCRON"/oom_score_adj;
 	fi;
 
 	$BB sh /res/crontab_service/dm_job.sh "3:00" "/sbin/busybox sh /data/crontab/cron-scripts/database_optimizing.sh"

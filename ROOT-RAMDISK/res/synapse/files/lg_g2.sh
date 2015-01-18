@@ -9,6 +9,9 @@ case "$1" in
 	LiveSpeed_bin)
 		$BB echo "`$BB cat /data/.dori/speed_bin`"
 	;;
+	BusyBox_ver)
+		$BB echo "`$BB cat /data/.dori/busybox_ver`"
+	;;
 	LiveDefaultGPUGovernor)
 		$BB echo "`$BB cat /sys/devices/fdb00000.qcom,kgsl-3d0/devfreq/fdb00000.qcom,kgsl-3d0/governor`"
 	;;

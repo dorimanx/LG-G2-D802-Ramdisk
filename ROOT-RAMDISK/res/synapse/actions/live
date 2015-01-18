@@ -14,6 +14,9 @@ case $1 in
 	Speed_bin)
 		$BB echo `sh $DEVICE LiveSpeed_bin`;
 	;;
+	busybox_ver)
+		$BB echo `sh $DEVICE BusyBox_ver`;
+	;;
 	DefaultGPUGovernor)
 		$BB echo `sh $DEVICE LiveDefaultGPUGovernor`;
 	;;

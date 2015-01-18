@@ -44,7 +44,7 @@ PROFILE=$(cat $DATA_DIR/.active.profile);
 # start CROND by tree root, so it's will not be terminated.
 echo "1" > /data/.dori/cortex_cron;
 pkill -f "crond";
-/sbin/crond -c /var/spool/cron/crontabs/
+/system/xbin/crond -c /var/spool/cron/crontabs/
 PIDOFCRON=$(pgrep -f "crond");
 echo "-900" > /proc/"$PIDOFCRON"/oom_score_adj;
 

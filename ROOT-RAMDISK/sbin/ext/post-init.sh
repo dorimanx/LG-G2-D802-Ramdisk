@@ -213,6 +213,8 @@ PVS=$(dmesg | grep "ACPU PVS" | cut -c34-45 | grep -v "REV");
 echo "$PVS" > $DEBUG/acpu_pvs;
 SPEED=$(dmesg | grep "SPEED BIN" | cut -c34-46);
 echo "$SPEED" > $DEBUG/speed_bin;
+BUSYBOX_VER=$(busybox | grep "BusyBox v" | cut -c0-15);
+echo "$BUSYBOX_VER" > $DEBUG/busybox_ver;
 
 # start CORTEX by tree root, so it's will not be terminated.
 sed -i "s/cortexbrain_background_process=[0-1]*/cortexbrain_background_process=1/g" /sbin/ext/cortexbrain-tune.sh;
