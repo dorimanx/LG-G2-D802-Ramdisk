@@ -139,6 +139,7 @@ echo "450000000" > /sys/devices/fdb00000.qcom,kgsl-3d0/devfreq/fdb00000.qcom,kgs
 # Fix ROM dev wrong sets.
 setprop persist.adb.notify 0
 setprop pm.sleep_mode 1
+setprop persist.service.btui.use_aptx 1
 
 if [ ! -d /data/.dori ]; then
 	$BB mkdir /data/.dori/;
