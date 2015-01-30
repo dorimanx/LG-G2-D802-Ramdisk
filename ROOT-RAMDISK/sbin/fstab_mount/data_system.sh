@@ -20,10 +20,10 @@ fi;
 $BB mount -o remount,rw /;
 
 if [ "$SYSTEM_TYPE" -eq "1" ] && [ "$DATA_TYPE" -eq "1" ]; then
-	$BB cp /sbin/fstab_mount/fstab_data_system.g2 /fstab.g2;
-else if [ "$SYSTEM_TYPE" -eq "1" ] && [ "$DATA_TYPE" -eq "0" ]; then
-	$BB cp /sbin/fstab_mount/fstab_system.g2 /fstab.g2;
-else if [ "$SYSTEM_TYPE" -eq "0" ] && [ "$DATA_TYPE" -eq "1" ]; then
-	$BB cp /sbin/fstab_mount/fstab_data.g2 /fstab.g2;
+	$BB cp -p /sbin/fstab_mount/fstab_data_system.g2 /fstab.g2;
+elif [ "$SYSTEM_TYPE" -eq "1" ] && [ "$DATA_TYPE" -eq "0" ]; then
+	$BB cp -p /sbin/fstab_mount/fstab_system.g2 /fstab.g2;
+elif [ "$SYSTEM_TYPE" -eq "0" ] && [ "$DATA_TYPE" -eq "1" ]; then
+	$BB cp -p /sbin/fstab_mount/fstab_data.g2 /fstab.g2;
 fi;
 
