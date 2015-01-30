@@ -12,7 +12,11 @@ if [ "a$2" != "a" ]; then
 	default_cpu1_gov=$2;
 
 	echo "$default_cpu1_gov" > /sys/devices/system/cpu/cpufreq/all_cpus/scaling_governor_cpu1;
-	/res/uci.sh power_mode $power_mode > /dev/null;
+	if [ -e /res/uci_boot.sh ]; then
+		/res/uci_boot.sh power_mode $power_mode > /dev/null;
+	else
+		/res/uci.sh power_mode $power_mode > /dev/null;
+	fi;
 fi;
 
 echo ${default_cpu1_gov};

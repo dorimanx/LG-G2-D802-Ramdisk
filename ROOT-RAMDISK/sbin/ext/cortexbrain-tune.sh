@@ -41,18 +41,6 @@ echo "1" > /data/dori_cortex_sleep;
 PROFILE=$(cat $DATA_DIR/.active.profile);
 . "$DATA_DIR"/"$PROFILE".profile;
 
-# start CROND by tree root, so it's will not be terminated.
-echo "1" > /data/.dori/cortex_cron;
-pkill -f "crond";
-/system/xbin/crond -c /var/spool/cron/crontabs/
-PIDOFCRON=$(pgrep -f "crond");
-echo "-900" > /proc/"$PIDOFCRON"/oom_score_adj;
-
-$BB sh /res/crontab_service/dm_job.sh "3:00" "/sbin/busybox sh /data/crontab/cron-scripts/database_optimizing.sh"
-$BB sh /res/crontab_service/dm_job.sh "4:00" "/sbin/busybox sh /data/crontab/cron-scripts/clear-file-cache.sh"
-$BB sh /res/crontab_service/dm_job.sh "4:50" "/sbin/busybox sh /data/crontab/cron-scripts/zipalign.sh"
-rm /data/.dori/cortex_cron;
-
 # ==============================================================
 # I/O-TWEAKS
 # ==============================================================
@@ -215,7 +203,11 @@ CPU_CENTRAL_CONTROL()
                         echo "$cpu1_max_freq" > /sys/devices/system/cpu/cpufreq/all_cpus/scaling_max_freq_cpu1;
                         echo "$cpu2_max_freq" > /sys/devices/system/cpu/cpufreq/all_cpus/scaling_max_freq_cpu2;
                         echo "$cpu3_max_freq" > /sys/devices/system/cpu/cpufreq/all_cpus/scaling_max_freq_cpu3;
-			/res/uci.sh power_mode $power_mode > /dev/null;
+			if [ -e /res/uci_boot.sh ]; then
+				/res/uci_boot.sh power_mode $power_mode > /dev/null;
+			else
+				/res/uci.sh power_mode $power_mode > /dev/null;
+			fi;
 		elif [ "$state" == "sleep" ]; then
 			if [ "$(cat /sys/devices/system/cpu/cpu0/cpufreq/scaling_min_freq)" -ge "729600" ]; then
 				echo "$cpu0_min_freq" > /sys/devices/system/cpu/cpu0/cpufreq/scaling_min_freq;
@@ -236,7 +228,11 @@ CPU_CENTRAL_CONTROL()
 			echo "$cpu1_min_freq" > /sys/devices/system/cpu/cpufreq/all_cpus/scaling_min_freq_cpu1;
 			echo "$cpu2_min_freq" > /sys/devices/system/cpu/cpufreq/all_cpus/scaling_min_freq_cpu2;
 			echo "$cpu3_min_freq" > /sys/devices/system/cpu/cpufreq/all_cpus/scaling_min_freq_cpu3;
-			/res/uci.sh power_mode $power_mode > /dev/null;
+			if [ -e /res/uci_boot.sh ]; then
+				/res/uci_boot.sh power_mode $power_mode > /dev/null;
+			else
+				/res/uci.sh power_mode $power_mode > /dev/null;
+			fi;
 		elif [ "$state" == "sleep" ]; then
 			if [ "$(cat /sys/devices/system/cpu/cpu0/cpufreq/scaling_min_freq)" -ge "729600" ]; then
 				echo "$cpu0_min_freq" > /sys/devices/system/cpu/cpu0/cpufreq/scaling_min_freq;

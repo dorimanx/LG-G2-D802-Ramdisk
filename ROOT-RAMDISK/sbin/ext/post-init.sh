@@ -55,6 +55,9 @@ fi;
 
 OPEN_RW;
 
+# start CROND by tree root, so it's will not be terminated.
+$BB sh /res/crontab_service/service.sh;
+
 # some nice thing for dev
 if [ ! -e /cpufreq ]; then
 	$BB ln -s /sys/devices/system/cpu/cpu0/cpufreq/ /cpufreq;
@@ -223,18 +226,15 @@ if [ "$(pgrep -f "cortexbrain-tune.sh" | wc -l)" -eq "0" ]; then
 	$BB nohup $BB sh /sbin/ext/cortexbrain-tune.sh > /data/.dori/cortex.txt &
 fi;
 
-if [ "$stweaks_boot_control" == "yes" ]; then
-        OPEN_RW;
-	(
-        	# apply STweaks settings
-        	$BB sh /res/uci_boot.sh apply;
-        	$BB mv /res/uci_boot.sh /res/uci.sh;
-	)&
-fi;
-
 # Apps Install
 $BB sh /sbin/ext/install.sh;
 
+if [ "$stweaks_boot_control" == "yes" ]; then
+	OPEN_RW;
+	# apply STweaks settings
+	$BB sh /res/uci_boot.sh apply;
+	$BB mv /res/uci_boot.sh /res/uci.sh;
+fi;
 
 ######################################
 # Loading Modules

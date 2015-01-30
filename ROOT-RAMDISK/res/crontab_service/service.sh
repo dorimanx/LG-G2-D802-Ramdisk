@@ -35,15 +35,14 @@ export TZ
 chown 0:0 /data/crontab/cron-scripts/*;
 chmod 777 /data/crontab/cron-scripts/*;
 
-if [ ! -e /data/.dori/cortex_cron ]; then
-	# use /var/spool/cron/crontabs/ call the crontab file "root"
-	if [ "$(pgrep -f crond | wc -l)" -eq "0" ]; then
-		$BB nohup /system/xbin/crond -c /var/spool/cron/crontabs/ > /data/.dori/cron.txt &
-		PIDOFCRON=$(pgrep -f "crond");
-		echo "-900" > /proc/"$PIDOFCRON"/oom_score_adj;
-	fi;
-
-	$BB sh /res/crontab_service/dm_job.sh "3:00" "/sbin/busybox sh /data/crontab/cron-scripts/database_optimizing.sh"
-	$BB sh /res/crontab_service/dm_job.sh "4:00" "/sbin/busybox sh /data/crontab/cron-scripts/clear-file-cache.sh"
-	$BB sh /res/crontab_service/dm_job.sh "4:50" "/sbin/busybox sh /data/crontab/cron-scripts/zipalign.sh"
+# use /var/spool/cron/crontabs/ call the crontab file "root"
+if [ "$(pgrep -f crond | wc -l)" -eq "0" ]; then
+	$BB nohup /system/xbin/crond -c /var/spool/cron/crontabs/ > /data/.dori/cron.txt &
+	PIDOFCRON=$(pgrep -f "crond");
+	echo "-900" > /proc/"$PIDOFCRON"/oom_score_adj;
 fi;
+
+$BB sh /res/crontab_service/dm_job.sh "3:00" "/sbin/busybox sh /data/crontab/cron-scripts/database_optimizing.sh"
+$BB sh /res/crontab_service/dm_job.sh "4:00" "/sbin/busybox sh /data/crontab/cron-scripts/clear-file-cache.sh"
+$BB sh /res/crontab_service/dm_job.sh "4:50" "/sbin/busybox sh /data/crontab/cron-scripts/zipalign.sh"
+
