@@ -32,9 +32,9 @@ if [ "a$2" != "a" ]; then
 			echo "1" > /sys/kernel/intelli_plug/intelli_plug_active;
 			echo "$min_online_cpus" > /sys/kernel/intelli_plug/min_cpus_online;
 			if [ -e /res/uci_boot.sh ]; then
-				$BB sh /etc/uci_boot.sh eco_mode "$eco_mode";
+				$BB sh /res/uci_boot.sh eco_mode "$eco_mode";
 			else
-				$BB sh /etc/uci.sh eco_mode "$eco_mode";
+				$BB sh /res/uci.sh eco_mode "$eco_mode";
 			fi;
 		;;
 		default)
@@ -76,9 +76,9 @@ if [ "a$2" != "a" ]; then
 			echo "1" > /sys/kernel/alucard_hotplug/hotplug_enable;
 			echo "$min_online_cpus" > /sys/kernel/alucard_hotplug/min_cpus_online;
 			if [ -e /res/uci_boot.sh ]; then
-				$BB sh /etc/uci_boot.sh eco_mode "$eco_mode";
+				$BB sh /res/uci_boot.sh eco_mode "$eco_mode";
 			else
-				$BB sh /etc/uci.sh eco_mode "$eco_mode";
+				$BB sh /res/uci.sh eco_mode "$eco_mode";
 			fi;
 		;;
 		*)
