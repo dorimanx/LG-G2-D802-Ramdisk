@@ -313,7 +313,6 @@ fi;
 
 echo "0" > /cputemp/freq_limit_debug;
 
-sleep 5;
 # Reload usb driver to open MTP and fix fast charge.
 CHARGER_STATE=$(cat /sys/class/power_supply/battery/charging_enabled);
 if [ "$CHARGER_STATE" -eq "1" ]; then

@@ -452,6 +452,13 @@
 
 		<seekBar description="Control for Speaker gain volume! When you set higher, better listen to music so you will know when it is more than what the hardware can handle. If you already have sound control mods, USE THEM, as mods override STweaks control! This is not a bug - your sound mod is bugged instead!" name="Speaker Gain" action="generic_speaker_sound /sys/kernel/sound_control_3/lge_speaker_gain" unit="vol" min="-15" reversed="false" step="1" max="20"/>
 
+		<spinner description="HeadPhones PA GAIN LOCK, to hear any effect change the lock when no sound is playing!" name="HeadPhones PA GAIN LOCK" action="generic /sys/kernel/sound_control_3/lge_sound_pa_control_locked">
+			<spinnerItem name="PA GAIN LOCKED" value="1"/>
+			<spinnerItem name="PA GAIN UNLOCKED" value="0"/>
+		</spinner>
+
+		<seekBar description="Control for HeadPhones Analog PA Gain! if your ROM support change PA Gain, then switch the PA LOCK above to DISABLE. if you dont hear any change, then your ROM dont support this control. enable PA LOCK. it's will boost the headphones gain." name="HeadPhones PA Gain" action="generic_pa_sound /sys/kernel/sound_control_3/lge_headphone_pa_gain" unit="gain" min="-6" reversed="false" step="1" max="6"/>
+
 	</settingsPane>
 
 </settingsTab>
