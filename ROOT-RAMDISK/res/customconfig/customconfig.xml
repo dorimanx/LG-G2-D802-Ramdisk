@@ -24,6 +24,7 @@
 			<spinnerItem name="Intelliactive" value="intelliactive"/> 
 			<spinnerItem name="Yankactive" value="yankactive"/> 
 			<spinnerItem name="Interactive" value="interactive"/> 
+			<spinnerItem name="Impulse" value="impulse"/> 
 			<spinnerItem name="Intellimm" value="intellimm"/> 
 			<spinnerItem name="Pegasusq" value="pegasusq"/> 
 			<spinnerItem name="Ondemand" value="ondemand"/> 
@@ -42,6 +43,7 @@
 			<spinnerItem name="Intelliactive" value="intelliactive"/> 
 			<spinnerItem name="Yankactive" value="yankactive"/> 
 			<spinnerItem name="Interactive" value="interactive"/> 
+			<spinnerItem name="Impulse" value="impulse"/> 
 			<spinnerItem name="Intellimm" value="intellimm"/> 
 			<spinnerItem name="Pegasusq" value="pegasusq"/> 
 			<spinnerItem name="Ondemand" value="ondemand"/> 
@@ -60,6 +62,7 @@
 			<spinnerItem name="Intelliactive" value="intelliactive"/> 
 			<spinnerItem name="Yankactive" value="yankactive"/> 
 			<spinnerItem name="Interactive" value="interactive"/> 
+			<spinnerItem name="Impulse" value="impulse"/> 
 			<spinnerItem name="Intellimm" value="intellimm"/> 
 			<spinnerItem name="Pegasusq" value="pegasusq"/> 
 			<spinnerItem name="Ondemand" value="ondemand"/> 
@@ -78,6 +81,7 @@
 			<spinnerItem name="Intelliactive" value="intelliactive"/> 
 			<spinnerItem name="Yankactive" value="yankactive"/> 
 			<spinnerItem name="Interactive" value="interactive"/> 
+			<spinnerItem name="Impulse" value="impulse"/> 
 			<spinnerItem name="Intellimm" value="intellimm"/> 
 			<spinnerItem name="Pegasusq" value="pegasusq"/> 
 			<spinnerItem name="Ondemand" value="ondemand"/> 
