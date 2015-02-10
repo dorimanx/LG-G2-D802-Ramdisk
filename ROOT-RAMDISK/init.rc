@@ -88,13 +88,13 @@ loglevel 3
     # imagefile directory will be bind-mounted
     mkdir /mnt/secure/asec  0700 root root
 
+    # Secure container public mount points.
+    mkdir /mnt/asec  0700 root system
+    mount tmpfs tmpfs /mnt/asec mode=0755,gid=1000
+
     # Filesystem image public mount points.
     mkdir /mnt/obb 0700 root system
     mount tmpfs tmpfs /mnt/obb mode=0755,gid=1000
-
-    # Secure container public mount points.
-    chmod 0777 /sbin/fstab_mount/asec.sh
-    exec /sbin/fstab_mount/asec.sh
 
     write /proc/sys/kernel/panic_on_oops 1
 #   write /proc/sys/kernel/hung_task_timeout_secs 0
