@@ -338,6 +338,7 @@
 			<spinnerItem name="MSM Hot Plug" value="msm_hotplug"/> 
 			<spinnerItem name="Alucard Hot Plug" value="alucard"/> 
 			<spinnerItem name="Intelligent Hot Plug" value="intelli"/> 
+			<spinnerItem name="MSM MPdecision Hot Plug" value="msm_mpdecision"/> 
 		</spinner>
 
 		<spinner description="CPU HotPlug Suspend Control - you can allow hotplug to be suspended when screen is OFF to save little more power on deepsleep, then resume when screen is ON, BUT it's will DELAY In Call screen wakeup! for 3sec as when screen is OFF, you have only ONE core active with suspend mode. also using suspend mode can prevent wake up for some devices for unknown reason!!!. so if you wish to test suspend mode go ahead, if you get SOD switch to Always Active mode and stay there (default mode). for many it's working fine. this is for all kernel hotplugs, default hotplug is not supported." name="Hot Plug Suspend Mode" action="hotplug_suspend">

@@ -72,7 +72,12 @@ case "$1" in
 		else
 			INTELLI_HOTPLUG=Inactive;
 		fi;
-		echo "Default HotPlug: $DEFAULT_HOTPLUG@nAlucard HotPlug: $ALUCARD_HOTPLUG@nMSM HotPlug: $MSM_HOTPLUG@nIntelli HotPlug: $INTELLI_HOTPLUG"
+		if [ "$(cat /sys/kernel/msm_mpdecision/conf/enabled)" -eq "1" ]; then
+			BRICKED_HOTPLUG=Active;
+		else
+			BRICKED_HOTPLUG=Inactive;
+		fi;
+		echo "Default HotPlug: $DEFAULT_HOTPLUG@nAlucard HotPlug: $ALUCARD_HOTPLUG@nMSM HotPlug: $MSM_HOTPLUG@nIntelli HotPlug: $INTELLI_HOTPLUG@nMSM MPdecision: $BRICKED_HOTPLUG"
 	;;
 	LiveCPU_CORES_ON_OFF)
 		CPU0_CORE_STATE=Active;
