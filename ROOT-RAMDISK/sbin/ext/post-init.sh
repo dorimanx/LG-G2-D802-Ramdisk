@@ -231,6 +231,8 @@ $BB sh /sbin/ext/install.sh;
 
 if [ "$stweaks_boot_control" == "yes" ]; then
 	OPEN_RW;
+	# apply Synapse monitor
+	$BB sh /res/synapse/uci reset;
 	# apply STweaks settings
 	$BB sh /res/uci_boot.sh apply;
 	$BB mv /res/uci_boot.sh /res/uci.sh;
