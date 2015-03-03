@@ -16,7 +16,7 @@ if [ "a$2" != "a" ]; then
 			fi;
 		;;
 		off)
-			crontab=off;
+			pkill -f crond;
 		;;
 		*)
 			crontab=on;

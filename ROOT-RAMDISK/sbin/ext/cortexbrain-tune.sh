@@ -150,7 +150,7 @@ CROND_SAFETY()
 			log -p i -t "$FILE_NAME" "*** CROND IS ONLINE ***";
 		fi;
 	else
-		return 0;
+		log -p i -t "$FILE_NAME" "*** CROND IS OFFLINE ***";
 	fi;
 }
 
