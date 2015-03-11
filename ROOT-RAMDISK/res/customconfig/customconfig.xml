@@ -444,7 +444,14 @@
 
 <settingsTab name="SOUND CONTROL">
 
-	<settingsPane description="Here you can tune MIC and SPEAKER volume gain" name="Sound Controls">
+	<settingsPane description="Here you can tune MIC, SPEAKER and HeadPhones volume gain" name="Sound Controls">
+
+		<spinner description="Sound Gain Control selector, here you can select gain control app. or STweaks or Faux Sound! when one app selected other has no effect on gain! controls can be tuned but no effect! (default STweaks)" name="Gain Control App Selector" action="generic /sys/kernel/sound_control_3/lge_stweaks_control">
+			<spinnerItem name="STweaks Control" value="1"/>
+			<spinnerItem name="Faux Sound Control" value="0"/>
+		</spinner>
+
+		<seekBar description="Control for HeadPhones and InCall small speaker gain volume!" name="HeadPhones and InCall Gain" action="generic_speaker_sound /sys/kernel/sound_control_3/lge_headphone_gain" unit="vol" min="-30" reversed="false" step="1" max="20"/>
 
 		<seekBar description="Control for Camera recording MIC gain volume!" name="Camera MIC gain" action="generic_mic_sound /sys/kernel/sound_control_3/lge_cam_mic_gain" unit="vol" min="-40" reversed="false" step="1" max="24"/>
 
