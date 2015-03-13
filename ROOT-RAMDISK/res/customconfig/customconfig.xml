@@ -151,6 +151,7 @@
 			<spinnerItem name="883200" value="883200"/> 
 			<spinnerItem name="729600" value="729600"/> 
 			<spinnerItem name="652800" value="652800"/> 
+			<spinnerItem name="499200" value="499200"/> 
 			<spinnerItem name="422400" value="422400"/> 
 			<spinnerItem name="300000" value="300000"/> 
 		</spinner>
@@ -172,6 +173,7 @@
 			<spinnerItem name="883200" value="883200"/> 
 			<spinnerItem name="729600" value="729600"/> 
 			<spinnerItem name="652800" value="652800"/> 
+			<spinnerItem name="499200" value="499200"/> 
 			<spinnerItem name="422400" value="422400"/> 
 			<spinnerItem name="300000" value="300000"/> 
 		</spinner>
@@ -193,6 +195,7 @@
 			<spinnerItem name="883200" value="883200"/> 
 			<spinnerItem name="729600" value="729600"/> 
 			<spinnerItem name="652800" value="652800"/> 
+			<spinnerItem name="499200" value="499200"/> 
 			<spinnerItem name="422400" value="422400"/> 
 			<spinnerItem name="300000" value="300000"/> 
 		</spinner>
@@ -214,6 +217,7 @@
 			<spinnerItem name="883200" value="883200"/> 
 			<spinnerItem name="729600" value="729600"/> 
 			<spinnerItem name="652800" value="652800"/> 
+			<spinnerItem name="499200" value="499200"/> 
 			<spinnerItem name="422400" value="422400"/> 
 			<spinnerItem name="300000" value="300000"/> 
 		</spinner>
@@ -228,6 +232,7 @@
 			<spinnerItem name="883200" value="883200"/> 
 			<spinnerItem name="729600" value="729600"/> 
 			<spinnerItem name="652800" value="652800"/> 
+			<spinnerItem name="499200" value="499200"/> 
 			<spinnerItem name="422400" value="422400"/> 
 			<spinnerItem name="300000" value="300000"/> 
 		</spinner>
@@ -238,6 +243,7 @@
 			<spinnerItem name="883200" value="883200"/> 
 			<spinnerItem name="729600" value="729600"/> 
 			<spinnerItem name="652800" value="652800"/> 
+			<spinnerItem name="499200" value="499200"/> 
 			<spinnerItem name="422400" value="422400"/> 
 			<spinnerItem name="300000" value="300000"/> 
 		</spinner>
@@ -248,6 +254,7 @@
 			<spinnerItem name="883200" value="883200"/> 
 			<spinnerItem name="729600" value="729600"/> 
 			<spinnerItem name="652800" value="652800"/> 
+			<spinnerItem name="499200" value="499200"/> 
 			<spinnerItem name="422400" value="422400"/> 
 			<spinnerItem name="300000" value="300000"/> 
 		</spinner>
@@ -258,6 +265,7 @@
 			<spinnerItem name="883200" value="883200"/> 
 			<spinnerItem name="729600" value="729600"/> 
 			<spinnerItem name="652800" value="652800"/> 
+			<spinnerItem name="499200" value="499200"/> 
 			<spinnerItem name="422400" value="422400"/> 
 			<spinnerItem name="300000" value="300000"/> 
 		</spinner>
@@ -444,27 +452,33 @@
 
 <settingsTab name="SOUND CONTROL">
 
-	<settingsPane description="Here you can tune MIC, SPEAKER and HeadPhones volume gain" name="Sound Controls">
+	<settingsPane description="Here you can select main control app and unlock PA gain control" name="Sound Controls">
 
 		<spinner description="Sound Gain Control selector, here you can select gain control app. or STweaks or Faux Sound! when one app selected other has no effect on gain! controls can be tuned but no effect! (default STweaks)" name="Gain Control App Selector" action="generic /sys/kernel/sound_control_3/lge_stweaks_control">
 			<spinnerItem name="STweaks Control" value="1"/>
 			<spinnerItem name="Faux Sound Control" value="0"/>
 		</spinner>
 
-		<seekBar description="Control for HeadPhones and InCall small speaker gain volume!" name="HeadPhones and InCall Gain" action="generic_speaker_sound /sys/kernel/sound_control_3/lge_headphone_gain" unit="vol" min="-30" reversed="false" step="1" max="20"/>
+		<spinner description="HeadPhones PA GAIN LOCK, to hear any effect change the lock when no sound is playing! this setting effect both STweaks and Faux Sound" name="HeadPhones PA GAIN LOCK" action="generic /sys/kernel/sound_control_3/lge_sound_pa_control_locked">
+			<spinnerItem name="PA GAIN LOCKED" value="1"/> 
+			<spinnerItem name="PA GAIN UNLOCKED" value="0"/> 
+		</spinner>
+
+	</settingsPane>
+
+	<settingsPane description="Here you can tune MIC, SPEAKER and HeadPhones volume gain" name="Sound Controls">
+
+		<seekBar description="Control for HeadPhones LEFT and InCall small speaker gain volume!" name="HeadPhones and InCall Gain LEFT" action="generic_headphone_left" unit="vol" min="-30" reversed="false" step="1" max="20"/>
+
+		<seekBar description="Control for HeadPhones RIGHT and InCall small speaker gain volume!" name="HeadPhones and InCall Gain RIGHT" action="generic_headphone_right" unit="vol" min="-30" reversed="false" step="1" max="20"/>
+
+		<seekBar description="Control for Loud Speaker gain volume! When you set higher, better listen to music so you will know when it is more than what the hardware can handle." name="Speaker Gain" action="generic_speaker_sound /sys/kernel/sound_control_3/lge_speaker_gain" unit="vol" min="-15" reversed="false" step="1" max="20"/>
+
+		<seekBar description="Control for HeadPhones Analog PA Gain! if your ROM support change PA Gain, then switch the PA LOCK above to PA GAIN UNLOCKED. if you dont hear any change, then your ROM dont support this control. set PA GAIN LOCKED. it's will boost the headphones gain." name="HeadPhones PA Gain" action="generic_pa_sound /sys/kernel/sound_control_3/lge_headphone_pa_gain" unit="gain" min="-6" reversed="false" step="1" max="6"/>
 
 		<seekBar description="Control for Camera recording MIC gain volume!" name="Camera MIC gain" action="generic_mic_sound /sys/kernel/sound_control_3/lge_cam_mic_gain" unit="vol" min="-40" reversed="false" step="1" max="24"/>
 
 		<seekBar description="Control for Handset MIC gain volume on call!" name="Handset MIC gain on call" action="generic_mic_sound /sys/kernel/sound_control_3/lge_mic_gain" unit="vol" min="-40" reversed="false" step="1" max="24"/>
-
-		<seekBar description="Control for Speaker gain volume! When you set higher, better listen to music so you will know when it is more than what the hardware can handle. If you already have sound control mods, USE THEM, as mods override STweaks control! This is not a bug - your sound mod is bugged instead!" name="Speaker Gain" action="generic_speaker_sound /sys/kernel/sound_control_3/lge_speaker_gain" unit="vol" min="-15" reversed="false" step="1" max="20"/>
-
-		<spinner description="HeadPhones PA GAIN LOCK, to hear any effect change the lock when no sound is playing!" name="HeadPhones PA GAIN LOCK" action="generic /sys/kernel/sound_control_3/lge_sound_pa_control_locked">
-			<spinnerItem name="PA GAIN LOCKED" value="1"/>
-			<spinnerItem name="PA GAIN UNLOCKED" value="0"/>
-		</spinner>
-
-		<seekBar description="Control for HeadPhones Analog PA Gain! if your ROM support change PA Gain, then switch the PA LOCK above to DISABLE. if you dont hear any change, then your ROM dont support this control. enable PA LOCK. it's will boost the headphones gain." name="HeadPhones PA Gain" action="generic_pa_sound /sys/kernel/sound_control_3/lge_headphone_pa_gain" unit="gain" min="-6" reversed="false" step="1" max="6"/>
 
 	</settingsPane>
 
