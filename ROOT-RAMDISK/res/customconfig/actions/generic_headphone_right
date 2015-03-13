@@ -1,6 +1,6 @@
 #!/sbin/busybox sh
 
-# $1 - "generic_headphone_left"
+# $1 - "generic_headphone_right"
 # $2 - "value"
 # Created By Dorimanx
 
