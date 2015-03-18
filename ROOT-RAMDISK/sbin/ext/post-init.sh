@@ -229,6 +229,17 @@ fi;
 # Apps Install
 $BB sh /sbin/ext/install.sh;
 
+# check if F2FS is mounted to any partition.
+SYSTEM_P=$($BB blkid /dev/block/platform/msm_sdcc.1/by-name/system | $BB grep "f2fs" | $BB wc -l);
+DATA_P=$($BB blkid /dev/block/platform/msm_sdcc.1/by-name/userdata | $BB grep "f2fs" | $BB wc -l);
+CACHE_P=$($BB blkid /dev/block/platform/msm_sdcc.1/by-name/cache | $BB grep "f2fs" | $BB wc -l);
+
+if [ "$SYSTEM_P" -eq "1" ] || [ "$DATA_P" -eq "1" ] || [ "$CACHE_P" -eq "1" ]; then
+	setenforce 0;
+	/res/uci_boot.sh selinux_control off;
+	read_config;
+fi;
+
 if [ "$stweaks_boot_control" == "yes" ]; then
 	OPEN_RW;
 	# apply Synapse monitor

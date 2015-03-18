@@ -9,11 +9,11 @@ SYSTEM_TYPE=0;
 DATA_TYPE=0;
 
 if [ "$SYSTEM" -eq "1" ]; then
-	$BB mount -t f2fs /dev/block/platform/msm_sdcc.1/by-name/system /system -o seclabel;
+	$BB mount -t f2fs -o rw /dev/block/platform/msm_sdcc.1/by-name/system /system;
 	SYSTEM_TYPE=1;
 fi;
 if [ "$DATA" -eq "1" ]; then
-	$BB mount -t f2fs /dev/block/platform/msm_sdcc.1/by-name/userdata /data -o seclabel,nosuid,nodev;
+	$BB mount -t f2fs -o rw,nosuid,nodev /dev/block/platform/msm_sdcc.1/by-name/userdata /data;
 	DATA_TYPE=1;
 fi;
 
