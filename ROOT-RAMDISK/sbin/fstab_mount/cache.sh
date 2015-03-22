@@ -11,9 +11,9 @@ if [ ! -e /cache ]; then
 fi;
 
 if [ "$CACHE" -eq "1" ]; then
-	$BB mount -t f2fs /dev/block/platform/msm_sdcc.1/by-name/cache /cache -o seclabel,nosuid,nodev;
+	$BB mount -t f2fs -o seclabel,nosuid,nodev /dev/block/platform/msm_sdcc.1/by-name/cache /cache;
 else
-	$BB mount -t ext4 /dev/block/platform/msm_sdcc.1/by-name/cache /cache -o seclabel,nosuid,nodev,noauto_da_alloc,errors=continue;
+	$BB mount -t ext4 -o seclabel,nosuid,nodev,noauto_da_alloc,errors=continue /dev/block/platform/msm_sdcc.1/by-name/cache /cache;
 fi;
 
 if [ ! -e /cache/lost+found ]; then
