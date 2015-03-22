@@ -4,27 +4,15 @@
 # $2 - value=
 # Created By Dorimanx
 
-BB=/sbin/busybox
-
 if [ "a$2" != "a" ]; then
 	selinux_control=$2;
 
-	ENFORCE=$(getenforce);
-
-	# check if F2FS is mounted to any partition.
-	SYSTEM=$($BB blkid /dev/block/platform/msm_sdcc.1/by-name/system | $BB grep "f2fs" | $BB wc -l);
-	DATA=$($BB blkid /dev/block/platform/msm_sdcc.1/by-name/userdata | $BB grep "f2fs" | $BB wc -l);
-	CACHE=$($BB blkid /dev/block/platform/msm_sdcc.1/by-name/cache | $BB grep "f2fs" | $BB wc -l);
+ENFORCE=$(getenforce);
 
 	case "${selinux_control}" in
 		on)
 			if [ "$ENFORCE" == "Permissive" ]; then
-				if [ "$SYSTEM" -eq "1" ] || [ "$DATA" -eq "1" ] || [ "$CACHE" -eq "1" ]; then
-					setenforce 0;
-					selinux_control=off;
-				else
-					setenforce 1;
-				fi;
+				setenforce 1;
 			fi;
 		;;
 		off)
@@ -33,7 +21,7 @@ if [ "a$2" != "a" ]; then
 			fi;
 		;;
 		*)
-			selinux_control=off;
+			selinux_control=on;
 		;;
 	esac;
 fi;

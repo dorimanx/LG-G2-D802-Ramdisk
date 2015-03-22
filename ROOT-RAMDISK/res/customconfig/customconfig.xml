@@ -594,7 +594,7 @@
 
 		<button description="Click here to start applications Database Optimization. Compacting, cleaning and indexing will take max 2 minutes." name="DB OPTIMIZATION" action="push-actions/database_optimizing" label="DATABASE OPTIMIZATON"/>
 
-		<spinner description="Allows you to change your SELinux (Security-Enhanced Linux) Status from Enforcing (policy is enforced) to Permissive (prints warnings instead of enforcing), if you have formatted any of the following partitions SYSTEM, DATA, CACHE to be F2FS formatted, then you cant set Selinux to Enforce! it's will remain Permissive. as SeLinux do not support F2FS for now, if you will change it to enforce in other app, and system or data is F2FS you will be stuck in bootloop" name="SeLinux Control" action="selinux_control">
+		<spinner description="Allows you to change your SELinux (Security-Enhanced Linux) Status from Enforcing (policy is enforced) to Permissive (prints warnings instead of enforcing)." name="SeLinux Control" action="selinux_control">
 			<spinnerItem name="Enforcing" value="on"/> 
 			<spinnerItem name="Permissive" value="off"/> 
 		</spinner>
