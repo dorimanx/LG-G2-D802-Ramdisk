@@ -226,18 +226,18 @@
 /dev/kgsl-3d0       u:object_r:gpu_device:s0
 
 # IR device
-/dev/ttyHSL1        u:object_r:tty_device:s0
+/dev/ttyHSL1        u:object_r:ir_device:s0
 
 # SMEM LOG device
 /dev/smem_log       u:object_r:smemlog_device:s0
 
-/data/system/lgmdm(/.*)?    u:object_r:system_data_file:s0
+/data/system/lgmdm(/.*)?    u:object_r:lgmdm_data_file:s0
 
 /system/bin/ecryptfs-run u:object_r:ecryptfs_exec:s0
 /system/bin/ssbd    u:object_r:ssbd_exec:s0
 
 /system/bin/lgdrmserver        u:object_r:lgdrmserver_exec:s0
-/data/lgdrm(/.*)?     u:object_r:drm_data_file:s0
+/data/lgdrm(/.*)?     u:object_r:lgdrm_data_file:s0
 #line 1 "vendor/lge/g2/g2_spr_us/sepolicy/file_contexts"
 #############################
 # For operator
