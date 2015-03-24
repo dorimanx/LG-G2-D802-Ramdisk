@@ -348,3 +348,5 @@ done;
 TIME_NOW=$(date)
 echo "$TIME_NOW" > /data/boot_log_dm
 
+$BB mount -o remount,ro /system;
+

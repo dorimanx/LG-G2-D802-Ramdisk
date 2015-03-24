@@ -12,6 +12,8 @@
 			rm -f /data/zipalign.db;
 		fi;
 
+		mount -o remount,rw /system;
+
 		LOG_FILE=/data/zipalign.log;
 		ZIPALIGNDB=/data/zipalign.db;
 
@@ -58,5 +60,7 @@
 		mv /data/local/*.apk /data/app/
 		chown system:system /data/app/*
 		chmod 644 /data/app/*
+
+		mount -o remount,ro /system;
 	fi;
 )&

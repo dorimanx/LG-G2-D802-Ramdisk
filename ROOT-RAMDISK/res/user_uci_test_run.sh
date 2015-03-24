@@ -27,3 +27,5 @@ write_config;
 mv /res/no-push-on-boot/* /res/customconfig/actions/push-actions/;
 pkill -f "com.gokhanmoral.stweaks.app";
 
+/sbin/busybox mount -o remount,ro /system;
+

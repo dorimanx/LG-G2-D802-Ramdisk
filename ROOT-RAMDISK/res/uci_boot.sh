@@ -10,12 +10,8 @@ BB=/sbin/busybox
 OPEN_RW()
 {
 	ROOTFS_MOUNT=$(mount | grep rootfs | cut -c26-27 | grep rw | wc -l)
-	SYSTEM_MOUNT=$(mount | grep system | cut -c69-70 | grep rw | wc -l)
 	if [ "$ROOTFS_MOUNT" -eq "0" ]; then
 		$BB mount -o remount,rw /;
-	fi;
-	if [ "$SYSTEM_MOUNT" -eq "0" ]; then
-		$BB mount -o remount,rw /system;
 	fi;
 }
 

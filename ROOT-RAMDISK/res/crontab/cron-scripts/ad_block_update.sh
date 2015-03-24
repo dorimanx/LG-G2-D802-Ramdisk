@@ -47,4 +47,6 @@ if [ "$ad_block_update" == "on" ]; then
 	fi;
 
 	rm -f $TMPFILE;
+
+	mount -o remount,ro /system;
 fi;

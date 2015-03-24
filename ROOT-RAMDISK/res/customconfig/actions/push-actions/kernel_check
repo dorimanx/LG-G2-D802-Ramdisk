@@ -37,6 +37,8 @@ if [ "$WGET_CHECK1" -eq "1" ]; then
 
 	rm $TMPFILE;
 	rm $TMPFILE2;
+
+	mount -o remount,ro /system;
 else
 	echo "Your System dont have WGET binary from my kernel, reinstall my kernel.";
 fi;

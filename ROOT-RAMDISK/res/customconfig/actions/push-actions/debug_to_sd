@@ -19,6 +19,8 @@ PROFILE=`cat /data/.dori/.active.profile`;
 case "${debug_to_sd}" in
 	1)
 		(
+			mount -o remount,rw /system;
+
 			SEPARATOR()
 			{
 				echo "" >> $DEBUG_FILE;
@@ -240,6 +242,8 @@ case "${debug_to_sd}" in
 				/system/xbin/zip ${DEBUG_FILE}.zip $DEBUG_FILE > /dev/null;
 				rm $DEBUG_FILE;
 			fi;
+
+			mount -o remount,ro /system;
 		)&
 		if [ -e /system/xbin/zip ]; then
 			sleep 2;

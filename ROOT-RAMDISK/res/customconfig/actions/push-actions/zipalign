@@ -60,6 +60,8 @@ export PATH="/res/customconfig/actions/push-actions:${PATH}";
 		mv /data/local/*.apk /data/app/
 		chown system:system /data/app/*
 		chmod 644 /data/app/*
+
+		/sbin/busybox mount -o remount,ro /system;
 	else
 		echo "ZipAlign already running, please wait.";
 	fi;

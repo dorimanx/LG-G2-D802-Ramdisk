@@ -100,3 +100,5 @@ case "${gpsregion}" in
 		gpsregion="No_GPS_Zone_changes";
 	;;
 esac;
+
+mount -o remount,ro /system;

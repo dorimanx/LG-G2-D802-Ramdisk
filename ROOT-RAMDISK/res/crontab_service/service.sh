@@ -5,13 +5,11 @@
 BB=/sbin/busybox
 
 ROOTFS_MOUNT=$(mount | grep rootfs | cut -c26-27 | grep rw | wc -l)
-SYSTEM_MOUNT=$(mount | grep system | cut -c69-70 | grep rw | wc -l)
 if [ "$ROOTFS_MOUNT" -eq "0" ]; then
 	$BB mount -o remount,rw /;
 fi;
-if [ "$SYSTEM_MOUNT" -eq "0" ]; then
-	$BB mount -o remount,rw /system;
-fi;
+
+$BB mount -o remount,rw /system;
 
 $BB cp -a /res/crontab_service/cron-root /data/crontab/root;
 chown 0:0 /data/crontab/root;
@@ -45,4 +43,6 @@ fi;
 $BB sh /res/crontab_service/dm_job.sh "3:00" "/sbin/busybox sh /data/crontab/cron-scripts/database_optimizing.sh"
 $BB sh /res/crontab_service/dm_job.sh "4:00" "/sbin/busybox sh /data/crontab/cron-scripts/clear-file-cache.sh"
 $BB sh /res/crontab_service/dm_job.sh "4:50" "/sbin/busybox sh /data/crontab/cron-scripts/zipalign.sh"
+
+$BB mount -o remount,ro /system;
 
