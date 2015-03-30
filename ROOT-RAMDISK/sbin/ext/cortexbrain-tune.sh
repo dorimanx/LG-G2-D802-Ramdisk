@@ -16,7 +16,7 @@
 BB=/sbin/busybox
 
 # change mode for /tmp/
-ROOTFS_MOUNT=$(mount | grep rootfs | cut -c26-27 | grep -c rw | wc -l)
+ROOTFS_MOUNT=$(mount | grep rootfs | cut -c26-27 | grep -c rw)
 if [ "$ROOTFS_MOUNT" -eq "0" ]; then
 	mount -o remount,rw /;
 fi;

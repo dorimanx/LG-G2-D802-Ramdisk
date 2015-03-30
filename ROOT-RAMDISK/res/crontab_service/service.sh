@@ -4,7 +4,7 @@
 
 BB=/sbin/busybox
 
-ROOTFS_MOUNT=$(mount | grep rootfs | cut -c26-27 | grep rw | wc -l)
+ROOTFS_MOUNT=$(mount | grep rootfs | cut -c26-27 | grep rw)
 if [ "$ROOTFS_MOUNT" -eq "0" ]; then
 	$BB mount -o remount,rw /;
 fi;
