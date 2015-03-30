@@ -332,6 +332,7 @@ if [ "$(cat /sys/power/autosleep)" == "off" ]; then
 	$BB sh /res/uci.sh cpu2_min_freq "$cpu2_min_freq";
 	$BB sh /res/uci.sh cpu3_min_freq "$cpu3_min_freq";
 
+	$BB sh /res/uci.sh cpu0_max_freq "$cpu0_max_freq";
 	$BB sh /res/uci.sh cpu1_max_freq "$cpu1_max_freq";
 	$BB sh /res/uci.sh cpu2_max_freq "$cpu2_max_freq";
 	$BB sh /res/uci.sh cpu3_max_freq "$cpu3_max_freq";
