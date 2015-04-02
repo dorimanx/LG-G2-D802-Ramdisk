@@ -506,6 +506,7 @@
 			<spinnerItem name="NOOP" value="noop"/> 
 			<spinnerItem name="ROW" value="row"/> 
 			<spinnerItem name="SIO" value="sio"/> 
+			<spinnerItem name="ZEN" value="zen"/> 
 			<spinnerItem name="FIOPS" value="fiops"/> 
 		</spinner>
 
@@ -516,6 +517,7 @@
 			<spinnerItem name="NOOP" value="noop"/> 
 			<spinnerItem name="ROW" value="row"/> 
 			<spinnerItem name="SIO" value="sio"/> 
+			<spinnerItem name="ZEN" value="zen"/> 
 			<spinnerItem name="FIOPS" value="fiops"/> 
 		</spinner>
 

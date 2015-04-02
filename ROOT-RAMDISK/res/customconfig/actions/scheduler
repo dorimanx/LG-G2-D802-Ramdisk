@@ -36,6 +36,9 @@ case "${scheduler}" in
 	sio)
 		BLOCK_GOV=sio;
 	;;
+	zen)
+		BLOCK_GOV=zen;
+	;;
 	fiops)
 		BLOCK_GOV=fiops;
 	;;
