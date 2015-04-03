@@ -53,6 +53,7 @@ lge_stweaks_control=1
 lge_sound_pa_control_locked=1
 generic_headphone_left=0
 generic_headphone_right=0
+incall_volume=1
 lge_speaker_gain=1
 lge_headphone_pa_gain=0
 lge_cam_mic_gain=10
