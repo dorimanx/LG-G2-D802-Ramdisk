@@ -290,6 +290,8 @@ HOTPLUG_CONTROL()
 		fi;
 		if [ "$(cat /sys/module/msm_hotplug/msm_enabled)" -eq "0" ]; then
 			echo "1" > /sys/module/msm_hotplug/msm_enabled;
+			echo "0" > /sys/module/msm_hotplug/msm_enabled;
+			echo "1" > /sys/module/msm_hotplug/msm_enabled;
 		fi;
 		if [ "$(cat /sys/devices/system/cpu/cpu0/rq-stats/hotplug_enable)" -eq "1" ]; then
 			echo "0" > /sys/devices/system/cpu/cpu0/rq-stats/hotplug_enable;
@@ -303,6 +305,8 @@ HOTPLUG_CONTROL()
 		fi;
 		if [ "$(cat /sys/kernel/intelli_plug/intelli_plug_active)" -eq "0" ]; then
 			echo "1" > /sys/kernel/intelli_plug/intelli_plug_active;
+			echo "0" > /sys/kernel/intelli_plug/intelli_plug_active;
+			echo "1" > /sys/kernel/intelli_plug/intelli_plug_active;
 		fi;
 		if [ "$(cat /sys/devices/system/cpu/cpu0/rq-stats/hotplug_enable)" -eq "1" ]; then
 			echo "0" > /sys/devices/system/cpu/cpu0/rq-stats/hotplug_enable;
@@ -315,6 +319,8 @@ HOTPLUG_CONTROL()
 			echo "0" > /sys/module/msm_hotplug/msm_enabled;
 		fi;
 		if [ "$(cat /sys/kernel/alucard_hotplug/hotplug_enable)" -eq "0" ]; then
+			echo "1" > /sys/kernel/alucard_hotplug/hotplug_enable;
+			echo "0" > /sys/kernel/alucard_hotplug/hotplug_enable;
 			echo "1" > /sys/kernel/alucard_hotplug/hotplug_enable;
 		fi;
 		if [ "$(cat /sys/devices/system/cpu/cpu0/rq-stats/hotplug_enable)" -eq "1" ]; then
