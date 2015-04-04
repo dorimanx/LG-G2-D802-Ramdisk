@@ -466,21 +466,21 @@
 
 	</settingsPane>
 
-	<settingsPane description="Here you can tune MIC, SPEAKER and HeadPhones volume gain" name="Sound Controls">
+	<settingsPane description="Here you can tune MIC, SPEAKER and HeadPhones gain volume" name="Sound Controls">
 
-		<seekBar description="Control for HeadPhones LEFT gain volume!" name="HeadPhones Gain LEFT" action="generic_headphone_left" unit="vol" min="-30" reversed="false" step="1" max="20"/>
+		<seekBar description="Control for HeadPhones LEFT gain volume!" name="HeadPhones Gain LEFT" action="generic_headphone_left" unit="gain" min="-30" reversed="false" step="1" max="20"/>
 
-		<seekBar description="Control for HeadPhones RIGHT gain volume!" name="HeadPhones Gain RIGHT" action="generic_headphone_right" unit="vol" min="-30" reversed="false" step="1" max="20"/>
+		<seekBar description="Control for HeadPhones RIGHT gain volume!" name="HeadPhones Gain RIGHT" action="generic_headphone_right" unit="gain" min="-30" reversed="false" step="1" max="20"/>
 
-		<seekBar description="Control for InCall small speaker gain volume! depend on cortex service ON (default is ON), works when no headphones plugged! and you are on call and screen is turned off for 3 sec! then gain is changed for small speaker. when call is finished, in case screen is ON, in 10 sec gain will be restored for HEADPHONES gains (left, right) that are set above, same if screen is turned off! for 3 sec without call. this control will work only if STweaks is the gain controller! see on top selector" name="InCall Speaker Gain" action="generic_cortex /tmp/incall_volume" unit="vol" min="-6" reversed="false" step="1" max="6"/>
+		<seekBar description="Control for InCall small speaker gain volume! depend on cortex service ON (default is ON), works when no headphones plugged! and you are on call and screen is turned off for 3 sec! then gain is changed for small speaker. when call is finished, in case screen is ON, in 10 sec gain will be restored for HEADPHONES gains (left, right) that are set above, same if screen is turned off! for 3 sec without call. this control will work only if STweaks is the gain controller! see on top selector" name="InCall Speaker Gain" action="generic_cortex /tmp/incall_volume" unit="gain" min="-6" reversed="false" step="1" max="6"/>
 
-		<seekBar description="Control for Loud Speaker gain volume! When you set higher, better listen to music so you will know when it is more than what the hardware can handle." name="Speaker Gain" action="generic_speaker_sound /sys/kernel/sound_control_3/lge_speaker_gain" unit="vol" min="-15" reversed="false" step="1" max="20"/>
+		<seekBar description="Control for Loud Speaker gain volume! When you set higher, better listen to music so you will know when it is more than what the hardware can handle." name="Speaker Gain" action="generic_speaker_sound /sys/kernel/sound_control_3/lge_speaker_gain" unit="gain" min="-15" reversed="false" step="1" max="20"/>
 
 		<seekBar description="Control for HeadPhones Analog PA Gain! if your ROM support change PA Gain, then switch the PA LOCK above to PA GAIN UNLOCKED. if you dont hear any change, then your ROM dont support this control. set PA GAIN LOCKED. it's will boost the headphones gain." name="HeadPhones PA Gain" action="generic_pa_sound /sys/kernel/sound_control_3/lge_headphone_pa_gain" unit="gain" min="-6" reversed="false" step="1" max="6"/>
 
-		<seekBar description="Control for Camera recording MIC gain volume!" name="Camera MIC gain" action="generic_mic_sound /sys/kernel/sound_control_3/lge_cam_mic_gain" unit="vol" min="-40" reversed="false" step="1" max="24"/>
+		<seekBar description="Control for Camera recording MIC gain volume!" name="Camera MIC gain" action="generic_mic_sound /sys/kernel/sound_control_3/lge_cam_mic_gain" unit="gain" min="-40" reversed="false" step="1" max="24"/>
 
-		<seekBar description="Control for Handset MIC gain volume on call!" name="Handset MIC gain on call" action="generic_mic_sound /sys/kernel/sound_control_3/lge_mic_gain" unit="vol" min="-40" reversed="false" step="1" max="24"/>
+		<seekBar description="Control for Handset MIC gain volume on call!" name="Handset MIC gain on call" action="generic_mic_sound /sys/kernel/sound_control_3/lge_mic_gain" unit="gain" min="-40" reversed="false" step="1" max="24"/>
 
 	</settingsPane>
 
