@@ -29,20 +29,22 @@ if [ "a$2" != "a" ]; then
 			echo "0" > /sys/kernel/alucard_hotplug/hotplug_enable;
 			echo "0" > /sys/module/msm_hotplug/msm_enabled;
 			echo "0" > /sys/devices/system/cpu/cpu0/rq-stats/hotplug_enable;
-			echo "1" > /sys/kernel/intelli_plug/intelli_plug_active;
-			echo "0" > /sys/kernel/intelli_plug/intelli_plug_active;
-			echo "1" > /sys/kernel/intelli_plug/intelli_plug_active;
-			echo "$min_online_cpus" > /sys/kernel/intelli_plug/min_cpus_online;
-			if [ -e /res/uci_boot.sh ]; then
-				$BB sh /res/uci_boot.sh eco_mode "$eco_mode";
-			else
-				$BB sh /res/uci.sh eco_mode "$eco_mode";
-			fi;
+			(
+				sleep 2;
+				echo "1" > /sys/kernel/intelli_plug/intelli_plug_active;
+				echo "$min_online_cpus" > /sys/kernel/intelli_plug/min_cpus_online;
+				if [ -e /res/uci_boot.sh ]; then
+					$BB sh /res/uci_boot.sh eco_mode "$eco_mode";
+				else
+					$BB sh /res/uci.sh eco_mode "$eco_mode";
+				fi;
+			)&
 		;;
 		default)
 			echo "0" > /sys/kernel/intelli_plug/intelli_plug_active;
 			echo "0" > /sys/kernel/alucard_hotplug/hotplug_enable;
 			echo "0" > /sys/module/msm_hotplug/msm_enabled;
+			sleep 1;
 			echo "1" > /sys/devices/system/cpu/cpu0/rq-stats/hotplug_enable;
 			if [ -e /system/bin/mpdecision ]; then
 				/system/bin/stop mpdecision
@@ -63,29 +65,31 @@ if [ "a$2" != "a" ]; then
 			echo "0" > /sys/kernel/intelli_plug/intelli_plug_active;
 			echo "0" > /sys/kernel/alucard_hotplug/hotplug_enable;
 			echo "0" > /sys/devices/system/cpu/cpu0/rq-stats/hotplug_enable;
-			echo "1" > /sys/module/msm_hotplug/msm_enabled;
-			echo "0" > /sys/module/msm_hotplug/msm_enabled;
-			echo "1" > /sys/module/msm_hotplug/msm_enabled;
-			echo "$min_online_cpus" > /sys/module/msm_hotplug/min_cpus_online;
-			if [ -e /res/uci_boot.sh ]; then
-				$BB sh /res/uci_boot.sh eco_mode "$eco_mode";
-			else
-				$BB sh /res/uci.sh eco_mode "$eco_mode";
-			fi;
+			(
+				sleep 2;
+				echo "1" > /sys/module/msm_hotplug/msm_enabled;
+				echo "$min_online_cpus" > /sys/module/msm_hotplug/min_cpus_online;
+				if [ -e /res/uci_boot.sh ]; then
+					$BB sh /res/uci_boot.sh eco_mode "$eco_mode";
+				else
+					$BB sh /res/uci.sh eco_mode "$eco_mode";
+				fi;
+			)&
 		;;
 		alucard)
 			echo "0" > /sys/kernel/intelli_plug/intelli_plug_active;
 			echo "0" > /sys/module/msm_hotplug/msm_enabled;
 			echo "0" > /sys/devices/system/cpu/cpu0/rq-stats/hotplug_enable;
-			echo "1" > /sys/kernel/alucard_hotplug/hotplug_enable;
-			echo "0" > /sys/kernel/alucard_hotplug/hotplug_enable;
-			echo "1" > /sys/kernel/alucard_hotplug/hotplug_enable;
-			echo "$min_online_cpus" > /sys/kernel/alucard_hotplug/min_cpus_online;
-			if [ -e /res/uci_boot.sh ]; then
-				$BB sh /res/uci_boot.sh eco_mode "$eco_mode";
-			else
-				$BB sh /res/uci.sh eco_mode "$eco_mode";
-			fi;
+			(
+				sleep 2;
+				echo "1" > /sys/kernel/alucard_hotplug/hotplug_enable;
+				echo "$min_online_cpus" > /sys/kernel/alucard_hotplug/min_cpus_online;
+				if [ -e /res/uci_boot.sh ]; then
+					$BB sh /res/uci_boot.sh eco_mode "$eco_mode";
+				else
+					$BB sh /res/uci.sh eco_mode "$eco_mode";
+				fi;
+			)&
 		;;
 		*)
 			hotplug=msm_hotplug;
