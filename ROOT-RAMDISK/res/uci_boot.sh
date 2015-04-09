@@ -9,10 +9,7 @@ BB=/sbin/busybox
 
 OPEN_RW()
 {
-	ROOTFS_MOUNT=$(mount | grep rootfs | cut -c26-27 | grep rw)
-	if [ "$ROOTFS_MOUNT" -eq "0" ]; then
-		$BB mount -o remount,rw /;
-	fi;
+	$BB mount -o remount,rw /;
 }
 
 ACTION_SCRIPTS=/res/customconfig/actions;
@@ -52,7 +49,7 @@ case "${1}" in
 		apply_config;
 		write_config;
 
-		OPEN_RW
+		OPEN_RW;
 		# restore all the PUSH Button Actions back to there location
 		$BB mv /res/no-push-on-boot/* /res/customconfig/actions/push-actions/;
 		chmod 0755 /res/customconfig/actions/push-actions/*
