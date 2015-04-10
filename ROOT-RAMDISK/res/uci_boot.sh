@@ -9,7 +9,10 @@ BB=/sbin/busybox
 
 OPEN_RW()
 {
-	$BB mount -o remount,rw /;
+	ROOTFS_MOUNT=$(mount | grep rootfs | cut -c26-27 | grep -c rw)
+	if [ "$ROOTFS_MOUNT" -eq "0" ]; then
+		$BB mount -o remount,rw /;
+	fi;
 }
 
 ACTION_SCRIPTS=/res/customconfig/actions;
