@@ -31,9 +31,6 @@ $BB sh /init.galbi.post_boot.sh;
 # fix storage folder owner
 $BB chown system.sdcard_rw /storage;
 
-# Boot with ROW I/O Gov
-$BB echo "row" > /sys/block/mmcblk0/queue/scheduler;
-
 # clean old modules from /system and add new from ramdisk
 if [ ! -d /system/lib/modules ]; then
         $BB mkdir /system/lib/modules;
