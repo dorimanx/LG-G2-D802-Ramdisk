@@ -549,6 +549,8 @@
 			<spinnerItem name="exterminate" value="exterminate"/> 
 		</spinner>
 
+		<checkbox description="Allow kernel to release highmem RAM and allocate free RAM to onscreen APP. this may improve UI and APPS performance, but it's also can unload the home app from RAM and other services, use for testing, if all OK, great, if any strange problems, turn it OFF (default is unchecked! OFF)" name="High Mem Dirtyable" action="generic01 /proc/sys/vm/highmem_is_dirtyable" label="High MEM Release"/>
+
 		<seekBar description="Dirty background memory buffer. The more you set, the more memory will be used for write buffer for background operations. Buffer is released when it is needed to free RAM" name="Dirty Background ratio" action="generic /proc/sys/vm/dirty_background_ratio" unit="%" min="5" reversed="false" step="5" max="80"/>
 
 		<seekBar description="Dirty real time memory buffer. The more you set, the more memory will be used for write buffer for real time operations. Buffer is released when it is needed to free RAM" name="Dirty ratio" action="generic /proc/sys/vm/dirty_ratio" unit="%" min="5" reversed="false" step="5" max="90"/>
@@ -574,7 +576,7 @@
 
 		<checkbox description="Cron to clear file-cache every hour, but only if CPU is resting (IDLE) and more than 50% of your memory is used! This will free RAM from unused buffers and cache." name="Clean file-cache" action="generic_cortex /tmp/cron_drop_cache" label="RAM cache clean every hour"/>
 
-		<checkbox description="Enable Battery Calibration every week at SAT 6:00AM UTC time, to correct wrong calculation or remaining charge"  name="Calibrate Battery every week" action="generic_cortex /tmp/reset_battery" label="Calibrate Battery Every Week"/>
+		<checkbox description="Enable Battery Calibration every week at SAT 6:00AM UTC time, to correct wrong calculation or remaining charge" name="Calibrate Battery every week" action="generic_cortex /tmp/reset_battery" label="Calibrate Battery Every Week"/>
 
 		<checkbox description="Cron to update AD-BLOCKER every week at SAT 6:00AM UTC time, from official site. The script will check, if you are connected with the internet, otherwise it will try to use WIFI! Script will turn wifi, wait for connection and update, then when it is finished it will turn WIFI off. If there is no connection, an error will be written in the log." name="Update AD-Block" action="generic_cortex /tmp/ad_block_update" label="Update AD-BLOCKER every week"/>
 
@@ -615,7 +617,7 @@
 
 		<checkbox description="Enable or Disable custom backlight override set below, this will allow user to set MIN backlight in full darkness." name="Min Backlight Override Switch" action="generic01 /sys/devices/f9967000.i2c/i2c-0/0-0038/lm3630_min_backlight_reducer" label="Min Backlight Override Switch"/>
 
-		<seekBar description="If custom backlight switch is ON above!, you can set the MIN backlight in dark place when ROM auto backlight is used, and you feel that screen is too bright! in order for change to take effect you need to make the screen brighter then set auto, and see that it's will be darker than was on default. you can see live change only if current LUX is under 100! (Default ROM value equal 80Lux, and when screen is dimmed before turn off it's 50Lux)" name="Min Backlight Lux" action="generic /sys/devices/f9967000.i2c/i2c-0/0-0038/lm3630_min_backlight_set" unit="Lux" min="10" reversed="false" step="10" max="100"/>
+		<seekBar description="If custom backlight switch is ON above!, you can set the MIN backlight in dark place, if you feel that screen is too bright! or too dark! in order for change to take effect you need to make the screen brighter then set auto, and see that it's will be darker or brighter than was on default. you can see live change only if current LUX is under 60! (Default MIN ROM value equal 60 and its just 3 persent backlight)" name="Min Backlight Level" action="generic /sys/devices/f9967000.i2c/i2c-0/0-0038/lm3630_min_backlight_set" unit="lvl" min="60" reversed="false" step="10" max="150"/>
 
 	</settingsPane>
 
@@ -764,7 +766,7 @@
 
 	</settingsPane>
 
-	<settingsPane description="Here you can backup or restore your profile after installing new kernel. Some settings will work only after reboot! Restore will take up to 30 sec, just wait!" name="STweaks Settings Backup or Restore">
+	<settingsPane description="Here you can backup or restore your profile after installing new kernel. Some settings will work only after reboot! Restore will take up to 30 sec, just wait!" name="Config Backup or Restore">
 
 		<button description="Backup STweaks User Settings!" name="Settings Backup" action="push-actions/config_backup_restore 1" label="BACKUP NOW"/>
 

@@ -7,21 +7,10 @@ BB=/sbin/busybox
 # protect init from oom
 echo "-1000" > /proc/1/oom_score_adj;
 
-PIDOFINIT=$(pgrep -f "/sbin/ext/post-init.sh");
-for i in $PIDOFINIT; do
-	echo "-600" > /proc/"$i"/oom_score_adj;
-done;
-
 OPEN_RW()
 {
-	ROOTFS_MOUNT=$(mount | grep rootfs | cut -c26-27 | grep -c rw)
-	SYSTEM_MOUNT=$(mount | grep system | cut -c69-70 | grep -c rw)
-	if [ "$ROOTFS_MOUNT" -eq "0" ]; then
-		$BB mount -o remount,rw /;
-	fi;
-	if [ "$SYSTEM_MOUNT" -eq "0" ]; then
-		$BB mount -o remount,rw /system;
-	fi;
+	$BB mount -o remount,rw /;
+	$BB mount -o remount,rw /system;
 }
 OPEN_RW;
 
@@ -70,8 +59,6 @@ fi;
 $BB rm -rf /cache/lost+found/* 2> /dev/null;
 $BB rm -rf /data/lost+found/* 2> /dev/null;
 $BB rm -rf /data/tombstones/* 2> /dev/null;
-
-OPEN_RW;
 
 CRITICAL_PERM_FIX()
 {
@@ -223,9 +210,14 @@ if [ "$(pgrep -f "cortexbrain-tune.sh" | wc -l)" -eq "0" ]; then
 	$BB nohup $BB sh /sbin/ext/cortexbrain-tune.sh > /data/.dori/cortex.txt &
 fi;
 
-# Apps Install
 OPEN_RW;
-$BB sh /sbin/ext/install.sh;
+
+# copy cron files
+$BB cp -a /res/crontab/ /data/
+if [ ! -e /data/crontab/custom_jobs ]; then
+	$BB touch /data/crontab/custom_jobs;
+	$BB chmod 777 /data/crontab/custom_jobs;
+fi;
 
 if [ "$stweaks_boot_control" == "yes" ]; then
 	# apply Synapse monitor
