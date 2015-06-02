@@ -615,9 +615,9 @@
 
 	<settingsPane description="Screen Backlight Control, here you can set custom values for Auto backlight driver." name="Min Backlight Control">
 
-		<checkbox description="Enable or Disable custom backlight override set below, this will allow user to set MIN backlight in full darkness." name="Min Backlight Override Switch" action="generic01 /sys/devices/f9967000.i2c/i2c-0/0-0038/lm3630_min_backlight_reducer" label="Min Backlight Override Switch"/>
+		<checkbox description="Enable or Disable custom backlight override set below, this will allow user to set MIN backlight in full darkness." name="Min Backlight Override Switch" action="generic01 /sys/module/lm3630/parameters/lm3630_min_backlight_reducer" label="Min Backlight Override Switch"/>
 
-		<seekBar description="If custom backlight switch is ON above!, you can set the MIN backlight in dark place, if you feel that screen is too bright! or too dark! in order for change to take effect you need to make the screen brighter then set auto, and see that it's will be darker or brighter than was on default. you can see live change only if current LUX is under 60! (Default MIN ROM value equal 60 and its just 3 persent backlight)" name="Min Backlight Level" action="generic /sys/devices/f9967000.i2c/i2c-0/0-0038/lm3630_min_backlight_set" unit="lvl" min="60" reversed="false" step="10" max="150"/>
+		<seekBar description="If custom backlight switch is ON above!, you can set the MIN backlight in dark place, if you feel that screen is too bright! or too dark! in order for change to take effect you need to make the screen brighter then set auto, and see that it's will be darker or brighter than was on default. you can see live change only if current LUX is under 60! (Default MIN ROM value equal 60 and its just 3 persent backlight)" name="Min Backlight Level" action="generic /sys/module/lm3630/parameters/lm3630_min_backlight_set" unit="lvl" min="60" reversed="false" step="10" max="150"/>
 
 	</settingsPane>
 
