@@ -59,6 +59,7 @@ lge_headphone_pa_gain=0
 lge_cam_mic_gain=10
 lge_mic_gain=10
 read_ahead_kb=1024
+mmc_mode=performance
 scheduler=zen
 sleep_scheduler=zen
 auto_oom=on
